@@ -15,7 +15,8 @@
     "misuse": "tsx scripts/misuse.ts",
     "benchmark": "tsx scripts/benchmark.ts",
     "mcp": "tsx mcp/server.ts",
-    "demo:llm": "tsx scripts/demo-llm.ts"
+    "demo:llm": "tsx scripts/demo-llm.ts",
+    "check": "npm run typecheck && npm test && npm run demo && npm run verify && npm run misuse"
   },
   "dependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.3.312",
