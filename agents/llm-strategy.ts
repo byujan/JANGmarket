@@ -1,0 +1,80 @@
+/**
+ * A model-driven negotiator.
+ *
+ * The agent is a Claude loop with the JANG MCP server attached. It is given its
+ * own persona and nothing about the counterparty; everything it learns about
+ * the other side, it learns from the offers it receives. The tools it calls are
+ * the same ones the deterministic agent calls, against the same server.
+ */
+import { query } from "@anthropic-ai/claude-agent-sdk";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+import type { Role } from "../src/lib/jang/types.ts";
+
+const SERVER_PATH = fileURLToPath(new URL("../mcp/server.ts", import.meta.url));
+
+export type LlmEvent =
+  | { kind: "thinking"; label: string; text: string }
+  | { kind: "tool"; label: string; tool: string; input: unknown }
+  | { kind: "result"; label: string; text: string };
+
+export type LlmRunResult = { label: string; turns: number; toolCalls: number };
+
+export async function runLlmAgent(input: {
+  role: Role;
+  persona: string;
+  apiUrl: string;
+  apiKey: string;
+  sessionId: string;
+  model?: string;
+  maxTurns?: number;
+  onEvent?: (event: LlmEvent) => void;
+}): Promise<LlmRunResult> {
+  const label = input.role;
+  const promptPath = fileURLToPath(new URL(`./prompts/${input.role}.md`, import.meta.url));
+  const systemPrompt = readFileSync(promptPath, "utf8").replace("{{PERSONA}}", input.persona);
+
+  let turns = 0;
+  let toolCalls = 0;
+
+  const response = query({
+    prompt:
+      "Begin. Call get_session to see where the negotiation stands, then take your turn. " +
+      "Keep going until the session is agreed or closed, then say what you agreed and stop.",
+    options: {
+      systemPrompt,
+      model: input.model ?? "claude-sonnet-5-5",
+      maxTurns: input.maxTurns ?? 40,
+      permissionMode: "bypassPermissions",
+      allowedTools: ["mcp__jang__get_session", "mcp__jang__offer", "mcp__jang__counter", "mcp__jang__accept"],
+      mcpServers: {
+        jang: {
+          type: "stdio",
+          command: "npx",
+          args: ["tsx", SERVER_PATH],
+          env: {
+            ...(process.env as Record<string, string>),
+            JANG_API_URL: input.apiUrl,
+            JANG_AGENT_KEY: input.apiKey,
+            JANG_SESSION_ID: input.sessionId,
+          },
+        },
+      },
+    },
+  });
+
+  for await (const message of response) {
+    if (message.type !== "assistant") continue;
+    turns += 1;
+    for (const block of message.message.content) {
+      if (block.type === "text" && block.text.trim()) {
+        input.onEvent?.({ kind: "thinking", label, text: block.text.trim() });
+      } else if (block.type === "tool_use") {
+        toolCalls += 1;
+        input.onEvent?.({ kind: "tool", label, tool: block.name.replace("mcp__jang__", ""), input: block.input });
+      }
+    }
+  }
+
+  return { label, turns, toolCalls };
+}

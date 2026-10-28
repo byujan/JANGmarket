@@ -22,8 +22,8 @@ export const PartySchema = z.object({
   ownerId: z.string().min(1),
   role: RoleSchema,
   persona: z.string().min(1),
-  constraints: z.record(ConstraintSchema),
-  preferences: z.record(PreferenceSchema),
+  constraints: z.record(z.string(), ConstraintSchema),
+  preferences: z.record(z.string(), PreferenceSchema),
   reservationUtility: z.number().min(0).max(1),
 });
 export type Party = z.infer<typeof PartySchema>;

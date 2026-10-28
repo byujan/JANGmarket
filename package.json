@@ -14,14 +14,16 @@
     "verify": "tsx scripts/verify.ts",
     "misuse": "tsx scripts/misuse.ts",
     "benchmark": "tsx scripts/benchmark.ts",
-    "mcp": "tsx mcp/server.ts"
+    "mcp": "tsx mcp/server.ts",
+    "demo:llm": "tsx scripts/demo-llm.ts"
   },
   "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "^0.3.312",
     "@modelcontextprotocol/sdk": "^1.32.2",
     "next": "^16.4.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "zod": "^3.25.76"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",

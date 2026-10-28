@@ -24,7 +24,7 @@ export const ItemSpecSchema = z.object({
 export type ItemSpec = z.infer<typeof ItemSpecSchema>;
 
 /** A concrete, fully specified package of terms: one value per dimension. */
-export const TermsSchema = z.record(z.number());
+export const TermsSchema = z.record(z.string(), z.number());
 export type Terms = z.infer<typeof TermsSchema>;
 
 export const RoleSchema = z.enum(["buyer", "seller"]);
@@ -59,8 +59,8 @@ export const MandateBodySchema = z.object({
   ownerId: z.string().min(1),
   role: RoleSchema,
   itemId: z.string().min(1),
-  constraints: z.record(ConstraintSchema),
-  preferences: z.record(PreferenceSchema),
+  constraints: z.record(z.string(), ConstraintSchema),
+  preferences: z.record(z.string(), PreferenceSchema),
   /** Lowest normalised utility (0..1) the agent may commit the owner to. */
   reservationUtility: z.number().min(0).max(1),
   expiresAt: z.string().datetime(),

@@ -5,7 +5,7 @@ import { jang } from "@/lib/server/service.ts";
 
 export const dynamic = "force-dynamic";
 
-const BodySchema = z.object({ terms: z.record(z.number()), note: z.string().max(500).optional() });
+const BodySchema = z.object({ terms: z.record(z.string(), z.number()), note: z.string().max(500).optional() });
 
 /** One endpoint serves both an opening offer and a counteroffer. */
 export async function POST(request: Request, context: { params: Promise<{ sessionId: string }> }) {

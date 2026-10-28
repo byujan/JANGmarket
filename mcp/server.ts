@@ -135,7 +135,7 @@ server.registerTool(
 );
 
 const offerInput = {
-  terms: z.record(z.number()).describe("One value for every dimension of the item, for example { price: 1320, deliveryDays: 21, warrantyMonths: 24, bundle: 0 }."),
+  terms: z.record(z.string(), z.number()).describe("One value for every dimension of the item, for example { price: 1320, deliveryDays: 21, warrantyMonths: 24, bundle: 0 }."),
   note: z.string().max(500).optional().describe("A short message to the counterparty. Never reveal your own limits here."),
   sessionId: z.string().optional(),
 };
