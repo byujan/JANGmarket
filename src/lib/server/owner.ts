@@ -5,6 +5,7 @@
  * Clerk against /app and /admin. This module is the only place the two meet.
  */
 import { currentUser } from "@clerk/nextjs/server";
+import { cache } from "react";
 import { JangError, type Mandate } from "../jang/types.ts";
 import { store } from "../store/index.ts";
 import type { OwnerRecord } from "../store/types.ts";
@@ -23,8 +24,12 @@ export type SignedInOwner = OwnerRecord & { isAdmin: boolean };
  * The owner record for the current Clerk user, created on first sight.
  * Returns undefined when nobody is signed in, so callers can decide between
  * redirecting and returning 401.
+ *
+ * Memoised per request: a layout and the page inside it both ask who is
+ * signed in, and without this the first visit races two inserts of the same
+ * new owner.
  */
-export async function currentOwner(): Promise<SignedInOwner | undefined> {
+export const currentOwner = cache(async (): Promise<SignedInOwner | undefined> => {
   const user = await currentUser();
   if (!user) return undefined;
 
@@ -44,7 +49,7 @@ export async function currentOwner(): Promise<SignedInOwner | undefined> {
   }
 
   return { ...owner, email, isAdmin: Boolean(email && adminEmails().includes(email.toLowerCase())) };
-}
+});
 
 export async function requireOwner(): Promise<SignedInOwner> {
   const owner = await currentOwner();

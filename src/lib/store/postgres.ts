@@ -28,7 +28,12 @@ export class PostgresStore implements Store {
       insert into owners (owner_id, clerk_user_id, email, display_name, public_key, created_at)
       values (${owner.ownerId}, ${owner.clerkUserId}, ${owner.email ?? null},
               ${owner.displayName ?? null}, ${owner.publicKey ?? null}, ${owner.createdAt})
-      on conflict (clerk_user_id) do update set
+      -- The arbiter is the primary key, not clerk_user_id. The row would
+      -- violate both when an owner is inserted twice, and Postgres raises on
+      -- whichever constraint is not the arbiter rather than taking the
+      -- update branch.
+      on conflict (owner_id) do update set
+        clerk_user_id = excluded.clerk_user_id,
         email = excluded.email,
         display_name = excluded.display_name,
         public_key = coalesce(excluded.public_key, owners.public_key)

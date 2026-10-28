@@ -63,6 +63,31 @@ for (const candidate of candidates) {
       expect((await store.getOwner("own_1"))?.displayName).toBe("Dana J");
     });
 
+    it("survives the same owner being created twice at once", async () => {
+      // A page and its layout both resolve the signed-in owner, so the first
+      // visit really does race two inserts of the same row.
+      const owner = {
+        ownerId: "own_race",
+        clerkUserId: "user_race",
+        email: "race@example.com",
+        createdAt: new Date().toISOString(),
+      };
+      await Promise.all([store.upsertOwner(owner), store.upsertOwner(owner), store.upsertOwner(owner)]);
+      expect((await store.getOwnerByClerkId("user_race"))?.ownerId).toBe("own_race");
+    });
+
+    it("keeps a public key once bound, even when later upserts omit it", async () => {
+      const owner = {
+        ownerId: "own_key",
+        clerkUserId: "user_key",
+        email: "key@example.com",
+        createdAt: new Date().toISOString(),
+      };
+      await store.upsertOwner({ ...owner, publicKey: "PEM-A" });
+      await store.upsertOwner(owner);
+      expect((await store.getOwner("own_key"))?.publicKey).toBe("PEM-A");
+    });
+
     it("finds an agent by its hashed key and lists an owner's agents", async () => {
       const base = { ownerId: "own_1", createdAt: new Date().toISOString() };
       await store.createAgent({ ...base, agentId: "a1", apiKeyHash: "hash-1", label: "buyer bot" });

@@ -19,7 +19,15 @@ export class MemoryStore implements Store {
   private events: EventRecord[] = [];
 
   async upsertOwner(owner: OwnerRecord): Promise<void> {
-    this.owners.set(owner.ownerId, owner);
+    const existing = this.owners.get(owner.ownerId);
+    // A bound signing key outlives later profile updates, which do not carry
+    // one. Losing it would quietly disable the key check on the next mandate.
+    this.owners.set(owner.ownerId, {
+      ...existing,
+      ...owner,
+      publicKey: owner.publicKey ?? existing?.publicKey,
+      createdAt: existing?.createdAt ?? owner.createdAt,
+    });
   }
 
   async getOwner(ownerId: string): Promise<OwnerRecord | undefined> {
