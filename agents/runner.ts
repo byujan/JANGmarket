@@ -29,6 +29,8 @@ export async function runRuleAgent(input: {
   onEvent?: (event: AgentEvent) => void;
   pollMs?: number;
   maxTurns?: number;
+  /** Pause before each move, so a human can follow along live. */
+  thinkMs?: number;
 }): Promise<RunResult> {
   const { label, agent, onEvent } = input;
   const pollMs = input.pollMs ?? 80;
@@ -48,6 +50,10 @@ export async function runRuleAgent(input: {
     }
 
     const decision = decide(view, input.options);
+
+    if (decision.action !== "wait" && input.thinkMs) {
+      await sleep(input.thinkMs);
+    }
 
     if (decision.action === "wait") {
       await sleep(pollMs);

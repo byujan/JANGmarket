@@ -20,7 +20,7 @@ import {
   type Terms,
 } from "../jang/types.ts";
 import { store as defaultStore } from "../store/index.ts";
-import type { AgentRecord, Store } from "../store/types.ts";
+import type { AgentRecord, EventRecord, Store } from "../store/types.ts";
 import { jangKeys } from "./keys.ts";
 
 export function hashApiKey(apiKey: string): string {
@@ -34,7 +34,7 @@ export class JangService {
     return jangKeys.publicKeyPem;
   }
 
-  async registerAgent(input: { agentId: string; ownerId: string }): Promise<{ agent: AgentRecord; apiKey: string }> {
+  async registerAgent(input: { agentId: string; ownerId: string; label?: string }): Promise<{ agent: AgentRecord; apiKey: string }> {
     if (await this.store.getAgent(input.agentId)) {
       throw new JangError("UNAUTHORIZED", `agent ${input.agentId} is already registered`);
     }
@@ -42,6 +42,7 @@ export class JangService {
     const agent: AgentRecord = {
       agentId: input.agentId,
       ownerId: input.ownerId,
+      label: input.label,
       apiKeyHash: hashApiKey(apiKey),
       createdAt: new Date().toISOString(),
     };
@@ -104,6 +105,7 @@ export class JangService {
       ttlSeconds: input.ttlSeconds,
     });
     await this.store.putSession(session);
+    await this.note({ kind: "session_opened", sessionId: session.sessionId, agentId: input.agentId, detail: { itemId: itemSpec.itemId } });
     return redactSessionFor(input.agentId, session);
   }
 
@@ -114,18 +116,18 @@ export class JangService {
   async makeOffer(input: { agentId: string; sessionId: string; terms: unknown; note?: string }): Promise<SessionView> {
     const session = await this.loadSession(input.sessionId);
     const terms: Terms = TermsSchema.parse(input.terms);
-    const { session: next } = submitOffer(session, input.agentId, terms, {
-      note: input.note,
-      offerId: `offer_${randomUUID()}`,
-    });
+    const { session: next, offer } = await this.recording(input, () =>
+      submitOffer(session, input.agentId, terms, { note: input.note, offerId: `offer_${randomUUID()}` }),
+    );
     await this.store.putSession(next);
+    await this.note({ kind: "offer", sessionId: session.sessionId, agentId: input.agentId, detail: { round: offer.round, terms: offer.terms } });
     return redactSessionFor(input.agentId, next);
   }
 
   /** Accepting the standing offer closes the session and mints a signed agreement. */
   async accept(input: { agentId: string; sessionId: string }): Promise<{ view: SessionView; agreement: Agreement }> {
     const session = await this.loadSession(input.sessionId);
-    const { session: accepted, offer } = acceptStandingOffer(session, input.agentId);
+    const { session: accepted, offer } = await this.recording(input, () => acceptStandingOffer(session, input.agentId));
 
     const agreement = signAgreement(
       buildAgreementBody({
@@ -141,6 +143,7 @@ export class JangService {
     const closed = { ...accepted, agreementId: agreement.agreementId };
     await this.store.putAgreement(agreement);
     await this.store.putSession(closed);
+    await this.note({ kind: "agreed", sessionId: session.sessionId, agentId: input.agentId, detail: { agreementId: agreement.agreementId, terms: agreement.terms } });
     return { view: redactSessionFor(input.agentId, closed), agreement };
   }
 
@@ -148,6 +151,39 @@ export class JangService {
     const agreement = await this.store.getAgreement(agreementId);
     if (!agreement) throw new JangError("NOT_FOUND", `no agreement ${agreementId}`);
     return agreement;
+  }
+
+  /**
+   * Run a domain operation, and keep any refusal. A blocked offer is the
+   * system working as designed, so an operator should be able to see it.
+   */
+  private async recording<T>(
+    context: { agentId: string; sessionId: string },
+    operation: () => T,
+  ): Promise<T> {
+    try {
+      return operation();
+    } catch (error) {
+      if (error instanceof JangError) {
+        await this.note({
+          kind: "refusal",
+          sessionId: context.sessionId,
+          agentId: context.agentId,
+          code: error.code,
+          message: error.message,
+          detail: error.violations,
+        });
+      }
+      throw error;
+    }
+  }
+
+  private async note(event: Omit<EventRecord, "createdAt">): Promise<void> {
+    try {
+      await this.store.recordEvent({ ...event, createdAt: new Date().toISOString() });
+    } catch {
+      // Never let bookkeeping break a negotiation.
+    }
   }
 
   private async loadSession(sessionId: string) {

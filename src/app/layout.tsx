@@ -1,6 +1,23 @@
 import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import type { Metadata, Viewport } from "next";
+import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { Suspense, type ReactNode } from "react";
+import { currentOwner } from "@/lib/server/owner.ts";
+import "./globals.css";
+
+const sans = IBM_Plex_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "JANG 場 — negotiation infrastructure for autonomous agents",
@@ -10,33 +27,34 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
 
+/** Only shown to signed-in people, and the operator link only to operators. */
+async function Nav() {
+  const owner = await currentOwner();
+  if (!owner) return null;
+  return (
+    <>
+      <a href="/app">Console</a>
+      <a href="/app/agents">Agents</a>
+      <a href="/app/negotiations">Negotiations</a>
+      {owner.isAdmin ? <a href="/admin">Operations</a> : null}
+    </>
+  );
+}
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body
-        style={{
-          margin: 0,
-          fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-          background: "#0b0d10",
-          color: "#e6e8eb",
-        }}
-      >
+    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+      <body>
         <ClerkProvider>
-          <header
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: "1rem",
-              padding: "1rem 1.5rem",
-              borderBottom: "1px solid #1e242c",
-            }}
-          >
-            <a href="/" style={{ color: "inherit", textDecoration: "none", fontWeight: 700 }}>
+          <header className="topbar">
+            <a href="/" className="wordmark">
               JANG 場
             </a>
-            <nav style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              {/* Show reads the request, so it needs a Suspense boundary here. */}
+            <nav className="topnav">
+              {/* These read the request, so they need their own boundary. */}
+              <Suspense fallback={null}>
+                <Nav />
+              </Suspense>
               <Suspense fallback={null}>
                 <Show when="signed-out">
                   <SignInButton />

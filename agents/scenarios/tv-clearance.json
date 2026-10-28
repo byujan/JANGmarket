@@ -6,10 +6,41 @@
     "title": "65-inch OLED television (clearance)",
     "description": "A retailer is clearing last season's panels before the new models land. Price is not the only lever: delivery date, warranty length and a bundled soundbar are all on the table.",
     "dimensions": [
-      { "key": "price", "label": "Price", "unit": "USD", "min": 500, "max": 3000, "step": 10 },
-      { "key": "deliveryDays", "label": "Delivery", "unit": "days", "min": 1, "max": 45, "step": 1 },
-      { "key": "warrantyMonths", "label": "Warranty", "unit": "months", "min": 0, "max": 48, "step": 6 },
-      { "key": "bundle", "label": "Soundbar bundled", "min": 0, "max": 1, "step": 1 }
+      {
+        "key": "price",
+        "label": "Price",
+        "unit": "USD",
+        "min": 500,
+        "max": 3000,
+        "step": 10,
+        "buyerPrefers": "low"
+      },
+      {
+        "key": "deliveryDays",
+        "label": "Delivery",
+        "unit": "days",
+        "min": 1,
+        "max": 45,
+        "step": 1,
+        "buyerPrefers": "low"
+      },
+      {
+        "key": "warrantyMonths",
+        "label": "Warranty",
+        "unit": "months",
+        "min": 0,
+        "max": 48,
+        "step": 6,
+        "buyerPrefers": "high"
+      },
+      {
+        "key": "bundle",
+        "label": "Soundbar bundled",
+        "min": 0,
+        "max": 1,
+        "step": 1,
+        "buyerPrefers": "high"
+      }
     ]
   },
   "buyer": {
@@ -17,12 +48,35 @@
     "ownerId": "owner-dana",
     "role": "buyer",
     "persona": "You shop for a household that has budgeted 1,500 USD for a television. You care most about price, then about being covered by a long warranty, then about getting it soon. A soundbar is a nice extra but not worth much.",
-    "constraints": { "price": { "max": 1500 }, "deliveryDays": { "max": 30 } },
+    "constraints": {
+      "price": {
+        "max": 1500
+      },
+      "deliveryDays": {
+        "max": 30
+      }
+    },
     "preferences": {
-      "price": { "weight": 5, "ideal": 900, "worst": 1500 },
-      "deliveryDays": { "weight": 2, "ideal": 2, "worst": 30 },
-      "warrantyMonths": { "weight": 2, "ideal": 36, "worst": 0 },
-      "bundle": { "weight": 1, "ideal": 1, "worst": 0 }
+      "price": {
+        "weight": 5,
+        "ideal": 900,
+        "worst": 1500
+      },
+      "deliveryDays": {
+        "weight": 2,
+        "ideal": 2,
+        "worst": 30
+      },
+      "warrantyMonths": {
+        "weight": 2,
+        "ideal": 36,
+        "worst": 0
+      },
+      "bundle": {
+        "weight": 1,
+        "ideal": 1,
+        "worst": 0
+      }
     },
     "reservationUtility": 0.3
   },
@@ -31,18 +85,46 @@
     "ownerId": "owner-hanbit-electronics",
     "role": "seller",
     "persona": "You clear inventory for an electronics retailer. The panel cost you 1,180 USD and you may not sell below that. You would much rather extend the warranty or ship later than cut the price, because warehouse space is what you are really short of.",
-    "constraints": { "price": { "min": 1180 }, "warrantyMonths": { "max": 36 } },
+    "constraints": {
+      "price": {
+        "min": 1180
+      },
+      "warrantyMonths": {
+        "max": 36
+      }
+    },
     "preferences": {
-      "price": { "weight": 5, "ideal": 1900, "worst": 1180 },
-      "deliveryDays": { "weight": 2, "ideal": 30, "worst": 2 },
-      "warrantyMonths": { "weight": 2, "ideal": 0, "worst": 36 },
-      "bundle": { "weight": 1, "ideal": 0, "worst": 1 }
+      "price": {
+        "weight": 5,
+        "ideal": 1900,
+        "worst": 1180
+      },
+      "deliveryDays": {
+        "weight": 2,
+        "ideal": 30,
+        "worst": 2
+      },
+      "warrantyMonths": {
+        "weight": 2,
+        "ideal": 0,
+        "worst": 36
+      },
+      "bundle": {
+        "weight": 1,
+        "ideal": 0,
+        "worst": 1
+      }
     },
     "reservationUtility": 0.3
   },
   "fixedPriceBaseline": {
     "label": "Posted shelf price, take it or leave it",
-    "terms": { "price": 1499, "deliveryDays": 21, "warrantyMonths": 12, "bundle": 0 }
+    "terms": {
+      "price": 1499,
+      "deliveryDays": 21,
+      "warrantyMonths": 12,
+      "bundle": 0
+    }
   },
   "maxRounds": 12,
   "mandateTtlSeconds": 3600

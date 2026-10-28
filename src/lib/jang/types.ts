@@ -12,6 +12,12 @@ export const DimensionSchema = z.object({
   min: z.number(),
   max: z.number(),
   step: z.number().positive().default(1),
+  /**
+   * Which end of the range a buyer naturally wants. The seller wants the
+   * other. Without this a mandate builder cannot tell "cheap" from "generous",
+   * because the engine itself only ever sees numbers.
+   */
+  buyerPrefers: z.enum(["low", "high"]).optional(),
 });
 export type Dimension = z.infer<typeof DimensionSchema>;
 
