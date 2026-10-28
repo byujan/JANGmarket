@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { GettingStarted } from "@/components/GettingStarted.tsx";
 import { LaunchNegotiation } from "@/components/LaunchNegotiation.tsx";
 import { catalog } from "@/lib/server/marketplace.ts";
 import { currentOwner } from "@/lib/server/owner.ts";
@@ -40,6 +41,10 @@ export default async function Console() {
           bargain inside those limits.
         </p>
       </div>
+
+      <GettingStarted
+        progress={{ agents: agents.length, mandates: mandates.length, negotiations: sessions.length }}
+      />
 
       <section className="section">
         <div className="row-between">

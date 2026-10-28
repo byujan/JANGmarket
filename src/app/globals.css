@@ -853,3 +853,96 @@ pre.block {
   border-radius: 50%;
   background: var(--line-soft);
 }
+
+/* ---------- getting started ---------- */
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: step;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 1.9rem minmax(0, 1fr);
+  gap: 0.9rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.step:last-child {
+  border-bottom: none;
+}
+
+.step-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--faint);
+  font-size: var(--step--1);
+}
+
+.step-body h3 {
+  color: var(--faint);
+}
+
+.step-body p {
+  margin: 0.2rem 0 0;
+}
+
+.step-body .button {
+  margin-top: 0.8rem;
+}
+
+.step-done .step-mark {
+  color: var(--agree);
+  border-color: #2f4a31;
+}
+
+.step-done .step-body h3 {
+  color: var(--mute);
+}
+
+/* The step you are on is the only one that should pull the eye. */
+.step-now .step-mark {
+  color: var(--base);
+  background: var(--buyer);
+  border-color: var(--buyer);
+}
+
+.step-now .step-body h3 {
+  color: var(--text);
+}
+
+/* ---------- inline help ---------- */
+
+.hint {
+  font-size: var(--step--1);
+  color: var(--faint);
+  margin: 0.3rem 0 0;
+  max-width: var(--measure);
+}
+
+.explain {
+  border-left: 2px solid var(--line);
+  padding: 0.1rem 0 0.1rem 0.9rem;
+  margin: 0 0 1.5rem;
+  max-width: var(--measure);
+}
+
+.explain p {
+  margin: 0 0 0.5rem;
+}
+
+.explain p:last-child {
+  margin-bottom: 0;
+}
+
+.explain h3 {
+  margin-bottom: 0.35rem;
+}

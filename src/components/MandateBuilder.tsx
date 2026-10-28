@@ -190,6 +190,10 @@ export function MandateBuilder({
 
       <section className="section">
         <h2>What your agent may agree to</h2>
+        <p className="hint" style={{ marginBottom: "0.5rem" }}>
+          Drag each limit to the furthest you would go. The lit band is the ground your agent may move on; the hatched
+          part is off limits, and JANG will refuse any offer that lands there.
+        </p>
         {dimensions.map((dimension) => {
           const setting = settingFor(dimension);
           const ideal = idealEnd(dimension, role);

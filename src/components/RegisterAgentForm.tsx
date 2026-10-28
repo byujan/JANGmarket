@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 /**
  * Registering an agent hands back a key exactly once. The copy block beside it
  * is the MCP configuration, because the next thing anyone does with a new key
@@ -42,13 +43,17 @@ export function RegisterAgentForm() {
   if (issued) {
     return (
       <div className="key-callout">
-        <h3>Key for {issued.agentId}</h3>
+        <h3>{issued.agentId} is registered</h3>
         <p className="small mute" style={{ margin: "0.3rem 0 0" }}>
-          This is the only time it is shown. Store it somewhere your agent can read.
+          Next, <Link href="/app/mandates/new">give it a mandate</Link> — then JANG can negotiate as this agent on your
+          behalf. You do not need the key below for that.
+        </p>
+        <p className="small mute" style={{ margin: "0.9rem 0 0" }}>
+          The key is only for connecting your own software. It is shown once and never again.
         </p>
         <code className="secret">{issued.apiKey}</code>
         <p className="small mute" style={{ margin: "0.75rem 0 0" }}>
-          Point an MCP client at JANG with it:
+          To use it, point an MCP client at JANG:
         </p>
         <pre className="block">
           {JSON.stringify(
@@ -79,15 +84,20 @@ export function RegisterAgentForm() {
     <form onSubmit={submit}>
       <div className="field-row">
         <div>
-          <label htmlFor="agentId">Agent id</label>
+          <label htmlFor="agentId">Name</label>
           <input
             id="agentId"
             value={agentId}
             onChange={(event) => setAgentId(event.target.value)}
             placeholder="buyer-nova"
             pattern="[a-z0-9-]{3,60}"
+            aria-describedby="agentId-hint"
             required
           />
+          <p className="hint" id="agentId-hint">
+            Lowercase letters, numbers and hyphens. The counterparty sees this, so it is the only thing about you they
+            learn. It cannot be changed later.
+          </p>
         </div>
         <div>
           <label htmlFor="label">What it does</label>
@@ -96,8 +106,12 @@ export function RegisterAgentForm() {
             value={label}
             onChange={(event) => setLabel(event.target.value)}
             placeholder="Buys household electronics"
+            aria-describedby="label-hint"
             required
           />
+          <p className="hint" id="label-hint">
+            A note to yourself, so you can tell your agents apart. Nobody else sees it.
+          </p>
         </div>
       </div>
       {error ? (
