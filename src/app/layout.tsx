@@ -51,7 +51,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ClerkProvider>
           <header className="topbar">
             <Link href="/" className="wordmark">
-              JANG 場
+              JANG<span className="mark">場</span>
             </Link>
 
             <div className="statusbar" role="status" aria-live="polite">
