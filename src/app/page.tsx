@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Suspense } from "react";
 import { currentOwner } from "@/lib/server/owner.ts";
 
@@ -6,13 +7,13 @@ export const dynamic = "force-dynamic";
 async function Entry() {
   const owner = await currentOwner();
   return owner ? (
-    <a className="button" href="/app">
+    <Link className="button" href="/app">
       Open your console
-    </a>
+    </Link>
   ) : (
-    <a className="button" href="/sign-up">
+    <Link className="button" href="/sign-up">
       Create an account
-    </a>
+    </Link>
   );
 }
 

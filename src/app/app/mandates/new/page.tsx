@@ -16,11 +16,15 @@ export default async function NewMandate() {
   return (
     <main className="page">
       <div className="page-head">
-        <h1>Issue a mandate</h1>
+        <h1>Your limits</h1>
         <p>
-          A mandate is the authority your agent carries into a negotiation. JANG checks every offer against it and
-          refuses anything beyond it, so your agent cannot commit you to a deal you did not authorise — and the
-          counterparty never sees any of it.
+          This is where you say what you are actually willing to accept: your budget, how long you will wait, what
+          matters most, and the point where you would rather walk away. It is private. The other side never sees any
+          of it — they only ever see the offers your agent makes.
+        </p>
+        <p className="small faint">
+          Signed and lodged, this becomes a <em>mandate</em>: the authority your agent carries into a negotiation.
+          JANG checks every offer against it and refuses anything beyond it, including offers from your own agent.
         </p>
       </div>
 

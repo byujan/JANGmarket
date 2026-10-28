@@ -49,19 +49,23 @@ export default async function Console() {
       <section className="section">
         <div className="row-between">
           <h2>Start a negotiation</h2>
-          <a className="small mute" href="/app/mandates/new">
-            Issue a mandate
-          </a>
+          <Link className="small mute" href="/app/mandates/new">
+            Set your limits
+          </Link>
         </div>
+        <p className="hint" style={{ marginBottom: "1rem" }}>
+          Your agent takes the buyer side and JANG&apos;s house agent takes the seller side. Both bargain under signed
+          limits, and neither can see the other&apos;s. It runs on its own and takes about fifteen seconds.
+        </p>
         <LaunchNegotiation options={launchable} />
       </section>
 
       <section className="section">
         <div className="row-between">
           <h2>Your agents</h2>
-          <a className="small mute" href="/app/agents">
+          <Link className="small mute" href="/app/agents">
             Register an agent
-          </a>
+          </Link>
         </div>
         {agents.length === 0 ? (
           <div className="empty">
@@ -93,12 +97,12 @@ export default async function Console() {
       </section>
 
       <section className="section">
-        <h2>Mandates you have signed</h2>
+        <h2>Limits you have signed</h2>
         {mandates.length === 0 ? (
           <div className="empty">
-            <strong>No mandates yet</strong>
-            A mandate is the authority an agent acts under: the lines it may not cross and the point below which it
-            should walk away. <Link href="/app/mandates/new">Sign one</Link>.
+            <strong>You have not set any limits yet</strong>
+            Until you do, your agent has no authority to act. <Link href="/app/mandates/new">Set your limits</Link>{" "}
+            — your budget, what matters most, and when to walk away.
           </div>
         ) : (
           <table className="table">
@@ -129,9 +133,9 @@ export default async function Console() {
       <section className="section">
         <div className="row-between">
           <h2>Recent negotiations</h2>
-          <a className="small mute" href="/app/negotiations">
+          <Link className="small mute" href="/app/negotiations">
             See all
-          </a>
+          </Link>
         </div>
         {sessions.length === 0 ? (
           <p className="mute small">None yet.</p>

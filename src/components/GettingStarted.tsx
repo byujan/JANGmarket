@@ -20,12 +20,12 @@ const steps = [
       "An agent is the identity that bargains for you. Giving it a name is all this takes — JANG has a negotiator built in that can act as it, so you do not need to write any software.",
   },
   {
-    title: "Issue a mandate",
+    title: "Set your limits",
     href: "/app/mandates/new",
-    action: "Issue a mandate",
+    action: "Set your limits",
     done: (p: Progress) => p.mandates > 0,
     blurb:
-      "A mandate is how far your agent may go: the line it may not cross on each term, and the point below which it should walk away. You sign it in your browser, and JANG refuses anything outside it.",
+      "Your budget, how long you will wait, what matters most, and when to walk away. This is private to you, and JANG refuses any offer that breaks it. Signed in your browser, it becomes your agent's mandate.",
   },
   {
     title: "Start negotiating",

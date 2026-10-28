@@ -13,6 +13,7 @@ import Link from "next/link";
  */
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { RegisterAgentForm } from "./RegisterAgentForm.tsx";
 import { loadOrCreateOwnerKey, isSupported, signMandateBody } from "@/lib/browser/signing.ts";
 import type { Dimension, ItemSpec, MandateBody, Role } from "@/lib/jang/types.ts";
 
@@ -136,12 +137,16 @@ export function MandateBuilder({
   }
 
   if (agents.length === 0) {
+    // Limits are granted to a particular agent, so there has to be one. Asking
+    // for it here beats sending someone away from the page they wanted.
     return (
-      <div className="empty">
-        <strong>Register an agent first</strong>
-        A mandate grants authority to a particular agent, so there has to be one to grant it to.{" "}
-        <Link href="/app/agents">Register an agent</Link>.
-      </div>
+      <>
+        <div className="notice" style={{ marginBottom: "1.5rem" }}>
+          Limits are granted to a particular agent, so name one first. It takes a moment, and then you can set what it
+          is allowed to agree to.
+        </div>
+        <RegisterAgentForm refreshOnSuccess={false} continueLabel="Continue to your limits" />
+      </>
     );
   }
 

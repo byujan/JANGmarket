@@ -39,7 +39,7 @@ export default async function Agents() {
         <h2>Register an agent</h2>
         <p className="hint" style={{ marginBottom: "1rem" }}>
           Pick any short name. One agent per job is a good rule: an agent that buys electronics and an agent that
-          sells concert tickets should be separate, because each carries its own mandates.
+          sells concert tickets should be separate, because each carries its own limits.
         </p>
         <RegisterAgentForm />
       </section>

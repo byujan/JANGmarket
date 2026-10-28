@@ -9,7 +9,15 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export function RegisterAgentForm() {
+export function RegisterAgentForm({
+  refreshOnSuccess = true,
+  continueLabel,
+}: {
+  /** Off when the page would swap this form away and take the key with it. */
+  refreshOnSuccess?: boolean;
+  /** Shown in the key panel, so the key is read before the page moves on. */
+  continueLabel?: string;
+} = {}) {
   const router = useRouter();
   const [agentId, setAgentId] = useState("");
   const [label, setLabel] = useState("");
@@ -32,7 +40,7 @@ export function RegisterAgentForm() {
       setIssued(payload);
       setAgentId("");
       setLabel("");
-      router.refresh();
+      if (refreshOnSuccess) router.refresh();
     } catch (problem) {
       setError(problem instanceof Error ? problem.message : String(problem));
     } finally {
@@ -73,9 +81,16 @@ export function RegisterAgentForm() {
             2,
           )}
         </pre>
-        <button className="button button-quiet" style={{ marginTop: "0.9rem" }} onClick={() => setIssued(undefined)}>
-          Register another agent
-        </button>
+        <div style={{ display: "flex", gap: "0.6rem", marginTop: "0.9rem", flexWrap: "wrap" }}>
+          {continueLabel ? (
+            <button className="button" onClick={() => router.refresh()}>
+              {continueLabel}
+            </button>
+          ) : null}
+          <button className="button button-quiet" onClick={() => setIssued(undefined)}>
+            Register another agent
+          </button>
+        </div>
       </div>
     );
   }

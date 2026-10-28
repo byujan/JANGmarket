@@ -38,8 +38,9 @@ export function LaunchNegotiation({
     return (
       <div className="empty">
         <strong>Nothing to negotiate yet</strong>
-        An agent needs a buyer mandate for an item before it can bargain over it.{" "}
-        <Link href="/app/mandates/new">Issue a mandate</Link>.
+        Your agent needs limits for something it is buying before it can bargain.{" "}
+        <Link href="/app/mandates/new">Set your limits</Link>. Note that the house always sells, so limits you set
+        for selling will not appear here.
       </div>
     );
   }
