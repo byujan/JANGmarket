@@ -103,12 +103,16 @@ code,
 
 /* ---------- shell ---------- */
 
+/*
+ * Three tracks, with the outer two equal, so the status bar sits on the centre
+ * line of the page rather than wherever the wordmark and avatar leave room.
+ */
 .topbar {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  padding: 0.85rem 1.5rem;
+  gap: 1rem;
+  padding: 0.6rem 1.5rem;
   border-bottom: 1px solid var(--line);
   background: var(--sunk);
   position: sticky;
@@ -123,46 +127,72 @@ code,
   white-space: nowrap;
 }
 
-/* The top bar reports on the service; navigation lives down the side. */
-.topbar-status {
+/*
+ * The status bar: what the system is doing, on the centre line of every page.
+ * Navigation lives down the side, so this is the only thing competing for the
+ * top of the screen.
+ */
+.statusbar {
   display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  margin-right: auto;
-  padding-left: 1.5rem;
-  min-width: 0;
+  align-items: stretch;
+  justify-self: center;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--base);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
   overflow: hidden;
   white-space: nowrap;
+}
+
+.stat-seg {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.3rem 0.95rem;
+  border-left: 1px solid var(--line-soft);
+}
+
+.stat-seg:first-child {
+  border-left: none;
+}
+
+.stat-value {
+  font-size: var(--step-1);
+  line-height: 1.1;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-label {
+  font-size: var(--step--1);
+  color: var(--mute);
+}
+
+/* A negotiation in flight is the one thing here that is happening now. */
+.stat-live {
+  background: rgba(224, 160, 60, 0.07);
+}
+
+.stat-live .stat-value {
+  color: var(--buyer);
+}
+
+.stat-live::before {
+  content: "";
+  align-self: center;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--buyer);
+  margin-right: 0.1rem;
+  animation: pulse 1.8s ease-in-out infinite;
 }
 
 .topbar-account {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 0.6rem;
-}
-
-.pulse {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  font-size: var(--step--1);
-  min-height: 1.25rem;
-}
-
-.pulse-live {
-  color: var(--buyer);
-}
-
-.pulse-live::before {
-  content: "";
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  margin-right: 0.4rem;
-  vertical-align: 1px;
-  animation: pulse 1.8s ease-in-out infinite;
 }
 
 .shell {
@@ -461,14 +491,27 @@ label {
     padding: 1.75rem 1rem 4rem;
   }
   .topbar {
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 1rem;
   }
-  .topbar-status {
-    padding-left: 0.75rem;
+}
+
+@media (max-width: 720px) {
+  /* The bar gets its own row rather than being squeezed between the
+     wordmark and the avatar. */
+  .topbar {
+    grid-template-columns: 1fr auto;
+    row-gap: 0.6rem;
   }
-  /* The signing key is reference material, not something to read on a phone. */
-  .topbar-status > span:last-child {
-    display: none;
+
+  .statusbar {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    justify-self: stretch;
+  }
+
+  .stat-seg {
+    flex: 1;
+    justify-content: center;
   }
 }
 

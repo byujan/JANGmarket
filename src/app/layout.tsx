@@ -54,14 +54,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               JANG 場
             </Link>
 
-            <div className="topbar-status">
+            <div className="statusbar" role="status" aria-live="polite">
               <Suspense fallback={null}>
                 <SignedInExtras />
               </Suspense>
               {/* Agreements are only as good as knowing which key signed them,
                   and a keyless instance mints a new one on every restart. */}
-              <span className="small faint" title="The key JANG signs agreements with">
-                signing key <span className="mono">{keyFingerprint()}</span>
+              <span className="stat-seg" title="The key JANG signs agreements with">
+                <span className="stat-value mono">{keyFingerprint()}</span>
+                <span className="stat-label">signing key</span>
               </span>
             </div>
 

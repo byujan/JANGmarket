@@ -1,10 +1,11 @@
 "use client";
 
 /**
- * What this owner's agents are doing right now, in the top bar.
+ * What this owner's agents are doing right now.
  *
  * It loads after the page paints and refreshes on a timer, so a count can
- * never delay a navigation.
+ * never delay a navigation. The segments keep their shape while the numbers
+ * are unknown, so the bar does not jump when they arrive.
  */
 import { useEffect, useState } from "react";
 
@@ -33,16 +34,18 @@ export function Pulse() {
     };
   }, []);
 
-  if (!counts) return <span className="pulse" aria-hidden="true" />;
+  const active = (counts?.negotiating ?? 0) > 0;
 
   return (
-    <span className="pulse">
-      <span className={counts.negotiating > 0 ? "pulse-live" : "faint"}>
-        <span className="mono">{counts.negotiating}</span> negotiating
+    <>
+      <span className={`stat-seg${active ? " stat-live" : ""}`}>
+        <span className="stat-value mono">{counts ? counts.negotiating : "—"}</span>
+        <span className="stat-label">negotiating</span>
       </span>
-      <span className="faint">
-        <span className="mono">{counts.agreed}</span> agreed
+      <span className="stat-seg">
+        <span className="stat-value mono">{counts ? counts.agreed : "—"}</span>
+        <span className="stat-label">agreed</span>
       </span>
-    </span>
+    </>
   );
 }
