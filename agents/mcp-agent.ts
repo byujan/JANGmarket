@@ -11,6 +11,7 @@ import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js"
 import { fileURLToPath } from "node:url";
 import type { SessionView } from "../src/lib/jang/session.ts";
 import type { Agreement, Terms } from "../src/lib/jang/types.ts";
+import { ToolRefusal, type NegotiationPort } from "./port.ts";
 
 const SERVER_PATH = fileURLToPath(new URL("../mcp/server.ts", import.meta.url));
 
@@ -21,15 +22,20 @@ export type ToolCallLog = {
   summary: string;
 };
 
-export class McpAgent {
+export class McpAgent implements NegotiationPort {
   private client?: Client;
   readonly calls: ToolCallLog[] = [];
+
 
   constructor(
     readonly label: string,
     private readonly env: { apiUrl: string; apiKey: string; sessionId: string },
     private readonly onCall?: (log: ToolCallLog) => void,
   ) {}
+
+  get callCount(): number {
+    return this.calls.length;
+  }
 
   async connect(): Promise<void> {
     const transport = new StdioClientTransport({
@@ -83,9 +89,9 @@ export class McpAgent {
 
   private async call<T>(tool: string, args: Record<string, unknown>): Promise<T> {
     const { isError, text } = await this.callRaw(tool, args);
-    if (isError) throw new McpToolError(tool, text);
+    if (isError) throw new ToolRefusal(text.split(":")[0] ?? "ERROR", text);
     const start = text.indexOf("\n\n");
-    if (start === -1) throw new McpToolError(tool, `no payload in response: ${text}`);
+    if (start === -1) throw new ToolRefusal("BAD_RESPONSE", `no payload in ${tool} response: ${text}`);
     return JSON.parse(text.slice(start + 2)) as T;
   }
 
@@ -95,15 +101,3 @@ export class McpAgent {
   }
 }
 
-export class McpToolError extends Error {
-  constructor(
-    readonly tool: string,
-    message: string,
-  ) {
-    super(message);
-    this.name = "McpToolError";
-  }
-  get code(): string {
-    return this.message.split(":")[0] ?? "ERROR";
-  }
-}

@@ -122,7 +122,7 @@ try {
     );
     console.log(
       `\n${c.dim}${agreement.rounds} rounds, ${elapsedMs} ms, ` +
-        `${agents.buyer.calls.length + agents.seller.calls.length} MCP tool calls.${c.reset}`,
+        `${agents.buyer.callCount + agents.seller.callCount} MCP tool calls.${c.reset}`,
     );
 
     mkdirSync(".tmp", { recursive: true });
@@ -132,7 +132,7 @@ try {
       mandates: { buyer: buyerMandate, seller: sellerMandate },
       scenarioId: scenario.scenarioId,
       elapsedMs,
-      toolCalls: agents.buyer.calls.length + agents.seller.calls.length,
+      toolCalls: agents.buyer.callCount + agents.seller.callCount,
     };
     writeFileSync(".tmp/last-run.json", `${JSON.stringify(artefact, null, 2)}\n`);
     console.log(`${c.dim}Saved to .tmp/last-run.json — run \`npm run verify\` to check it independently.${c.reset}`);

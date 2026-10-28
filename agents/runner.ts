@@ -4,7 +4,7 @@
  */
 import type { SessionView } from "../src/lib/jang/session.ts";
 import type { Agreement, Terms } from "../src/lib/jang/types.ts";
-import { McpAgent, McpToolError } from "./mcp-agent.ts";
+import { ToolRefusal, type NegotiationPort } from "./port.ts";
 import { decide, type RuleOptions } from "./rule-strategy.ts";
 
 export type AgentEvent =
@@ -24,7 +24,7 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function runRuleAgent(input: {
   label: string;
-  agent: McpAgent;
+  agent: NegotiationPort;
   options?: RuleOptions;
   onEvent?: (event: AgentEvent) => void;
   pollMs?: number;
@@ -40,11 +40,11 @@ export async function runRuleAgent(input: {
       view = await agent.getSession();
     } catch (error) {
       onEvent?.({ kind: "stopped", label, reason: String(error) });
-      return { label, toolCalls: agent.calls.length, stoppedBecause: String(error) };
+      return { label, toolCalls: agent.callCount, stoppedBecause: String(error) };
     }
 
     if (view.status !== "open") {
-      return { label, toolCalls: agent.calls.length, stoppedBecause: `session ${view.status}` };
+      return { label, toolCalls: agent.callCount, stoppedBecause: `session ${view.status}` };
     }
 
     const decision = decide(view, input.options);
@@ -56,14 +56,14 @@ export async function runRuleAgent(input: {
 
     if (decision.action === "stop") {
       onEvent?.({ kind: "stopped", label, reason: decision.reason });
-      return { label, toolCalls: agent.calls.length, stoppedBecause: decision.reason };
+      return { label, toolCalls: agent.callCount, stoppedBecause: decision.reason };
     }
 
     try {
       if (decision.action === "accept") {
         const { agreement } = await agent.accept();
         onEvent?.({ kind: "accept", label, agreement });
-        return { label, agreement, toolCalls: agent.calls.length };
+        return { label, agreement, toolCalls: agent.callCount };
       }
 
       const after = await agent.offer(decision.terms, decision.note);
@@ -75,11 +75,11 @@ export async function runRuleAgent(input: {
         note: decision.note,
       });
     } catch (error) {
-      if (error instanceof McpToolError) {
+      if (error instanceof ToolRefusal) {
         // A refusal is information: re-read the session and decide again.
         onEvent?.({ kind: "refused", label, code: error.code, detail: error.message });
         if (error.code === "SESSION_CLOSED" || error.code === "ROUND_LIMIT") {
-          return { label, toolCalls: agent.calls.length, stoppedBecause: error.code };
+          return { label, toolCalls: agent.callCount, stoppedBecause: error.code };
         }
         await sleep(pollMs);
         continue;
@@ -88,5 +88,5 @@ export async function runRuleAgent(input: {
     }
   }
 
-  return { label, toolCalls: agent.calls.length, stoppedBecause: "turn limit" };
+  return { label, toolCalls: agent.callCount, stoppedBecause: "turn limit" };
 }
