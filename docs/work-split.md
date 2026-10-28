@@ -1,5 +1,8 @@
 # How Peter and Hendrick split the work
 
+> Picking the work up cold? Start with [HENDRICK.md](../HENDRICK.md), which covers where
+> things stand and what to do next. This file is the ownership boundary in detail.
+
 The split follows a simple rule: **Hendrick owns the market, Peter owns the machine.**
 Hendrick's work lands in data files, prompts and prose that the engine validates on load,
 so a mistake there fails loudly in a test rather than quietly in a demo. Peter reviews
