@@ -44,6 +44,6 @@
     "label": "Posted shelf price, take it or leave it",
     "terms": { "price": 1499, "deliveryDays": 21, "warrantyMonths": 12, "bundle": 0 }
   },
-  "maxRounds": 20,
+  "maxRounds": 12,
   "mandateTtlSeconds": 3600
 }
