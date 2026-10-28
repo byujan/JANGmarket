@@ -4,7 +4,7 @@
  * Agents authenticate with an API key against /api/*; people authenticate with
  * Clerk against /app and /admin. This module is the only place the two meet.
  */
-import { currentUser } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { cache } from "react";
 import { JangError, type Mandate } from "../jang/types.ts";
 import { store } from "../store/index.ts";
@@ -30,26 +30,34 @@ export type SignedInOwner = OwnerRecord & { isAdmin: boolean };
  * new owner.
  */
 export const currentOwner = cache(async (): Promise<SignedInOwner | undefined> => {
+  // auth() reads the session that the proxy already verified, with no network
+  // call. currentUser() fetches the profile from Clerk's API, so it is kept
+  // for the one render where we genuinely need a name and an address.
+  const { userId } = await auth();
+  if (!userId) return undefined;
+
+  const existing = await store.getOwnerByClerkId(userId);
+  if (existing) return withRole(existing);
+
   const user = await currentUser();
   if (!user) return undefined;
 
   const email = user.primaryEmailAddress?.emailAddress ?? user.emailAddresses[0]?.emailAddress;
-  const existing = await store.getOwnerByClerkId(user.id);
-  const owner: OwnerRecord = existing ?? {
-    ownerId: `own_${user.id}`,
-    clerkUserId: user.id,
+  const owner: OwnerRecord = {
+    ownerId: `own_${userId}`,
+    clerkUserId: userId,
     email,
     displayName: [user.firstName, user.lastName].filter(Boolean).join(" ") || user.username || email,
     createdAt: new Date().toISOString(),
   };
-
-  // Keep the profile fresh, and create the row the first time we see them.
-  if (!existing || existing.email !== email) {
-    await store.upsertOwner({ ...owner, email });
-  }
-
-  return { ...owner, email, isAdmin: Boolean(email && adminEmails().includes(email.toLowerCase())) };
+  await store.upsertOwner(owner);
+  return withRole(owner);
 });
+
+function withRole(owner: OwnerRecord): SignedInOwner {
+  const email = owner.email?.toLowerCase();
+  return { ...owner, isAdmin: Boolean(email && adminEmails().includes(email)) };
+}
 
 export async function requireOwner(): Promise<SignedInOwner> {
   const owner = await currentOwner();

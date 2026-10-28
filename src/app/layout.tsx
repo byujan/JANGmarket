@@ -51,11 +51,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               JANG 場
             </a>
             <nav className="topnav">
-              {/* These read the request, so they need their own boundary. */}
+              {/* These read the request, so they need their own boundary.
+                  The nav gets no placeholder: it renders nothing at all when
+                  signed out, so reserving width would only trade one shift
+                  for another. The avatar slot is always filled, so holding
+                  its space is safe. */}
               <Suspense fallback={null}>
                 <Nav />
               </Suspense>
-              <Suspense fallback={null}>
+              <Suspense fallback={<span className="nav-hold nav-hold-avatar" />}>
                 <Show when="signed-out">
                   {/* Clerk renders a bare <button> unless given its own child. */}
                   <SignInButton>

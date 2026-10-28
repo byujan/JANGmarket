@@ -665,3 +665,19 @@ pre.block {
 .feed-body {
   min-width: 0;
 }
+
+/*
+ * Placeholders for header controls that resolve on the server. They occupy
+ * the final size so the row does not reflow when the real thing arrives.
+ */
+.nav-hold {
+  display: inline-block;
+  height: 1.75rem;
+  max-width: 100%;
+}
+
+.nav-hold-avatar {
+  width: 1.75rem;
+  border-radius: 50%;
+  background: var(--line-soft);
+}
