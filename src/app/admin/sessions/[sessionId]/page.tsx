@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ConvergenceLadder } from "@/components/ConvergenceLadder.tsx";
 import { utility } from "@/lib/jang/utility.ts";
@@ -30,7 +31,7 @@ export default async function AdminSession({ params }: { params: Promise<{ sessi
   return (
     <main className="page">
       <p className="small mute" style={{ marginBottom: "0.75rem" }}>
-        <a href="/admin">Operations</a> <span className="faint">/</span>{" "}
+        <Link href="/admin">Operations</Link> <span className="faint">/</span>{" "}
         <span className="mono">{session.sessionId}</span>
       </p>
 

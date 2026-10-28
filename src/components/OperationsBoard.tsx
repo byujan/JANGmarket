@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 /**
  * The operator's view of the whole market.
  *
@@ -65,7 +66,7 @@ export function OperationsBoard({ initial }: { initial: Board }) {
               {board.sessions.map((session) => (
                 <tr key={session.sessionId}>
                   <td>
-                    <a href={`/admin/sessions/${session.sessionId}`}>{session.itemTitle}</a>
+                    <Link href={`/admin/sessions/${session.sessionId}`}>{session.itemTitle}</Link>
                   </td>
                   <td className="mono small buyer">{session.buyerAgentId}</td>
                   <td className="mono small seller">{session.sellerAgentId}</td>

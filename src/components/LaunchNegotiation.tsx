@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -38,7 +39,7 @@ export function LaunchNegotiation({
       <div className="empty">
         <strong>Nothing to negotiate yet</strong>
         An agent needs a buyer mandate for an item before it can bargain over it.{" "}
-        <a href="/app/mandates/new">Issue a mandate</a>.
+        <Link href="/app/mandates/new">Issue a mandate</Link>.
       </div>
     );
   }

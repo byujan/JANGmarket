@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 /**
  * Where a person decides how much authority to hand an agent.
  *
@@ -139,7 +140,7 @@ export function MandateBuilder({
       <div className="empty">
         <strong>Register an agent first</strong>
         A mandate grants authority to a particular agent, so there has to be one to grant it to.{" "}
-        <a href="/app/agents">Register an agent</a>.
+        <Link href="/app/agents">Register an agent</Link>.
       </div>
     );
   }

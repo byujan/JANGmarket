@@ -1,7 +1,11 @@
 import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import type { Metadata, Viewport } from "next";
+import Link from "next/link";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { Suspense, type ReactNode } from "react";
+import { Pulse } from "@/components/Pulse.tsx";
+import { SideNav } from "@/components/SideNav.tsx";
+import { keyFingerprint } from "@/lib/server/keys.ts";
 import { currentOwner } from "@/lib/server/owner.ts";
 import "./globals.css";
 
@@ -27,18 +31,17 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
 
-/** Only shown to signed-in people, and the operator link only to operators. */
-async function Nav() {
+/** Navigation only exists once there is an account to navigate. */
+async function Rail() {
   const owner = await currentOwner();
   if (!owner) return null;
-  return (
-    <>
-      <a href="/app">Console</a>
-      <a href="/app/agents">Agents</a>
-      <a href="/app/negotiations">Negotiations</a>
-      {owner.isAdmin ? <a href="/admin">Operations</a> : null}
-    </>
-  );
+  return <SideNav isAdmin={owner.isAdmin} />;
+}
+
+async function SignedInExtras() {
+  const owner = await currentOwner();
+  if (!owner) return null;
+  return <Pulse />;
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -47,18 +50,22 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <ClerkProvider>
           <header className="topbar">
-            <a href="/" className="wordmark">
+            <Link href="/" className="wordmark">
               JANG 場
-            </a>
-            <nav className="topnav">
-              {/* These read the request, so they need their own boundary.
-                  The nav gets no placeholder: it renders nothing at all when
-                  signed out, so reserving width would only trade one shift
-                  for another. The avatar slot is always filled, so holding
-                  its space is safe. */}
+            </Link>
+
+            <div className="topbar-status">
               <Suspense fallback={null}>
-                <Nav />
+                <SignedInExtras />
               </Suspense>
+              {/* Agreements are only as good as knowing which key signed them,
+                  and a keyless instance mints a new one on every restart. */}
+              <span className="small faint" title="The key JANG signs agreements with">
+                signing key <span className="mono">{keyFingerprint()}</span>
+              </span>
+            </div>
+
+            <div className="topbar-account">
               <Suspense fallback={<span className="nav-hold nav-hold-avatar" />}>
                 <Show when="signed-out">
                   {/* Clerk renders a bare <button> unless given its own child. */}
@@ -73,9 +80,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   <UserButton />
                 </Show>
               </Suspense>
-            </nav>
+            </div>
           </header>
-          {children}
+
+          <div className="shell">
+            <Suspense fallback={null}>
+              <Rail />
+            </Suspense>
+            <div className="shell-main">{children}</div>
+          </div>
         </ClerkProvider>
       </body>
     </html>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { LiveNegotiation } from "@/components/LiveNegotiation.tsx";
 import { redactSessionFor } from "@/lib/jang/session.ts";
@@ -31,7 +32,7 @@ export default async function Negotiation({ params }: { params: Promise<{ sessio
   return (
     <main className="page">
       <p className="small mute" style={{ marginBottom: "0.75rem" }}>
-        <a href="/app/negotiations">Negotiations</a> <span className="faint">/</span>{" "}
+        <Link href="/app/negotiations">Negotiations</Link> <span className="faint">/</span>{" "}
         <span className="mono">{session.sessionId}</span>
       </p>
       <LiveNegotiation sessionId={sessionId} initial={{ view, agreement }} />

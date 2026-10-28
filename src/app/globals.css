@@ -123,24 +123,97 @@ code,
   white-space: nowrap;
 }
 
-.topnav {
+/* The top bar reports on the service; navigation lives down the side. */
+.topbar-status {
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  flex-wrap: wrap;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
-.topnav a {
+.topbar-account {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.pulse {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: var(--step--1);
+  min-height: 1.25rem;
+}
+
+.pulse-live {
+  color: var(--buyer);
+}
+
+.pulse-live::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  margin-right: 0.4rem;
+  vertical-align: 1px;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+}
+
+.shell-main {
+  min-width: 0;
+}
+
+.siderail {
+  position: sticky;
+  top: 3.25rem;
+  width: 13.5rem;
+  padding: 1.75rem 0.75rem;
+  border-right: 1px solid var(--line);
+  min-height: calc(100vh - 3.25rem);
+}
+
+.siderail ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.siderail a {
+  display: block;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius);
   color: var(--mute);
   text-decoration: none;
-  padding-bottom: 2px;
-  border-bottom: 1px solid transparent;
+  /* A left edge that fills in, so the marker is the same shape as the nav. */
+  border-left: 2px solid transparent;
 }
 
-.topnav a:hover,
-.topnav a:focus-visible {
+.siderail a:hover {
   color: var(--text);
-  border-bottom-color: var(--line);
+  background: var(--raise);
+}
+
+.siderail a.here {
+  color: var(--text);
+  background: var(--raise);
+  border-left-color: var(--buyer);
+}
+
+.siderail-divider {
+  margin: 1.25rem 0 0.35rem;
+  padding: 0 0.7rem;
 }
 
 .page {
@@ -345,12 +418,57 @@ label {
   }
 }
 
+@media (max-width: 860px) {
+  /* The rail becomes a strip above the content rather than disappearing. */
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .siderail {
+    position: static;
+    width: auto;
+    min-height: 0;
+    padding: 0.5rem 1rem;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    overflow-x: auto;
+  }
+
+  .siderail ul {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .siderail a {
+    white-space: nowrap;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+  }
+
+  .siderail a.here {
+    background: transparent;
+    border-bottom-color: var(--buyer);
+  }
+
+  .siderail-divider {
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
   .page {
     padding: 1.75rem 1rem 4rem;
   }
   .topbar {
     padding: 0.75rem 1rem;
+  }
+  .topbar-status {
+    padding-left: 0.75rem;
+  }
+  /* The signing key is reference material, not something to read on a phone. */
+  .topbar-status > span:last-child {
+    display: none;
   }
 }
 

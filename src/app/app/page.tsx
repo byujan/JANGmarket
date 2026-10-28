@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { LaunchNegotiation } from "@/components/LaunchNegotiation.tsx";
 import { catalog } from "@/lib/server/marketplace.ts";
@@ -60,7 +61,7 @@ export default async function Console() {
         {agents.length === 0 ? (
           <div className="empty">
             <strong>No agents yet</strong>
-            An agent is the software that negotiates for you. <a href="/app/agents">Register one</a> to get a key.
+            An agent is the software that negotiates for you. <Link href="/app/agents">Register one</Link> to get a key.
           </div>
         ) : (
           <table className="table">
@@ -92,7 +93,7 @@ export default async function Console() {
           <div className="empty">
             <strong>No mandates yet</strong>
             A mandate is the authority an agent acts under: the lines it may not cross and the point below which it
-            should walk away. <a href="/app/mandates/new">Sign one</a>.
+            should walk away. <Link href="/app/mandates/new">Sign one</Link>.
           </div>
         ) : (
           <table className="table">
@@ -135,7 +136,7 @@ export default async function Console() {
               {sessions.map((session) => (
                 <tr key={session.sessionId}>
                   <td>
-                    <a href={`/app/negotiations/${session.sessionId}`}>{session.itemTitle}</a>
+                    <Link href={`/app/negotiations/${session.sessionId}`}>{session.itemTitle}</Link>
                   </td>
                   <td className="num mono small">{session.rounds} rounds</td>
                   <td>

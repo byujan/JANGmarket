@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { currentOwner } from "@/lib/server/owner.ts";
 import { store } from "@/lib/store/index.ts";
@@ -23,7 +24,7 @@ export default async function Negotiations() {
       {sessions.length === 0 ? (
         <div className="empty">
           <strong>Nothing here yet</strong>
-          Start one from <a href="/app">your console</a>, or connect your own agent over MCP and open a session from
+          Start one from <Link href="/app">your console</Link>, or connect your own agent over MCP and open a session from
           code.
         </div>
       ) : (
@@ -40,7 +41,7 @@ export default async function Negotiations() {
             {sessions.map((session) => (
               <tr key={session.sessionId}>
                 <td>
-                  <a href={`/app/negotiations/${session.sessionId}`}>{session.itemTitle}</a>
+                  <Link href={`/app/negotiations/${session.sessionId}`}>{session.itemTitle}</Link>
                 </td>
                 <td className="num mono">{session.rounds}</td>
                 <td>
