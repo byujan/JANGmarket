@@ -177,6 +177,20 @@ code,
 
 /* ---------- controls ---------- */
 
+/*
+ * Anything that renders a bare <button> — a third-party component, say —
+ * inherits the page rather than the browser's light-mode default.
+ */
+button {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
+
 .button {
   font: inherit;
   font-weight: 500;

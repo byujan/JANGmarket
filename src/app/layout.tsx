@@ -57,8 +57,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               </Suspense>
               <Suspense fallback={null}>
                 <Show when="signed-out">
-                  <SignInButton />
-                  <SignUpButton />
+                  {/* Clerk renders a bare <button> unless given its own child. */}
+                  <SignInButton>
+                    <button className="button button-quiet">Sign in</button>
+                  </SignInButton>
+                  <SignUpButton>
+                    <button className="button">Create account</button>
+                  </SignUpButton>
                 </Show>
                 <Show when="signed-in">
                   <UserButton />
