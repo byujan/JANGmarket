@@ -1,12 +1,34 @@
 import type { Agreement, Mandate, Session } from "../jang/types.ts";
-import type { AgentRecord, Store } from "./types.ts";
+import type {
+  AgentRecord,
+  EventRecord,
+  OwnerRecord,
+  SessionFilter,
+  SessionSummary,
+  Store,
+} from "./types.ts";
 
+/** Process-local storage. Correct for a single-process demo, wrong for anything else. */
 export class MemoryStore implements Store {
+  private owners = new Map<string, OwnerRecord>();
   private agents = new Map<string, AgentRecord>();
   private agentsByKey = new Map<string, string>();
   private mandates = new Map<string, Mandate>();
   private sessions = new Map<string, Session>();
   private agreements = new Map<string, Agreement>();
+  private events: EventRecord[] = [];
+
+  async upsertOwner(owner: OwnerRecord): Promise<void> {
+    this.owners.set(owner.ownerId, owner);
+  }
+
+  async getOwner(ownerId: string): Promise<OwnerRecord | undefined> {
+    return this.owners.get(ownerId);
+  }
+
+  async getOwnerByClerkId(clerkUserId: string): Promise<OwnerRecord | undefined> {
+    return [...this.owners.values()].find((owner) => owner.clerkUserId === clerkUserId);
+  }
 
   async createAgent(record: AgentRecord): Promise<void> {
     this.agents.set(record.agentId, record);
@@ -22,12 +44,22 @@ export class MemoryStore implements Store {
     return agentId ? this.agents.get(agentId) : undefined;
   }
 
+  async listAgentsByOwner(ownerId: string): Promise<AgentRecord[]> {
+    return [...this.agents.values()]
+      .filter((agent) => agent.ownerId === ownerId)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  }
+
   async putMandate(mandate: Mandate): Promise<void> {
     this.mandates.set(`${mandate.agentId}::${mandate.itemId}`, mandate);
   }
 
   async getMandate(agentId: string, itemId: string): Promise<Mandate | undefined> {
     return this.mandates.get(`${agentId}::${itemId}`);
+  }
+
+  async listMandatesByOwner(ownerId: string): Promise<Mandate[]> {
+    return [...this.mandates.values()].filter((mandate) => mandate.ownerId === ownerId);
   }
 
   async putSession(session: Session): Promise<void> {
@@ -38,6 +70,20 @@ export class MemoryStore implements Store {
     return this.sessions.get(sessionId);
   }
 
+  async listSessions(filter: SessionFilter = {}): Promise<SessionSummary[]> {
+    return [...this.sessions.values()]
+      .filter((session) => !filter.status || session.status === filter.status)
+      .filter(
+        (session) =>
+          !filter.agentIds ||
+          filter.agentIds.includes(session.participants.buyer) ||
+          filter.agentIds.includes(session.participants.seller),
+      )
+      .sort((a, b) => (summaryTime(b) ?? "").localeCompare(summaryTime(a) ?? ""))
+      .slice(0, filter.limit ?? 100)
+      .map(toSummary);
+  }
+
   async putAgreement(agreement: Agreement): Promise<void> {
     this.agreements.set(agreement.agreementId, agreement);
   }
@@ -46,19 +92,43 @@ export class MemoryStore implements Store {
     return this.agreements.get(agreementId);
   }
 
+  async recordEvent(event: EventRecord): Promise<void> {
+    this.events.push({ ...event, id: String(this.events.length + 1) });
+  }
+
+  async listEvents(filter: { sessionId?: string; limit?: number } = {}): Promise<EventRecord[]> {
+    return this.events
+      .filter((event) => !filter.sessionId || event.sessionId === filter.sessionId)
+      .slice(-(filter.limit ?? 100))
+      .reverse();
+  }
+
   async reset(): Promise<void> {
+    this.owners.clear();
     this.agents.clear();
     this.agentsByKey.clear();
     this.mandates.clear();
     this.sessions.clear();
     this.agreements.clear();
+    this.events = [];
   }
 }
 
-/**
- * One store per process. Phase 0's demo runs a single Next.js dev server, so
- * both agents see the same state; Phase 1 replaces this with Postgres before
- * anything is deployed to more than one instance.
- */
-const globalForStore = globalThis as unknown as { __jangStore?: MemoryStore };
-export const memoryStore: MemoryStore = (globalForStore.__jangStore ??= new MemoryStore());
+function summaryTime(session: Session): string {
+  return session.offers.at(-1)?.createdAt ?? session.createdAt;
+}
+
+function toSummary(session: Session): SessionSummary {
+  return {
+    sessionId: session.sessionId,
+    status: session.status,
+    itemId: session.itemSpec.itemId,
+    itemTitle: session.itemSpec.title,
+    buyerAgentId: session.participants.buyer,
+    sellerAgentId: session.participants.seller,
+    rounds: session.offers.length,
+    createdAt: session.createdAt,
+    updatedAt: summaryTime(session),
+    agreementId: session.agreementId,
+  };
+}

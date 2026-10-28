@@ -19,7 +19,7 @@ import {
   type Role,
   type Terms,
 } from "../jang/types.ts";
-import { memoryStore } from "../store/memory.ts";
+import { store as defaultStore } from "../store/index.ts";
 import type { AgentRecord, Store } from "../store/types.ts";
 import { jangKeys } from "./keys.ts";
 
@@ -28,7 +28,7 @@ export function hashApiKey(apiKey: string): string {
 }
 
 export class JangService {
-  constructor(private readonly store: Store = memoryStore) {}
+  constructor(private readonly store: Store = defaultStore) {}
 
   get publicKey(): string {
     return jangKeys.publicKeyPem;
