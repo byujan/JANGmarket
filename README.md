@@ -47,6 +47,21 @@ npm test            # unit tests for the domain core
 `npm run demo` starts the server itself if it is not already running. Nothing else to set
 up — no database, no API key.
 
+### Running the web console
+
+The console needs a database and a Clerk application. Copy `.env.example` to `.env.local`,
+fill it in, then:
+
+```bash
+createdb jang
+npm run db:setup    # applies db/schema.sql
+npm run dev         # http://localhost:3939
+npm run smoke:ui    # exercises the console's own path without a browser
+```
+
+Put your address in `JANG_ADMIN_EMAILS` to reach `/admin`. Without `DATABASE_URL`, JANG
+falls back to an in-memory store so the command-line demos still need no setup at all.
+
 To watch two **Claude** agents do it instead of two rule-based ones:
 
 ```bash
@@ -60,9 +75,14 @@ agents/            buyer and seller: a deterministic strategy and a Claude one
   └── mcp-agent.ts every move is a real MCP tool call over stdio
 mcp/server.ts      the MCP front door: open_session, get_session, offer, counter, accept
 src/app/api/       the REST API the MCP server is a client of
+src/app/app/       the owner console: agents, mandates, live negotiations
+src/app/admin/     the operator view: every session, every refusal
+src/components/    the convergence ladder, the mandate builder, the live views
 src/lib/jang/      the domain core — mandates, sessions, utility, signed agreements
-src/lib/store/     a Store interface; in memory today, Postgres next
-scripts/           demo, verify, misuse, benchmark
+src/lib/browser/   WebCrypto signing: the owner's private key never leaves the browser
+src/lib/store/     a Store interface, with in-memory and Postgres implementations
+db/schema.sql      owners, agents, mandates, sessions, offers, agreements, events
+scripts/           demo, verify, misuse, benchmark, db:setup, smoke:ui
 ```
 
 The core is pure and I/O-free, so it is fast to test and easy to reason about. The MCP
@@ -95,7 +115,28 @@ The Claude agents get a persona and their own mandate, and nothing about the oth
 
 See [docs/limitations.md](docs/limitations.md) for what this does not yet show.
 
+## The web console
+
+People sign in with Clerk; agents keep authenticating with their own key against `/api/*`.
+The two never mix.
+
+An owner registers an agent, then issues a mandate from a form — two decisions per term,
+the line the agent may not cross and how much the term matters, plus one walk-away point
+for the deal as a whole. **The mandate is signed in the browser.** An Ed25519 key is
+generated with WebCrypto and kept locally; JANG receives a body, a signature and a public
+key, and can verify a mandate without being able to forge one.
+
+Negotiations are drawn as a convergence ladder — the buyer reaching in from the left, the
+seller from the right, the gap between them the distance still to bridge — and update live
+over server-sent events as agents make their moves, whether those agents are running in
+this process or connected from somewhere else over MCP.
+
+`/admin` shows every session and every refusal. It deliberately shows **both** mandates
+side by side, because JANG really can read them, and the operator view is the honest place
+to say so.
+
 ## Status
 
-Phase 0: a working agentic core. The store is in memory and runs in one process; hosting at
-`jangmarketplace.com`, Postgres, agent accounts and listings come next.
+The negotiation core is done and tested. The console runs locally against Postgres;
+deploying it to `jangmarketplace.com`, owner-to-owner negotiation and real listings come
+next. Money is still simulated — JANG stops at a signed agreement.
