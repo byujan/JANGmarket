@@ -29,6 +29,10 @@ const reps = Number(arg("reps", "3"));
 const seed = Number(arg("seed", "20261101"));
 const dry = process.argv.includes("--dry");
 const model = process.env.JANG_LLM_MODEL; // default: whatever llm-strategy.ts uses
+// Each agent's turn budget. Waiting for the other side costs turns (get_session
+// polls), so the demo's 40 is too tight for a 12-round session. Same for every
+// case and condition.
+const maxTurns = Number(arg("max-turns", "80"));
 
 const base = loadScenario();
 
@@ -57,7 +61,7 @@ for (const kind of ["ordinary", "narrow"] as CaseName[]) plan.push({ kind, ...fi
 // Asymmetric = the ordinary market with a stubborn seller, as in run.ts.
 plan.push({ kind: "asymmetric", index: plan[0].index, market: plan[0].market });
 
-console.log(`HW7 Claude agents: seed ${seed}, ${reps} repetitions, model ${model ?? "(llm-strategy default)"}`);
+console.log(`HW7 Claude agents: seed ${seed}, ${reps} repetitions, ${maxTurns} turns per agent, model ${model ?? "(llm-strategy default)"}`);
 for (const p of plan) console.log(`  ${p.kind.padEnd(10)} market #${p.index}  ceiling ${p.market.buyer.constraints.price?.max}  floor ${p.market.seller.constraints.price?.min}`);
 if (dry) process.exit(0);
 
@@ -76,16 +80,18 @@ try {
         const truth = groundTruth(setup.buyer.mandate, setup.seller.mandate, market);
         const suffix = condition === "priceOnly" ? PRICE_ONLY : "";
         const started = Date.now();
-        let runs: LlmRunResult[] = [];
-        let error: string | undefined;
-        try {
-          runs = await Promise.all([
-            runLlmAgent({ role: "seller", persona: SELLER + (p.kind === "asymmetric" ? STUBBORN : "") + suffix, apiUrl: BASE_URL, apiKey: setup.seller.apiKey, sessionId: setup.sessionId, model }),
-            runLlmAgent({ role: "buyer", persona: BUYER + suffix, apiUrl: BASE_URL, apiKey: setup.buyer.apiKey, sessionId: setup.sessionId, model }),
-          ]);
-        } catch (e) {
-          error = String(e);
-        }
+        // Both agents always run to their own end, so neither is left running
+        // in the background and both agents' usage is counted.
+        const settled = await Promise.allSettled([
+          runLlmAgent({ role: "seller", persona: SELLER + (p.kind === "asymmetric" ? STUBBORN : "") + suffix, apiUrl: BASE_URL, apiKey: setup.seller.apiKey, sessionId: setup.sessionId, model, maxTurns }),
+          runLlmAgent({ role: "buyer", persona: BUYER + suffix, apiUrl: BASE_URL, apiKey: setup.buyer.apiKey, sessionId: setup.sessionId, model, maxTurns }),
+        ]);
+        const runs: LlmRunResult[] = settled.flatMap((r) => (r.status === "fulfilled" ? [r.value] : []));
+        const errors = [
+          ...settled.flatMap((r) => (r.status === "rejected" ? [String(r.reason)] : [])),
+          ...runs.flatMap((r) => (r.error ? [`${r.label}: ${r.error}`] : [])),
+        ];
+        const error = errors.length ? errors.join(" | ") : undefined;
         const ms = Date.now() - started;
 
         const view = await new JangClient(BASE_URL, setup.buyer.apiKey).getSession(setup.sessionId);
@@ -106,6 +112,7 @@ try {
         const usage = runs.map((r) => r.usage).filter(Boolean) as NonNullable<LlmRunResult["usage"]>[];
         const sum = (k: keyof (typeof usage)[number]) => usage.reduce((a, u) => a + (u[k] as number), 0);
         const record = {
+          maxTurns,
           case: p.kind,
           marketIndex: p.index,
           condition,
