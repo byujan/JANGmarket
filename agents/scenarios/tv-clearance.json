@@ -1,10 +1,10 @@
 {
   "scenarioId": "tv-clearance",
-  "title": "Clearance 65-inch OLED television, last season's model",
+  "title": "Clearance 65-inch OLED television, last season's model (late 2026)",
   "itemSpec": {
     "itemId": "item-tv-65oled",
     "title": "65-inch OLED television (clearance)",
-    "description": "A retailer is clearing last season's panels before the new models land. Price is not the only lever: delivery date, warranty length and a bundled soundbar are all on the table.",
+    "description": "A retailer is clearing last season's 65-inch OLED panels ahead of Black Friday, after the new models launched in spring. Street prices for this class sit around 1,100 to 1,350 USD. Price is not the only lever: delivery speed, total warranty length (12 months from the manufacturer, extendable by the retailer) and a bundled soundbar are all on the table.",
     "dimensions": [
       {
         "key": "price",
@@ -28,7 +28,7 @@
         "key": "warrantyMonths",
         "label": "Warranty",
         "unit": "months",
-        "min": 0,
+        "min": 12,
         "max": 48,
         "step": 6,
         "buyerPrefers": "high"
@@ -47,10 +47,10 @@
     "agentId": "agent-buyer-nova",
     "ownerId": "owner-dana",
     "role": "buyer",
-    "persona": "You shop for a household that has budgeted 1,500 USD for a television. You care most about price, then about being covered by a long warranty, then about getting it soon. A soundbar is a nice extra but not worth much.",
+    "persona": "You shop for a household that has watched this TV's price for months and knows it has sold for around 1,100 to 1,250 USD on sale. You will not pay more than 1,300 USD and would love to get it under 1,000. You care most about price, then about a longer warranty, because a repair on a 65-inch OLED is expensive. A soundbar is a nice extra but not worth much to you, and you can wait a few weeks for delivery.",
     "constraints": {
       "price": {
-        "max": 1500
+        "max": 1300
       },
       "deliveryDays": {
         "max": 30
@@ -59,35 +59,35 @@
     "preferences": {
       "price": {
         "weight": 5,
-        "ideal": 900,
-        "worst": 1500
+        "ideal": 999,
+        "worst": 1300
       },
       "deliveryDays": {
-        "weight": 2,
-        "ideal": 2,
+        "weight": 1,
+        "ideal": 3,
         "worst": 30
       },
       "warrantyMonths": {
-        "weight": 2,
+        "weight": 3,
         "ideal": 36,
-        "worst": 0
+        "worst": 12
       },
       "bundle": {
-        "weight": 1,
+        "weight": 1.5,
         "ideal": 1,
         "worst": 0
       }
     },
-    "reservationUtility": 0.3
+    "reservationUtility": 0.2
   },
   "seller": {
     "agentId": "agent-seller-hanbit",
     "ownerId": "owner-hanbit-electronics",
     "role": "seller",
-    "persona": "You clear inventory for an electronics retailer. The panel cost you 1,180 USD and you may not sell below that. You would much rather extend the warranty or ship later than cut the price, because warehouse space is what you are really short of.",
+    "persona": "You clear inventory for an electronics retailer. After vendor support, each panel cost you about 1,050 USD and you may not sell below that. The new models are already on the floor, so you want these gone before Black Friday. Extending the warranty is cheap for you, because few panels fail in their second or third year, so you would much rather add warranty than cut the price. Bundling a soundbar costs you real money, and expedited delivery costs a little more than standard delivery.",
     "constraints": {
       "price": {
-        "min": 1180
+        "min": 1050
       },
       "warrantyMonths": {
         "max": 36
@@ -96,21 +96,21 @@
     "preferences": {
       "price": {
         "weight": 5,
-        "ideal": 1900,
-        "worst": 1180
+        "ideal": 1349,
+        "worst": 1050
       },
       "deliveryDays": {
-        "weight": 2,
+        "weight": 0.7,
         "ideal": 30,
-        "worst": 2
+        "worst": 3
       },
       "warrantyMonths": {
-        "weight": 2,
-        "ideal": 0,
+        "weight": 1.2,
+        "ideal": 12,
         "worst": 36
       },
       "bundle": {
-        "weight": 1,
+        "weight": 2.2,
         "ideal": 0,
         "worst": 1
       }
@@ -120,8 +120,8 @@
   "fixedPriceBaseline": {
     "label": "Posted shelf price, take it or leave it",
     "terms": {
-      "price": 1499,
-      "deliveryDays": 21,
+      "price": 1349,
+      "deliveryDays": 14,
       "warrantyMonths": 12,
       "bundle": 0
     }
