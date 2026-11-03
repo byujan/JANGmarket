@@ -1,0 +1,59 @@
+{
+  "scenarioId": "cambridge-rental",
+  "title": "Cambridge apartment lease, January move-in",
+  "itemSpec": {
+    "itemId": "lease-cambridge-jan",
+    "title": "Studio or one-bedroom in Cambridge, lease from 1 January",
+    "description": "A property manager near Central Square has a studio and a one-bedroom sitting empty off-cycle, months after the 1 September rush. A graduate student with a car needs a place from January. Rent is not the only lever: which unit, how long the lease runs, weeks of free rent and an off-street parking space are all on the table. Under Massachusetts law since August 2025 the landlord pays any broker it hired, so the broker fee is not negotiable here.",
+    "dimensions": [
+      { "key": "rent", "label": "Monthly rent", "unit": "USD", "min": 1800, "max": 4000, "step": 25, "buyerPrefers": "low" },
+      { "key": "unitType", "label": "One-bedroom (not studio)", "min": 0, "max": 1, "step": 1, "buyerPrefers": "high" },
+      { "key": "leaseMonths", "label": "Lease length", "unit": "months", "min": 6, "max": 24, "step": 1, "buyerPrefers": "low" },
+      { "key": "freeWeeks", "label": "Free rent", "unit": "weeks", "min": 0, "max": 8, "step": 1, "buyerPrefers": "high" },
+      { "key": "parking", "label": "Parking space included", "min": 0, "max": 1, "step": 1, "buyerPrefers": "high" }
+    ]
+  },
+  "buyer": {
+    "agentId": "agent-tenant-mira",
+    "ownerId": "owner-student-alex",
+    "role": "buyer",
+    "persona": "You are finding a place for a graduate student who starts in Cambridge in January and has a car. They will not sign for more than 2,900 USD a month in rent and would be delighted at 2,400. A one-bedroom is worth a few hundred dollars a month more to them than a studio. Off-street parking matters, because street parking near Central Square is scarce. They may take an internship elsewhere, so a shorter lease is better, and they will not sign for more than 15 months. A few weeks of free rent is welcome.",
+    "constraints": {
+      "rent": { "max": 2900 },
+      "leaseMonths": { "max": 15 }
+    },
+    "preferences": {
+      "rent": { "weight": 5, "ideal": 2400, "worst": 2900 },
+      "unitType": { "weight": 3, "ideal": 1, "worst": 0 },
+      "leaseMonths": { "weight": 1, "ideal": 9, "worst": 15 },
+      "freeWeeks": { "weight": 2.2, "ideal": 4, "worst": 0 },
+      "parking": { "weight": 2, "ideal": 1, "worst": 0 }
+    },
+    "reservationUtility": 0.35
+  },
+  "seller": {
+    "agentId": "agent-landlord-kestrel",
+    "ownerId": "owner-central-sq-properties",
+    "role": "seller",
+    "persona": "You lease apartments for a property manager near Central Square. Two units have sat empty since the autumn, and every empty month costs you a month of rent. You may not go below 2,450 USD a month in rent, because the headline rent sets next year's renewals and the building's valuation. That is also why you would much rather give a few weeks of free rent than lower the monthly figure, and you will not give more than four. You prefer longer leases, which mean fewer vacancies, and you will not sign for fewer than nine months. An off-street parking space could be rented to someone else for about 175 USD a month. The one-bedroom has been empty longer, so you would slightly rather fill it.",
+    "constraints": {
+      "rent": { "min": 2450 },
+      "leaseMonths": { "min": 9 },
+      "freeWeeks": { "max": 4 }
+    },
+    "preferences": {
+      "rent": { "weight": 5, "ideal": 2950, "worst": 2450 },
+      "unitType": { "weight": 0.5, "ideal": 1, "worst": 0 },
+      "leaseMonths": { "weight": 1.5, "ideal": 20, "worst": 9 },
+      "freeWeeks": { "weight": 1.1, "ideal": 0, "worst": 4 },
+      "parking": { "weight": 1.75, "ideal": 0, "worst": 1 }
+    },
+    "reservationUtility": 0.3
+  },
+  "fixedPriceBaseline": {
+    "label": "Listed one-bedroom, 12-month lease, parking extra",
+    "terms": { "rent": 2850, "unitType": 1, "leaseMonths": 12, "freeWeeks": 0, "parking": 0 }
+  },
+  "maxRounds": 12,
+  "mandateTtlSeconds": 3600
+}
