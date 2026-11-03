@@ -8,10 +8,17 @@
 import { McpAgent } from "../agents/mcp-agent.ts";
 import { JangClient } from "../src/lib/client.ts";
 import { provision } from "../src/lib/demo/provision.ts";
-import { BASE_URL, colour, ensureServer, loadScenario } from "./common.ts";
+import { BASE_URL, colour, ensureServer, loadScenario, money } from "./common.ts";
 
 const c = colour;
 const scenario = loadScenario();
+
+// The limits being probed come from the scenario file, so editing the market
+// does not silently break these checks.
+const sellerFloor = scenario.seller.constraints.price?.min ?? 0;
+const buyerCeiling = scenario.buyer.constraints.price?.max ?? 0;
+const belowFloorPrice = sellerFloor - 80;
+const overCeilingPrice = buyerCeiling + 300;
 
 type Probe = { name: string; expectation: string; passed: boolean; observed: string };
 const probes: Probe[] = [];
@@ -33,17 +40,17 @@ try {
   await Promise.all([seller.connect(), buyer.connect()]);
 
   console.log(`\n${c.bold}Probing the limits of delegated authority${c.reset}`);
-  console.log(`${c.dim}seller floor $1,180 · buyer ceiling $1,500 · neither agent is told the other's figure${c.reset}\n`);
+  console.log(`${c.dim}seller floor ${money(sellerFloor)} · buyer ceiling ${money(buyerCeiling)} · neither agent is told the other's figure${c.reset}\n`);
 
   // 1. The seller's own agent tries to sell below the floor its owner set.
   const belowFloor = await seller.callRaw("offer", {
-    terms: { price: 1100, deliveryDays: 10, warrantyMonths: 12, bundle: 0 },
+    terms: { price: belowFloorPrice, deliveryDays: 10, warrantyMonths: 12, bundle: 0 },
     note: "Desperate to clear stock.",
   });
   record(
-    "the seller's agent offers $1,100, below its owner's $1,180 floor",
+    `the seller's agent offers ${money(belowFloorPrice)}, below its owner's ${money(sellerFloor)} floor`,
     "MANDATE_VIOLATION naming the price limit",
-    belowFloor.isError && belowFloor.text.includes("MANDATE_VIOLATION") && belowFloor.text.includes("1180"),
+    belowFloor.isError && belowFloor.text.includes("MANDATE_VIOLATION") && belowFloor.text.includes(String(sellerFloor)),
     belowFloor.text,
   );
 
@@ -61,23 +68,23 @@ try {
 
   // 3. The buyer's agent tries to accept a package above its owner's ceiling.
   //    Turn order has to be respected to get there: the buyer counters lawfully,
-  //    then the seller asks $1,600 — lawful for the seller, impossible for the buyer.
+  //    then the seller asks above the buyer's ceiling — lawful for the seller, impossible for the buyer.
   await buyer.callRaw("counter", {
     terms: { price: 1200, deliveryDays: 5, warrantyMonths: 36, bundle: 1 },
     note: "This is the shape of deal I am looking for.",
   });
   const sellerAsk = await seller.callRaw("counter", {
-    terms: { price: 1600, deliveryDays: 10, warrantyMonths: 12, bundle: 0 },
+    terms: { price: overCeilingPrice, deliveryDays: 10, warrantyMonths: 12, bundle: 0 },
     note: "Final price.",
   });
   if (sellerAsk.isError) {
-    console.log(`${c.red}setup problem: the seller's $1,600 ask was itself refused — ${sellerAsk.text.split("\n")[0]}${c.reset}`);
+    console.log(`${c.red}setup problem: the seller's ${money(overCeilingPrice)} ask was itself refused — ${sellerAsk.text.split("\n")[0]}${c.reset}`);
   }
   const overCeiling = await buyer.callRaw("accept", {});
   record(
-    "the buyer's agent accepts a $1,600 package over its owner's $1,500 ceiling",
+    `the buyer's agent accepts a ${money(overCeilingPrice)} package over its owner's ${money(buyerCeiling)} ceiling`,
     "MANDATE_VIOLATION naming the price limit",
-    overCeiling.isError && overCeiling.text.includes("MANDATE_VIOLATION") && overCeiling.text.includes("1500"),
+    overCeiling.isError && overCeiling.text.includes("MANDATE_VIOLATION") && overCeiling.text.includes(String(buyerCeiling)),
     overCeiling.text,
   );
 
@@ -98,7 +105,7 @@ try {
   //    seller's mandate, which holds the floor the seller is bargaining over.
   const view = await buyer.callRaw("get_session", {});
   const sellerSecrets = setup.seller.mandate;
-  const leaks = [sellerSecrets.mandateId, sellerSecrets.signature, "1180"].filter((needle) => view.text.includes(needle));
+  const leaks = [sellerSecrets.mandateId, sellerSecrets.signature, String(sellerFloor)].filter((needle) => view.text.includes(needle));
   record(
     "the buyer's view of the session carries the seller's mandate",
     "no mandate id, signature or floor price anywhere in the payload",
