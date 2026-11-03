@@ -43,8 +43,8 @@ tenant scores it 0.30 against a reservation of 0.35 and walks away.
 
 `JANG_SCENARIO=agents/scenarios/cambridge-rental.json npm run demo`
 
-Agreed in 11 rounds: one-bedroom, $2,775, 14 months, parking included, no free rent.
-Tenant 0.49, landlord 0.56, against reservations of 0.35 and 0.30.
+Agreed in 10 rounds: one-bedroom, $2,775, 12 months, four weeks free, no parking.
+Tenant 0.53, landlord 0.60, against reservations of 0.35 and 0.30.
 
 ## What this tells us
 
@@ -54,10 +54,12 @@ Tenant 0.49, landlord 0.56, against reservations of 0.35 and 0.30.
    studio, but the engine gives one rent floor for both units. In reality the landlord's
    floor depends on which unit it is. This is open question 1 in HENDRICK.md, and a
    real example of why interactions between terms matter.
-3. **The rule agents leave value on the table.** A grid search over both mandates finds
-   that adding four free weeks raises the two sides' combined utility, but the agents
-   traded it away. The Claude agents (`npm run demo:llm`) may find it, which is worth
-   checking when the personas are tightened.
+3. **The agents found the efficient trade.** Free rent is worth more to the tenant than
+   it costs the landlord, so the deal used the full four weeks instead of a lower rent.
+   Parking went the other way: relative to everything else each side cares about, the
+   space costs the landlord slightly more than it is worth to the tenant, so it stayed
+   out. The outcome can vary between runs (an in-process run closed at 14 months with
+   parking and no free rent), so treat one demo as an example, not a benchmark.
 
 ## Sources
 
