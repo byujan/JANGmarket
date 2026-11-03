@@ -1,0 +1,4748 @@
+{
+ "hw7": true,
+ "variant": "base",
+ "seed": 20261028,
+ "maxRounds": 12,
+ "deadlineAware": false,
+ "respectBounds": false,
+ "toughness": {
+  "ordinary": {
+   "buyer": 1.5,
+   "seller": 1.6
+  },
+  "narrow": {
+   "buyer": 1.5,
+   "seller": 1.6
+  },
+  "asymmetric": {
+   "buyer": 1.5,
+   "seller": 4
+  },
+  "nozopa": {
+   "buyer": 1.5,
+   "seller": 1.6
+  }
+ },
+ "caseSize": {
+  "ordinary": 40,
+  "narrow": 40,
+  "asymmetric": 40,
+  "nozopa": 20
+ },
+ "commit": "61a4490",
+ "node": "v22.23.4",
+ "ranAt": "2026-11-03T21:03:42.032Z",
+ "elapsedSeconds": 4.3,
+ "summaries": [
+  {
+   "case": "ordinary",
+   "markets": 40,
+   "feasible": 33,
+   "feasiblePriceOnly": 16,
+   "falseAgreements": 0,
+   "violations": 0,
+   "jangOnlyWins": 8,
+   "priceOnlyOnlyWins": 0,
+   "jang": {
+    "closed": 17,
+    "closingRate": "17/33 (52%, CI 35-67)",
+    "paretoOptimal": "1/17 (6%, CI 1-27)",
+    "meanEfficiency": "0.806",
+    "meanParetoDistance": "0.034",
+    "meanBuyerShare": "0.582",
+    "meanRounds": "11.2",
+    "meanApiCalls": "39.8",
+    "meanMs": "12.3"
+   },
+   "priceOnly": {
+    "closed": 9,
+    "closingRate": "9/33 (27%, CI 15-44)",
+    "paretoOptimal": "0/9 (0%, CI 0-30)",
+    "meanEfficiency": "0.778",
+    "meanParetoDistance": "0.044",
+    "meanBuyerShare": "0.345",
+    "meanRounds": "10.3",
+    "meanApiCalls": "39.4",
+    "meanMs": "9.0"
+   },
+   "posted": {
+    "closed": 2,
+    "closingRate": "2/33 (6%, CI 2-20)",
+    "paretoOptimal": "0/2 (0%, CI 0-66)",
+    "meanEfficiency": "0.755",
+    "meanParetoDistance": "0.052",
+    "meanBuyerShare": "0.163"
+   },
+   "oracle": {
+    "closed": 2,
+    "closingRate": "2/33 (6%, CI 2-20)",
+    "paretoOptimal": "0/2 (0%, CI 0-66)",
+    "meanEfficiency": "0.812",
+    "meanParetoDistance": "0.013",
+    "meanBuyerShare": "0.054"
+   }
+  },
+  {
+   "case": "narrow",
+   "markets": 40,
+   "feasible": 12,
+   "feasiblePriceOnly": 0,
+   "falseAgreements": 0,
+   "violations": 0,
+   "jangOnlyWins": 0,
+   "priceOnlyOnlyWins": 0,
+   "jang": {
+    "closed": 0,
+    "closingRate": "0/12 (0%, CI 0-24)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-",
+    "meanRounds": "11.4",
+    "meanApiCalls": "42.0",
+    "meanMs": "12.6"
+   },
+   "priceOnly": {
+    "closed": 0,
+    "closingRate": "0/12 (0%, CI 0-24)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-",
+    "meanRounds": "10.2",
+    "meanApiCalls": "40.3",
+    "meanMs": "9.4"
+   },
+   "posted": {
+    "closed": 0,
+    "closingRate": "0/12 (0%, CI 0-24)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-"
+   },
+   "oracle": {
+    "closed": 0,
+    "closingRate": "0/12 (0%, CI 0-24)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-"
+   }
+  },
+  {
+   "case": "asymmetric",
+   "markets": 40,
+   "feasible": 33,
+   "feasiblePriceOnly": 16,
+   "falseAgreements": 0,
+   "violations": 0,
+   "jangOnlyWins": 3,
+   "priceOnlyOnlyWins": 1,
+   "jang": {
+    "closed": 12,
+    "closingRate": "12/33 (36%, CI 22-53)",
+    "paretoOptimal": "0/12 (0%, CI 0-24)",
+    "meanEfficiency": "0.828",
+    "meanParetoDistance": "0.032",
+    "meanBuyerShare": "0.450",
+    "meanRounds": "11.2",
+    "meanApiCalls": "40.9",
+    "meanMs": "12.0"
+   },
+   "priceOnly": {
+    "closed": 10,
+    "closingRate": "10/33 (30%, CI 17-47)",
+    "paretoOptimal": "0/10 (0%, CI -0-28)",
+    "meanEfficiency": "0.787",
+    "meanParetoDistance": "0.040",
+    "meanBuyerShare": "0.327",
+    "meanRounds": "11.0",
+    "meanApiCalls": "41.5",
+    "meanMs": "9.3"
+   },
+   "posted": {
+    "closed": 2,
+    "closingRate": "2/33 (6%, CI 2-20)",
+    "paretoOptimal": "0/2 (0%, CI 0-66)",
+    "meanEfficiency": "0.755",
+    "meanParetoDistance": "0.052",
+    "meanBuyerShare": "0.163"
+   },
+   "oracle": {
+    "closed": 2,
+    "closingRate": "2/33 (6%, CI 2-20)",
+    "paretoOptimal": "0/2 (0%, CI 0-66)",
+    "meanEfficiency": "0.812",
+    "meanParetoDistance": "0.013",
+    "meanBuyerShare": "0.054"
+   }
+  },
+  {
+   "case": "nozopa",
+   "markets": 20,
+   "feasible": 0,
+   "feasiblePriceOnly": 0,
+   "falseAgreements": 0,
+   "violations": 0,
+   "jangOnlyWins": 0,
+   "priceOnlyOnlyWins": 0,
+   "jang": {
+    "closed": 0,
+    "closingRate": "0/0 (-%, CI 0-0)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-",
+    "meanRounds": "11.8",
+    "meanApiCalls": "41.4",
+    "meanMs": "12.0"
+   },
+   "priceOnly": {
+    "closed": 0,
+    "closingRate": "0/0 (-%, CI 0-0)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-",
+    "meanRounds": "10.6",
+    "meanApiCalls": "41.2",
+    "meanMs": "9.2"
+   },
+   "posted": {
+    "closed": 0,
+    "closingRate": "0/0 (-%, CI 0-0)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-"
+   },
+   "oracle": {
+    "closed": 0,
+    "closingRate": "0/0 (-%, CI 0-0)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-"
+   }
+  }
+ ],
+ "rows": [
+  {
+   "case": "ordinary",
+   "index": 0,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 5982,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 23.92,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.5754074074074074,
+     "sellerValue": 0.3717295276928305,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.3081369351002379,
+     "efficiency": 0.990618667627958,
+     "buyerShare": 0.6536295538277128
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 7.8,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.43940740740740736,
+     "sellerValue": 0.35643900781515464,
+     "paretoOptimal": false,
+     "paretoDistance": 0.10487374552530022,
+     "surplus": 0.15684641522256199,
+     "efficiency": 0.5042400607361525,
+     "buyerShare": 0.41701563478257075
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 1,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 5406,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 13.71,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4259259259259259,
+     "sellerValue": 0.4067404739673648,
+     "paretoOptimal": false,
+     "paretoDistance": 0.015609638832830557,
+     "surplus": 0.27066639989329067,
+     "efficiency": 0.8631734350983568,
+     "buyerShare": 0.6351949336663402
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 9.04,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.38693957115009747,
+     "sellerValue": 0.4681428126806279,
+     "paretoOptimal": false,
+     "paretoDistance": 0.008034328627302394,
+     "surplus": 0.2930823838307254,
+     "efficiency": 0.9346595222669649,
+     "buyerShare": 0.45359113506760246
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 2,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 15.78,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.57,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 3,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 4857,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.69,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.37891737891737887,
+     "sellerValue": 0.46616424347516794,
+     "paretoOptimal": false,
+     "paretoDistance": 0.08198600801500877,
+     "surplus": 0.2240816223925468,
+     "efficiency": 0.6329287632039848,
+     "buyerShare": 0.5485384191928594
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 8.51,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.32193732193732194,
+     "sellerValue": 0.5689831488150817,
+     "paretoOptimal": false,
+     "paretoDistance": 0.02917310608610431,
+     "surplus": 0.26992047075240366,
+     "efficiency": 0.7624026811867572,
+     "buyerShare": 0.2442842580761717
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.2603988603988604,
+     "sellerValue": 0.6266061980347696,
+     "paretoOptimal": false,
+     "paretoDistance": 0.02335313785094225,
+     "surplus": 0.26600505843363,
+     "efficiency": 0.7513434205035505,
+     "buyerShare": 0.01653675469467788
+    }
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 4,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 330,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 9.72,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.61,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 5,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 3599,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.42,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.44592592592592595,
+     "sellerValue": 0.28775302169797584,
+     "paretoOptimal": false,
+     "paretoDistance": 0.034385317242735254,
+     "surplus": 0.1706789476239018,
+     "efficiency": 0.7108694074351273,
+     "buyerShare": 0.9604343605817375
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.93,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 6,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 4436,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.56,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4867102396514161,
+     "sellerValue": 0.3123471610866569,
+     "paretoOptimal": false,
+     "paretoDistance": 0.05036835981234767,
+     "surplus": 0.11005740073807296,
+     "efficiency": 0.564299654781795,
+     "buyerShare": 0.8332946175030832
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.16,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 7,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 9062,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 13.2,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.5228758169934641,
+     "sellerValue": 0.5206057958351537,
+     "paretoOptimal": false,
+     "paretoDistance": 0.019676124544409195,
+     "surplus": 0.35548161282861773,
+     "efficiency": 0.9215602985052352,
+     "buyerShare": 0.44974426587442734
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 10,
+    "apiCalls": 34,
+    "ms": 7.32,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.39128540305010895,
+     "sellerValue": 0.6080772778020486,
+     "paretoOptimal": false,
+     "paretoDistance": 0.05107932091202805,
+     "surplus": 0.3113626808521575,
+     "efficiency": 0.8071851672616378,
+     "buyerShare": 0.09084390901535033
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 8,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 13.58,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 8.71,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 9,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1129,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 13.16,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 7.2,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 10,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 2477,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 14.09,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 8.08,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 11,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 4976,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 9.72,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4782608695652174,
+     "sellerValue": 0.49017038007863706,
+     "paretoOptimal": false,
+     "paretoDistance": 0.05575312886042055,
+     "surplus": 0.21343124964385446,
+     "efficiency": 0.6360706155467305,
+     "buyerShare": 0.4369597691099062
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.08,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 12,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.93,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.06,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 13,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.96,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.4,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 14,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 742,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.2,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.39,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 15,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 3075,
+   "jang": {
+    "agreed": false,
+    "rounds": 10,
+    "apiCalls": 40,
+    "ms": 10.81,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.26,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 16,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 2816,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 12.67,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.40522875816993464,
+     "sellerValue": 0.3952202603887997,
+     "paretoOptimal": false,
+     "paretoDistance": 0.015772116815607033,
+     "surplus": 0.22344901855873434,
+     "efficiency": 0.9015447109975363,
+     "buyerShare": 0.4306519616448465
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.45,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 17,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 308,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.71,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.1,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 18,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 3029,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.09,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.43478260869565216,
+     "sellerValue": 0.3820445609436436,
+     "paretoOptimal": false,
+     "paretoDistance": 0.006183035348449941,
+     "surplus": 0.20382716963929576,
+     "efficiency": 0.9013471966350703,
+     "buyerShare": 0.44048400836128293
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.6,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 19,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1306,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.64,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 11.25,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 20,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 6420,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.17,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.45679012345679015,
+     "sellerValue": 0.3749055177626607,
+     "paretoOptimal": false,
+     "paretoDistance": 0.027207168265238987,
+     "surplus": 0.2636956412194508,
+     "efficiency": 0.7853971159801987,
+     "buyerShare": 0.5452882072370935
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.11,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 21,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 4316,
+   "jang": {
+    "agreed": true,
+    "rounds": 10,
+    "apiCalls": 34,
+    "ms": 8.89,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.41904761904761906,
+     "sellerValue": 0.5264847512038523,
+     "paretoOptimal": false,
+     "paretoDistance": 0.12339603973753628,
+     "surplus": 0.2825323702514713,
+     "efficiency": 0.6087396089471128,
+     "buyerShare": 0.3505708707269915
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 9,
+    "apiCalls": 31,
+    "ms": 6,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4659611992945326,
+     "sellerValue": 0.6355745793948041,
+     "paretoOptimal": false,
+     "paretoDistance": 0.005132069300224947,
+     "surplus": 0.4385357786893367,
+     "efficiency": 0.9448619929499006,
+     "buyerShare": 0.33283760730029976
+    }
+   },
+   "posted": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.418342151675485,
+     "sellerValue": 0.6596516259437608,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0051320693002248246,
+     "surplus": 0.4149937776192458,
+     "efficiency": 0.8941387837385659,
+     "buyerShare": 0.2369725932751534
+    }
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 22,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 10907,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.74,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.47953216374269003,
+     "sellerValue": 0.5835881753312946,
+     "paretoOptimal": false,
+     "paretoDistance": 0.03422359122747483,
+     "surplus": 0.32812033907398463,
+     "efficiency": 0.8497950835332471,
+     "buyerShare": 0.3734366607339799
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 10,
+    "apiCalls": 34,
+    "ms": 7.28,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.43079922027290446,
+     "sellerValue": 0.5399252463472648,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0993569330375705,
+     "surplus": 0.23572446662016927,
+     "efficiency": 0.610500078622524,
+     "buyerShare": 0.313074078949215
+    }
+   },
+   "posted": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.37816764132553604,
+     "sellerValue": 0.5949711179068978,
+     "paretoOptimal": false,
+     "paretoDistance": 0.09935693303757041,
+     "surplus": 0.23813875923243388,
+     "efficiency": 0.6167528272265979,
+     "buyerShare": 0.08888784586668443
+    }
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 23,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 81,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 14.14,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.48,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 24,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.71,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 11.1,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 25,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 4297,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.81,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4333333333333334,
+     "sellerValue": 0.3529411764705883,
+     "paretoOptimal": false,
+     "paretoDistance": 0.03213406264862828,
+     "surplus": 0.2712745098039217,
+     "efficiency": 0.8315674351656649,
+     "buyerShare": 0.6426454644018792
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.3,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 26,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 319,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 13.32,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 8.94,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 27,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 10,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.92,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.63,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 28,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.37,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.4,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 29,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 362,
+   "jang": {
+    "agreed": false,
+    "rounds": 10,
+    "apiCalls": 40,
+    "ms": 11.38,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.73,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 30,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 1291,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.98,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.12,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 31,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1864,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 13.97,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.18,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 32,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 4196,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.52,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.5431111111111111,
+     "sellerValue": 0.37688408696812065,
+     "paretoOptimal": false,
+     "paretoDistance": 0.007440371099248821,
+     "surplus": 0.16999519807923175,
+     "efficiency": 0.9332106093290748,
+     "buyerShare": 0.9300916313966604
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 8.55,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 33,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 252,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.97,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 8.08,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 34,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.76,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.28,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 35,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 12837,
+   "jang": {
+    "agreed": true,
+    "rounds": 10,
+    "apiCalls": 34,
+    "ms": 8.38,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.5331384015594542,
+     "sellerValue": 0.5094863983752873,
+     "paretoOptimal": false,
+     "paretoDistance": 0.012053988477462146,
+     "surplus": 0.47162479993474155,
+     "efficiency": 0.9196226930315642,
+     "buyerShare": 0.5091725490107435
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 9,
+    "apiCalls": 31,
+    "ms": 6.82,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.46588693957115007,
+     "sellerValue": 0.5757041312596868,
+     "paretoOptimal": false,
+     "paretoDistance": 0.003453929977689003,
+     "surplus": 0.47059107083083684,
+     "efficiency": 0.9176070213736499,
+     "buyerShare": 0.367382532919537
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.33430799220272905,
+     "sellerValue": 0.6839292394847951,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0034539299776888814,
+     "surplus": 0.44723723168752416,
+     "efficiency": 0.8720692963673082,
+     "buyerShare": 0.0923625970200758
+    }
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 36,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 4326,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.16,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.45855379188712525,
+     "sellerValue": 0.45225959904859003,
+     "paretoOptimal": false,
+     "paretoDistance": 0.03575103410505623,
+     "surplus": 0.2428133909357153,
+     "efficiency": 0.8074402073542047,
+     "buyerShare": 0.4470667431841303
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 8.64,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.48500881834215165,
+     "sellerValue": 0.3747876316683657,
+     "paretoOptimal": false,
+     "paretoDistance": 0.07268234269288193,
+     "surplus": 0.19179645001051737,
+     "efficiency": 0.6377908762342218,
+     "buyerShare": 0.7039171910363737
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 37,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 300,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 14.63,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.6,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 38,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1215,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.61,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 7.75,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 39,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 6508,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.42,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.47720797720797725,
+     "sellerValue": 0.39142750253861364,
+     "paretoOptimal": false,
+     "paretoDistance": 0.03343973308154279,
+     "surplus": 0.2986354797465909,
+     "efficiency": 0.8397366425719637,
+     "buyerShare": 0.710591981194089
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 6.71,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.32193732193732194,
+     "sellerValue": 0.5612741168296724,
+     "paretoOptimal": false,
+     "paretoDistance": 0.020240885127995833,
+     "surplus": 0.31321143876699437,
+     "efficiency": 0.8807229543807497,
+     "buyerShare": 0.1817855764191262
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 0,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.36,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.44,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 1,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 12.55,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.27,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 2,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 13.44,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 8.85,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 3,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 107,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 13.81,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.94,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 4,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.56,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.66,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 5,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 23,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 13.58,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 7.75,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 6,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.97,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.84,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 7,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.46,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.36,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 8,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 3,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 14.42,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 8.62,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 9,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.83,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 8.84,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 10,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.15,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.35,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 11,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.55,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 8.77,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 12,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.53,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 8.71,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 13,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 56,
+   "jang": {
+    "agreed": false,
+    "rounds": 10,
+    "apiCalls": 40,
+    "ms": 11.8,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.16,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 14,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 57,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 13.35,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 7.1,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 15,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 20,
+   "jang": {
+    "agreed": false,
+    "rounds": 10,
+    "apiCalls": 40,
+    "ms": 11.8,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.32,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 16,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 144,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.19,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.05,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 17,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 82,
+   "jang": {
+    "agreed": false,
+    "rounds": 10,
+    "apiCalls": 40,
+    "ms": 10.98,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.29,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 18,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.38,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.24,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 19,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 14.51,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 7.83,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 20,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 48,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 14.47,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.96,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 21,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.33,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.2,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 22,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 14.09,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.5,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 23,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.42,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.68,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 24,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 7,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 14.29,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 25,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 14.49,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.38,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 26,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 20,
+   "jang": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.94,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 7,
+    "apiCalls": 31,
+    "ms": 7.57,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 27,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 410,
+   "jang": {
+    "agreed": false,
+    "rounds": 10,
+    "apiCalls": 40,
+    "ms": 10.65,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.3,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 28,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 10,
+    "apiCalls": 40,
+    "ms": 12.19,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.15,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 29,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.01,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.32,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 30,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 11.97,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 7.71,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 31,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.03,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.01,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 32,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 13.53,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.82,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 33,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.5,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.78,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 34,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.72,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.09,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 35,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.6,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.44,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 36,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 13.86,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 7.88,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 37,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 14.13,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.76,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 38,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 14.45,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.55,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 39,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 15.29,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.53,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 0,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 5982,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 13.43,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4768888888888889,
+     "sellerValue": 0.425586136595311,
+     "paretoOptimal": false,
+     "paretoDistance": 0.029158756968535798,
+     "surplus": 0.26347502548419993,
+     "efficiency": 0.8470366547051403,
+     "buyerShare": 0.39050717881061164
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 8.16,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.43940740740740736,
+     "sellerValue": 0.35643900781515464,
+     "paretoOptimal": false,
+     "paretoDistance": 0.10487374552530022,
+     "surplus": 0.15684641522256199,
+     "efficiency": 0.5042400607361525,
+     "buyerShare": 0.41701563478257075
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 1,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 5406,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 12.26,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4512670565302144,
+     "sellerValue": 0.398581654884176,
+     "paretoOptimal": false,
+     "paretoDistance": 0.005998146186505635,
+     "surplus": 0.28784871141439045,
+     "efficiency": 0.9179689873517763,
+     "buyerShare": 0.6853150585976617
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 8.25,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.38693957115009747,
+     "sellerValue": 0.4681428126806279,
+     "paretoOptimal": false,
+     "paretoDistance": 0.008034328627302394,
+     "surplus": 0.2930823838307254,
+     "efficiency": 0.9346595222669649,
+     "buyerShare": 0.45359113506760246
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 2,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.14,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.45,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 3,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 4857,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 13.06,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 8.14,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.32193732193732194,
+     "sellerValue": 0.5689831488150817,
+     "paretoOptimal": false,
+     "paretoDistance": 0.02917310608610431,
+     "surplus": 0.26992047075240366,
+     "efficiency": 0.7624026811867572,
+     "buyerShare": 0.2442842580761717
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.2603988603988604,
+     "sellerValue": 0.6266061980347696,
+     "paretoOptimal": false,
+     "paretoDistance": 0.02335313785094225,
+     "surplus": 0.26600505843363,
+     "efficiency": 0.7513434205035505,
+     "buyerShare": 0.01653675469467788
+    }
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 4,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 330,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 11.05,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.6,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 5,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 3599,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 14.12,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.6,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 6,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 4436,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 11.06,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 8.94,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 7,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 9062,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 9.73,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.5010893246187365,
+     "sellerValue": 0.506286102616378,
+     "paretoOptimal": false,
+     "paretoDistance": 0.045519268697788565,
+     "surplus": 0.3193754272351144,
+     "efficiency": 0.8279576311023612,
+     "buyerShare": 0.43237304076333755
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 7.77,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4226579520697168,
+     "sellerValue": 0.5766224940536868,
+     "paretoOptimal": false,
+     "paretoDistance": 0.05107932091202805,
+     "surplus": 0.3112804461234036,
+     "efficiency": 0.8069719796917522,
+     "buyerShare": 0.1916533878458465
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 8,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.44,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.2,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 9,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1129,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.45,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.67,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 10,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 2477,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 11.48,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.5,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 11,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 4976,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 9.94,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.498389694041868,
+     "sellerValue": 0.5365758943740596,
+     "paretoOptimal": false,
+     "paretoDistance": 0.02694504924196208,
+     "surplus": 0.2799655884159276,
+     "efficiency": 0.8343571264881514,
+     "buyerShare": 0.4050129684988711
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 6.79,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4428341384863124,
+     "sellerValue": 0.6211834376971993,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0038163805275984995,
+     "surplus": 0.3090175761835117,
+     "efficiency": 0.9209382422948517,
+     "buyerShare": 0.1871548511919183
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 12,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.97,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.39,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 13,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.47,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.75,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 14,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 742,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 15.03,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.36,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 15,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 3075,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.19,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4617933723196881,
+     "sellerValue": 0.41121217525711906,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0718515085712719,
+     "surplus": 0.2310055475768072,
+     "efficiency": 0.6855490977807172,
+     "buyerShare": 0.7177029905074611
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.21,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 16,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 2816,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 11.89,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 8.48,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 17,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 308,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.76,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.27,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 18,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 3029,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.3,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.73,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 19,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1306,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.7,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.8,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 20,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 6420,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.72,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.05,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 21,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 4316,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 9.4,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4694885361552028,
+     "sellerValue": 0.6326615540098687,
+     "paretoOptimal": false,
+     "paretoDistance": 0.00709911087095452,
+     "surplus": 0.43915009016507145,
+     "efficiency": 0.946185578375449,
+     "buyerShare": 0.34040420235143704
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 6.78,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4659611992945326,
+     "sellerValue": 0.6355745793948041,
+     "paretoOptimal": false,
+     "paretoDistance": 0.005132069300224947,
+     "surplus": 0.4385357786893367,
+     "efficiency": 0.9448619929499006,
+     "buyerShare": 0.33283760730029976
+    }
+   },
+   "posted": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.418342151675485,
+     "sellerValue": 0.6596516259437608,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0051320693002248246,
+     "surplus": 0.4149937776192458,
+     "efficiency": 0.8941387837385659,
+     "buyerShare": 0.2369725932751534
+    }
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 22,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 10907,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.5,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4814814814814815,
+     "sellerValue": 0.5915732246007476,
+     "paretoOptimal": false,
+     "paretoDistance": 0.027004458002450247,
+     "surplus": 0.3380547060822291,
+     "efficiency": 0.8755239861226031,
+     "buyerShare": 0.3682288080651728
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 5.66,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.46588693957115007,
+     "sellerValue": 0.5032279986408428,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0993569330375705,
+     "surplus": 0.23411493821199286,
+     "efficiency": 0.6063315795531414,
+     "buyerShare": 0.4651003494384119
+    }
+   },
+   "posted": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.37816764132553604,
+     "sellerValue": 0.5949711179068978,
+     "paretoOptimal": false,
+     "paretoDistance": 0.09935693303757041,
+     "surplus": 0.23813875923243388,
+     "efficiency": 0.6167528272265979,
+     "buyerShare": 0.08888784586668443
+    }
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 23,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 81,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 11.39,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.55,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 24,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.68,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.78,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 25,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 4297,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.97,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3871345029239766,
+     "sellerValue": 0.3183940242763773,
+     "paretoOptimal": false,
+     "paretoDistance": 0.08982044096509204,
+     "surplus": 0.1905285272003539,
+     "efficiency": 0.5840479402373966,
+     "buyerShare": 0.6725213531369731
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.15,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 26,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 319,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 13.43,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.93,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 27,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 10,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.76,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.39,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 28,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.25,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.03,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 29,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 362,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.25,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.16,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 30,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 1291,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 13.95,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.97,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 31,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1864,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 8.98,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 32,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 4196,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.75,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3875555555555556,
+     "sellerValue": 0.5020674936641324,
+     "paretoOptimal": false,
+     "paretoDistance": 0.018393705573687042,
+     "surplus": 0.139623049219688,
+     "efficiency": 0.7664787729942759,
+     "buyerShare": 0.01830324985622241
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.27,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 33,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 252,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 13.09,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.76,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 34,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.24,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.97,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 35,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 12837,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 9.43,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.5126705653021443,
+     "sellerValue": 0.5139757361979584,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0213192705926796,
+     "surplus": 0.4556463015001027,
+     "efficiency": 0.888466168262094,
+     "buyerShare": 0.48210764485288987
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 6.73,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.33430799220272905,
+     "sellerValue": 0.6839292394847951,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0034539299776888814,
+     "surplus": 0.44723723168752416,
+     "efficiency": 0.8720692963673082,
+     "buyerShare": 0.0923625970200758
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.33430799220272905,
+     "sellerValue": 0.6839292394847951,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0034539299776888814,
+     "surplus": 0.44723723168752416,
+     "efficiency": 0.8720692963673082,
+     "buyerShare": 0.0923625970200758
+    }
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 36,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 4326,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 9.69,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.47089947089947093,
+     "sellerValue": 0.4531090723751275,
+     "paretoOptimal": false,
+     "paretoDistance": 0.026085704096929327,
+     "surplus": 0.25600854327459843,
+     "efficiency": 0.8513187451050277,
+     "buyerShare": 0.47224779826895247
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 8.48,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.48500881834215165,
+     "sellerValue": 0.3747876316683657,
+     "paretoOptimal": false,
+     "paretoDistance": 0.07268234269288193,
+     "surplus": 0.19179645001051737,
+     "efficiency": 0.6377908762342218,
+     "buyerShare": 0.7039171910363737
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 37,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 300,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.79,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.19,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 38,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1215,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 13.71,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.21,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 39,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 6508,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.19,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4002849002849003,
+     "sellerValue": 0.49243760354871463,
+     "paretoOptimal": false,
+     "paretoDistance": 0.016688913936319005,
+     "surplus": 0.32272250383361495,
+     "efficiency": 0.9074672308917144,
+     "buyerShare": 0.4191988432100438
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 8.02,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.32193732193732194,
+     "sellerValue": 0.5612741168296724,
+     "paretoOptimal": false,
+     "paretoDistance": 0.020240885127995833,
+     "surplus": 0.31321143876699437,
+     "efficiency": 0.8807229543807497,
+     "buyerShare": 0.1817855764191262
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 0,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.27,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.97,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 1,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.07,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 8.2,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 2,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.07,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 8.96,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 3,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.95,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 8.88,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 4,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.72,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 8.07,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 5,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 9.02,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.48,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 6,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 12.13,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 9.15,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 7,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.69,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.18,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 8,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.81,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.14,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 9,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 13.68,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.11,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 10,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.03,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.71,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 11,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.79,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.39,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 12,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.01,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 8.77,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 13,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.45,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 8.89,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 14,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.07,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.02,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 15,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 13.53,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.54,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 16,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 11.86,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 8.91,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 17,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.2,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.43,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 18,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.05,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 9.18,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 19,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 13.67,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 8.9,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  }
+ ]
+}

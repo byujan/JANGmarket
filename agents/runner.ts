@@ -36,6 +36,11 @@ export async function runRuleAgent(input: {
   const pollMs = input.pollMs ?? 80;
   const maxTurns = input.maxTurns ?? 200;
 
+  // A deterministic strategy that is refused will make the same move again on
+  // the same view, so a repeated refusal means it is stuck: stop rather than spin.
+  let lastRefusal = "";
+  let refusalsInARow = 0;
+
   for (let turn = 0; turn < maxTurns; turn += 1) {
     let view: SessionView;
     try {
@@ -86,6 +91,11 @@ export async function runRuleAgent(input: {
         onEvent?.({ kind: "refused", label, code: error.code, detail: error.message });
         if (error.code === "SESSION_CLOSED" || error.code === "ROUND_LIMIT") {
           return { label, toolCalls: agent.callCount, stoppedBecause: error.code };
+        }
+        refusalsInARow = error.code === lastRefusal ? refusalsInARow + 1 : 1;
+        lastRefusal = error.code;
+        if (refusalsInARow >= 3) {
+          return { label, toolCalls: agent.callCount, stoppedBecause: `refused ${decision.action} three times: ${error.code}` };
         }
         await sleep(pollMs);
         continue;
