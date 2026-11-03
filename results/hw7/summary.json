@@ -1,0 +1,2306 @@
+{
+ "Fresh seeds 20261101 + 20261102|base|ordinary": {
+  "markets": 80,
+  "feasible": 58,
+  "feasiblePriceOnly": 31,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 23,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 40,
+   "pareto": 3,
+   "efficiency": 0.7953545694128634,
+   "distance": 0.029280363974048474,
+   "buyerShare": 0.5618574564274218,
+   "rounds": 11.225,
+   "ms": 11.142125000000004
+  },
+  "priceOnly": {
+   "closed": 17,
+   "pareto": 1,
+   "efficiency": 0.793935836422454,
+   "distance": 0.035544072848461616,
+   "buyerShare": 0.33472492708868334,
+   "rounds": 10.075,
+   "ms": 8.911125000000002
+  },
+  "posted": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.8435495918345192,
+   "distance": 0.002251725384840938,
+   "buyerShare": 0.2568628117642584,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.7992829038830246,
+   "distance": 0.01752431079324634,
+   "buyerShare": 0.15957741897434843,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": -0.0022882751210707053,
+  "pairedN": 17,
+  "pairedJangBetter": 6
+ },
+ "Fresh seeds 20261101 + 20261102|base|narrow": {
+  "markets": 80,
+  "feasible": 22,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 11.4375,
+   "ms": 12.370375000000001
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 10.1125,
+   "ms": 9.454874999999998
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Fresh seeds 20261101 + 20261102|base|asymmetric": {
+  "markets": 80,
+  "feasible": 58,
+  "feasiblePriceOnly": 31,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 5,
+  "priceOnlyOnly": 2,
+  "jang": {
+   "closed": 26,
+   "pareto": 0,
+   "efficiency": 0.821890067749951,
+   "distance": 0.026584168092427536,
+   "buyerShare": 0.4781167089531006,
+   "rounds": 11.1125,
+   "ms": 11.408624999999994
+  },
+  "priceOnly": {
+   "closed": 23,
+   "pareto": 2,
+   "efficiency": 0.811436341794689,
+   "distance": 0.027746148408519484,
+   "buyerShare": 0.23150758136618155,
+   "rounds": 11,
+   "ms": 9.128375000000002
+  },
+  "posted": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.8435495918345192,
+   "distance": 0.002251725384840938,
+   "buyerShare": 0.2568628117642584,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.7992829038830246,
+   "distance": 0.01752431079324634,
+   "buyerShare": 0.15957741897434843,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.007028796033799861,
+  "pairedN": 21,
+  "pairedJangBetter": 10
+ },
+ "Fresh seeds 20261101 + 20261102|base|nozopa": {
+  "markets": 40,
+  "feasible": 0,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 11.525,
+   "ms": 11.568000000000001
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 10.175,
+   "ms": 9.416749999999999
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Fresh seeds 20261101 + 20261102|fix|ordinary": {
+  "markets": 80,
+  "feasible": 58,
+  "feasiblePriceOnly": 31,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 17,
+  "priceOnlyOnly": 1,
+  "jang": {
+   "closed": 47,
+   "pareto": 8,
+   "efficiency": 0.7955454980508393,
+   "distance": 0.02633772036151733,
+   "buyerShare": 0.5523759660710689,
+   "rounds": 11.4375,
+   "ms": 10.946750000000002
+  },
+  "priceOnly": {
+   "closed": 31,
+   "pareto": 6,
+   "efficiency": 0.8366159008932664,
+   "distance": 0.024720487795228067,
+   "buyerShare": 0.2722534094591208,
+   "rounds": 11.3375,
+   "ms": 7.6716250000000015
+  },
+  "posted": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.8435495918345192,
+   "distance": 0.002251725384840938,
+   "buyerShare": 0.2568628117642584,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.7992829038830246,
+   "distance": 0.01752431079324634,
+   "buyerShare": 0.15957741897434843,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": -0.029885953225263752,
+  "pairedN": 30,
+  "pairedJangBetter": 9
+ },
+ "Fresh seeds 20261101 + 20261102|fix|narrow": {
+  "markets": 80,
+  "feasible": 22,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 4,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 4,
+   "pareto": 3,
+   "efficiency": 0.9348437131094838,
+   "distance": 0.0007000743251796084,
+   "buyerShare": 0.6306350117524587,
+   "rounds": 12,
+   "ms": 10.898624999999996
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 12,
+   "ms": 7.858499999999997
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Fresh seeds 20261101 + 20261102|fix|asymmetric": {
+  "markets": 80,
+  "feasible": 58,
+  "feasiblePriceOnly": 31,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 12,
+  "priceOnlyOnly": 1,
+  "jang": {
+   "closed": 42,
+   "pareto": 2,
+   "efficiency": 0.7687763221254271,
+   "distance": 0.029023083512745834,
+   "buyerShare": 0.4631221401207339,
+   "rounds": 11.675,
+   "ms": 10.35825
+  },
+  "priceOnly": {
+   "closed": 31,
+   "pareto": 6,
+   "efficiency": 0.822479291463069,
+   "distance": 0.024857974122549926,
+   "buyerShare": 0.21164451063180725,
+   "rounds": 11.6625,
+   "ms": 7.684625
+  },
+  "posted": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.8435495918345192,
+   "distance": 0.002251725384840938,
+   "buyerShare": 0.2568628117642584,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.7992829038830246,
+   "distance": 0.01752431079324634,
+   "buyerShare": 0.15957741897434843,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": -0.0032732844060818,
+  "pairedN": 30,
+  "pairedJangBetter": 13
+ },
+ "Fresh seeds 20261101 + 20261102|fix|nozopa": {
+  "markets": 40,
+  "feasible": 0,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 12,
+   "ms": 10.58275
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 12,
+   "ms": 7.721750000000002
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Fresh seeds 20261101 + 20261102|option1|ordinary": {
+  "markets": 80,
+  "feasible": 58,
+  "feasiblePriceOnly": 31,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 23,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 42,
+   "pareto": 1,
+   "efficiency": 0.712813476502287,
+   "distance": 0.03947391249165264,
+   "buyerShare": 0.3206849757577117,
+   "rounds": 10.8375,
+   "ms": 10.784749999999999
+  },
+  "priceOnly": {
+   "closed": 19,
+   "pareto": 1,
+   "efficiency": 0.7957203979455928,
+   "distance": 0.03211742093105066,
+   "buyerShare": 0.2614927535042703,
+   "rounds": 10.0625,
+   "ms": 8.823749999999999
+  },
+  "posted": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.8435495918345192,
+   "distance": 0.002251725384840938,
+   "buyerShare": 0.2568628117642584,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.7992829038830246,
+   "distance": 0.01752431079324634,
+   "buyerShare": 0.15957741897434843,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": -0.05581587637207025,
+  "pairedN": 19,
+  "pairedJangBetter": 6
+ },
+ "Fresh seeds 20261101 + 20261102|option1|narrow": {
+  "markets": 80,
+  "feasible": 22,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 11.2,
+   "ms": 12.414750000000002
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 10.1125,
+   "ms": 9.490125000000003
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Fresh seeds 20261101 + 20261102|option1|asymmetric": {
+  "markets": 80,
+  "feasible": 58,
+  "feasiblePriceOnly": 31,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 14,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 40,
+   "pareto": 1,
+   "efficiency": 0.756550299330804,
+   "distance": 0.029383329752251698,
+   "buyerShare": 0.2084178904465661,
+   "rounds": 11.05,
+   "ms": 10.791875000000001
+  },
+  "priceOnly": {
+   "closed": 26,
+   "pareto": 2,
+   "efficiency": 0.8090482325010492,
+   "distance": 0.024955584557619315,
+   "buyerShare": 0.17261973390450994,
+   "rounds": 10.9625,
+   "ms": 9.017624999999999
+  },
+  "posted": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.8435495918345192,
+   "distance": 0.002251725384840938,
+   "buyerShare": 0.2568628117642584,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.7992829038830246,
+   "distance": 0.01752431079324634,
+   "buyerShare": 0.15957741897434843,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": -0.015881677349139554,
+  "pairedN": 26,
+  "pairedJangBetter": 8
+ },
+ "Fresh seeds 20261101 + 20261102|option1|nozopa": {
+  "markets": 40,
+  "feasible": 0,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 11.325,
+   "ms": 11.404
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 10.175,
+   "ms": 9.285
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Fresh seeds 20261101 + 20261102|option2|ordinary": {
+  "markets": 80,
+  "feasible": 58,
+  "feasiblePriceOnly": 31,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 25,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 40,
+   "pareto": 3,
+   "efficiency": 0.8227718834108957,
+   "distance": 0.024115853698233897,
+   "buyerShare": 0.511093612552602,
+   "rounds": 22.4625,
+   "ms": 20.211375
+  },
+  "priceOnly": {
+   "closed": 15,
+   "pareto": 1,
+   "efficiency": 0.798863266520864,
+   "distance": 0.032742414876052416,
+   "buyerShare": 0.3286119142208216,
+   "rounds": 19.975,
+   "ms": 15.184999999999999
+  },
+  "posted": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.8435495918345192,
+   "distance": 0.002251725384840938,
+   "buyerShare": 0.2568628117642584,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.7992829038830246,
+   "distance": 0.01752431079324634,
+   "buyerShare": 0.15957741897434843,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.015635499263258704,
+  "pairedN": 15,
+  "pairedJangBetter": 6
+ },
+ "Fresh seeds 20261101 + 20261102|option2|narrow": {
+  "markets": 80,
+  "feasible": 22,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 23.3125,
+   "ms": 23.644000000000002
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 20.3375,
+   "ms": 16.243625
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Fresh seeds 20261101 + 20261102|option2|asymmetric": {
+  "markets": 80,
+  "feasible": 58,
+  "feasiblePriceOnly": 31,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 10,
+  "priceOnlyOnly": 1,
+  "jang": {
+   "closed": 31,
+   "pareto": 0,
+   "efficiency": 0.8131052105449977,
+   "distance": 0.02530340634605963,
+   "buyerShare": 0.3954911996286031,
+   "rounds": 22.7375,
+   "ms": 20.051624999999998
+  },
+  "priceOnly": {
+   "closed": 22,
+   "pareto": 2,
+   "efficiency": 0.8062395265558769,
+   "distance": 0.028813978673349793,
+   "buyerShare": 0.2397770002477784,
+   "rounds": 22.125,
+   "ms": 15.946750000000003
+  },
+  "posted": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.8435495918345192,
+   "distance": 0.002251725384840938,
+   "buyerShare": 0.2568628117642584,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.7992829038830246,
+   "distance": 0.01752431079324634,
+   "buyerShare": 0.15957741897434843,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.014196191022077722,
+  "pairedN": 21,
+  "pairedJangBetter": 12
+ },
+ "Fresh seeds 20261101 + 20261102|option2|nozopa": {
+  "markets": 40,
+  "feasible": 0,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 23.4,
+   "ms": 23.700750000000006
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 20.375,
+   "ms": 16.0045
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Fresh seeds 20261101 + 20261102|fix+option1|ordinary": {
+  "markets": 80,
+  "feasible": 58,
+  "feasiblePriceOnly": 31,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 21,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 52,
+   "pareto": 9,
+   "efficiency": 0.7424105428653804,
+   "distance": 0.032156475137604563,
+   "buyerShare": 0.3153169921139163,
+   "rounds": 11.1625,
+   "ms": 10.565749999999998
+  },
+  "priceOnly": {
+   "closed": 31,
+   "pareto": 6,
+   "efficiency": 0.8299541717228875,
+   "distance": 0.02472048779522807,
+   "buyerShare": 0.23371560839799851,
+   "rounds": 11.25,
+   "ms": 7.558874999999999
+  },
+  "posted": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.8435495918345192,
+   "distance": 0.002251725384840938,
+   "buyerShare": 0.2568628117642584,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.7992829038830246,
+   "distance": 0.01752431079324634,
+   "buyerShare": 0.15957741897434843,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": -0.08390530545083123,
+  "pairedN": 31,
+  "pairedJangBetter": 8
+ },
+ "Fresh seeds 20261101 + 20261102|fix+option1|narrow": {
+  "markets": 80,
+  "feasible": 22,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 5,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 5,
+   "pareto": 5,
+   "efficiency": 0.8965189770674538,
+   "distance": 0,
+   "buyerShare": 0.5365618708499704,
+   "rounds": 11.95,
+   "ms": 10.754999999999999
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 12,
+   "ms": 7.743
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Fresh seeds 20261101 + 20261102|fix+option1|asymmetric": {
+  "markets": 80,
+  "feasible": 58,
+  "feasiblePriceOnly": 31,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 15,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 46,
+   "pareto": 1,
+   "efficiency": 0.7253136689458641,
+   "distance": 0.031008822269214198,
+   "buyerShare": 0.22689558035055785,
+   "rounds": 11.4875,
+   "ms": 10.4455
+  },
+  "priceOnly": {
+   "closed": 31,
+   "pareto": 5,
+   "efficiency": 0.8088558936327511,
+   "distance": 0.025009652375325382,
+   "buyerShare": 0.16516761562273777,
+   "rounds": 11.5875,
+   "ms": 7.71125
+  },
+  "posted": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.8435495918345192,
+   "distance": 0.002251725384840938,
+   "buyerShare": 0.2568628117642584,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.7992829038830246,
+   "distance": 0.01752431079324634,
+   "buyerShare": 0.15957741897434843,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": -0.020320515396143806,
+  "pairedN": 31,
+  "pairedJangBetter": 9
+ },
+ "Fresh seeds 20261101 + 20261102|fix+option1|nozopa": {
+  "markets": 40,
+  "feasible": 0,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 12,
+   "ms": 10.684750000000001
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 12,
+   "ms": 7.7657500000000015
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Fresh seeds 20261101 + 20261102|fix+option2|ordinary": {
+  "markets": 80,
+  "feasible": 58,
+  "feasiblePriceOnly": 31,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 21,
+  "priceOnlyOnly": 1,
+  "jang": {
+   "closed": 51,
+   "pareto": 10,
+   "efficiency": 0.8209766709341977,
+   "distance": 0.01960571556157689,
+   "buyerShare": 0.5181165492711897,
+   "rounds": 22.75,
+   "ms": 19.55375
+  },
+  "priceOnly": {
+   "closed": 31,
+   "pareto": 6,
+   "efficiency": 0.834678626621357,
+   "distance": 0.024706167220884378,
+   "buyerShare": 0.27868358205495175,
+   "rounds": 22.4125,
+   "ms": 14.662875000000005
+  },
+  "posted": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.8435495918345192,
+   "distance": 0.002251725384840938,
+   "buyerShare": 0.2568628117642584,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.7992829038830246,
+   "distance": 0.01752431079324634,
+   "buyerShare": 0.15957741897434843,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": -0.011386949619163337,
+  "pairedN": 30,
+  "pairedJangBetter": 10
+ },
+ "Fresh seeds 20261101 + 20261102|fix+option2|narrow": {
+  "markets": 80,
+  "feasible": 22,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 9,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 9,
+   "pareto": 7,
+   "efficiency": 0.9038587692870568,
+   "distance": 0.0010573137501056677,
+   "buyerShare": 0.5372179270825862,
+   "rounds": 23.9875,
+   "ms": 22.490374999999993
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 24,
+   "ms": 15.643500000000003
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Fresh seeds 20261101 + 20261102|fix+option2|asymmetric": {
+  "markets": 80,
+  "feasible": 58,
+  "feasiblePriceOnly": 31,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 14,
+  "priceOnlyOnly": 1,
+  "jang": {
+   "closed": 44,
+   "pareto": 2,
+   "efficiency": 0.785062103489313,
+   "distance": 0.024569961135357258,
+   "buyerShare": 0.4037826774525797,
+   "rounds": 23.275,
+   "ms": 19.574625000000005
+  },
+  "priceOnly": {
+   "closed": 31,
+   "pareto": 6,
+   "efficiency": 0.8227719511094415,
+   "distance": 0.024857974122549926,
+   "buyerShare": 0.2133928090900599,
+   "rounds": 23.15,
+   "ms": 14.797625000000002
+  },
+  "posted": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.8435495918345192,
+   "distance": 0.002251725384840938,
+   "buyerShare": 0.2568628117642584,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.7992829038830246,
+   "distance": 0.01752431079324634,
+   "buyerShare": 0.15957741897434843,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.01634054847400746,
+  "pairedN": 30,
+  "pairedJangBetter": 18
+ },
+ "Fresh seeds 20261101 + 20261102|fix+option2|nozopa": {
+  "markets": 40,
+  "feasible": 0,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 24,
+   "ms": 23.055999999999994
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 24,
+   "ms": 15.591750000000005
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Tuning seed 20261028|base|ordinary": {
+  "markets": 40,
+  "feasible": 33,
+  "feasiblePriceOnly": 16,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 8,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 17,
+   "pareto": 1,
+   "efficiency": 0.8057601262202838,
+   "distance": 0.03443410106552926,
+   "buyerShare": 0.5822232939792803,
+   "rounds": 11.175,
+   "ms": 11.45475
+  },
+  "priceOnly": {
+   "closed": 9,
+   "pareto": 0,
+   "efficiency": 0.7777744838902843,
+   "distance": 0.043780740143010796,
+   "buyerShare": 0.344970213729583,
+   "rounds": 10.25,
+   "ms": 9.141750000000002
+  },
+  "posted": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.7554458054825819,
+   "distance": 0.05224450116889762,
+   "buyerShare": 0.1629302195709189,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.8117063584354294,
+   "distance": 0.013403533914315566,
+   "buyerShare": 0.05444967585737684,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.04818278276234099,
+  "pairedN": 9,
+  "pairedJangBetter": 5
+ },
+ "Tuning seed 20261028|base|narrow": {
+  "markets": 40,
+  "feasible": 12,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 11.375,
+   "ms": 12.621999999999998
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 10.2,
+   "ms": 9.478749999999998
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Tuning seed 20261028|base|asymmetric": {
+  "markets": 40,
+  "feasible": 33,
+  "feasiblePriceOnly": 16,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 3,
+  "priceOnlyOnly": 1,
+  "jang": {
+   "closed": 12,
+   "pareto": 0,
+   "efficiency": 0.8276964932847256,
+   "distance": 0.032157027808681314,
+   "buyerShare": 0.4503269280766362,
+   "rounds": 11.15,
+   "ms": 11.139750000000001
+  },
+  "priceOnly": {
+   "closed": 10,
+   "pareto": 0,
+   "efficiency": 0.7870989185661801,
+   "distance": 0.039784304181469554,
+   "buyerShare": 0.3269702588178397,
+   "rounds": 11,
+   "ms": 9.260749999999998
+  },
+  "posted": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.7554458054825819,
+   "distance": 0.05224450116889762,
+   "buyerShare": 0.1629302195709189,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.8117063584354294,
+   "distance": 0.013403533914315566,
+   "buyerShare": 0.05444967585737684,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.0875217337699194,
+  "pairedN": 9,
+  "pairedJangBetter": 7
+ },
+ "Tuning seed 20261028|base|nozopa": {
+  "markets": 20,
+  "feasible": 0,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 11.75,
+   "ms": 11.318999999999999
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 10.6,
+   "ms": 9.438500000000001
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Tuning seed 20261028|fix|ordinary": {
+  "markets": 40,
+  "feasible": 33,
+  "feasiblePriceOnly": 16,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 11,
+  "priceOnlyOnly": 1,
+  "jang": {
+   "closed": 26,
+   "pareto": 5,
+   "efficiency": 0.8267492493296797,
+   "distance": 0.025384870077583867,
+   "buyerShare": 0.5603456428308402,
+   "rounds": 11.475,
+   "ms": 10.71925
+  },
+  "priceOnly": {
+   "closed": 16,
+   "pareto": 1,
+   "efficiency": 0.7803156539052104,
+   "distance": 0.03201685305778785,
+   "buyerShare": 0.3061104150123138,
+   "rounds": 11.525,
+   "ms": 7.775500000000001
+  },
+  "posted": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.7554458054825819,
+   "distance": 0.05224450116889762,
+   "buyerShare": 0.1629302195709189,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.8117063584354294,
+   "distance": 0.013403533914315566,
+   "buyerShare": 0.05444967585737684,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": -0.010101534496274793,
+  "pairedN": 15,
+  "pairedJangBetter": 7
+ },
+ "Tuning seed 20261028|fix|narrow": {
+  "markets": 40,
+  "feasible": 12,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 3,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 3,
+   "pareto": 1,
+   "efficiency": 0.8239490017772777,
+   "distance": 0.010768760663527477,
+   "buyerShare": 0.7049139639085892,
+   "rounds": 11.975,
+   "ms": 10.644250000000001
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 12,
+   "ms": 7.715000000000001
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Tuning seed 20261028|fix|asymmetric": {
+  "markets": 40,
+  "feasible": 33,
+  "feasiblePriceOnly": 16,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 7,
+  "priceOnlyOnly": 1,
+  "jang": {
+   "closed": 22,
+   "pareto": 0,
+   "efficiency": 0.7636013281659438,
+   "distance": 0.034390345017549125,
+   "buyerShare": 0.4801029645437543,
+   "rounds": 11.725,
+   "ms": 10.518249999999998
+  },
+  "priceOnly": {
+   "closed": 16,
+   "pareto": 0,
+   "efficiency": 0.7739796791430229,
+   "distance": 0.032255376840762746,
+   "buyerShare": 0.29701456965299916,
+   "rounds": 11.75,
+   "ms": 7.827000000000003
+  },
+  "posted": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.7554458054825819,
+   "distance": 0.05224450116889762,
+   "buyerShare": 0.1629302195709189,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.8117063584354294,
+   "distance": 0.013403533914315566,
+   "buyerShare": 0.05444967585737684,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.017773686515254638,
+  "pairedN": 15,
+  "pairedJangBetter": 8
+ },
+ "Tuning seed 20261028|fix|nozopa": {
+  "markets": 20,
+  "feasible": 0,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 12,
+   "ms": 10.7385
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 12,
+   "ms": 7.686
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Tuning seed 20261028|option1|ordinary": {
+  "markets": 40,
+  "feasible": 33,
+  "feasiblePriceOnly": 16,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 9,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 21,
+   "pareto": 5,
+   "efficiency": 0.8090401681323891,
+   "distance": 0.02956950137624266,
+   "buyerShare": 0.3901813458735611,
+   "rounds": 10.875,
+   "ms": 10.963499999999998
+  },
+  "priceOnly": {
+   "closed": 12,
+   "pareto": 0,
+   "efficiency": 0.7770932954208377,
+   "distance": 0.03623813045718139,
+   "buyerShare": 0.22757933996597365,
+   "rounds": 10.2,
+   "ms": 8.809250000000002
+  },
+  "posted": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.7554458054825819,
+   "distance": 0.05224450116889762,
+   "buyerShare": 0.1629302195709189,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.8117063584354294,
+   "distance": 0.013403533914315566,
+   "buyerShare": 0.05444967585737684,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.04020271194320505,
+  "pairedN": 12,
+  "pairedJangBetter": 7
+ },
+ "Tuning seed 20261028|option1|narrow": {
+  "markets": 40,
+  "feasible": 12,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 10.95,
+   "ms": 11.634500000000003
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 10.2,
+   "ms": 9.316500000000001
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Tuning seed 20261028|option1|asymmetric": {
+  "markets": 40,
+  "feasible": 33,
+  "feasiblePriceOnly": 16,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 6,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 19,
+   "pareto": 0,
+   "efficiency": 0.7754862725680289,
+   "distance": 0.03174299375864208,
+   "buyerShare": 0.24865932671566598,
+   "rounds": 11.1,
+   "ms": 10.789
+  },
+  "priceOnly": {
+   "closed": 13,
+   "pareto": 0,
+   "efficiency": 0.7740800376323347,
+   "distance": 0.03419183955761054,
+   "buyerShare": 0.22632654751716738,
+   "rounds": 11,
+   "ms": 9.03275
+  },
+  "posted": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.7554458054825819,
+   "distance": 0.05224450116889762,
+   "buyerShare": 0.1629302195709189,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.8117063584354294,
+   "distance": 0.013403533914315566,
+   "buyerShare": 0.05444967585737684,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.031503162128958796,
+  "pairedN": 13,
+  "pairedJangBetter": 7
+ },
+ "Tuning seed 20261028|option1|nozopa": {
+  "markets": 20,
+  "feasible": 0,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 11.55,
+   "ms": 10.965
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 10.6,
+   "ms": 9.238999999999999
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Tuning seed 20261028|option2|ordinary": {
+  "markets": 40,
+  "feasible": 33,
+  "feasiblePriceOnly": 16,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 12,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 21,
+   "pareto": 1,
+   "efficiency": 0.8241897070056777,
+   "distance": 0.024032072512163924,
+   "buyerShare": 0.5444166016436727,
+   "rounds": 22.375,
+   "ms": 20.789749999999998
+  },
+  "priceOnly": {
+   "closed": 9,
+   "pareto": 0,
+   "efficiency": 0.7777507963825192,
+   "distance": 0.043780740143010796,
+   "buyerShare": 0.3561712669329715,
+   "rounds": 20.275,
+   "ms": 15.245000000000001
+  },
+  "posted": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.7554458054825819,
+   "distance": 0.05224450116889762,
+   "buyerShare": 0.1629302195709189,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.8117063584354294,
+   "distance": 0.013403533914315566,
+   "buyerShare": 0.05444967585737684,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.09927850448042175,
+  "pairedN": 9,
+  "pairedJangBetter": 5
+ },
+ "Tuning seed 20261028|option2|narrow": {
+  "markets": 40,
+  "feasible": 12,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 22.85,
+   "ms": 23.142500000000005
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 20.1,
+   "ms": 15.606500000000002
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Tuning seed 20261028|option2|asymmetric": {
+  "markets": 40,
+  "feasible": 33,
+  "feasiblePriceOnly": 16,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 5,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 17,
+   "pareto": 1,
+   "efficiency": 0.8154595690723201,
+   "distance": 0.028753882890234478,
+   "buyerShare": 0.41646670781490824,
+   "rounds": 22.9,
+   "ms": 20.047000000000004
+  },
+  "priceOnly": {
+   "closed": 12,
+   "pareto": 0,
+   "efficiency": 0.7832030748416478,
+   "distance": 0.0369793465357978,
+   "buyerShare": 0.2870162249475164,
+   "rounds": 22.25,
+   "ms": 16.053250000000002
+  },
+  "posted": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.7554458054825819,
+   "distance": 0.05224450116889762,
+   "buyerShare": 0.1629302195709189,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.8117063584354294,
+   "distance": 0.013403533914315566,
+   "buyerShare": 0.05444967585737684,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.07695239675279573,
+  "pairedN": 12,
+  "pairedJangBetter": 10
+ },
+ "Tuning seed 20261028|option2|nozopa": {
+  "markets": 20,
+  "feasible": 0,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 23.6,
+   "ms": 23.892999999999997
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 20.9,
+   "ms": 16.033000000000005
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Tuning seed 20261028|fix+option1|ordinary": {
+  "markets": 40,
+  "feasible": 33,
+  "feasiblePriceOnly": 16,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 15,
+  "priceOnlyOnly": 1,
+  "jang": {
+   "closed": 30,
+   "pareto": 7,
+   "efficiency": 0.816336525565717,
+   "distance": 0.023138718273166114,
+   "buyerShare": 0.38892448488275366,
+   "rounds": 11.225,
+   "ms": 10.684749999999998
+  },
+  "priceOnly": {
+   "closed": 16,
+   "pareto": 1,
+   "efficiency": 0.7696411849053394,
+   "distance": 0.03165310504309023,
+   "buyerShare": 0.2276565341070098,
+   "rounds": 11.4,
+   "ms": 7.54725
+  },
+  "posted": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.7554458054825819,
+   "distance": 0.05224450116889762,
+   "buyerShare": 0.1629302195709189,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.8117063584354294,
+   "distance": 0.013403533914315566,
+   "buyerShare": 0.05444967585737684,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": -0.02074230458446032,
+  "pairedN": 15,
+  "pairedJangBetter": 7
+ },
+ "Tuning seed 20261028|fix+option1|narrow": {
+  "markets": 40,
+  "feasible": 12,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 4,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 4,
+   "pareto": 1,
+   "efficiency": 0.6694282877338196,
+   "distance": 0.01473448477577241,
+   "buyerShare": 0.5786529834239645,
+   "rounds": 11.925,
+   "ms": 10.961500000000003
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 12,
+   "ms": 7.775999999999999
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Tuning seed 20261028|fix+option1|asymmetric": {
+  "markets": 40,
+  "feasible": 33,
+  "feasiblePriceOnly": 16,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 7,
+  "priceOnlyOnly": 1,
+  "jang": {
+   "closed": 22,
+   "pareto": 1,
+   "efficiency": 0.7511200678484755,
+   "distance": 0.03050207389965394,
+   "buyerShare": 0.25040152280153166,
+   "rounds": 11.5,
+   "ms": 10.442
+  },
+  "priceOnly": {
+   "closed": 16,
+   "pareto": 0,
+   "efficiency": 0.754986592238218,
+   "distance": 0.032255376840762746,
+   "buyerShare": 0.22145583709265398,
+   "rounds": 11.675,
+   "ms": 7.724499999999999
+  },
+  "posted": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.7554458054825819,
+   "distance": 0.05224450116889762,
+   "buyerShare": 0.1629302195709189,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.8117063584354294,
+   "distance": 0.013403533914315566,
+   "buyerShare": 0.05444967585737684,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.009113022815137069,
+  "pairedN": 15,
+  "pairedJangBetter": 7
+ },
+ "Tuning seed 20261028|fix+option1|nozopa": {
+  "markets": 20,
+  "feasible": 0,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 12,
+   "ms": 10.920000000000002
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 12,
+   "ms": 7.6965
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Tuning seed 20261028|fix+option2|ordinary": {
+  "markets": 40,
+  "feasible": 33,
+  "feasiblePriceOnly": 16,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 13,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 29,
+   "pareto": 4,
+   "efficiency": 0.8349328576991699,
+   "distance": 0.0190608068034094,
+   "buyerShare": 0.5376599453300732,
+   "rounds": 22.775,
+   "ms": 20.10525
+  },
+  "priceOnly": {
+   "closed": 16,
+   "pareto": 1,
+   "efficiency": 0.7803023296820926,
+   "distance": 0.03201685305778785,
+   "buyerShare": 0.31241100743921985,
+   "rounds": 22.8,
+   "ms": 14.89925
+  },
+  "posted": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.7554458054825819,
+   "distance": 0.05224450116889762,
+   "buyerShare": 0.1629302195709189,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.8117063584354294,
+   "distance": 0.013403533914315566,
+   "buyerShare": 0.05444967585737684,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.03247308751568153,
+  "pairedN": 16,
+  "pairedJangBetter": 7
+ },
+ "Tuning seed 20261028|fix+option2|narrow": {
+  "markets": 40,
+  "feasible": 12,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 5,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 5,
+   "pareto": 3,
+   "efficiency": 0.8802441624916433,
+   "distance": 0.0014194276647376946,
+   "buyerShare": 0.6042841349829923,
+   "rounds": 23.925,
+   "ms": 22.480749999999993
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 24,
+   "ms": 15.595999999999998
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ },
+ "Tuning seed 20261028|fix+option2|asymmetric": {
+  "markets": 40,
+  "feasible": 33,
+  "feasiblePriceOnly": 16,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 7,
+  "priceOnlyOnly": 1,
+  "jang": {
+   "closed": 22,
+   "pareto": 2,
+   "efficiency": 0.7918045324641887,
+   "distance": 0.027470947719221817,
+   "buyerShare": 0.4012216199374187,
+   "rounds": 23.475,
+   "ms": 19.774250000000002
+  },
+  "priceOnly": {
+   "closed": 16,
+   "pareto": 0,
+   "efficiency": 0.770924745126438,
+   "distance": 0.03225537684076276,
+   "buyerShare": 0.26885775858509414,
+   "rounds": 23.4,
+   "ms": 14.990000000000004
+  },
+  "posted": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.7554458054825819,
+   "distance": 0.05224450116889762,
+   "buyerShare": 0.1629302195709189,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 2,
+   "pareto": 0,
+   "efficiency": 0.8117063584354294,
+   "distance": 0.013403533914315566,
+   "buyerShare": 0.05444967585737684,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": 0.05438805635846469,
+  "pairedN": 15,
+  "pairedJangBetter": 11
+ },
+ "Tuning seed 20261028|fix+option2|nozopa": {
+  "markets": 20,
+  "feasible": 0,
+  "feasiblePriceOnly": 0,
+  "falseAgreements": 0,
+  "violations": 0,
+  "jangOnly": 0,
+  "priceOnlyOnly": 0,
+  "jang": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 24,
+   "ms": 23.401000000000003
+  },
+  "priceOnly": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": 24,
+   "ms": 15.395500000000002
+  },
+  "posted": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "oracle": {
+   "closed": 0,
+   "pareto": 0,
+   "efficiency": null,
+   "distance": null,
+   "buyerShare": null,
+   "rounds": null,
+   "ms": null
+  },
+  "pairedEffDiff": null,
+  "pairedN": 0,
+  "pairedJangBetter": 0
+ }
+}

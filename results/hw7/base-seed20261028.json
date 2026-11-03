@@ -29,10 +29,10 @@
   "asymmetric": 40,
   "nozopa": 20
  },
- "commit": "61a4490",
+ "commit": "62e6800",
  "node": "v22.23.4",
- "ranAt": "2026-11-03T21:03:42.032Z",
- "elapsedSeconds": 4.3,
+ "ranAt": "2026-11-03T21:15:30.576Z",
+ "elapsedSeconds": 4.1,
  "summaries": [
   {
    "case": "ordinary",
@@ -52,7 +52,7 @@
     "meanBuyerShare": "0.582",
     "meanRounds": "11.2",
     "meanApiCalls": "39.8",
-    "meanMs": "12.3"
+    "meanMs": "11.5"
    },
    "priceOnly": {
     "closed": 9,
@@ -63,7 +63,7 @@
     "meanBuyerShare": "0.345",
     "meanRounds": "10.3",
     "meanApiCalls": "39.4",
-    "meanMs": "9.0"
+    "meanMs": "9.1"
    },
    "posted": {
     "closed": 2,
@@ -111,7 +111,7 @@
     "meanBuyerShare": "-",
     "meanRounds": "10.2",
     "meanApiCalls": "40.3",
-    "meanMs": "9.4"
+    "meanMs": "9.5"
    },
    "posted": {
     "closed": 0,
@@ -148,7 +148,7 @@
     "meanBuyerShare": "0.450",
     "meanRounds": "11.2",
     "meanApiCalls": "40.9",
-    "meanMs": "12.0"
+    "meanMs": "11.1"
    },
    "priceOnly": {
     "closed": 10,
@@ -196,7 +196,7 @@
     "meanBuyerShare": "-",
     "meanRounds": "11.8",
     "meanApiCalls": "41.4",
-    "meanMs": "12.0"
+    "meanMs": "11.3"
    },
    "priceOnly": {
     "closed": 0,
@@ -207,7 +207,7 @@
     "meanBuyerShare": "-",
     "meanRounds": "10.6",
     "meanApiCalls": "41.2",
-    "meanMs": "9.2"
+    "meanMs": "9.4"
    },
    "posted": {
     "closed": 0,
@@ -238,7 +238,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 23.92,
+    "ms": 24.93,
     "violations": 0,
     "q": {
      "buyerValue": 0.5754074074074074,
@@ -254,7 +254,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 7.8,
+    "ms": 8.63,
     "violations": 0,
     "q": {
      "buyerValue": 0.43940740740740736,
@@ -283,7 +283,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 13.71,
+    "ms": 10.42,
     "violations": 0,
     "q": {
      "buyerValue": 0.4259259259259259,
@@ -299,7 +299,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.04,
+    "ms": 8.71,
     "violations": 0,
     "q": {
      "buyerValue": 0.38693957115009747,
@@ -328,7 +328,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 15.78,
+    "ms": 14.74,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -336,7 +336,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.57,
+    "ms": 8.09,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -357,7 +357,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 10.69,
+    "ms": 10.29,
     "violations": 0,
     "q": {
      "buyerValue": 0.37891737891737887,
@@ -373,7 +373,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.51,
+    "ms": 7.08,
     "violations": 0,
     "q": {
      "buyerValue": 0.32193732193732194,
@@ -411,7 +411,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.72,
+    "ms": 12.36,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -419,7 +419,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.61,
+    "ms": 7.87,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -440,7 +440,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 10.42,
+    "ms": 9.39,
     "violations": 0,
     "q": {
      "buyerValue": 0.44592592592592595,
@@ -456,7 +456,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.93,
+    "ms": 12.82,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -477,7 +477,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 11.56,
+    "ms": 11.69,
     "violations": 0,
     "q": {
      "buyerValue": 0.4867102396514161,
@@ -493,7 +493,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.16,
+    "ms": 10.7,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -514,7 +514,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 13.2,
+    "ms": 12.39,
     "violations": 0,
     "q": {
      "buyerValue": 0.5228758169934641,
@@ -530,7 +530,7 @@
     "agreed": true,
     "rounds": 10,
     "apiCalls": 34,
-    "ms": 7.32,
+    "ms": 7.08,
     "violations": 0,
     "q": {
      "buyerValue": 0.39128540305010895,
@@ -559,7 +559,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 13.58,
+    "ms": 11.2,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -567,7 +567,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 8.71,
+    "ms": 8.06,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -588,7 +588,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 13.16,
+    "ms": 13.22,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -596,7 +596,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 7.2,
+    "ms": 7.76,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -617,7 +617,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 46,
-    "ms": 14.09,
+    "ms": 12.93,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -625,7 +625,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 8.08,
+    "ms": 9.46,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -646,7 +646,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.72,
+    "ms": 11.18,
     "violations": 0,
     "q": {
      "buyerValue": 0.4782608695652174,
@@ -662,7 +662,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.08,
+    "ms": 9.11,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -683,7 +683,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.93,
+    "ms": 11.47,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -691,7 +691,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.06,
+    "ms": 8.7,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -712,7 +712,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.96,
+    "ms": 10.68,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -720,7 +720,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.4,
+    "ms": 9.54,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -741,7 +741,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.2,
+    "ms": 10.18,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -749,7 +749,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.39,
+    "ms": 10.47,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -770,7 +770,7 @@
     "agreed": false,
     "rounds": 10,
     "apiCalls": 40,
-    "ms": 10.81,
+    "ms": 10.51,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -778,7 +778,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.26,
+    "ms": 10.29,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -799,7 +799,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 12.67,
+    "ms": 10.01,
     "violations": 0,
     "q": {
      "buyerValue": 0.40522875816993464,
@@ -815,7 +815,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.45,
+    "ms": 10.35,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -836,7 +836,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.71,
+    "ms": 13.69,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -844,7 +844,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.1,
+    "ms": 9.26,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -865,7 +865,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 10.09,
+    "ms": 10.38,
     "violations": 0,
     "q": {
      "buyerValue": 0.43478260869565216,
@@ -881,7 +881,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.6,
+    "ms": 8.62,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -902,7 +902,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.64,
+    "ms": 12.05,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -910,7 +910,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 11.25,
+    "ms": 10.79,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -931,7 +931,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 11.17,
+    "ms": 9.84,
     "violations": 0,
     "q": {
      "buyerValue": 0.45679012345679015,
@@ -947,7 +947,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.11,
+    "ms": 8.96,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -968,7 +968,7 @@
     "agreed": true,
     "rounds": 10,
     "apiCalls": 34,
-    "ms": 8.89,
+    "ms": 9.87,
     "violations": 0,
     "q": {
      "buyerValue": 0.41904761904761906,
@@ -984,7 +984,7 @@
     "agreed": true,
     "rounds": 9,
     "apiCalls": 31,
-    "ms": 6,
+    "ms": 5.24,
     "violations": 0,
     "q": {
      "buyerValue": 0.4659611992945326,
@@ -1022,7 +1022,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 10.74,
+    "ms": 11.13,
     "violations": 0,
     "q": {
      "buyerValue": 0.47953216374269003,
@@ -1038,7 +1038,7 @@
     "agreed": true,
     "rounds": 10,
     "apiCalls": 34,
-    "ms": 7.28,
+    "ms": 6.49,
     "violations": 0,
     "q": {
      "buyerValue": 0.43079922027290446,
@@ -1076,7 +1076,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 46,
-    "ms": 14.14,
+    "ms": 12.56,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1084,7 +1084,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.48,
+    "ms": 10.37,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1105,7 +1105,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.71,
+    "ms": 11.5,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1113,7 +1113,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 11.1,
+    "ms": 11.02,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1134,7 +1134,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 11.81,
+    "ms": 9.68,
     "violations": 0,
     "q": {
      "buyerValue": 0.4333333333333334,
@@ -1150,7 +1150,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.3,
+    "ms": 8.96,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1171,7 +1171,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 46,
-    "ms": 13.32,
+    "ms": 12.4,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1179,7 +1179,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 8.94,
+    "ms": 9.93,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1200,7 +1200,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.92,
+    "ms": 11.27,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1208,7 +1208,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.63,
+    "ms": 9.68,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1229,7 +1229,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.37,
+    "ms": 11.24,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1237,7 +1237,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.4,
+    "ms": 10.11,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1258,7 +1258,7 @@
     "agreed": false,
     "rounds": 10,
     "apiCalls": 40,
-    "ms": 11.38,
+    "ms": 10.59,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1266,7 +1266,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.73,
+    "ms": 10.95,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1287,7 +1287,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.98,
+    "ms": 10.7,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1295,7 +1295,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.12,
+    "ms": 10.75,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1316,7 +1316,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 13.97,
+    "ms": 11.22,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1324,7 +1324,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.18,
+    "ms": 10.48,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1345,7 +1345,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 11.52,
+    "ms": 9.6,
     "violations": 0,
     "q": {
      "buyerValue": 0.5431111111111111,
@@ -1361,7 +1361,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 8.55,
+    "ms": 10.13,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1382,7 +1382,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.97,
+    "ms": 13.42,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1390,7 +1390,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 8.08,
+    "ms": 9.56,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1411,7 +1411,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.76,
+    "ms": 10.85,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1419,7 +1419,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.28,
+    "ms": 8.99,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1440,7 +1440,7 @@
     "agreed": true,
     "rounds": 10,
     "apiCalls": 34,
-    "ms": 8.38,
+    "ms": 9.71,
     "violations": 0,
     "q": {
      "buyerValue": 0.5331384015594542,
@@ -1456,7 +1456,7 @@
     "agreed": true,
     "rounds": 9,
     "apiCalls": 31,
-    "ms": 6.82,
+    "ms": 6.72,
     "violations": 0,
     "q": {
      "buyerValue": 0.46588693957115007,
@@ -1494,7 +1494,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 10.16,
+    "ms": 9.48,
     "violations": 0,
     "q": {
      "buyerValue": 0.45855379188712525,
@@ -1510,7 +1510,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.64,
+    "ms": 7.82,
     "violations": 0,
     "q": {
      "buyerValue": 0.48500881834215165,
@@ -1539,7 +1539,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 14.63,
+    "ms": 11.18,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1547,7 +1547,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.6,
+    "ms": 11.05,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1568,7 +1568,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.61,
+    "ms": 10.06,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1576,7 +1576,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 7.75,
+    "ms": 9.07,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1597,7 +1597,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 11.42,
+    "ms": 8.18,
     "violations": 0,
     "q": {
      "buyerValue": 0.47720797720797725,
@@ -1613,7 +1613,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 6.71,
+    "ms": 6,
     "violations": 0,
     "q": {
      "buyerValue": 0.32193732193732194,
@@ -1642,7 +1642,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.36,
+    "ms": 10.78,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1650,7 +1650,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.44,
+    "ms": 10.05,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1671,7 +1671,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 46,
-    "ms": 12.55,
+    "ms": 11.85,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1679,7 +1679,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.27,
+    "ms": 10.2,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1700,7 +1700,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 13.44,
+    "ms": 13.57,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1708,7 +1708,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 8.85,
+    "ms": 9.28,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1729,7 +1729,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 13.81,
+    "ms": 12.05,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1737,7 +1737,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.94,
+    "ms": 9.87,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1758,7 +1758,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.56,
+    "ms": 11.45,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1766,7 +1766,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.66,
+    "ms": 7.62,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1787,7 +1787,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 46,
-    "ms": 13.58,
+    "ms": 12.74,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1795,7 +1795,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 7.75,
+    "ms": 7.86,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1816,7 +1816,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.97,
+    "ms": 11.57,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1824,7 +1824,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.84,
+    "ms": 10.42,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1845,7 +1845,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.46,
+    "ms": 10.36,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1853,7 +1853,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.36,
+    "ms": 10.1,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1874,7 +1874,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 46,
-    "ms": 14.42,
+    "ms": 13.51,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1882,7 +1882,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 8.62,
+    "ms": 8.68,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1903,7 +1903,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.83,
+    "ms": 11.94,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1911,7 +1911,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 8.84,
+    "ms": 8.77,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1932,7 +1932,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.15,
+    "ms": 9.79,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1940,7 +1940,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.35,
+    "ms": 10.11,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -1961,36 +1961,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.55,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 9,
-    "apiCalls": 37,
-    "ms": 8.77,
-    "violations": 0,
-    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 12,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 10.53,
+    "ms": 11.95,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2011,6 +1982,35 @@
   },
   {
    "case": "narrow",
+   "index": 12,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.51,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 8.93,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
    "index": 13,
    "feasible": true,
    "feasiblePriceOnly": false,
@@ -2019,7 +2019,7 @@
     "agreed": false,
     "rounds": 10,
     "apiCalls": 40,
-    "ms": 11.8,
+    "ms": 11.88,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2027,7 +2027,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.16,
+    "ms": 10.73,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2048,7 +2048,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 13.35,
+    "ms": 10.57,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2056,7 +2056,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 7.1,
+    "ms": 8.78,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2077,7 +2077,7 @@
     "agreed": false,
     "rounds": 10,
     "apiCalls": 40,
-    "ms": 11.8,
+    "ms": 11.34,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2085,7 +2085,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.32,
+    "ms": 9.29,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2106,7 +2106,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.19,
+    "ms": 11.68,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2114,7 +2114,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.05,
+    "ms": 8.73,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2135,7 +2135,7 @@
     "agreed": false,
     "rounds": 10,
     "apiCalls": 40,
-    "ms": 10.98,
+    "ms": 9.29,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2143,7 +2143,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.29,
+    "ms": 8.87,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2164,94 +2164,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.38,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 11,
-    "apiCalls": 43,
-    "ms": 9.24,
-    "violations": 0,
-    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 19,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 46,
-    "ms": 14.51,
-    "violations": 0,
-    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 9,
-    "apiCalls": 37,
-    "ms": 7.83,
-    "violations": 0,
-    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 20,
-   "feasible": true,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 48,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 46,
-    "ms": 14.47,
-    "violations": 0,
-    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 11,
-    "apiCalls": 43,
-    "ms": 10.96,
-    "violations": 0,
-    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 21,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 10.33,
+    "ms": 11.65,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2272,6 +2185,93 @@
   },
   {
    "case": "narrow",
+   "index": 19,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 11.9,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 9,
+    "apiCalls": 37,
+    "ms": 8.79,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 20,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 48,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 46,
+    "ms": 13.91,
+    "violations": 0,
+    "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.42,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 21,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.48,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 11,
+    "apiCalls": 43,
+    "ms": 10.73,
+    "violations": 0,
+    "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
    "index": 22,
    "feasible": false,
    "feasiblePriceOnly": false,
@@ -2280,7 +2280,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 46,
-    "ms": 14.09,
+    "ms": 14.64,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2288,7 +2288,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.5,
+    "ms": 10.87,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2309,7 +2309,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.42,
+    "ms": 13.28,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2317,7 +2317,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.68,
+    "ms": 10.74,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2338,7 +2338,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 14.29,
+    "ms": 12.65,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2346,7 +2346,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9,
+    "ms": 7.81,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2367,7 +2367,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 46,
-    "ms": 14.49,
+    "ms": 13.17,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2375,7 +2375,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.38,
+    "ms": 10.13,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2396,7 +2396,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.94,
+    "ms": 10.2,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2404,7 +2404,7 @@
     "agreed": false,
     "rounds": 7,
     "apiCalls": 31,
-    "ms": 7.57,
+    "ms": 7.69,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2425,7 +2425,7 @@
     "agreed": false,
     "rounds": 10,
     "apiCalls": 40,
-    "ms": 10.65,
+    "ms": 12.25,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2433,7 +2433,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.3,
+    "ms": 9.26,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2454,7 +2454,7 @@
     "agreed": false,
     "rounds": 10,
     "apiCalls": 40,
-    "ms": 12.19,
+    "ms": 11.92,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2462,7 +2462,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.15,
+    "ms": 10.51,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2483,7 +2483,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.01,
+    "ms": 13,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2491,7 +2491,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.32,
+    "ms": 9.42,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2512,7 +2512,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 11.97,
+    "ms": 15.03,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2520,7 +2520,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 7.71,
+    "ms": 9.15,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2541,7 +2541,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.03,
+    "ms": 14.88,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2549,7 +2549,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.01,
+    "ms": 9.28,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2570,7 +2570,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 46,
-    "ms": 13.53,
+    "ms": 15.8,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2578,7 +2578,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.82,
+    "ms": 10.14,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2599,7 +2599,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.5,
+    "ms": 15.04,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2607,7 +2607,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.78,
+    "ms": 8.43,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2628,7 +2628,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.72,
+    "ms": 14.81,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2636,7 +2636,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.09,
+    "ms": 9.54,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2657,7 +2657,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.6,
+    "ms": 14.87,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2665,7 +2665,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.44,
+    "ms": 9.67,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2686,7 +2686,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 13.86,
+    "ms": 14.8,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2694,7 +2694,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 7.88,
+    "ms": 9.5,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2715,7 +2715,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 14.13,
+    "ms": 14.25,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2723,7 +2723,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.76,
+    "ms": 10.65,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2744,7 +2744,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 14.45,
+    "ms": 14.63,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2752,7 +2752,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.55,
+    "ms": 9.72,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2773,7 +2773,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 15.29,
+    "ms": 12.89,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2781,7 +2781,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.53,
+    "ms": 9.5,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2802,7 +2802,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 13.43,
+    "ms": 12.43,
     "violations": 0,
     "q": {
      "buyerValue": 0.4768888888888889,
@@ -2818,7 +2818,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.16,
+    "ms": 8.17,
     "violations": 0,
     "q": {
      "buyerValue": 0.43940740740740736,
@@ -2847,7 +2847,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 12.26,
+    "ms": 8.07,
     "violations": 0,
     "q": {
      "buyerValue": 0.4512670565302144,
@@ -2863,7 +2863,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.25,
+    "ms": 5.86,
     "violations": 0,
     "q": {
      "buyerValue": 0.38693957115009747,
@@ -2892,7 +2892,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.14,
+    "ms": 11.54,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2900,7 +2900,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.45,
+    "ms": 9.85,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2921,7 +2921,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 13.06,
+    "ms": 11.91,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2929,7 +2929,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.14,
+    "ms": 7.8,
     "violations": 0,
     "q": {
      "buyerValue": 0.32193732193732194,
@@ -2967,7 +2967,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 11.05,
+    "ms": 11.57,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2975,7 +2975,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.6,
+    "ms": 10.27,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -2996,7 +2996,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 14.12,
+    "ms": 10.5,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3004,7 +3004,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.6,
+    "ms": 8.78,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3025,7 +3025,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 11.06,
+    "ms": 11.94,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3033,7 +3033,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 8.94,
+    "ms": 9.6,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3054,7 +3054,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.73,
+    "ms": 9.16,
     "violations": 0,
     "q": {
      "buyerValue": 0.5010893246187365,
@@ -3070,7 +3070,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 7.77,
+    "ms": 6.18,
     "violations": 0,
     "q": {
      "buyerValue": 0.4226579520697168,
@@ -3099,7 +3099,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.44,
+    "ms": 11.76,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3107,7 +3107,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.2,
+    "ms": 10.05,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3128,7 +3128,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.45,
+    "ms": 11.65,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3136,7 +3136,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.67,
+    "ms": 9.4,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3157,7 +3157,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 11.48,
+    "ms": 11.98,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3165,7 +3165,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.5,
+    "ms": 8.05,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3186,7 +3186,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.94,
+    "ms": 9.06,
     "violations": 0,
     "q": {
      "buyerValue": 0.498389694041868,
@@ -3202,7 +3202,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 6.79,
+    "ms": 7.96,
     "violations": 0,
     "q": {
      "buyerValue": 0.4428341384863124,
@@ -3231,7 +3231,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.97,
+    "ms": 11.28,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3239,7 +3239,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.39,
+    "ms": 10.01,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3260,7 +3260,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.47,
+    "ms": 13.02,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3268,7 +3268,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.75,
+    "ms": 10.35,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3289,7 +3289,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 15.03,
+    "ms": 12.1,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3297,7 +3297,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.36,
+    "ms": 11.36,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3318,7 +3318,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 10.19,
+    "ms": 11.47,
     "violations": 0,
     "q": {
      "buyerValue": 0.4617933723196881,
@@ -3334,7 +3334,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.21,
+    "ms": 10.23,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3355,7 +3355,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 11.89,
+    "ms": 12.36,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3363,7 +3363,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 8.48,
+    "ms": 10.39,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3384,7 +3384,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.76,
+    "ms": 11.46,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3392,7 +3392,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.27,
+    "ms": 9.1,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3413,7 +3413,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.3,
+    "ms": 13.46,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3421,7 +3421,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.73,
+    "ms": 9.42,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3442,7 +3442,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.7,
+    "ms": 12.11,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3450,7 +3450,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.8,
+    "ms": 9.77,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3471,7 +3471,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.72,
+    "ms": 12.22,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3479,7 +3479,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.05,
+    "ms": 10.42,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3500,7 +3500,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.4,
+    "ms": 8.79,
     "violations": 0,
     "q": {
      "buyerValue": 0.4694885361552028,
@@ -3516,7 +3516,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 6.78,
+    "ms": 8.03,
     "violations": 0,
     "q": {
      "buyerValue": 0.4659611992945326,
@@ -3554,7 +3554,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 10.5,
+    "ms": 9.73,
     "violations": 0,
     "q": {
      "buyerValue": 0.4814814814814815,
@@ -3570,7 +3570,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 5.66,
+    "ms": 5.72,
     "violations": 0,
     "q": {
      "buyerValue": 0.46588693957115007,
@@ -3608,7 +3608,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 11.39,
+    "ms": 11.97,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3616,7 +3616,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.55,
+    "ms": 10.05,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3637,7 +3637,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.68,
+    "ms": 9.9,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3645,7 +3645,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.78,
+    "ms": 8.76,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3666,7 +3666,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 11.97,
+    "ms": 9.51,
     "violations": 0,
     "q": {
      "buyerValue": 0.3871345029239766,
@@ -3682,7 +3682,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.15,
+    "ms": 8.9,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3703,7 +3703,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 13.43,
+    "ms": 11.87,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3711,7 +3711,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.93,
+    "ms": 9.9,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3732,7 +3732,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.76,
+    "ms": 10.68,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3740,7 +3740,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.39,
+    "ms": 9.25,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3761,7 +3761,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.25,
+    "ms": 12.98,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3769,7 +3769,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.03,
+    "ms": 9.89,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3790,7 +3790,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.25,
+    "ms": 9.99,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3798,7 +3798,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.16,
+    "ms": 10.12,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3819,7 +3819,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 13.95,
+    "ms": 11.35,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3827,7 +3827,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.97,
+    "ms": 11.78,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3848,7 +3848,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12,
+    "ms": 12.14,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3856,7 +3856,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 8.98,
+    "ms": 10.17,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3877,7 +3877,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.75,
+    "ms": 9.7,
     "violations": 0,
     "q": {
      "buyerValue": 0.3875555555555556,
@@ -3893,7 +3893,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.27,
+    "ms": 10.02,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3914,7 +3914,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 13.09,
+    "ms": 10.45,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3922,7 +3922,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.76,
+    "ms": 10.51,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3943,7 +3943,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.24,
+    "ms": 11.78,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3951,7 +3951,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.97,
+    "ms": 10.39,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -3972,7 +3972,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.43,
+    "ms": 9.07,
     "violations": 0,
     "q": {
      "buyerValue": 0.5126705653021443,
@@ -3988,7 +3988,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 6.73,
+    "ms": 7.77,
     "violations": 0,
     "q": {
      "buyerValue": 0.33430799220272905,
@@ -4026,7 +4026,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.69,
+    "ms": 10.44,
     "violations": 0,
     "q": {
      "buyerValue": 0.47089947089947093,
@@ -4042,7 +4042,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.48,
+    "ms": 8.23,
     "violations": 0,
     "q": {
      "buyerValue": 0.48500881834215165,
@@ -4071,7 +4071,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.79,
+    "ms": 11.71,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4079,7 +4079,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.19,
+    "ms": 10.22,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4100,7 +4100,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 13.71,
+    "ms": 11.86,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4108,7 +4108,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.21,
+    "ms": 9.9,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4129,7 +4129,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 10.19,
+    "ms": 10.62,
     "violations": 0,
     "q": {
      "buyerValue": 0.4002849002849003,
@@ -4145,7 +4145,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.02,
+    "ms": 7.8,
     "violations": 0,
     "q": {
      "buyerValue": 0.32193732193732194,
@@ -4174,7 +4174,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.27,
+    "ms": 11.48,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4182,7 +4182,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.97,
+    "ms": 10.24,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4203,7 +4203,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.07,
+    "ms": 10.05,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4211,7 +4211,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 8.2,
+    "ms": 9.86,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4232,7 +4232,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.07,
+    "ms": 9.93,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4240,7 +4240,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 8.96,
+    "ms": 9.29,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4261,7 +4261,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.95,
+    "ms": 10.11,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4269,7 +4269,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 8.88,
+    "ms": 9.34,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4290,7 +4290,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.72,
+    "ms": 12.93,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4298,7 +4298,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 8.07,
+    "ms": 8.35,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4319,7 +4319,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.02,
+    "ms": 13.39,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4327,7 +4327,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.48,
+    "ms": 11.2,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4348,7 +4348,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 12.13,
+    "ms": 11.82,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4356,7 +4356,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 9.15,
+    "ms": 8.47,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4377,7 +4377,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.69,
+    "ms": 12.58,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4385,7 +4385,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.18,
+    "ms": 8.93,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4406,7 +4406,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.81,
+    "ms": 11.74,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4414,7 +4414,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.14,
+    "ms": 10.25,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4435,7 +4435,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 46,
-    "ms": 13.68,
+    "ms": 13.48,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4443,7 +4443,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.11,
+    "ms": 10.34,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4464,7 +4464,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.03,
+    "ms": 9.91,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4472,7 +4472,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.71,
+    "ms": 8.11,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4493,7 +4493,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.79,
+    "ms": 11.65,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4501,7 +4501,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.39,
+    "ms": 9.94,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4522,7 +4522,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.01,
+    "ms": 9.9,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4530,7 +4530,7 @@
     "agreed": false,
     "rounds": 9,
     "apiCalls": 37,
-    "ms": 8.77,
+    "ms": 8.59,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4551,7 +4551,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.45,
+    "ms": 11.75,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4559,7 +4559,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 8.89,
+    "ms": 8.76,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4580,7 +4580,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.07,
+    "ms": 11.36,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4588,7 +4588,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.02,
+    "ms": 9.86,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4609,7 +4609,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 46,
-    "ms": 13.53,
+    "ms": 13.25,
     "violations": 0,
     "stoppedBecause": "buyer: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4617,7 +4617,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.54,
+    "ms": 8.03,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4638,7 +4638,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 11.86,
+    "ms": 11.72,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4646,7 +4646,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 8.91,
+    "ms": 9.87,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4667,7 +4667,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.2,
+    "ms": 7.99,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4675,7 +4675,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 10.43,
+    "ms": 10.1,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4696,7 +4696,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.05,
+    "ms": 9.91,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4704,7 +4704,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 9.18,
+    "ms": 9.94,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4725,7 +4725,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 13.67,
+    "ms": 11.43,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },
@@ -4733,7 +4733,7 @@
     "agreed": false,
     "rounds": 11,
     "apiCalls": 43,
-    "ms": 8.9,
+    "ms": 9.3,
     "violations": 0,
     "stoppedBecause": "seller: refused accept three times: MANDATE_VIOLATION"
    },

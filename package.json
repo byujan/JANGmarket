@@ -16,6 +16,10 @@
     "benchmark": "tsx scripts/benchmark.ts",
     "mcp": "tsx mcp/server.ts",
     "demo:llm": "tsx scripts/demo-llm.ts",
+    "hw7": "tsx scripts/hw7/run.ts",
+    "hw7:all": "for s in 20261028 20261101 20261102; do for v in base fix option1 option2 fix+option1 fix+option2; do tsx scripts/hw7/run.ts --seed=$s --variant=$v > /dev/null || exit 1; done; done && tsx scripts/hw7/summarize.ts",
+    "hw7:summary": "tsx scripts/hw7/summarize.ts",
+    "hw7:llm": "tsx scripts/hw7/llm.ts",
     "check": "npm run typecheck && npm test && npm run demo && npm run verify && npm run misuse",
     "db:setup": "tsx scripts/db-setup.ts",
     "smoke:ui": "tsx scripts/ui-smoke.ts"
