@@ -1,0 +1,571 @@
+{
+ "seed": 20261101,
+ "reps": 3,
+ "model": null,
+ "records": [
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 2,
+   "condition": "jang",
+   "rep": 0,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1380,
+    "deliveryDays": 30,
+    "warrantyMonths": 30,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.3782608695652174,
+    "sellerValue": 0.47899159663865554,
+    "paretoOptimal": false,
+    "paretoDistance": 0.031993853387432714,
+    "surplus": 0.14225246620387294,
+    "efficiency": 0.7315146220255709,
+    "buyerShare": 0.0791611552736004
+   },
+   "seconds": 52.331,
+   "toolCalls": 64,
+   "tokens": {
+    "input": 130,
+    "output": 6557,
+    "cacheRead": 4990108,
+    "cacheWrite": 292852
+   },
+   "apiEquivalentUsd": 1.7365
+  },
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 2,
+   "condition": "jang",
+   "rep": 1,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1410,
+    "deliveryDays": 30,
+    "warrantyMonths": 24,
+    "bundle": 1
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.41739130434782606,
+    "sellerValue": 0.3613445378151261,
+    "paretoOptimal": false,
+    "paretoDistance": 0.08931100478249318,
+    "surplus": 0.0637358421629522,
+    "efficiency": 0.32775319636633515,
+    "buyerShare": 0.790627418384017
+   },
+   "seconds": 39.056,
+   "toolCalls": 57,
+   "tokens": {
+    "input": 118,
+    "output": 5949,
+    "cacheRead": 4349986,
+    "cacheWrite": 206409
+   },
+   "apiEquivalentUsd": 1.3206
+  },
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 2,
+   "condition": "jang",
+   "rep": 2,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1450,
+    "deliveryDays": 30,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.3826086956521739,
+    "sellerValue": 0.49579831932773116,
+    "paretoOptimal": false,
+    "paretoDistance": 0.016814835780348335,
+    "surplus": 0.16340701497990512,
+    "efficiency": 0.8402991103721031,
+    "buyerShare": 0.0955203523795683
+   },
+   "seconds": 40.294,
+   "toolCalls": 57,
+   "tokens": {
+    "input": 118,
+    "output": 5834,
+    "cacheRead": 4336550,
+    "cacheWrite": 203471
+   },
+   "apiEquivalentUsd": 1.3064
+  },
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 2,
+   "condition": "priceOnly",
+   "rep": 0,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 11,
+   "terms": {
+    "price": 1220,
+    "deliveryDays": 14,
+    "warrantyMonths": 12,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.3732689210950081,
+    "sellerValue": 0.4357298474945534,
+    "paretoOptimal": false,
+    "paretoDistance": 0.06647091356216879,
+    "surplus": 0.09399876858956152,
+    "efficiency": 0.4833763203592889,
+    "buyerShare": 0.0666915236132599
+   },
+   "seconds": 41.883,
+   "toolCalls": 62,
+   "tokens": {
+    "input": 128,
+    "output": 5998,
+    "cacheRead": 5183987,
+    "cacheWrite": 289809
+   },
+   "apiEquivalentUsd": 1.7381
+  },
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 2,
+   "condition": "priceOnly",
+   "rep": 1,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 12,
+   "terms": {
+    "price": 1220,
+    "deliveryDays": 14,
+    "warrantyMonths": 12,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.3732689210950081,
+    "sellerValue": 0.4357298474945534,
+    "paretoOptimal": false,
+    "paretoDistance": 0.06647091356216879,
+    "surplus": 0.09399876858956152,
+    "efficiency": 0.4833763203592889,
+    "buyerShare": 0.0666915236132599
+   },
+   "seconds": 40.749,
+   "toolCalls": 58,
+   "tokens": {
+    "input": 120,
+    "output": 5793,
+    "cacheRead": 4747802,
+    "cacheWrite": 236240
+   },
+   "apiEquivalentUsd": 1.4783
+  },
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 2,
+   "condition": "priceOnly",
+   "rep": 2,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 11,
+   "terms": {
+    "price": 1220,
+    "deliveryDays": 14,
+    "warrantyMonths": 12,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.3732689210950081,
+    "sellerValue": 0.4357298474945534,
+    "paretoOptimal": false,
+    "paretoDistance": 0.06647091356216879,
+    "surplus": 0.09399876858956152,
+    "efficiency": 0.4833763203592889,
+    "buyerShare": 0.0666915236132599
+   },
+   "seconds": 49.071,
+   "toolCalls": 51,
+   "tokens": {
+    "input": 104,
+    "output": 5651,
+    "cacheRead": 3724653,
+    "cacheWrite": 196402
+   },
+   "apiEquivalentUsd": 1.2151
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 2,
+   "condition": "jang",
+   "rep": 0,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 12,
+   "terms": {
+    "price": 1460,
+    "deliveryDays": 30,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.3739130434782609,
+    "sellerValue": 0.504201680672269,
+    "paretoOptimal": false,
+    "paretoDistance": 0.01681483578034829,
+    "surplus": 0.1631147241505299,
+    "efficiency": 0.8387960431756054,
+    "buyerShare": 0.04238148036152274
+   },
+   "seconds": 53.913,
+   "toolCalls": 81,
+   "tokens": {
+    "input": 166,
+    "output": 8114,
+    "cacheRead": 8242957,
+    "cacheWrite": 344239
+   },
+   "apiEquivalentUsd": 2.283
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 2,
+   "condition": "jang",
+   "rep": 1,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 12,
+   "terms": {
+    "price": 1520,
+    "deliveryDays": 10,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.3861513687600644,
+    "sellerValue": 0.5110488639900406,
+    "paretoOptimal": false,
+    "paretoDistance": 0.0042051132559265,
+    "surplus": 0.182200232750105,
+    "efficiency": 0.9369407641913725,
+    "buyerShare": 0.10511165914003678
+   },
+   "seconds": 67.387,
+   "toolCalls": 71,
+   "tokens": {
+    "input": 144,
+    "output": 8131,
+    "cacheRead": 6586072,
+    "cacheWrite": 285648
+   },
+   "apiEquivalentUsd": 1.8831
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 2,
+   "condition": "jang",
+   "rep": 2,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 11,
+   "terms": {
+    "price": 1580,
+    "deliveryDays": 30,
+    "warrantyMonths": 36,
+    "bundle": 1
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.39999999999999997,
+    "sellerValue": 0.4201680672268909,
+    "paretoOptimal": false,
+    "paretoDistance": 0.0593489658323052,
+    "surplus": 0.10516806722689087,
+    "efficiency": 0.540812971469906,
+    "buyerShare": 0.31378345984818157
+   },
+   "seconds": 58.21,
+   "toolCalls": 74,
+   "tokens": {
+    "input": 152,
+    "output": 8064,
+    "cacheRead": 6855941,
+    "cacheWrite": 287539
+   },
+   "apiEquivalentUsd": 1.917
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 2,
+   "condition": "priceOnly",
+   "rep": 0,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 11,
+   "terms": {
+    "price": 1220,
+    "deliveryDays": 14,
+    "warrantyMonths": 12,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.3732689210950081,
+    "sellerValue": 0.4357298474945534,
+    "paretoOptimal": false,
+    "paretoDistance": 0.06647091356216879,
+    "surplus": 0.09399876858956152,
+    "efficiency": 0.4833763203592889,
+    "buyerShare": 0.0666915236132599
+   },
+   "seconds": 43.816,
+   "toolCalls": 67,
+   "tokens": {
+    "input": 132,
+    "output": 6304,
+    "cacheRead": 5713911,
+    "cacheWrite": 293043
+   },
+   "apiEquivalentUsd": 1.8071
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 2,
+   "condition": "priceOnly",
+   "rep": 1,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 12,
+   "terms": {
+    "price": 1220,
+    "deliveryDays": 14,
+    "warrantyMonths": 12,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.3732689210950081,
+    "sellerValue": 0.4357298474945534,
+    "paretoOptimal": false,
+    "paretoDistance": 0.06647091356216879,
+    "surplus": 0.09399876858956152,
+    "efficiency": 0.4833763203592889,
+    "buyerShare": 0.0666915236132599
+   },
+   "seconds": 44.095,
+   "toolCalls": 67,
+   "tokens": {
+    "input": 130,
+    "output": 6262,
+    "cacheRead": 5595777,
+    "cacheWrite": 267833
+   },
+   "apiEquivalentUsd": 1.694
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 2,
+   "condition": "priceOnly",
+   "rep": 2,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 12,
+   "terms": {
+    "price": 1220,
+    "deliveryDays": 14,
+    "warrantyMonths": 12,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.3732689210950081,
+    "sellerValue": 0.4357298474945534,
+    "paretoOptimal": false,
+    "paretoDistance": 0.06647091356216879,
+    "surplus": 0.09399876858956152,
+    "efficiency": 0.4833763203592889,
+    "buyerShare": 0.0666915236132599
+   },
+   "seconds": 50.483,
+   "toolCalls": 67,
+   "tokens": {
+    "input": 138,
+    "output": 6727,
+    "cacheRead": 6071303,
+    "cacheWrite": 268820
+   },
+   "apiEquivalentUsd": 1.7502
+  }
+ ]
+}
