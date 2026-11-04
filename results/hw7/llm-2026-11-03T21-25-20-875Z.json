@@ -1,0 +1,459 @@
+{
+ "seed": 20261101,
+ "reps": 3,
+ "model": null,
+ "records": [
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 0,
+   "condition": "jang",
+   "rep": 0,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 11,
+   "terms": {
+    "price": 1370,
+    "deliveryDays": 26,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.40155945419103317,
+    "sellerValue": 0.5419062955294839,
+    "paretoOptimal": true,
+    "paretoDistance": 0,
+    "surplus": 0.19246574972051705,
+    "efficiency": 0.9082822712712005,
+    "buyerShare": 0.0444726098199939
+   },
+   "seconds": 49.269,
+   "toolCalls": 61,
+   "tokens": {
+    "input": 126,
+    "output": 6218,
+    "cacheRead": 5058418,
+    "cacheWrite": 228459
+   },
+   "apiEquivalentUsd": 1.4824
+  },
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 0,
+   "condition": "jang",
+   "rep": 1,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 11,
+   "terms": {
+    "price": 1330,
+    "deliveryDays": 26,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.42962962962962964,
+    "sellerValue": 0.5170615750325895,
+    "paretoOptimal": true,
+    "paretoDistance": 0,
+    "surplus": 0.19569120466221918,
+    "efficiency": 0.9235038031260177,
+    "buyerShare": 0.18718076621203134
+   },
+   "seconds": 51.635,
+   "toolCalls": 64,
+   "tokens": {
+    "input": 132,
+    "output": 7262,
+    "cacheRead": 5361922,
+    "cacheWrite": 244541
+   },
+   "apiEquivalentUsd": 1.5875
+  },
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 0,
+   "condition": "jang",
+   "rep": 2,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1330,
+    "deliveryDays": 24,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.4374269005847953,
+    "sellerValue": 0.50954681389464,
+    "paretoOptimal": true,
+    "paretoDistance": 0,
+    "surplus": 0.19597371447943523,
+    "efficiency": 0.9248370203805684,
+    "buyerShare": 0.22669826258488995
+   },
+   "seconds": 49.599,
+   "toolCalls": 56,
+   "tokens": {
+    "input": 116,
+    "output": 6166,
+    "cacheRead": 4201354,
+    "cacheWrite": 200177
+   },
+   "apiEquivalentUsd": 1.283
+  },
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 0,
+   "condition": "priceOnly",
+   "rep": 0,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "seconds": 47.345,
+   "toolCalls": 61,
+   "tokens": {
+    "input": 126,
+    "output": 6206,
+    "cacheRead": 5270974,
+    "cacheWrite": 246987
+   },
+   "apiEquivalentUsd": 1.5776
+  },
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 0,
+   "condition": "priceOnly",
+   "rep": 1,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "seconds": 65.332,
+   "toolCalls": 67,
+   "tokens": {
+    "input": 136,
+    "output": 6638,
+    "cacheRead": 6041361,
+    "cacheWrite": 269978
+   },
+   "apiEquivalentUsd": 1.7511
+  },
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 0,
+   "condition": "priceOnly",
+   "rep": 2,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "seconds": 52.549,
+   "toolCalls": 73,
+   "tokens": {
+    "input": 150,
+    "output": 6981,
+    "cacheRead": 7020347,
+    "cacheWrite": 296341
+   },
+   "apiEquivalentUsd": 1.9578
+  },
+  {
+   "maxTurns": 80,
+   "case": "narrow",
+   "marketIndex": 1,
+   "condition": "jang",
+   "rep": 0,
+   "feasible": true,
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "seconds": 74.303,
+   "toolCalls": 94,
+   "tokens": {
+    "input": 192,
+    "output": 9591,
+    "cacheRead": 10917013,
+    "cacheWrite": 388048
+   },
+   "apiEquivalentUsd": 2.7404
+  },
+  {
+   "maxTurns": 80,
+   "case": "narrow",
+   "marketIndex": 1,
+   "condition": "jang",
+   "rep": 1,
+   "feasible": true,
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "seconds": 69.902,
+   "toolCalls": 70,
+   "tokens": {
+    "input": 140,
+    "output": 7538,
+    "cacheRead": 6195762,
+    "cacheWrite": 271061
+   },
+   "apiEquivalentUsd": 1.7797,
+   "error": "buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York)"
+  },
+  {
+   "maxTurns": 80,
+   "case": "narrow",
+   "marketIndex": 1,
+   "condition": "jang",
+   "rep": 2,
+   "feasible": true,
+   "agreed": false,
+   "status": "open",
+   "rounds": 0,
+   "seconds": 5.162,
+   "toolCalls": 0,
+   "tokens": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+   },
+   "apiEquivalentUsd": 0,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York) | buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York)"
+  },
+  {
+   "maxTurns": 80,
+   "case": "narrow",
+   "marketIndex": 1,
+   "condition": "priceOnly",
+   "rep": 0,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 0,
+   "seconds": 4.524,
+   "toolCalls": 0,
+   "tokens": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+   },
+   "apiEquivalentUsd": 0,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York) | buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York)"
+  },
+  {
+   "maxTurns": 80,
+   "case": "narrow",
+   "marketIndex": 1,
+   "condition": "priceOnly",
+   "rep": 1,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 0,
+   "seconds": 3.865,
+   "toolCalls": 0,
+   "tokens": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+   },
+   "apiEquivalentUsd": 0,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York) | buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York)"
+  },
+  {
+   "maxTurns": 80,
+   "case": "narrow",
+   "marketIndex": 1,
+   "condition": "priceOnly",
+   "rep": 2,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 0,
+   "seconds": 3.877,
+   "toolCalls": 0,
+   "tokens": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+   },
+   "apiEquivalentUsd": 0,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York) | buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York)"
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "condition": "jang",
+   "rep": 0,
+   "feasible": true,
+   "agreed": false,
+   "status": "open",
+   "rounds": 0,
+   "seconds": 3.888,
+   "toolCalls": 0,
+   "tokens": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+   },
+   "apiEquivalentUsd": 0,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York) | buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York)"
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "condition": "jang",
+   "rep": 1,
+   "feasible": true,
+   "agreed": false,
+   "status": "open",
+   "rounds": 0,
+   "seconds": 3.839,
+   "toolCalls": 0,
+   "tokens": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+   },
+   "apiEquivalentUsd": 0,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York) | buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York)"
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "condition": "jang",
+   "rep": 2,
+   "feasible": true,
+   "agreed": false,
+   "status": "open",
+   "rounds": 0,
+   "seconds": 3.969,
+   "toolCalls": 0,
+   "tokens": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+   },
+   "apiEquivalentUsd": 0,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York) | buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York)"
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "condition": "priceOnly",
+   "rep": 0,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 0,
+   "seconds": 3.977,
+   "toolCalls": 0,
+   "tokens": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+   },
+   "apiEquivalentUsd": 0,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York) | buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York)"
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "condition": "priceOnly",
+   "rep": 1,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 0,
+   "seconds": 4.135,
+   "toolCalls": 0,
+   "tokens": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+   },
+   "apiEquivalentUsd": 0,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York) | buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York)"
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "condition": "priceOnly",
+   "rep": 2,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 0,
+   "seconds": 3.915,
+   "toolCalls": 0,
+   "tokens": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+   },
+   "apiEquivalentUsd": 0,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York) | buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 5:30pm (America/New_York)"
+  }
+ ]
+}

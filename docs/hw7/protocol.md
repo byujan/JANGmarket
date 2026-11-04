@@ -62,3 +62,24 @@ node --experimental-transform-types scripts/hw7/run.ts --seed=<seed> --variant=<
 node --experimental-transform-types scripts/hw7/summarize.ts
 ```
 (`npx tsx` works the same on a machine where tsx is installed.)
+
+## Claude-agent runs: what happened and one revision
+
+Planned: 3 cases x 2 conditions x 3 repetitions on fresh seed 20261101, market = first feasible
+market per case. Four batches were run on a Claude subscription; several runs were cut off by the
+5-hour usage limit and are kept in the raw files as incomplete.
+
+**Revision after seeing the first batch.** The selection rule only required a deal to be possible in
+the full four-term market. For ordinary market #0 (also used by asymmetric) the exhaustive search
+finds 1443 possible packages with four terms and none with price only, so the price-only condition
+could not close by construction. The rule now also requires a price-only deal for ordinary and
+asymmetric (market #2). The narrow case keeps the original rule, because no narrow market has a
+price-only deal. The market #0 runs are kept in the results and reported as a separate row, as
+evidence that Claude agents find deals in markets where price-only cannot, not as a closing-rate
+comparison. This changes the selection after results were seen, so it is stated here and in the report.
+
+Re-run only what is missing, for example:
+
+```
+npm run hw7:llm -- --cases=ordinary,asymmetric --reps=3
+```

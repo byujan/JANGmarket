@@ -90,23 +90,31 @@ for (const [label, seeds] of [["Fresh seeds 20261101 + 20261102", FRESH], ["Tuni
   }
 }
 // ---------------------------------------------------------------- Claude agents
-const llmFiles = readdirSync("results/hw7").filter((f) => f.startsWith("llm-") && f.endsWith(".json"));
-const llm = llmFiles.flatMap((f) => JSON.parse(readFileSync(`results/hw7/${f}`, "utf8")).records.map((r: any) => ({ ...r, file: f })));
+const llmFiles = readdirSync("results/hw7").filter((f) => f.startsWith("llm-") && f.endsWith(".json")).sort();
+const llm = llmFiles.flatMap((f) => {
+  const d = JSON.parse(readFileSync(`results/hw7/${f}`, "utf8"));
+  return d.records.map((r: any) => ({ ...r, seed: d.seed, file: f }));
+});
 if (llm.length) {
-  md.push("## Claude agents", "", `From ${llmFiles.join(", ")}. Each row pools the repetitions of one case and condition.`, "");
-  md.push("| case | condition | runs | agreed | violations | mean rounds | efficiency (mean, min-max) | buyer share | mean seconds | mean tokens in/out | mean API-equivalent USD |");
-  md.push("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |");
-  const keys = [...new Set(llm.map((r: any) => `${r.case}|${r.condition}`))];
-  for (const key of keys) {
-    const rs = llm.filter((r: any) => `${r.case}|${r.condition}` === key);
-    const ok = rs.filter((r: any) => r.agreed);
+  md.push("## Claude agents", "");
+  md.push(`Pooled from ${llmFiles.length} files (${llmFiles.join(", ")}). Every negotiation is one row of the raw files and none is dropped. A run that ended in an error (for example the subscription's usage limit) is counted as incomplete and left out of the agreed count and the per-run averages. "Deal possible" is the exhaustive-search check for that condition's own market (price-only markets have the other terms pinned), so a condition whose market had no possible deal cannot close.`, "");
+  md.push("| case | market # | condition | runs | incomplete | deal possible | agreed (of complete) | audit failures | mean rounds | efficiency mean (min-max) | mean seconds | mean tokens in / out | mean API-equivalent USD |");
+  md.push("| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |");
+  const keyOf = (r: any) => `${r.case}|${r.marketIndex}|${r.condition}`;
+  for (const key of [...new Set(llm.map(keyOf))].sort()) {
+    const [kind, idx, cond] = key.split("|");
+    const rs = llm.filter((r: any) => keyOf(r) === key);
+    const done = rs.filter((r: any) => !r.error);
+    const ok = done.filter((r: any) => r.agreed);
     const eff = ok.map((r: any) => r.quality.efficiency);
-    const viol = ok.filter((r: any) => !r.audit.ok).length;
+    const possible = rs.every((r: any) => r.feasible) ? "yes" : rs.some((r: any) => r.feasible) ? "mixed" : "no";
     md.push(
-      `| ${key.replace("|", " | ")} | ${rs.length} | ${ok.length} | ${viol} | ${f(mean(rs.map((r: any) => r.rounds)), 1)} | ${f(mean(eff))} (${eff.length ? `${f(Math.min(...eff))}-${f(Math.max(...eff))}` : "-"}) | ${f(mean(ok.map((r: any) => r.quality.buyerShare)))} | ${f(mean(rs.map((r: any) => r.seconds)), 0)} | ${f(mean(rs.map((r: any) => r.tokens.input + r.tokens.cacheRead + r.tokens.cacheWrite)), 0)} / ${f(mean(rs.map((r: any) => r.tokens.output)), 0)} | ${f(mean(rs.map((r: any) => r.apiEquivalentUsd)), 3)} |`,
+      `| ${kind} | ${idx} | ${cond} | ${rs.length} | ${rs.length - done.length} | ${possible} | ${ok.length}/${done.length} | ${ok.filter((r: any) => !r.audit.ok).length} | ${f(mean(done.map((r: any) => r.rounds)), 1)} | ${eff.length ? `${f(mean(eff))} (${f(Math.min(...eff))}-${f(Math.max(...eff))})` : "-"} | ${f(mean(done.map((r: any) => r.seconds)), 0)} | ${f(mean(done.map((r: any) => r.tokens.input + r.tokens.cacheRead + r.tokens.cacheWrite)), 0)} / ${f(mean(done.map((r: any) => r.tokens.output)), 0)} | ${f(mean(done.map((r: any) => r.apiEquivalentUsd)), 2)} |`,
     );
   }
-  md.push("");
+  const usd = llm.reduce((a: number, r: any) => a + r.apiEquivalentUsd, 0);
+  const secs = llm.reduce((a: number, r: any) => a + r.seconds, 0);
+  md.push("", `Totals over all ${llm.length} negotiations (including incomplete ones): ${f(usd, 2)} USD API-equivalent, ${f(secs / 60, 0)} minutes of wall-clock time.`, "");
 }
 
 writeFileSync("results/hw7/SUMMARY.md", md.join("\n") + "\n");

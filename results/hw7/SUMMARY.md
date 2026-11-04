@@ -116,3 +116,18 @@ Closing rate is over markets where a deal was feasible (exhaustive search). Pare
 | asymmetric | 33/40 | 22/33 (67%) | 50-80% | 16/33 (48%) | 33-65% | 2/33 (6%) | 2/33 (6%) | 7 / 1 | 2/22 (9%) | 0/16 (0%) | 0.79 | 0.77 | 0.054 (15, 11) | 0.40 | 0.27 | 23.5 | 23.4 | 19.8 | 0 | 0 |
 | nozopa | 0/20 | - | - | - | - | - | - | 0 / 0 | - | - | - | - | - (0, 0) | - | - | 24.0 | 24.0 | 23.4 | 0 | 0 |
 
+## Claude agents
+
+Pooled from 4 files (llm-2026-11-03T21-19-43-179Z.json, llm-2026-11-03T21-25-20-875Z.json, llm-2026-11-03T22-30-25-723Z.json, llm-2026-11-03T22-41-30-605Z.json). Every negotiation is one row of the raw files and none is dropped. A run that ended in an error (for example the subscription's usage limit) is counted as incomplete and left out of the agreed count and the per-run averages. "Deal possible" is the exhaustive-search check for that condition's own market (price-only markets have the other terms pinned), so a condition whose market had no possible deal cannot close.
+
+| case | market # | condition | runs | incomplete | deal possible | agreed (of complete) | audit failures | mean rounds | efficiency mean (min-max) | mean seconds | mean tokens in / out | mean API-equivalent USD |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| asymmetric | 0 | jang | 8 | 4 | yes | 4/4 | 0 | 11.3 | 0.92 (0.90-0.94) | 99 | 6496176 / 7120 | 1.81 |
+| asymmetric | 0 | priceOnly | 8 | 6 | no | 0/2 | 0 | 12.0 | - | 61 | 8004491 / 7008 | 2.16 |
+| narrow | 1 | jang | 8 | 3 | yes | 0/5 | 0 | 12.0 | - | 150 | 10438381 / 9961 | 2.57 |
+| narrow | 1 | priceOnly | 8 | 3 | no | 0/5 | 0 | 12.0 | - | 71 | 6874433 / 6992 | 1.88 |
+| ordinary | 0 | jang | 8 | 0 | yes | 8/8 | 0 | 10.4 | 0.92 (0.91-0.94) | 91 | 4792594 / 5774 | 1.61 |
+| ordinary | 0 | priceOnly | 8 | 0 | no | 0/8 | 0 | 12.0 | - | 57 | 6928550 / 6970 | 1.92 |
+
+Totals over all 48 negotiations (including incomplete ones): 63.95 USD API-equivalent, 50 minutes of wall-clock time.
+

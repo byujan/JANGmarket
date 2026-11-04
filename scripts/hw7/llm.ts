@@ -6,13 +6,16 @@
  *   npm run hw7:llm              # 3 cases x 2 conditions x 3 repetitions = 18 negotiations
  *   npm run hw7:llm -- --reps=1  # a quick smoke run
  *   npm run hw7:llm -- --dry     # print the plan, call nothing
+ *   npm run hw7:llm -- --cases=ordinary,asymmetric   # only some cases (and/or --conditions=jang)
  *
  * Needs the JANG server (started automatically) and Claude credentials (a
  * Claude subscription login or ANTHROPIC_API_KEY). Every negotiation is saved
  * as soon as it finishes, so an interrupted run keeps what it has.
  *
- * Market selection is fixed in advance: on fresh seed 20261101, the first
- * feasible market (lowest index) of each case.
+ * Market selection: on fresh seed 20261101, the first feasible market (lowest
+ * index) of each case; for ordinary and asymmetric it must also be feasible
+ * under price-only (see firstFeasible). Every result file records the market
+ * index, so batches on different markets stay distinguishable.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { runLlmAgent, type LlmRunResult } from "../../agents/llm-strategy.ts";
@@ -28,6 +31,9 @@ const arg = (name: string, fallback: string) =>
 const reps = Number(arg("reps", "3"));
 const seed = Number(arg("seed", "20261101"));
 const dry = process.argv.includes("--dry");
+// Re-run only some cases or conditions, e.g. after a usage limit cut a batch short.
+const onlyCases = arg("cases", "").split(",").filter(Boolean);
+const onlyConditions = arg("conditions", "").split(",").filter(Boolean);
 const model = process.env.JANG_LLM_MODEL; // default: whatever llm-strategy.ts uses
 // Each agent's turn budget. Waiting for the other side costs turns (get_session
 // polls), so the demo's 40 is too tight for a 12-round session. Same for every
@@ -36,11 +42,23 @@ const maxTurns = Number(arg("max-turns", "80"));
 
 const base = loadScenario();
 
-function firstFeasible(kind: CaseName): { index: number; market: Scenario } {
+/**
+ * The first market (lowest index) where a deal is possible. With
+ * needPriceOnly, a deal must also be possible when only price is negotiable:
+ * otherwise the price-only condition cannot close by construction and the
+ * comparison says nothing about the agents. (Added after the first Claude
+ * batch, whose ordinary market #0 turned out to have no price-only deal.)
+ */
+function firstFeasible(kind: CaseName, needPriceOnly = false): { index: number; market: Scenario } {
   for (let index = 0; index < 200; index += 1) {
     const market = makeMarket(base, kind, seed, index);
     const truth = groundTruth(issueMandate(market, "buyer"), issueMandate(market, "seller"), market);
-    if (truth.feasible.length) return { index, market };
+    if (!truth.feasible.length) continue;
+    if (needPriceOnly) {
+      const po = priceOnly(market);
+      if (!groundTruth(issueMandate(po, "buyer"), issueMandate(po, "seller"), po).feasible.length) continue;
+    }
+    return { index, market };
   }
   throw new Error(`no feasible ${kind} market`);
 }
@@ -57,7 +75,10 @@ const PRICE_ONLY =
   " In this session only the price is negotiable. Delivery is fixed at 14 days, warranty at 12 months and there is no soundbar; every offer must use exactly those values.";
 
 const plan: { kind: CaseName; index: number; market: Scenario }[] = [];
-for (const kind of ["ordinary", "narrow"] as CaseName[]) plan.push({ kind, ...firstFeasible(kind) });
+// ordinary (and asymmetric, which reuses it): a deal must be possible with and without multi-issue terms.
+// narrow: no price-only deal exists in any narrow market, so it only needs a multi-issue deal.
+plan.push({ kind: "ordinary", ...firstFeasible("ordinary", true) });
+plan.push({ kind: "narrow", ...firstFeasible("narrow") });
 // Asymmetric = the ordinary market with a stubborn seller, as in run.ts.
 plan.push({ kind: "asymmetric", index: plan[0].index, market: plan[0].market });
 
@@ -73,7 +94,9 @@ const records: unknown[] = [];
 const server = await ensureServer();
 try {
   for (const p of plan) {
+    if (onlyCases.length && !onlyCases.includes(p.kind)) continue;
     for (const condition of ["jang", "priceOnly"] as const) {
+      if (onlyConditions.length && !onlyConditions.includes(condition)) continue;
       const market = condition === "jang" ? p.market : priceOnly(p.market);
       for (let rep = 0; rep < reps; rep += 1) {
         const setup = await provision(market, BASE_URL, `-hw7-${stamp}-${p.kind}-${condition}-${rep}`);
