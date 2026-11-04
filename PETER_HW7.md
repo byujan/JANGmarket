@@ -1,6 +1,6 @@
 # HW7 인수인계 메모 (Hendrick → Peter)
 
-작성일: 2026-11-03 (화). **마감: 2026-11-04 (수) 11:59 PM ET.** 팀원 각자 Canvas에 PDF를 업로드해야 합니다.
+작성일: 2026-11-03 (화). **마감: 2026-11-04 (수) 11:59 PM ET.** Canvas에는 팀에서 한 명이 PDF를 업로드하면 됩니다.
 브랜치: `hendrick/hw7-benchmark` (로컬 커밋만 있고 **push는 아직 안 했습니다**).
 
 ## 1. 지금 상태 (한 줄 요약)
@@ -23,11 +23,11 @@
 ## 3. Peter가 해야 할 일
 
 1. **PDF 읽고 확인하기.** `docs/hw7/HW7_report.pdf`. 틀린 문장이나 고치고 싶은 해석이 있으면 `docs/hw7/HW7_report.md`를 고치면 됩니다. 숫자를 바꿀 때는 `results/hw7/SUMMARY.md`와 맞는지 확인하세요.
-2. **6번 섹션 "Team and contributions" 채우기.** 지금은 `[To be written by Hendrick Jung and Peter Jang.]`라는 자리표시자뿐입니다. 둘이 같이 쓰고, 각자 무엇을 했는지 구체적으로 적으세요. 참고: HW7 실험과 보고서는 Hendrick이 대부분 했고, HW6(JANG 엔진 본체)는 Peter가 대부분 했습니다. 이 내용은 둘이 확인한 뒤 각자 표현으로 쓰세요.
-3. **저장소 공개 설정 바꾸기.** 저장소 `github.com/byujan/JANGmarket`가 **PRIVATE**입니다. 채점자가 증거 링크를 열 수 없으니 둘 중 하나를 하세요. (a) public으로 전환하거나, (b) 채점자(교수·조교)에게 접근 권한을 줍니다. `.env.local`(Clerk 비밀키)은 2026-11-03에 확인했을 때 모든 브랜치의 git 이력에 없었습니다(`git log --all -- .env.local` 결과 없음). 공개 직전에 한 번 더 확인하면 안전합니다.
-4. **브랜치 push.** 보고서가 인용한 커밋(`62e6800`, `ee52691`, `0b0ba0d`)이 원격에 있어야 링크가 열립니다. `git push -u origin hendrick/hw7-benchmark`. 공개 후에는 보고서 7번 섹션에 저장소 URL을 한 줄 추가하면 좋습니다.
+2. **6번 섹션 "Team and contributions" 채우기.** 지금은 `[To be written by Hendrick Jung and Peter Jang.]`라는 자리표시자뿐입니다. 두 사람이 각자 무엇을 했는지 구체적으로 적으세요.
+3. **저장소 공개 설정 바꾸기.** 저장소 `github.com/byujan/JANGmarket`가 **PRIVATE**입니다. 채점자가 증거 링크를 열 수 없으니 둘 중 하나를 하세요. (a) public으로 전환하거나, (b) 채점자(교수·조교)에게 접근 권한을 줍니다. Hendrick 계정(`Hendrick-Jung`)은 이 저장소에 push 권한만 있고 admin 권한은 없어서, **공개 전환과 권한 부여는 저장소 소유자인 Peter만 할 수 있습니다.** `.env.local`(Clerk 비밀키)은 2026-11-03에 확인했을 때 모든 브랜치의 git 이력에 없었습니다(`git log --all -- .env.local` 결과 없음). 공개 직전에 한 번 더 확인하면 안전합니다.
+4. **브랜치 받기.** 브랜치는 Hendrick이 같은 저장소(`byujan/JANGmarket`)로 push합니다(`git push -u origin hendrick/hw7-benchmark`). 보고서가 인용한 커밋(`62e6800`, `ee52691`, `0b0ba0d`)이 원격에 있어야 링크가 열리기 때문입니다. Hendrick이 push했다고 알려주면 Peter는 `git fetch origin && git checkout hendrick/hw7-benchmark`로 받아서 6번 섹션을 채우고, 같은 브랜치에 커밋하면 됩니다. 공개 후에는 보고서 7번 섹션에 저장소 URL을 한 줄 추가하면 좋습니다.
 
-그다음 **PDF를 다시 만들고** Canvas에 업로드하세요(각자 업로드).
+그다음 **PDF를 다시 만들고** Canvas에 업로드하세요(팀에서 한 명만 올리면 됩니다).
 
 ## 4. 수정한 뒤 PDF 다시 만드는 법
 
