@@ -31,6 +31,28 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { width: "device-width", initialScale: 1 };
 
+/*
+ * Clerk ships its own prebuilt screens with a light default, which rendered as
+ * invisible text on this page's dark background. These map its variables onto
+ * the same tokens the rest of the interface uses.
+ */
+const clerkAppearance = {
+  variables: {
+    colorBackground: "#1b2430",
+    colorForeground: "#e6ebf1",
+    colorText: "#e6ebf1",
+    colorNeutral: "#8798a9",
+    colorInput: "#0f151d",
+    colorPrimary: "#e0a03c",
+    colorDanger: "#c65a5a",
+    colorSuccess: "#6fbf73",
+    colorWarning: "#e0a03c",
+    borderRadius: "4px",
+    fontFamily: "var(--font-sans), system-ui, sans-serif",
+  },
+} as const;
+
+
 /** Navigation only exists once there is an account to navigate. */
 async function Rail() {
   const owner = await currentOwner();
@@ -48,7 +70,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <body>
-        <ClerkProvider>
+        <ClerkProvider appearance={clerkAppearance}>
           <header className="topbar">
             <Link href="/" className="wordmark">
               JANG<span className="mark">場</span>
