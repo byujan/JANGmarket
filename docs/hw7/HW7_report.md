@@ -95,8 +95,17 @@ The fix helped both sides and helped price-only more, so the closing-rate lead s
 
 ## 6. Team and contributions
 
-[To be written by Hendrick Jung and Peter Jang.]
+**Hendrick Jung** designed and ran the study: the pre-committed protocol, the benchmark
+harness with its price-only baseline and exhaustive-search ground truth, all 5,100
+negotiations, the diagnosis of the dominant failure mode and the bounds fix for it, the
+market design, and this report. **Peter Jang** built JANG itself — the negotiation core,
+the REST and MCP interfaces, the agent harnesses and the console — and for this homework
+reviewed and merged the experimental work and fixed a fault it exposed in the older
+benchmark, whose coarse feasibility oracle could call a real agreement impossible once
+the researched economics narrowed the zones. Both of us used Claude Code for
+implementation and drafting; every number comes from the raw files in section 7.
 
 ## 7. Evidence
 
-Repository `JANGmarket`, branch `hendrick/hw7-benchmark`. Protocol: `docs/hw7/protocol.md` (commit `62e6800`, before the fresh seeds). Fresh-seed rule-agent results: commit `ee52691`. Complete Claude-agent batch and final summary: commit `0b0ba0d`. Raw results: `results/hw7/*-seed*.json` (rule agents, 18 files) and `results/hw7/llm-*.json` (Claude agents, 5 files). Pooled tables: `results/hw7/SUMMARY.md`, `results/hw7/summary.json`. Code: `scripts/hw7/`, `agents/rule-strategy.ts`, `agents/runner.ts`.
+Repository github.com/byujan/JANGmarket, branch `main` (merged from
+`hendrick/hw7-benchmark`). Protocol: `docs/hw7/protocol.md` (commit `62e6800`, before the fresh seeds). Fresh-seed rule-agent results: commit `ee52691`. Complete Claude-agent batch and final summary: commit `0b0ba0d`. Raw results: `results/hw7/*-seed*.json` (rule agents, 18 files) and `results/hw7/llm-*.json` (Claude agents, 5 files). Pooled tables: `results/hw7/SUMMARY.md`, `results/hw7/summary.json`. Code: `scripts/hw7/`, `agents/rule-strategy.ts`, `agents/runner.ts`.
