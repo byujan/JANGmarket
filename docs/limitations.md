@@ -5,7 +5,7 @@ Honest accounting of the Phase 0 prototype, in rough order of how much it matter
 ## 1. Mandate privacy is a trust assumption, not a guarantee
 
 JANG holds both mandates in plaintext in order to validate offers against them. The
-counterparty never sees them — that part is enforced in one place and tested — but **the
+counterparty never sees them, which is enforced in one place and tested, but **the
 operator could**. The current design protects agents from each other, not owners from
 JANG. The operator view at `/admin/sessions/[id]` prints both mandates side by side, which
 is this limitation stated out loud rather than hidden.
@@ -43,8 +43,8 @@ than one instance. Postgres is the first Phase 1 task, before any hosting that m
 
 ## 5. Agent registration, and what a key can do
 
-Owners register agents through the console, and `POST /api/agents` — the unauthenticated
-route the command-line demos use — is now closed unless `JANG_OPEN_REGISTRATION=true` or
+Owners register agents through the console, and `POST /api/agents`, the unauthenticated
+route the command-line demos use, is now closed unless `JANG_OPEN_REGISTRATION=true` or
 no database is configured. What is still missing is revocation: a leaked agent key is good
 until the mandate expires, and there is no way to withdraw one.
 
@@ -58,11 +58,11 @@ no schema change and has not been built.
 ## 6. The benchmark compares against a simple seller
 
 The posted-price baseline is drawn blind, which flatters negotiation. We also report an
-oracle baseline that posts the midpoint of the two private limits — negotiation still wins
+oracle baseline that posts the midpoint of the two private limits, and negotiation still wins
 (80% against 36%), because a single price cannot trade delivery against warranty. But
 neither baseline is an adaptive seller, and a real retailer runs promotions and segments.
 
 ## 7. Settlement is out of scope
 
 JANG stops at a signed agreement. Nothing is paid. Handing the agreement to a payment
-step — human-approved first, agent-native rails later — is Phase 3.
+step, human-approved first and agent-native rails later, is Phase 3.

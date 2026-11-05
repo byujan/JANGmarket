@@ -39,11 +39,11 @@ export function Pulse() {
   return (
     <>
       <span className={`stat-seg${active ? " stat-live" : ""}`}>
-        <span className="stat-value mono">{counts ? counts.negotiating : "—"}</span>
+        <span className="stat-value mono">{counts ? counts.negotiating : "\u2026"}</span>
         <span className="stat-label">negotiating</span>
       </span>
       <span className="stat-seg">
-        <span className="stat-value mono">{counts ? counts.agreed : "—"}</span>
+        <span className="stat-value mono">{counts ? counts.agreed : "\u2026"}</span>
         <span className="stat-label">agreed</span>
       </span>
     </>

@@ -17,7 +17,7 @@ export default async function Agents() {
         <h1>Agents</h1>
         <p>
           An agent is whoever does the bargaining for you. Registering one here creates that identity and nothing
-          more — it is a name, not a program you have to go and write.
+          more: it is a name, not a program you have to go and write.
         </p>
       </div>
 
@@ -30,7 +30,7 @@ export default async function Agents() {
         </p>
         <p>
           <strong>Bring your own.</strong> Registering also gives you an API key. Point your own software at JANG with
-          it — over MCP or the REST API — and it can open sessions and make offers itself. Either way the mandate is
+          it, over MCP or the REST API, and it can open sessions and make offers itself. Either way the mandate is
           enforced by JANG, not by the agent.
         </p>
       </div>
@@ -61,7 +61,7 @@ export default async function Agents() {
               {agents.map((agent) => (
                 <tr key={agent.agentId}>
                   <td className="mono small">{agent.agentId}</td>
-                  <td className="mute">{agent.label ?? "—"}</td>
+                  <td className="mute">{agent.label ?? "not set"}</td>
                   <td className="small faint">{new Date(agent.createdAt).toLocaleDateString()}</td>
                 </tr>
               ))}

@@ -6,8 +6,8 @@
  * the other two without ever being able to produce one itself.
  *
  * The key lives in localStorage, which is a real tradeoff. Clearing site data
- * loses it, and any script on this origin can read it. The alternative — a
- * non-extractable WebCrypto key — cannot be backed up or carried to another
+ * loses it, and any script on this origin can read it. The alternative, a
+ * non-extractable WebCrypto key, cannot be backed up or carried to another
  * device, which is worse for a person who owns their own mandates.
  */
 import { canonicalJson } from "../jang/canonical.ts";

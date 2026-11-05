@@ -85,7 +85,7 @@ export default async function Console() {
               {agents.map((agent) => (
                 <tr key={agent.agentId}>
                   <td className="mono small">{agent.agentId}</td>
-                  <td className="mute">{agent.label ?? "—"}</td>
+                  <td className="mute">{agent.label ?? "not set"}</td>
                   <td className="mono small">
                     {mandates.filter((mandate) => mandate.agentId === agent.agentId).length}
                   </td>
@@ -102,7 +102,7 @@ export default async function Console() {
           <div className="empty">
             <strong>You have not set any limits yet</strong>
             Until you do, your agent has no authority to act. <Link href="/app/mandates/new">Set your limits</Link>{" "}
-            — your budget, what matters most, and when to walk away.
+            Set your budget, what matters most, and when to walk away.
           </div>
         ) : (
           <table className="table">

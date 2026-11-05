@@ -68,7 +68,7 @@ try {
     } else if (event.kind === "accept") {
       console.log(`\n${who} ${c.green}${c.bold}accepts.${c.reset} JANG signed agreement ${event.agreement.agreementId}`);
     } else if (event.kind === "refused") {
-      console.log(`\n${who} ${c.red}refused by JANG — ${event.code}${c.reset}`);
+      console.log(`\n${who} ${c.red}refused by JANG: ${event.code}${c.reset}`);
     } else {
       console.log(`\n${who} ${c.dim}stops: ${event.reason}${c.reset}`);
     }
@@ -135,7 +135,7 @@ try {
       toolCalls: agents.buyer.callCount + agents.seller.callCount,
     };
     writeFileSync(".tmp/last-run.json", `${JSON.stringify(artefact, null, 2)}\n`);
-    console.log(`${c.dim}Saved to .tmp/last-run.json — run \`npm run verify\` to check it independently.${c.reset}`);
+    console.log(`${c.dim}Saved to .tmp/last-run.json. Run \`npm run verify\` to check it independently.${c.reset}`);
     if (!audit.ok) process.exitCode = 1;
   }
 } finally {

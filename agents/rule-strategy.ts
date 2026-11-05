@@ -4,7 +4,7 @@
  * It concedes on a time schedule: it opens near its own ideal and walks its
  * target utility down toward its reservation value as the rounds run out. Among
  * all packages that still meet today's target, it picks the one closest to what
- * the counterparty last asked for — which is how it finds trades that are
+ * the counterparty last asked for, which is how it finds trades that are
  * cheap for it and valuable for them, rather than only haggling on price.
  *
  * Being deterministic is the point: the benchmark needs runs it can repeat.

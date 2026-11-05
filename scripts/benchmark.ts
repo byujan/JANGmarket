@@ -197,7 +197,7 @@ const oracleOnFeasible = feasible.filter((row) => row.oracleAccepted).length;
 const beyondTheGrid = rows.filter((row) => row.jangAgreed && !row.foundOnGrid).length;
 const totalViolations = rows.reduce((sum, row) => sum + row.violations, 0);
 
-console.log(`\n${c.bold}JANG vs a posted price — ${runs} randomised markets, seed ${seed}${c.reset}\n`);
+console.log(`\n${c.bold}JANG vs a posted price, ${runs} randomised markets, seed ${seed}${c.reset}\n`);
 const table = [
   ["markets where a mutually acceptable deal exists", `${feasible.length} of ${runs}`],
   ["deals closed by negotiation", `${jangOnFeasible} (${pct(jangOnFeasible, feasible.length)} of those)`],

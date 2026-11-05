@@ -50,7 +50,7 @@ export default async function AdminSession({ params }: { params: Promise<{ sessi
       <section className="section">
         <h2>Both mandates</h2>
         <p className="small mute">
-          Neither agent can see the other&apos;s column. JANG can, because it validates offers against them — which is
+          Neither agent can see the other&apos;s column. JANG can, because it validates offers against them, which is
           exactly the trust assumption this prototype has not yet removed.
         </p>
         <table className="table">

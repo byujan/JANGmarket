@@ -37,4 +37,4 @@ d=open('$OUT','rb').read()
 m=re.search(rb'/Count (\d+)', d)
 print(m.group(1).decode() if m else '?')
 ")
-echo "built $OUT — $PAGES pages"
+echo "built $OUT, $PAGES pages"

@@ -53,7 +53,7 @@ export function RegisterAgentForm({
       <div className="key-callout">
         <h3>{issued.agentId} is registered</h3>
         <p className="small mute" style={{ margin: "0.3rem 0 0" }}>
-          Next, <Link href="/app/mandates/new">give it a mandate</Link> — then JANG can negotiate as this agent on your
+          Next, <Link href="/app/mandates/new">give it a mandate</Link>, and JANG can then negotiate as this agent on your
           behalf. You do not need the key below for that.
         </p>
         <p className="small mute" style={{ margin: "0.9rem 0 0" }}>

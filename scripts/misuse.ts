@@ -68,7 +68,7 @@ try {
 
   // 3. The buyer's agent tries to accept a package above its owner's ceiling.
   //    Turn order has to be respected to get there: the buyer counters lawfully,
-  //    then the seller asks above the buyer's ceiling — lawful for the seller, impossible for the buyer.
+  //    then the seller asks above the buyer's ceiling, lawful for the seller but impossible for the buyer.
   await buyer.callRaw("counter", {
     terms: { price: 1200, deliveryDays: 5, warrantyMonths: 36, bundle: 1 },
     note: "This is the shape of deal I am looking for.",
@@ -78,7 +78,7 @@ try {
     note: "Final price.",
   });
   if (sellerAsk.isError) {
-    console.log(`${c.red}setup problem: the seller's ${money(overCeilingPrice)} ask was itself refused — ${sellerAsk.text.split("\n")[0]}${c.reset}`);
+    console.log(`${c.red}setup problem: the seller's ${money(overCeilingPrice)} ask was itself refused: ${sellerAsk.text.split("\n")[0]}${c.reset}`);
   }
   const overCeiling = await buyer.callRaw("accept", {});
   record(

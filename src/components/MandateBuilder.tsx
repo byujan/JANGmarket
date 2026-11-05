@@ -4,8 +4,8 @@ import Link from "next/link";
 /**
  * Where a person decides how much authority to hand an agent.
  *
- * Two decisions per term — the line the agent may not cross, and how much the
- * term matters — plus one for the deal as a whole. Everything else the engine
+ * Two decisions per term, the line the agent may not cross and how much the
+ * term matters, plus one for the deal as a whole. Everything else the engine
  * needs is derived, because asking an owner for an ideal, a worst case and a
  * weight per dimension is a spreadsheet, not a product.
  *
@@ -158,7 +158,7 @@ export function MandateBuilder({
           <select id="agent" value={agentId} onChange={(event) => setAgentId(event.target.value)}>
             {agents.map((agent) => (
               <option key={agent.agentId} value={agent.agentId}>
-                {agent.label ? `${agent.label} — ${agent.agentId}` : agent.agentId}
+                {agent.label ? `${agent.label} (${agent.agentId})` : agent.agentId}
               </option>
             ))}
           </select>
@@ -230,7 +230,7 @@ export function MandateBuilder({
               <div className="band-controls">
                 <div>
                   <label htmlFor={`limit-${dimension.key}`}>
-                    Your limit — {describeLimit(dimension, role)}
+                    Your limit: {describeLimit(dimension, role)}
                   </label>
                   <input
                     id={`limit-${dimension.key}`}
@@ -244,7 +244,7 @@ export function MandateBuilder({
                 </div>
                 <div>
                   <label htmlFor={`weight-${dimension.key}`}>
-                    How much it matters — {["barely", "a little", "normally", "a lot", "most of all"][setting.importance - 1]}
+                    How much it matters: {["barely", "a little", "normally", "a lot", "most of all"][setting.importance - 1]}
                   </label>
                   <input
                     id={`weight-${dimension.key}`}

@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 /**
  * The same negotiation, run by two Claude agents instead of two rule-based
- * ones. Same MCP server, same mandates, same enforcement — only the reasoning
+ * ones. Same MCP server, same mandates, same enforcement; only the reasoning
  * changes, which is the point: JANG does not care how an agent decides, only
  * that it stays inside the authority it was given.
  */
@@ -96,7 +96,7 @@ try {
         2,
       )}\n`,
     );
-    console.log(`${c.dim}Saved to .tmp/last-run.json — run \`npm run verify\`.${c.reset}`);
+    console.log(`${c.dim}Saved to .tmp/last-run.json. Run \`npm run verify\`.${c.reset}`);
     if (!audit.ok) process.exitCode = 1;
   }
 } finally {

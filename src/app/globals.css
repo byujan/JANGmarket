@@ -289,7 +289,7 @@ code,
 /* ---------- controls ---------- */
 
 /*
- * Anything that renders a bare <button> — a third-party component, say —
+ * Anything that renders a bare <button>, such as a third-party component,
  * inherits the page rather than the browser's light-mode default.
  */
 button {

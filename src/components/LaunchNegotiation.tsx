@@ -51,7 +51,7 @@ export function LaunchNegotiation({
       <select id="pairing" value={choice} onChange={(event) => setChoice(Number(event.target.value))}>
         {options.map((option, index) => (
           <option key={`${option.agentId}:${option.itemId}`} value={index}>
-            {option.agentLabel ?? option.agentId} — {option.itemTitle}
+            {option.agentLabel ?? option.agentId}: {option.itemTitle}
           </option>
         ))}
       </select>

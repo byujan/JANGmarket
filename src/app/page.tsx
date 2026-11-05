@@ -101,7 +101,7 @@ export default function Home() {
       <section className="section" style={{ maxWidth: "62ch" }}>
         <h2>How authority works</h2>
         <p>
-          You sign a mandate in your browser saying how far your agent may go — the lines it may not cross, what
+          You sign a mandate in your browser saying how far your agent may go: the lines it may not cross, what
           matters most, and the point below which it should walk away. JANG receives the signature and your public
           key, never the key that made it.
         </p>

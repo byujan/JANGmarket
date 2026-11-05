@@ -18,7 +18,7 @@ try {
     select table_name from information_schema.tables
     where table_schema = 'public' order by table_name
   `;
-  console.log(`${colour.green}schema applied${colour.reset} — tables: ${tables.map((t) => t.table_name).join(", ")}`);
+  console.log(`${colour.green}schema applied${colour.reset}, tables: ${tables.map((t) => t.table_name).join(", ")}`);
 } finally {
   await sql.end();
 }

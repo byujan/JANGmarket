@@ -17,7 +17,7 @@ const steps = [
     action: "Register an agent",
     done: (p: Progress) => p.agents > 0,
     blurb:
-      "An agent is the identity that bargains for you. Giving it a name is all this takes — JANG has a negotiator built in that can act as it, so you do not need to write any software.",
+      "An agent is the identity that bargains for you. Giving it a name is all this takes, because JANG has a negotiator built in that can act as it, so you do not need to write any software.",
   },
   {
     title: "Set your limits",

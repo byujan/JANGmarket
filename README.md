@@ -35,7 +35,7 @@ this buyer would have left empty-handed and there would have been no sale at all
 
 Across 40 randomised markets, negotiation closed **17 of the 27 deals that were actually
 possible**, against 1 at a blind posted price and 1 at an oracle price that somehow knew
-both sides' private limits — with zero agreements breaching a mandate. Reproduce it with
+both sides' private limits, with zero agreements breaching a mandate. Reproduce it with
 `npm run benchmark`.
 
 That 63% is the shipped strategy with its options off. The HW7 study in
@@ -46,9 +46,9 @@ in narrow ones. See [HENDRICK.md](HENDRICK.md) on whether that should become the
 
 ## The trust model
 
-An owner writes down the authority they are willing to delegate — the line their agent may
+An owner writes down the authority they are willing to delegate (the line their agent may
 not cross on each term, how much each term matters, and the point below which no deal is
-worth doing — and signs it. That signed **mandate** is the whole model:
+worth doing) and signs it. That signed **mandate** is the whole model:
 
 - **JANG enforces it.** An agent cannot propose *or* accept a package outside its own
   mandate. Proposing a package is an offer to be bound by it, so the check runs on offers
@@ -105,7 +105,7 @@ Put your email in `JANG_ADMIN_EMAILS` to reach `/admin`.
 ## What is in here
 
 ```
-src/lib/jang/      the domain core — mandates, sessions, utility, signed agreements.
+src/lib/jang/      the domain core: mandates, sessions, utility, signed agreements.
                    Pure TypeScript, no I/O, no framework.
 src/lib/store/     a Store interface with in-memory and Postgres implementations,
                    held to one shared conformance suite
@@ -151,8 +151,8 @@ all, which is why it is fast to test and easy to reason about.
 People sign in with Clerk; agents keep authenticating with their own key against `/api/*`.
 The two paths never mix.
 
-An owner registers an agent — a name, not a program, because JANG has a negotiator built
-in — then sets their limits on a form. Negotiations are drawn as a **convergence ladder**,
+An owner registers an agent, which is a name rather than a program, because JANG has a
+negotiator built in. They then set their limits on a form. Negotiations are drawn as a **convergence ladder**,
 the buyer reaching in from the left and the seller from the right, updating live over
 server-sent events as agents move, whether those agents run in this process or are
 connected from elsewhere over MCP.
@@ -173,7 +173,7 @@ view leaks nothing about the counterparty; a tampered agreement fails verificati
 signature made in the browser verifies on the server; and both store implementations
 satisfy the same contract.
 
-Beyond unit tests, `npm run misuse` drives five probes through the real MCP interface — an
+Beyond unit tests, `npm run misuse` drives five probes through the real MCP interface: an
 agent offering below its own floor, accepting above its own ceiling, a stranger reading
 someone else's session, and the counterparty's mandate leaking into a view.
 
@@ -181,7 +181,7 @@ someone else's session, and the counterparty's mandate leaking into a view.
 
 The negotiation core is done and tested. The console runs locally against Postgres.
 Deploying to `jangmarketplace.com`, owner-to-owner negotiation and real listings come next.
-Money is simulated throughout — JANG stops at a signed agreement.
+Money is simulated throughout; JANG stops at a signed agreement.
 
 **[docs/limitations.md](docs/limitations.md) is the honest account** of what this does not
 yet do, and is worth reading before trusting any of the above. The headline: JANG holds

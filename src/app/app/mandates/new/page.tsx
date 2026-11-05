@@ -20,7 +20,7 @@ export default async function NewMandate() {
         <p>
           This is where you say what you are actually willing to accept: your budget, how long you will wait, what
           matters most, and the point where you would rather walk away. It is private. The other side never sees any
-          of it — they only ever see the offers your agent makes.
+          of it. They only ever see the offers your agent makes.
         </p>
         <p className="small faint">
           Signed and lodged, this becomes a <em>mandate</em>: the authority your agent carries into a negotiation.
@@ -36,7 +36,7 @@ export default async function NewMandate() {
         </p>
         <p>
           <strong>How much each term matters.</strong> This is what lets your agent trade. If price matters far more
-          than delivery, it will give up delivery date to win on price — which is how a negotiation finds a deal that
+          than delivery, it will give up delivery date to win on price, which is how a negotiation finds a deal that
           a fixed price cannot.
         </p>
         <p>

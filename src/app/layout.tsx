@@ -24,7 +24,7 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "JANG 場 — negotiation infrastructure for autonomous agents",
+  title: "JANG 場: negotiation infrastructure for autonomous agents",
   description:
     "JANG is the layer between agent discovery and agent payment: buyer and seller agents negotiate multi-dimensional terms without revealing their private limits.",
 };

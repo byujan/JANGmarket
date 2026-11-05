@@ -75,7 +75,7 @@ function describe(view: SessionView): string {
       .join(", ");
     lines.push(
       `${mine ? "Your" : "Their"} standing offer (round ${standing.round}): ${terms}` +
-        (standing.note ? ` — "${standing.note}"` : ""),
+        (standing.note ? ` ("${standing.note}")` : ""),
     );
     lines.push(`It is worth ${utility(standing.terms, view.yourMandate).toFixed(3)} to you (your reservation is ${view.yourMandate.reservationUtility}).`);
   } else {

@@ -37,8 +37,8 @@ const HOUSE_OWNER = "jang-house";
  * The counterparty an owner negotiates against.
  *
  * A marketplace needs two sides, and a new owner has only one. The house agent
- * is a real agent under a real signed mandate — it gets no special treatment
- * from the engine — so that a single person can run an honest negotiation.
+ * is a real agent under a real signed mandate, getting no special treatment
+ * from the engine, so that a single person can run an honest negotiation.
  */
 export async function ensureHouseAgent(scenario: Scenario): Promise<string> {
   const agentId = `house-${scenario.itemSpec.itemId}`;

@@ -27,7 +27,7 @@ npm run misuse    # 5 probes at the limits of authority, all BLOCKED
 
 That is the whole story: agents really used the interface, the result was independently
 checked, and the system refuses what it should. If there is time, `npm run demo:llm`
-shows two Claude agents doing the same thing in about a minute — better as a five-second
+shows two Claude agents doing the same thing in about a minute, which works better as a five-second
 cutaway than as the main footage, because it is slow.
 
 The one limitation to state out loud, because the rubric asks for one and this is the
@@ -70,7 +70,7 @@ npm run dev                         # http://localhost:3939
 ```
 
 Your email needs to be in `JANG_ADMIN_EMAILS` to see `/admin`. Ask Peter for the Clerk
-development keys, or make your own application at dashboard.clerk.com — they are already
+development keys, or make your own application at dashboard.clerk.com. They are already
 in his `.env.local`, which is gitignored and must stay that way.
 
 ---
@@ -99,12 +99,12 @@ price trivially clears, and those tests fail and tell you so.
 
 **1. Sanity-check the economics.** `agents/scenarios/tv-clearance.json` has placeholder
 numbers chosen to make a readable demo, not researched ones. A $1,180 floor and a $1,500
-budget on a clearance 65-inch OLED — are those plausible? Is a soundbar really worth a
+budget on a clearance 65-inch OLED: are those plausible? Is a soundbar really worth a
 tenth of the package to a buyer? Change the weights and bounds, then run `npm test` and
 `npm run demo` and see what it does to the outcome.
 
 **2. Add a second market.** One new file in `agents/scenarios/`, in a category that is not
-a physical product — a service contract, say, where the terms are rate, deadline,
+a physical product. A service contract, say, where the terms are rate, deadline,
 revisions and scope. No code. This is the thing that would actually answer the open
 question in our proposal, which is whether one negotiation protocol generalises across
 transaction types. It will also appear in the web console automatically, because the
@@ -139,7 +139,7 @@ limit you drag is used as both the hard bound and the `worst` end of the scale. 
 the form to two controls per term instead of three.
 
 It is a simplification, and it is in your territory. The engine fully supports three
-independent points — `agents/scenarios/*.json` already uses them, and the TV scenario has
+independent points. `agents/scenarios/*.json` already uses them, and the TV scenario has
 a buyer whose price ideal is $900 while their hard ceiling is $1,500. If you think owners
 need to express "I'd love $900, I'll tolerate $1,400, I absolutely cannot exceed $1,500",
 say so and Peter will add the third control. Tell him which way; do not assume the current
@@ -151,7 +151,7 @@ form is the considered answer.
 
 1. **Does the utility model hold up?** It is a weighted sum of per-dimension scores, each
    normalised linearly from worst to ideal. Linear and additive are strong assumptions.
-   Real preferences have thresholds and interactions — a warranty may be worth much more
+   Real preferences have thresholds and interactions, since a warranty may be worth much more
    on an expensive item than a cheap one. Does additive separability mislead here, and is
    it worth the complexity to fix?
 2. **Is the reservation value the right walk-away construct?** Right now an owner sets one
@@ -181,7 +181,7 @@ Beyond [docs/limitations.md](docs/limitations.md), which is the serious list:
 - **The shipped strategy still has the bounds bug off by default.** Hendrick's HW7 study
   shows `respectBounds` raises the close rate from 69% to 81% in ordinary markets and from
   0% to 18% in narrow ones, with no cost in violations or false agreements. It fixes a
-  genuine defect — an agent tries to accept a package that breaks its own hard bound, JANG
+  genuine defect: an agent tries to accept a package that breaks its own hard bound, JANG
   refuses, and the agent then stops countering. **It was left off so the HW7 report's
   `base` variant keeps meaning what the report says it means.** Turn it on once that is
   submitted, and refresh the README numbers. `deadlineAware` is a different matter: it
@@ -195,12 +195,12 @@ Beyond [docs/limitations.md](docs/limitations.md), which is the serious list:
 
 ## 7. Where this is going
 
-- **Phase 1 — hosted.** Deploy to `jangmarketplace.com`. Needs a managed Postgres, Clerk
+- **Phase 1, hosted.** Deploy to `jangmarketplace.com`. Needs a managed Postgres, Clerk
   production keys, and `JANG_PRIVATE_KEY`/`JANG_PUBLIC_KEY` set so the signing identity
   survives restarts.
-- **Phase 2 — a marketplace.** Listings, seller onboarding, discovery, a simulated
+- **Phase 2, a marketplace.** Listings, seller onboarding, discovery, a simulated
   settlement ledger, owner-to-owner negotiation.
-- **Phase 3 — settlement.** Hand the signed agreement to a payment step: human-approved
+- **Phase 3, settlement.** Hand the signed agreement to a payment step: human-approved
   Stripe first, agent-native rails later.
 
 The natural next shared piece is making the limits form good. It is your design problem
@@ -211,16 +211,16 @@ starts being a product.
 
 ## 8. Glossary
 
-- **Mandate** — the signed authority an agent carries: hard bounds per term, weights, a
+- **Mandate.** The signed authority an agent carries: hard bounds per term, weights, a
   reservation value, an expiry. Called "your limits" in the interface, because nobody
   searching for where to enter a budget scans a menu for the word mandate.
-- **Reservation value** — the utility below which no deal beats no deal. Walk-away point.
-- **Utility** — a package scored 0 to 1 against one side's preferences. Private; it never
+- **Reservation value.** The utility below which no deal beats no deal. Walk-away point.
+- **Utility.** A package scored 0 to 1 against one side's preferences. Private; it never
   crosses the wire to the counterparty.
-- **ZOPA** — zone of possible agreement: the set of packages both mandates allow. The
+- **ZOPA.** Zone of possible agreement: the set of packages both mandates allow. The
   benchmark grid-searches for one before judging whether a miss was a failure.
-- **Convergence ladder** — how the console draws a negotiation: buyer reaching in from the
+- **Convergence ladder.** How the console draws a negotiation: buyer reaching in from the
   left, seller from the right, the gap between them what is left to bridge.
-- **House agent** — JANG's built-in counterparty, so one owner can negotiate alone.
-- **Session** — one negotiation. **Offer** — one complete package of terms, which is
-  binding on whoever proposes it. **Agreement** — the signed result.
+- **House agent.** JANG's built-in counterparty, so one owner can negotiate alone.
+- **Session.** One negotiation. **Offer.** One complete package of terms, which is
+  binding on whoever proposes it. **Agreement.** The signed result.

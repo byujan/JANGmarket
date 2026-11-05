@@ -27,17 +27,17 @@ no deal is possible, or where the fixed price trivially clears, those tests fail
 
 ## Immediate (before the HW6 video)
 
-**Peter** — done: core, API, MCP server, both agent strategies, demo, verifier, misuse
+**Peter** has done: core, API, MCP server, both agent strategies, demo, verifier, misuse
 probes, benchmark.
 
-**Hendrick** — next:
+**Hendrick** is next:
 
 1. Read `agents/scenarios/tv-clearance.json` and sanity-check the economics. The numbers
    are placeholders chosen to make a readable demo, not researched ones. Are a $1,180 floor
    and a $1,500 budget on a clearance 65-inch OLED plausible? Is a soundbar really worth
    only a tenth of the package to a buyer? Adjust the weights and bounds and re-run
    `npm test` and `npm run demo`.
-2. Add a second scenario in a different market — a service contract, say, where the terms
+2. Add a second scenario in a different market: a service contract, say, where the terms
    are rate, deadline, revisions and scope. One file, no code. It proves the claim that the
    protocol generalises beyond one product category, which is the open question in our
    proposal.
@@ -53,7 +53,7 @@ and deployment to `jangmarketplace.com`. Hendrick takes the market design that a
 marketplace needs: what a listing is, how an owner expresses a mandate without writing
 JSON, what the pricing and take-rate model looks like, and which category to launch in.
 
-The natural next shared piece is the **mandate builder** — the screen where an owner sets
+The natural next shared piece is the **mandate builder**, the screen where an owner sets
 the authority they are delegating. It is Hendrick's design problem and Peter's
 implementation, and it is the point where JANG stops being a protocol and starts being a
 product.

@@ -73,7 +73,7 @@ export function LiveNegotiation({ sessionId, initial }: { sessionId: string; ini
       <p className="hint" style={{ marginTop: "0.75rem" }}>
         Each row is one offer. The buyer reaches in from the left and the seller from the right, both stopping at the
         price they named, so the gap between them is what is left to bridge. The terms beside each bar are the rest of
-        the package — that is where the trading happens.
+        the package, and that is where the trading happens.
       </p>
 
       {view.status === "open" && standingValue !== undefined ? (
