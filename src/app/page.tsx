@@ -24,12 +24,12 @@ async function Entry() {
  */
 export default function Home() {
   const rounds = [
-    { side: "seller", at: 100, label: "$1,900" },
-    { side: "buyer", at: 12, label: "$900" },
-    { side: "seller", at: 86, label: "$1,860" },
-    { side: "buyer", at: 34, label: "$1,130" },
-    { side: "seller", at: 62, label: "$1,640" },
-    { side: "buyer", at: 55, label: "$1,380" },
+    { side: "seller", at: 100, label: "$1,349" },
+    { side: "buyer", at: 10, label: "$999" },
+    { side: "seller", at: 83, label: "$1,310" },
+    { side: "buyer", at: 31, label: "$1,080" },
+    { side: "seller", at: 63, label: "$1,250" },
+    { side: "buyer", at: 57, label: "$1,200" },
   ];
 
   return (
@@ -76,7 +76,7 @@ export default function Home() {
                 </span>
               </span>
               <span className="rung-terms mono small faint">
-                {index === rounds.length - 1 ? "12 days · 6 months · soundbar" : ""}
+                {index === rounds.length - 1 ? "18 days, 36 months warranty" : ""}
               </span>
             </li>
           ))}
@@ -84,9 +84,9 @@ export default function Home() {
       </div>
 
       <p className="small mute" style={{ maxWidth: "62ch" }}>
-        Six rounds, and the deal that closes is not the one either side opened with: the seller gave up the soundbar
-        and a faster delivery rather than cut the price further. At the posted shelf price of $1,499 this buyer would
-        have walked away, and there would have been no sale at all.
+        Six rounds, and the deal that closes is not the one either side opened with: the seller extended the
+        warranty to three years and took a later delivery rather than cut the price further. At the posted shelf
+        price of $1,349 this buyer would have walked away, and there would have been no sale at all.
       </p>
 
       <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", marginTop: "2rem" }}>
