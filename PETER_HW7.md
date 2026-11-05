@@ -50,7 +50,7 @@ table.
 ## 5. What the report claims, and what it does not (for questions)
 
 - **Claim A (closing rate):** holds for the rule agents. Ordinary markets: JANG 47/58 versus price-only 31/58 after the fix. Supported.
-- **Claim C (joint value, efficiency):** **does not hold** for the rule agents. Mean efficiency is about equal or slightly higher for price-only. We reported it as a negative result.
+- **Claim B (joint value, efficiency):** **does not hold** for the rule agents. Mean efficiency is about equal or slightly higher for price-only. We reported it as a negative result.
 - **Claude agents:** JANG's mean efficiency is higher, but with n=3 and a wide spread the report calls it a direction, not evidence.
 - **Effect of the fix:** it helped price-only too, so JANG's lead shrank. In other words, the bug had been inflating JANG's lead.
 

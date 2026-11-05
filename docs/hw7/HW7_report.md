@@ -8,13 +8,13 @@ JANG is negotiation infrastructure for agents: a buyer agent and a seller agent 
 
 **Claim A (closing rate).** In markets where a mutually acceptable package exists, JANG closes more deals than the same agents negotiating price only.
 
-**Claim C (joint value).** The deals JANG closes are worth more to both sides together than price-only deals (higher share of the best available joint surplus, closer to the Pareto frontier).
+**Claim B (joint value).** The deals JANG closes are worth more to both sides together than price-only deals (higher share of the best available joint surplus, closer to the Pareto frontier).
 
 **Baseline.** The same markets, the same agents, the same round budget (12 rounds), with the three non-price terms pinned to the posted defaults in both mandates, so the engine enforces "price only". Two weaker reference points were also computed: the seller's posted package (take it or leave it) and an oracle price (midpoint of the two private price limits, other terms at defaults). The only difference between JANG and the baseline is how many terms may move.
 
 **Result checks, fixed before looking** (`docs/hw7/protocol.md`, committed in `62e6800` before any fresh seed was run), all independent of the negotiators:
 
-- *Feasible*: an exhaustive search over the item's step lattice finds at least one package inside both mandates. This defines which markets count in the closing-rate denominator.
+- *Feasible*: an exhaustive search over the item's step lattice finds at least one package inside both mandates. This defines which markets count in the closing-rate denominator, and the same denominator is used for both conditions. A market counts as feasible when a deal exists in the real four-term market, which is the question an owner cares about; that the price-only mechanism cannot reach some of those deals is the effect being measured, not a handicap imposed on it.
 - *Closed*: a JANG-signed agreement exists and `auditAgreement` passes (signature and both mandates).
 - *Efficiency*: (uB - rB + uS - rS) divided by the maximum of the same over feasible packages. *Pareto-optimal*: no feasible lattice package is at least as good for both and better for one.
 - Must hold in every run: no agreement in an infeasible market, no constraint violation.
@@ -45,6 +45,8 @@ JANG is negotiation infrastructure for agents: a buyer agent and a seller agent 
 "Posted price" and "oracle price" close 3 of 58 feasible ordinary and asymmetric markets (5%) in every variant. Across all variants and seeds there were 0 false agreements and 0 constraint violations. Buyer share of the surplus in closed ordinary deals: about 0.55 (JANG) versus 0.27 (price-only), with the fix. Full per-variant tables are in `results/hw7/SUMMARY.md`.
 
 ### 3.2 Claude agents, fresh seed 20261101, 3 repetitions per cell
+
+This arm is a demonstration that the result survives contact with real model-driven agents, not a basis for any statistical claim. Every conclusion in section 5 rests on the rule-agent runs in 3.1, which are the ones repeated across seeds. The sample here is one market per case on one seed, so it is reported for direction, cost and failure modes only.
 
 | case (market) | condition | agreed (complete runs) | mean rounds | efficiency, mean (range) | mean cost per negotiation (USD) | mean time (s) |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -80,7 +82,7 @@ The fix helped both sides and helped price-only more, so the closing-rate lead s
 
 **Supported.** Claim A holds for the rule agents on ordinary markets (both variants) and on asymmetric markets after the fix: JANG closes more, and price-only closes a deal JANG missed only 0 to 2 times per cell. JANG also closes narrow-ZOPA deals that price-only cannot close at all (no narrow market has a price-only deal). The engine never produced a false agreement or a constraint violation. With Claude agents, the multi-issue market closed in every complete run on market #2 and #0 ordinary, and price-only closed only where a price-only deal existed.
 
-**Not supported.** Claim C fails for the rule agents. Where both close, mean efficiency is about equal or slightly higher for price-only (paired difference -0.030 for ordinary with the fix, JANG better in 9 of 30 pairs), and the Pareto-optimal share is similar (17% versus 19%). JANG splits the surplus more evenly (buyer share 0.55 versus 0.27), which is a different property from efficiency. Claude agents show higher mean efficiency for JANG on market #2 (0.63 and 0.77 versus 0.48) but with 3 runs, a wide spread (0.33 to 0.94) and one market per case, this is a direction, not evidence. On asymmetric markets before the fix, the closing-rate gap (26 versus 23 of 58) is within noise.
+**Not supported.** Claim B fails for the rule agents. Where both close, mean efficiency is about equal or slightly higher for price-only (paired difference -0.030 for ordinary with the fix, JANG better in 9 of 30 pairs), and the Pareto-optimal share is similar (17% versus 19%). JANG splits the surplus more evenly (buyer share 0.55 versus 0.27), which is a different property from efficiency. Claude agents show higher mean efficiency for JANG on market #2 (0.63 and 0.77 versus 0.48) but with 3 runs, a wide spread (0.33 to 0.94) and one market per case, this is a direction, not evidence. On asymmetric markets before the fix, the closing-rate gap (26 versus 23 of 58) is within noise.
 
 **Limits and uncertainty.**
 

@@ -43,7 +43,7 @@ defaults in both mandates, so the engine enforces it. Secondary baselines: poste
 oracle midpoint price. Cases: ordinary (40 markets), narrow ZOPA (40), asymmetric toughness (40),
 no ZOPA (20), per seed. Seeds: tuning 20261028, fresh 20261101 and 20261102. "Deal possible" is an
 exhaustive search over the item's step lattice, independent of the negotiators. Claim A: JANG
-closes more of the possible deals than price only. Claim C: JANG deals have higher joint value
+closes more of the possible deals than price only. Claim B: JANG deals have higher joint value
 (efficiency, Pareto-optimal share).
 
 ### Findings so far (verify every number against SUMMARY.md before using it)
@@ -55,7 +55,7 @@ closes more of the possible deals than price only. Claim C: JANG deals have high
   concession) and Option 2 (double round budget) were planned first and are reported as sensitivity.
 - Fresh seeds, ordinary case, 58 possible deals: base JANG 40 vs price-only 17; with the fix JANG 47 vs 31.
   Claim A holds, and the gap shrinks once the bug is fixed (so the bug had inflated JANG's lead).
-- Claim C does not hold on mean efficiency (price-only slightly higher where both close). JANG
+- Claim B does not hold on mean efficiency (price-only slightly higher where both close). JANG
   splits the surplus more evenly (buyer share about 0.55 vs 0.27). Report this as a negative result.
 - Narrow ZOPA: JANG closes a few, price-only none (no price-only deal exists in any narrow market).
 - No false agreements and no constraint violations anywhere.
