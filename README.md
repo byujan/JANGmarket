@@ -26,17 +26,23 @@ negotiation can do better, because a deal is never only about price:
   3   ├────                                                    $1,860
   4         $1,130                                           ──┤
   5   ├──────────                                              $1,640
-  6              $1,380  ◄── agreed: 12 days · 6 months · soundbar included
+  6              $1,200  ◄── agreed: 18 days · 36 months · no soundbar
 ```
 
-The seller gave up the soundbar and a faster delivery rather than cut the price further.
-Both sides came out above their own walk-away point. At the posted shelf price of $1,499
+The seller extended the warranty and took a later delivery rather than cut the price
+further. Both sides came out above their own walk-away point. At the posted shelf price
 this buyer would have left empty-handed and there would have been no sale at all.
 
-Across 40 randomised markets, negotiation closed **20 of the 25 deals that were actually
-possible**, against 2 at a blind posted price and 9 at an oracle price that somehow knew
-both sides' private limits — with zero constraint violations. Reproduce it with
+Across 40 randomised markets, negotiation closed **17 of the 27 deals that were actually
+possible**, against 1 at a blind posted price and 1 at an oracle price that somehow knew
+both sides' private limits — with zero agreements breaching a mandate. Reproduce it with
 `npm run benchmark`.
+
+That 63% is the shipped strategy with its options off. The HW7 study in
+`results/hw7/SUMMARY.md` measures the same thing far more carefully, across three seeds
+and four market shapes with confidence intervals, and finds that enabling the
+`respectBounds` fix raises the close rate to 81% in ordinary markets and from 0% to 18%
+in narrow ones. See [HENDRICK.md](HENDRICK.md) on whether that should become the default.
 
 ## The trust model
 

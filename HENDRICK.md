@@ -178,8 +178,15 @@ Beyond [docs/limitations.md](docs/limitations.md), which is the serious list:
   agreements signed before a restart will not verify after one. The fingerprint in the top
   bar is there to make that visible.
 - **No revocation.** A leaked agent key works until the mandate expires.
-- **The benchmark misses deals.** 20 of 25 possible. The concession schedule is tuned for
-  a readable demo, not a closing rate.
+- **The shipped strategy still has the bounds bug off by default.** Hendrick's HW7 study
+  shows `respectBounds` raises the close rate from 69% to 81% in ordinary markets and from
+  0% to 18% in narrow ones, with no cost in violations or false agreements. It fixes a
+  genuine defect — an agent tries to accept a package that breaks its own hard bound, JANG
+  refuses, and the agent then stops countering. **It was left off so the HW7 report's
+  `base` variant keeps meaning what the report says it means.** Turn it on once that is
+  submitted, and refresh the README numbers. `deadlineAware` is a different matter: it
+  buys closing rate by conceding hard at the end, costing surplus and buyer share, so it
+  is a policy choice rather than a bug fix and should stay off.
 - **Nothing has been seen in a real browser by Claude.** The console was verified by
   markup checks and a server-side smoke test; Peter has clicked through it. Treat the
   visual design as reviewed by one pair of eyes.

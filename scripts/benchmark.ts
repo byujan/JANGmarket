@@ -9,6 +9,9 @@
  *
  * Ground truth comes from a grid search over both mandates, done outside the
  * negotiation, so "a deal was possible" is not the negotiator's own opinion.
+ * That search is a coarse grid, so it can miss a narrow agreement zone: it
+ * proves a deal exists, never that none does. An agreement that audits clean
+ * against both mandates is itself proof, so feasibility is the union of the two.
  */
 import { runRuleAgent } from "../agents/runner.ts";
 import { RestPort } from "../agents/rest-port.ts";
@@ -104,6 +107,7 @@ function dealIsPossible(buyer: Mandate, seller: Mandate): boolean {
 
 type Row = {
   possible: boolean;
+  foundOnGrid: boolean;
   jangAgreed: boolean;
   postedAccepted: boolean;
   oracleAccepted: boolean;
@@ -127,7 +131,7 @@ try {
     const buyerMandate = setup.buyer.mandate;
     const sellerMandate = setup.seller.mandate;
 
-    const possible = dealIsPossible(buyerMandate, sellerMandate);
+    const foundOnGrid = dealIsPossible(buyerMandate, sellerMandate);
 
     // The posted price only sells if it clears both owners unchanged.
     const posted = scenario.fixedPriceBaseline.terms;
@@ -160,7 +164,10 @@ try {
     }
 
     rows.push({
-      possible,
+      // The grid is a lower bound on what is reachable. A clean agreement
+      // settles the question outright, whatever the grid managed to find.
+      possible: foundOnGrid || (Boolean(agreement) && violations === 0),
+      foundOnGrid,
       jangAgreed: Boolean(agreement),
       postedAccepted,
       oracleAccepted,
@@ -171,7 +178,7 @@ try {
       buyerValue: agreement ? utility(agreement.terms, buyerMandate) : undefined,
       sellerValue: agreement ? utility(agreement.terms, sellerMandate) : undefined,
     });
-    process.stdout.write(agreement ? `${c.green}.${c.reset}` : possible ? `${c.yellow}x${c.reset}` : `${c.dim}-${c.reset}`);
+    process.stdout.write(agreement ? `${c.green}.${c.reset}` : foundOnGrid ? `${c.yellow}x${c.reset}` : `${c.dim}-${c.reset}`);
   }
   process.stdout.write("\n");
 } finally {
@@ -186,7 +193,8 @@ const pct = (part: number, whole: number) => (whole ? `${((100 * part) / whole).
 const jangOnFeasible = feasible.filter((row) => row.jangAgreed).length;
 const postedOnFeasible = feasible.filter((row) => row.postedAccepted).length;
 const oracleOnFeasible = feasible.filter((row) => row.oracleAccepted).length;
-const closedWithoutZopa = rows.filter((row) => row.jangAgreed && !row.possible).length;
+// A deal the grid did not find but the agents did, and which audits clean.
+const beyondTheGrid = rows.filter((row) => row.jangAgreed && !row.foundOnGrid).length;
 const totalViolations = rows.reduce((sum, row) => sum + row.violations, 0);
 
 console.log(`\n${c.bold}JANG vs a posted price — ${runs} randomised markets, seed ${seed}${c.reset}\n`);
@@ -195,7 +203,8 @@ const table = [
   ["deals closed by negotiation", `${jangOnFeasible} (${pct(jangOnFeasible, feasible.length)} of those)`],
   ["deals closed at the posted price", `${postedOnFeasible} (${pct(postedOnFeasible, feasible.length)} of those)`],
   ["deals closed at an oracle midpoint price", `${oracleOnFeasible} (${pct(oracleOnFeasible, feasible.length)} of those)`],
-  ["agreements where no deal was possible", `${closedWithoutZopa} (must be 0)`],
+  ["agreements breaching a mandate", `${rows.filter((r) => r.violations > 0).length} (must be 0)`],
+  ["agreements in zones the grid search missed", `${beyondTheGrid}`],
   ["constraint violations across all agreements", `${totalViolations} (must be 0)`],
   ["mean rounds to agreement", mean(closed.map((row) => row.rounds)).toFixed(1)],
   ["mean wall-clock per negotiation", `${mean(closed.map((row) => row.ms)).toFixed(0)} ms`],
@@ -206,10 +215,12 @@ const table = [
 const width = Math.max(...table.map(([label]) => label.length));
 for (const [label, value] of table) console.log(`  ${label.padEnd(width)}  ${c.bold}${value}${c.reset}`);
 
-const clean = totalViolations === 0 && closedWithoutZopa === 0;
+// Soundness is about mandates being honoured. The grid's blind spots are a
+// limit of the measurement, not a fault in the thing being measured.
+const clean = totalViolations === 0;
 const better = jangOnFeasible > postedOnFeasible;
 console.log(
-  `\n${clean ? `${c.green}No constraint violations and no impossible deals.${c.reset}` : `${c.red}Soundness check failed.${c.reset}` }` +
+  `\n${clean ? `${c.green}Every agreement honoured both mandates.${c.reset}` : `${c.red}Soundness check failed: an agreement breached a mandate.${c.reset}` }` +
     ` ${better ? `${c.green}Negotiation closed more deals than the posted price.${c.reset}` : `${c.yellow}Negotiation did not beat the posted price in this sample.${c.reset}`}\n`,
 );
 process.exit(clean ? 0 : 1);
