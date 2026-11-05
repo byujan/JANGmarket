@@ -22,7 +22,8 @@
     "hw7:llm": "tsx scripts/hw7/llm.ts",
     "check": "npm run typecheck && npm test && npm run demo && npm run verify && npm run misuse",
     "db:setup": "tsx scripts/db-setup.ts",
-    "smoke:ui": "tsx scripts/ui-smoke.ts"
+    "smoke:ui": "tsx scripts/ui-smoke.ts",
+    "hw7:pdf": "bash scripts/hw7/build-pdf.sh"
   },
   "dependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.3.312",

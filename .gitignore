@@ -5,3 +5,6 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 .tmp/
+
+# throwaway virtualenv for building the HW7 PDF
+.venv-hw7/

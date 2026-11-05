@@ -31,16 +31,21 @@ Then **rebuild the PDF** and upload it to Canvas (one upload for the team is eno
 
 ## 4. Rebuilding the PDF after edits
 
+Edit `docs/hw7/HW7_report.md`, then:
+
 ```
-pip install markdown
-python3 scripts/hw7/md2html.py docs/hw7/HW7_report.md /tmp/HW7_report.html
-# macOS, headless Chrome:
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --disable-gpu \
-  --no-pdf-header-footer --print-to-pdf=docs/hw7/HW7_report.pdf file:///tmp/HW7_report.html
+npm run hw7:pdf
 ```
 
-If the Chrome command does not work, open `/tmp/HW7_report.html` in a browser and print to PDF (Letter size, headers and footers off). Keep the report at 3 pages if you can, and check that no heading ends up alone at the bottom of a page, away from its table.
-You can also ask Claude Code to do this. Have it read `docs/hw7/HANDOFF.md` first.
+That sets up a throwaway virtualenv in `.venv-hw7` the first time (the system Python
+refuses to install into itself on macOS, so `pip install markdown` as written below does
+not work), converts the markdown, and prints to PDF with headless Chrome. It reports the
+page count when it finishes.
+
+If Chrome is not where the script looks for it, the script says so and leaves the HTML
+for you to print by hand (Letter size, headers and footers off). Keep the report short if
+you can, and check that no heading ends up alone at the bottom of a page, away from its
+table.
 
 ## 5. What the report claims, and what it does not (for questions)
 
