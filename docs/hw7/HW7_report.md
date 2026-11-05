@@ -1,6 +1,6 @@
 # HW7: Benchmarking JANG's multi-issue negotiation against price-only negotiation
 
-MAS.665 AI Studio, team JANG (Hendrick Jung, Peter Jang). Branch `hendrick/hw7-benchmark`.
+MAS.665 AI Studio. Team JANG: Hendrick Jung, Peter Jang.
 
 ## 1. Claim and baseline
 
@@ -107,5 +107,7 @@ implementation and drafting; every number comes from the raw files in section 7.
 
 ## 7. Evidence
 
-Repository github.com/byujan/JANGmarket, branch `main` (merged from
-`hendrick/hw7-benchmark`). Protocol: `docs/hw7/protocol.md` (commit `62e6800`, before the fresh seeds). Fresh-seed rule-agent results: commit `ee52691`. Complete Claude-agent batch and final summary: commit `0b0ba0d`. Raw results: `results/hw7/*-seed*.json` (rule agents, 18 files) and `results/hw7/llm-*.json` (Claude agents, 5 files). Pooled tables: `results/hw7/SUMMARY.md`, `results/hw7/summary.json`. Code: `scripts/hw7/`, `agents/rule-strategy.ts`, `agents/runner.ts`.
+The repository (github.com/byujan/JANGmarket) is private, since it holds the running
+service and its configuration; we will grant access on request. Everything below is in it
+on branch `main`, and section 2 lists the commands that regenerate all of it from a clean
+checkout. Protocol: `docs/hw7/protocol.md` (commit `62e6800`, before the fresh seeds). Fresh-seed rule-agent results: commit `ee52691`. Complete Claude-agent batch and final summary: commit `0b0ba0d`. Raw results: `results/hw7/*-seed*.json` (rule agents, 18 files) and `results/hw7/llm-*.json` (Claude agents, 5 files). Pooled tables: `results/hw7/SUMMARY.md`, `results/hw7/summary.json`. Code: `scripts/hw7/`, `agents/rule-strategy.ts`, `agents/runner.ts`.
