@@ -1,0 +1,181 @@
+{
+ "seed": 20261101,
+ "reps": 1,
+ "model": null,
+ "records": [
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 0,
+   "condition": "jang",
+   "rep": 0,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1330,
+    "deliveryDays": 8,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.49980506822612086,
+    "sellerValue": 0.4494287247910436,
+    "paretoOptimal": false,
+    "paretoDistance": 0.003304940946324821,
+    "surplus": 0.19823379301716448,
+    "efficiency": 0.9355027584169769,
+    "buyerShare": 0.5387833557564674
+   },
+   "seconds": 367.816,
+   "toolCalls": 96,
+   "tokens": {
+    "input": 14,
+    "output": 782,
+    "cacheRead": 788742,
+    "cacheWrite": 16254
+   },
+   "apiEquivalentUsd": 2.1923
+  },
+  {
+   "maxTurns": 80,
+   "case": "ordinary",
+   "marketIndex": 0,
+   "condition": "priceOnly",
+   "rep": 0,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "seconds": 61.199,
+   "toolCalls": 79,
+   "tokens": {
+    "input": 158,
+    "output": 7533,
+    "cacheRead": 7775090,
+    "cacheWrite": 360964
+   },
+   "apiEquivalentUsd": 2.2973
+  },
+  {
+   "maxTurns": 80,
+   "case": "narrow",
+   "marketIndex": 1,
+   "condition": "jang",
+   "rep": 0,
+   "feasible": true,
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "seconds": 79.548,
+   "toolCalls": 101,
+   "tokens": {
+    "input": 206,
+    "output": 10584,
+    "cacheRead": 12037654,
+    "cacheWrite": 400161
+   },
+   "apiEquivalentUsd": 2.9109
+  },
+  {
+   "maxTurns": 80,
+   "case": "narrow",
+   "marketIndex": 1,
+   "condition": "priceOnly",
+   "rep": 0,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "seconds": 52.136,
+   "toolCalls": 66,
+   "tokens": {
+    "input": 134,
+    "output": 7022,
+    "cacheRead": 6079657,
+    "cacheWrite": 267347
+   },
+   "apiEquivalentUsd": 1.7481
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "condition": "jang",
+   "rep": 0,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1330,
+    "deliveryDays": 26,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.42962962962962964,
+    "sellerValue": 0.5170615750325895,
+    "paretoOptimal": true,
+    "paretoDistance": 0,
+    "surplus": 0.19569120466221918,
+    "efficiency": 0.9235038031260177,
+    "buyerShare": 0.18718076621203134
+   },
+   "seconds": 44.529,
+   "toolCalls": 66,
+   "tokens": {
+    "input": 136,
+    "output": 6154,
+    "cacheRead": 5648567,
+    "cacheWrite": 273687
+   },
+   "apiEquivalentUsd": 1.7217
+  },
+  {
+   "maxTurns": 80,
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "condition": "priceOnly",
+   "rep": 0,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "seconds": 56.04,
+   "toolCalls": 85,
+   "tokens": {
+    "input": 174,
+    "output": 7347,
+    "cacheRead": 9541926,
+    "cacheWrite": 377045
+   },
+   "apiEquivalentUsd": 2.5364
+  }
+ ]
+}

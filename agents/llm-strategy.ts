@@ -18,7 +18,17 @@ export type LlmEvent =
   | { kind: "tool"; label: string; tool: string; input: unknown }
   | { kind: "result"; label: string; text: string };
 
-export type LlmRunResult = { label: string; turns: number; toolCalls: number };
+export type LlmUsage = {
+  inputTokens: number;
+  outputTokens: number;
+  cacheReadTokens: number;
+  cacheWriteTokens: number;
+  /** The SDK's API-equivalent cost estimate, reported even when run on a subscription. */
+  costUsd: number;
+  durationMs: number;
+};
+
+export type LlmRunResult = { label: string; turns: number; toolCalls: number; usage?: LlmUsage; error?: string };
 
 export async function runLlmAgent(input: {
   role: Role;
@@ -63,18 +73,39 @@ export async function runLlmAgent(input: {
     },
   });
 
-  for await (const message of response) {
-    if (message.type !== "assistant") continue;
-    turns += 1;
-    for (const block of message.message.content) {
-      if (block.type === "text" && block.text.trim()) {
-        input.onEvent?.({ kind: "thinking", label, text: block.text.trim() });
-      } else if (block.type === "tool_use") {
-        toolCalls += 1;
-        input.onEvent?.({ kind: "tool", label, tool: block.name.replace("mcp__jang__", ""), input: block.input });
+  let usage: LlmUsage | undefined;
+  let error: string | undefined;
+  try {
+    for await (const message of response) {
+      if (message.type === "result") {
+        const u = (message as any).usage ?? {};
+        usage = {
+          inputTokens: u.input_tokens ?? 0,
+          outputTokens: u.output_tokens ?? 0,
+          cacheReadTokens: u.cache_read_input_tokens ?? 0,
+          cacheWriteTokens: u.cache_creation_input_tokens ?? 0,
+          costUsd: (message as any).total_cost_usd ?? 0,
+          durationMs: (message as any).duration_ms ?? 0,
+        };
+        continue;
+      }
+      if (message.type !== "assistant") continue;
+      turns += 1;
+      for (const block of message.message.content) {
+        if (block.type === "text" && block.text.trim()) {
+          input.onEvent?.({ kind: "thinking", label, text: block.text.trim() });
+        } else if (block.type === "tool_use") {
+          toolCalls += 1;
+          input.onEvent?.({ kind: "tool", label, tool: block.name.replace("mcp__jang__", ""), input: block.input });
+        }
       }
     }
+
+  } catch (e) {
+    // The SDK throws after its result message when a run ends in error (for
+    // example the turn limit). Keep what was measured instead of losing it.
+    error = String(e);
   }
 
-  return { label, turns, toolCalls };
+  return { label, turns, toolCalls, usage, error };
 }

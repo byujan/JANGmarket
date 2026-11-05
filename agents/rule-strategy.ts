@@ -12,6 +12,7 @@
 import type { SessionView } from "../src/lib/jang/session.ts";
 import type { Dimension, Mandate, Terms } from "../src/lib/jang/types.ts";
 import { utility } from "../src/lib/jang/utility.ts";
+import { checkTermsAgainstMandate } from "../src/lib/jang/mandate.ts";
 
 export type Decision =
   | { action: "accept"; reason: string }
@@ -24,6 +25,19 @@ export type RuleOptions = {
   toughness?: number;
   /** How many values per dimension to consider. Higher is slower but finer. */
   grid?: number;
+  /**
+   * HW7 Option 1. With fewer than two offers left, concede straight to the
+   * reservation value instead of following the schedule. Off by default.
+   */
+  deadlineAware?: boolean;
+  /**
+   * HW7 fix. The shipped strategy judges the counterparty's package by utility
+   * alone, so it can try to accept a package that breaks one of its own hard
+   * bounds (a price under its floor that other terms make up for in utility).
+   * JANG refuses that accept, and the agent then never counters. With this on,
+   * the agent only accepts packages inside its own mandate. Off by default.
+   */
+  respectBounds?: boolean;
 };
 
 /** Candidate values for one dimension, inside both the item's range and the mandate's bounds. */
@@ -99,9 +113,14 @@ export function decide(view: SessionView, options: RuleOptions = {}): Decision {
   const floor = mandate.reservationUtility;
   // How far through the negotiation we are; at the end we are down to our floor.
   const elapsed = Math.min(1, view.roundsUsed / Math.max(1, view.maxRounds - 1));
-  const target = Math.max(floor, ceiling - (ceiling - floor) * Math.pow(elapsed, toughness));
+  let target = Math.max(floor, ceiling - (ceiling - floor) * Math.pow(elapsed, toughness));
+  // Deadline-aware (HW7 Option 1): with fewer than two offers left in the
+  // session, no deal is worth nothing, so drop straight to the reservation value.
+  if (options.deadlineAware && view.roundsUsed >= view.maxRounds - 2) target = floor;
 
-  const onTheTable = theirs ? utility(theirs.terms, mandate) : -Infinity;
+  // With respectBounds, a package outside our own hard limits is worth nothing to us.
+  const acceptable = !theirs || !options.respectBounds || checkTermsAgainstMandate(theirs.terms, mandate).ok;
+  const onTheTable = theirs && acceptable ? utility(theirs.terms, mandate) : -Infinity;
   if (theirs && onTheTable >= target) {
     return { action: "accept", reason: `their package is worth ${onTheTable.toFixed(3)} to me, at or above my target ${target.toFixed(3)}` };
   }

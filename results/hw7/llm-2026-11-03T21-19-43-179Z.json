@@ -1,0 +1,176 @@
+{
+ "seed": 20261101,
+ "reps": 1,
+ "model": null,
+ "records": [
+  {
+   "case": "ordinary",
+   "marketIndex": 0,
+   "condition": "jang",
+   "rep": 0,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 11,
+   "terms": {
+    "price": 1365,
+    "deliveryDays": 26,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.4050682261208577,
+    "sellerValue": 0.5388007054673721,
+    "paretoOptimal": true,
+    "paretoDistance": 0.0007594895988145496,
+    "surplus": 0.19286893158822982,
+    "efficiency": 0.9101849627530527,
+    "buyerShare": 0.06257216246016763
+   },
+   "seconds": 52.397,
+   "toolCalls": 54,
+   "tokens": {
+    "input": 112,
+    "output": 6004,
+    "cacheRead": 4032671,
+    "cacheWrite": 274141
+   },
+   "apiEquivalentUsd": 1.5604
+  },
+  {
+   "case": "ordinary",
+   "marketIndex": 0,
+   "condition": "priceOnly",
+   "rep": 0,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "seconds": 56.579,
+   "toolCalls": 64,
+   "tokens": {
+    "input": 130,
+    "output": 6582,
+    "cacheRead": 5499621,
+    "cacheWrite": 305650
+   },
+   "apiEquivalentUsd": 1.8389
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 1,
+   "condition": "jang",
+   "rep": 0,
+   "feasible": true,
+   "agreed": false,
+   "status": "open",
+   "rounds": 11,
+   "seconds": 54.458,
+   "toolCalls": 0,
+   "tokens": {
+    "input": 0,
+    "output": 0,
+    "cacheRead": 0,
+    "cacheWrite": 0
+   },
+   "apiEquivalentUsd": 0,
+   "error": "Error: Claude Code returned an error result: Reached maximum number of turns (40)"
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 1,
+   "condition": "priceOnly",
+   "rep": 0,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "seconds": 53.063,
+   "toolCalls": 67,
+   "tokens": {
+    "input": 138,
+    "output": 6885,
+    "cacheRead": 6151620,
+    "cacheWrite": 270631
+   },
+   "apiEquivalentUsd": 1.7671
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "condition": "jang",
+   "rep": 0,
+   "feasible": true,
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 12,
+   "terms": {
+    "price": 1380,
+    "deliveryDays": 26,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "audit": {
+    "signatureValid": true,
+    "buyer": {
+     "ok": true,
+     "violations": []
+    },
+    "seller": {
+     "ok": true,
+     "violations": []
+    },
+    "ok": true
+   },
+   "quality": {
+    "buyerValue": 0.394541910331384,
+    "sellerValue": 0.5481174756537075,
+    "paretoOptimal": true,
+    "paretoDistance": 0,
+    "surplus": 0.19165938598509152,
+    "efficiency": 0.9044768883074962,
+    "buyerShare": 0.008045055155837505
+   },
+   "seconds": 50.371,
+   "toolCalls": 71,
+   "tokens": {
+    "input": 144,
+    "output": 7229,
+    "cacheRead": 6444421,
+    "cacheWrite": 304059
+   },
+   "apiEquivalentUsd": 1.9335
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "condition": "priceOnly",
+   "rep": 0,
+   "feasible": false,
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "seconds": 66.893,
+   "toolCalls": 64,
+   "tokens": {
+    "input": 132,
+    "output": 6669,
+    "cacheRead": 5805391,
+    "cacheWrite": 284314
+   },
+   "apiEquivalentUsd": 1.785
+  }
+ ]
+}
