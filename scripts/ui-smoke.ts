@@ -39,22 +39,19 @@ results.push(check("owner row created", Boolean(await store.getOwner(ownerId))))
 await jang.registerAgent({ agentId, ownerId, label: "Smoke buyer" });
 results.push(check("agent registered to the owner", (await store.getAgent(agentId))?.ownerId === ownerId));
 
-// The mandate the browser would build: a limit and an importance per term.
-const scenario = catalog()[0];
+// The mandate the browser would build. Its terms come from the scenario's own
+// buyer rather than being written out here, so this exercises whichever items
+// are in the catalogue instead of silently assuming one of them.
+const scenario = catalog().find((item) => item.scenarioId === (process.env.JANG_SMOKE_SCENARIO ?? "tv-clearance")) ?? catalog()[0];
 const body: MandateBody = {
   mandateId: `mdt_smoke_${stamp}`,
   agentId,
   ownerId,
   role: "buyer",
   itemId: scenario.itemSpec.itemId,
-  constraints: { price: { max: 1500 }, deliveryDays: { max: 30 }, warrantyMonths: { min: 0 }, bundle: { min: 0 } },
-  preferences: {
-    price: { weight: 5, ideal: 500, worst: 1500 },
-    deliveryDays: { weight: 2, ideal: 1, worst: 30 },
-    warrantyMonths: { weight: 3, ideal: 48, worst: 0 },
-    bundle: { weight: 1, ideal: 1, worst: 0 },
-  },
-  reservationUtility: 0.3,
+  constraints: scenario.buyer.constraints,
+  preferences: scenario.buyer.preferences,
+  reservationUtility: scenario.buyer.reservationUtility,
   expiresAt: new Date(Date.now() + 86_400_000).toISOString(),
 };
 
