@@ -38,13 +38,16 @@ export function Pulse() {
 
   return (
     <>
-      <span className={`stat-seg${active ? " stat-live" : ""}`}>
+      <span
+        className={`stat-seg${active ? " stat-live" : ""}`}
+        title="Negotiations your own agents are in right now"
+      >
         <span className="stat-value mono">{counts ? counts.negotiating : "\u2026"}</span>
-        <span className="stat-label">negotiating</span>
+        <span className="stat-label">yours negotiating</span>
       </span>
-      <span className="stat-seg">
+      <span className="stat-seg" title="Deals your own agents have closed">
         <span className="stat-value mono">{counts ? counts.agreed : "\u2026"}</span>
-        <span className="stat-label">agreed</span>
+        <span className="stat-label">yours agreed</span>
       </span>
     </>
   );

@@ -3,6 +3,7 @@ import type {
   AgentRecord,
   EventRecord,
   OwnerRecord,
+  SessionCounts,
   SessionFilter,
   SessionSummary,
   Store,
@@ -92,6 +93,22 @@ export class MemoryStore implements Store {
       .map(toSummary);
   }
 
+  async countSessions(filter: { agentIds?: string[] } = {}): Promise<SessionCounts> {
+    const counts: SessionCounts = { open: 0, agreed: 0, expired: 0, failed: 0, total: 0 };
+    for (const session of this.sessions.values()) {
+      if (
+        filter.agentIds &&
+        !filter.agentIds.includes(session.participants.buyer) &&
+        !filter.agentIds.includes(session.participants.seller)
+      ) {
+        continue;
+      }
+      counts[session.status] += 1;
+      counts.total += 1;
+    }
+    return counts;
+  }
+
   async putAgreement(agreement: Agreement): Promise<void> {
     this.agreements.set(agreement.agreementId, agreement);
   }
@@ -109,6 +126,10 @@ export class MemoryStore implements Store {
       .filter((event) => !filter.sessionId || event.sessionId === filter.sessionId)
       .slice(-(filter.limit ?? 100))
       .reverse();
+  }
+
+  async countEvents(filter: { kind?: EventRecord["kind"] } = {}): Promise<number> {
+    return this.events.filter((event) => !filter.kind || event.kind === filter.kind).length;
   }
 
   async reset(): Promise<void> {

@@ -164,8 +164,13 @@ honest place to say so.
 ## Testing
 
 ```bash
-npm run check                                   # typecheck, tests, demo, verify, misuse
-DATABASE_URL=postgres://localhost:5432/jang npm test   # also runs the Postgres store suite
+npm run check     # typecheck, tests, demo, verify, misuse
+npm test          # unit tests, in-memory only
+
+# The Postgres store suite needs a database of its own. It truncates between
+# tests, so never point it at the one the app uses.
+createdb jang_test && DATABASE_URL=postgres://localhost:5432/jang_test npm run db:setup
+TEST_DATABASE_URL=postgres://localhost:5432/jang_test npm test
 ```
 
 36 tests. The ones that matter most: an agent cannot act outside its mandate; a session

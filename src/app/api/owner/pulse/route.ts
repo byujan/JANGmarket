@@ -15,11 +15,8 @@ export async function GET() {
     const agents = await store.listAgentsByOwner(owner.ownerId);
     if (agents.length === 0) return NextResponse.json({ negotiating: 0, agreed: 0 });
 
-    const sessions = await store.listSessions({ agentIds: agents.map((agent) => agent.agentId), limit: 200 });
-    return NextResponse.json({
-      negotiating: sessions.filter((session) => session.status === "open").length,
-      agreed: sessions.filter((session) => session.status === "agreed").length,
-    });
+    const counts = await store.countSessions({ agentIds: agents.map((agent) => agent.agentId) });
+    return NextResponse.json({ negotiating: counts.open, agreed: counts.agreed });
   } catch (error) {
     return errorResponse(error);
   }

@@ -59,6 +59,9 @@ export type SessionFilter = {
  * Everything JANG persists. The in-memory implementation keeps local demos a
  * one-command affair; Postgres backs anything with accounts behind it.
  */
+/** Totals across everything stored, not across one page of results. */
+export type SessionCounts = { open: number; agreed: number; expired: number; failed: number; total: number };
+
 export interface Store {
   upsertOwner(owner: OwnerRecord): Promise<void>;
   getOwner(ownerId: string): Promise<OwnerRecord | undefined>;
@@ -77,12 +80,19 @@ export interface Store {
   putSession(session: Session): Promise<void>;
   getSession(sessionId: string): Promise<Session | undefined>;
   listSessions(filter?: SessionFilter): Promise<SessionSummary[]>;
+  /**
+   * Counts over every matching session. Deriving these from listSessions would
+   * count only the page it returned, which is how a windowed number ends up
+   * presented as a total.
+   */
+  countSessions(filter?: { agentIds?: string[] }): Promise<SessionCounts>;
 
   putAgreement(agreement: Agreement): Promise<void>;
   getAgreement(agreementId: string): Promise<Agreement | undefined>;
 
   recordEvent(event: EventRecord): Promise<void>;
   listEvents(filter?: { sessionId?: string; limit?: number }): Promise<EventRecord[]>;
+  countEvents(filter?: { kind?: EventRecord["kind"] }): Promise<number>;
 
   reset(): Promise<void>;
 }

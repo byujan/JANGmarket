@@ -4,6 +4,7 @@ import type {
   AgentRecord,
   EventRecord,
   OwnerRecord,
+  SessionCounts,
   SessionFilter,
   SessionSummary,
   Store,
@@ -17,10 +18,21 @@ import type {
  * appended rather than rewritten.
  */
 export class PostgresStore implements Store {
-  constructor(private readonly sql: Sql) {}
+  constructor(
+    private readonly sql: Sql,
+    /** The database this is pointed at, used to guard destructive calls. */
+    private readonly databaseName = "",
+  ) {}
 
   static fromUrl(url: string): PostgresStore {
-    return new PostgresStore(postgres(url, { onnotice: () => {} }));
+    let databaseName = "";
+    try {
+      databaseName = new URL(url).pathname.replace(/^\//, "");
+    } catch {
+      // An unparseable URL simply gets no name, which the reset guard treats
+      // as "not obviously a test database" and refuses.
+    }
+    return new PostgresStore(postgres(url, { onnotice: () => {} }), databaseName);
   }
 
   async upsertOwner(owner: OwnerRecord): Promise<void> {
@@ -179,6 +191,23 @@ export class PostgresStore implements Store {
     }));
   }
 
+  async countSessions(filter: { agentIds?: string[] } = {}): Promise<SessionCounts> {
+    const rows = await this.sql<{ status: string; n: string }[]>`
+      select status, count(*)::text as n from sessions
+      where (${filter.agentIds ?? null}::text[] is null
+             or buyer_agent_id = any(${filter.agentIds ?? null}::text[])
+             or seller_agent_id = any(${filter.agentIds ?? null}::text[]))
+      group by status
+    `;
+    const counts: SessionCounts = { open: 0, agreed: 0, expired: 0, failed: 0, total: 0 };
+    for (const row of rows) {
+      const n = Number(row.n);
+      if (row.status in counts) counts[row.status as keyof SessionCounts] = n;
+      counts.total += n;
+    }
+    return counts;
+  }
+
   async putAgreement(agreement: Agreement): Promise<void> {
     await this.sql`
       insert into agreements (agreement_id, session_id, body)
@@ -221,8 +250,29 @@ export class PostgresStore implements Store {
     }));
   }
 
-  /** Truncates everything. Only for tests and local resets. */
+  async countEvents(filter: { kind?: EventRecord["kind"] } = {}): Promise<number> {
+    const rows = await this.sql<{ n: string }[]>`
+      select count(*)::text as n from events
+      where (${filter.kind ?? null}::text is null or kind = ${filter.kind ?? null})
+    `;
+    return Number(rows[0]?.n ?? 0);
+  }
+
+  /**
+   * Truncates every table. Nothing in the application calls this; only the
+   * conformance suite does.
+   *
+   * It refuses unless the database is named as a test database, because a
+   * suite pointed at a development database by an environment variable will
+   * happily destroy it, which is exactly what happened once.
+   */
   async reset(): Promise<void> {
+    if (!/test/i.test(this.databaseName)) {
+      throw new Error(
+        `refusing to truncate "${this.databaseName || "unknown database"}": ` +
+          "reset() only runs against a database with \"test\" in its name",
+      );
+    }
     await this.sql`truncate owners, agents, mandates, sessions, offers, agreements, events cascade`;
   }
 }

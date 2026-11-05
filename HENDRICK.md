@@ -69,7 +69,13 @@ npm run db:setup
 npm run dev                         # http://localhost:3939
 ```
 
-Your email needs to be in `JANG_ADMIN_EMAILS` to see `/admin`. Ask Peter for the Clerk
+Your email needs to be in `JANG_ADMIN_EMAILS` to see `/admin`.
+
+To run the Postgres half of the store tests, give them their own database:
+`createdb jang_test`, apply the schema to it, then
+`TEST_DATABASE_URL=postgres://localhost:5432/jang_test npm test`. That suite
+truncates between tests and will refuse to run against anything whose name does
+not contain "test". Ask Peter for the Clerk
 development keys, or make your own application at dashboard.clerk.com. They are already
 in his `.env.local`, which is gitignored and must stay that way.
 

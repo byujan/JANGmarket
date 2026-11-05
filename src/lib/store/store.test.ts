@@ -29,9 +29,20 @@ const candidates: { name: string; make: () => Store; cleanup?: () => Promise<voi
   { name: "MemoryStore", make: () => new MemoryStore() },
 ];
 
-if (process.env.DATABASE_URL) {
-  const shared = PostgresStore.fromUrl(process.env.DATABASE_URL);
+/*
+ * The Postgres pass needs its own database, named separately from
+ * DATABASE_URL. The suite truncates between tests, so pointing it at a
+ * development database destroys that database; it has happened.
+ */
+if (process.env.TEST_DATABASE_URL) {
+  const shared = PostgresStore.fromUrl(process.env.TEST_DATABASE_URL);
   candidates.push({ name: "PostgresStore", make: () => shared });
+} else if (process.env.DATABASE_URL) {
+  console.warn(
+    "\n  Skipping the Postgres store suite. It truncates between tests, so it\n" +
+      "  needs TEST_DATABASE_URL pointing at a throwaway database, not DATABASE_URL.\n" +
+      "  Create one with:  createdb jang_test\n",
+  );
 }
 
 for (const candidate of candidates) {
@@ -180,6 +191,34 @@ for (const candidate of candidates) {
       expect(await store.listSessions({ agentIds: ["agent-buyer"] })).toHaveLength(2);
       expect(await store.listSessions({ agentIds: ["agent-nobody"] })).toHaveLength(0);
       expect(await store.listSessions({ status: "agreed" })).toHaveLength(0);
+    });
+
+    it("counts every session, not just the page a listing returned", async () => {
+      // The operator board shows a page of rows; its totals must not be
+      // derived from that page, or they silently under-report.
+      for (let i = 0; i < 5; i += 1) await store.putSession(freshSession(`sess-count-${i}`));
+      let closed = freshSession("sess-count-closed");
+      closed = submitOffer(closed, "agent-seller", agreeable, { offerId: "oc" }).session;
+      await store.putSession(acceptStandingOffer(closed, "agent-buyer").session);
+
+      expect(await store.countSessions()).toMatchObject({ open: 5, agreed: 1, total: 6 });
+      // A short page must not change the totals.
+      expect(await store.listSessions({ limit: 2 })).toHaveLength(2);
+      expect((await store.countSessions()).total).toBe(6);
+      expect(await store.countSessions({ agentIds: ["agent-nobody"] })).toMatchObject({ total: 0 });
+    });
+
+    it("counts events by kind across all of them", async () => {
+      const at = new Date().toISOString();
+      for (let i = 0; i < 4; i += 1) {
+        await store.recordEvent({ kind: "refusal", code: "MANDATE_VIOLATION", createdAt: at });
+      }
+      await store.recordEvent({ kind: "agreed", createdAt: at });
+
+      expect(await store.countEvents({ kind: "refusal" })).toBe(4);
+      expect(await store.countEvents()).toBe(5);
+      expect(await store.listEvents({ limit: 2 })).toHaveLength(2);
+      expect(await store.countEvents({ kind: "refusal" })).toBe(4);
     });
 
     it("keeps refusals for the operator view, newest first", async () => {

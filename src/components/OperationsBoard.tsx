@@ -9,9 +9,20 @@ import Link from "next/link";
  * something looks wrong.
  */
 import { useEffect, useState } from "react";
-import type { EventRecord, SessionSummary } from "@/lib/store/types.ts";
+import type { EventRecord, SessionCounts, SessionSummary } from "@/lib/store/types.ts";
 
-type Board = { sessions: SessionSummary[]; events: EventRecord[]; at: string };
+/**
+ * `sessions` and `events` are one page of rows for the tables below.
+ * `counts` and `refusals` are totals over everything stored: the tiles read
+ * those, because counting the page would silently under-report.
+ */
+type Board = {
+  sessions: SessionSummary[];
+  events: EventRecord[];
+  counts: SessionCounts;
+  refusals: number;
+  at: string;
+};
 
 export function OperationsBoard({ initial }: { initial: Board }) {
   const [board, setBoard] = useState(initial);
@@ -28,23 +39,25 @@ export function OperationsBoard({ initial }: { initial: Board }) {
     return () => source.close();
   }, []);
 
-  const open = board.sessions.filter((session) => session.status === "open");
-  const agreed = board.sessions.filter((session) => session.status === "agreed");
-  const refusals = board.events.filter((event) => event.kind === "refusal");
 
   return (
     <>
       <div className="row-between" style={{ marginBottom: "1.5rem" }}>
-        <dl className="stats">
-          <Stat label="Negotiating now" value={open.length} />
-          <Stat label="Deals closed" value={agreed.length} />
-          <Stat label="Refusals held" value={refusals.length} />
+        <dl className="stats" title="Across every agent on this instance, not only your own">
+          <Stat label="Negotiating now" value={board.counts.open} />
+          <Stat label="Deals closed" value={board.counts.agreed} />
+          <Stat label="Refusals held" value={board.refusals} />
         </dl>
         <span className={`tag${live ? " tag-open tag-pulse" : ""}`}>{live ? "Live" : "Not connected"}</span>
       </div>
 
       <section className="section">
-        <h2>Sessions</h2>
+        <div className="row-between">
+          <h2>Sessions</h2>
+          <span className="small faint">
+            {board.sessions.length} most recent of {board.counts.total}
+          </span>
+        </div>
         {board.sessions.length === 0 ? (
           <div className="empty">
             <strong>Nothing has been negotiated yet</strong>
@@ -83,7 +96,10 @@ export function OperationsBoard({ initial }: { initial: Board }) {
       </section>
 
       <section className="section">
-        <h2>Refusals and events</h2>
+        <div className="row-between">
+          <h2>Refusals and events</h2>
+          <span className="small faint">{board.events.length} most recent</span>
+        </div>
         {board.events.length === 0 ? (
           <p className="mute small">Nothing recorded yet.</p>
         ) : (

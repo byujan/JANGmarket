@@ -13,6 +13,10 @@ export async function GET() {
       poll: async () => ({
         sessions: await store.listSessions({ limit: 40 }),
         events: await store.listEvents({ limit: 40 }),
+        // Totals come from the store, not from the rows above: the lists are
+        // one page, and counting them would under-report everything older.
+        counts: await store.countSessions(),
+        refusals: await store.countEvents({ kind: "refusal" }),
         at: new Date().toISOString(),
       }),
       intervalMs: 700,
