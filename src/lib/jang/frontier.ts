@@ -119,6 +119,33 @@ export function quality(terms: Terms, buyer: Mandate, seller: Mandate, truth: Gr
   };
 }
 
+/**
+ * The package JANG could have proposed just before signing: at least as good
+ * for both owners, strictly better for one, and of those the one adding the
+ * most joint value. Undefined when the deal was already Pareto-optimal.
+ *
+ * Operator-only. Offering it to the agents would tell each something about
+ * the other's preferences, so it is recorded and shown, never sent.
+ */
+export function bestImprovement(
+  terms: Terms,
+  buyer: Mandate,
+  seller: Mandate,
+  truth: GroundTruth,
+): { terms: Terms; buyerGain: number; sellerGain: number } | undefined {
+  const b = utility(terms, buyer);
+  const s = utility(terms, seller);
+  const eps = 1e-9;
+  let best: { terms: Terms; buyerGain: number; sellerGain: number } | undefined;
+  for (const p of truth.frontier) {
+    const buyerGain = p.buyer - b;
+    const sellerGain = p.seller - s;
+    if (buyerGain < -eps || sellerGain < -eps || (buyerGain <= eps && sellerGain <= eps)) continue;
+    if (!best || buyerGain + sellerGain > best.buyerGain + best.sellerGain + eps) best = { terms: p.terms, buyerGain, sellerGain };
+  }
+  return best;
+}
+
 // ---------------------------------------------------------------- per-session cache
 
 const CACHE_LIMIT = 500;

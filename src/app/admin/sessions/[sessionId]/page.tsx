@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ConvergenceLadder } from "@/components/ConvergenceLadder.tsx";
 import { FrontierChart } from "@/components/FrontierChart.tsx";
-import { quality, sessionFrontier } from "@/lib/jang/frontier.ts";
+import { bestImprovement, quality, sessionFrontier } from "@/lib/jang/frontier.ts";
 import { utility } from "@/lib/jang/utility.ts";
 import { currentOwner } from "@/lib/server/owner.ts";
 import { store } from "@/lib/store/index.ts";
@@ -31,6 +31,7 @@ export default async function AdminSession({ params }: { params: Promise<{ sessi
   const seller = session.mandates[session.participants.seller];
   const truth = sessionFrontier(session);
   const dealQuality = agreement ? quality(agreement.terms, buyer, seller, truth) : undefined;
+  const missed = agreement ? bestImprovement(agreement.terms, buyer, seller, truth) : undefined;
 
   return (
     <main className="page">
@@ -60,6 +61,8 @@ export default async function AdminSession({ params }: { params: Promise<{ sessi
           offers={session.offers}
           agreedTerms={agreement?.terms}
           quality={dealQuality}
+          missed={missed}
+          dimensions={session.itemSpec.dimensions}
         />
       </section>
 

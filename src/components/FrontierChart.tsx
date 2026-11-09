@@ -7,6 +7,7 @@
  * derived from both private mandates.
  */
 import type { GroundTruth, Quality } from "@/lib/jang/frontier.ts";
+import type { Dimension } from "@/lib/jang/types.ts";
 import type { Mandate, Offer, Terms } from "@/lib/jang/types.ts";
 import { utility } from "@/lib/jang/utility.ts";
 
@@ -17,20 +18,25 @@ export type FrontierChartProps = {
   offers: Offer[];
   agreedTerms?: Terms;
   quality?: Quality;
+  /** The package JANG could have proposed before signing (operator-only). */
+  missed?: { terms: Terms; buyerGain: number; sellerGain: number };
+  dimensions: Dimension[];
 };
 
 const SIZE = 320;
 const PAD = 36;
 const MAX_DOTS = 1500;
 
-export function FrontierChart({ truth, buyer, seller, offers, agreedTerms, quality }: FrontierChartProps) {
+export function FrontierChart({ truth, buyer, seller, offers, agreedTerms, quality, missed, dimensions }: FrontierChartProps) {
   const x = (u: number) => PAD + u * (SIZE - 2 * PAD);
   const y = (u: number) => SIZE - PAD - u * (SIZE - 2 * PAD);
 
   if (truth.feasible.length === 0) {
     return (
       <div className="notice notice-warn">
-        No package satisfies both mandates, so no negotiation between these two owners can end in a deal.
+        No package satisfies both mandates, so no negotiation between these two owners can end in a deal. JANG knew
+        this when the session opened and logged it; the agents were not told, because telling them would let an agent
+        probe the other side&apos;s limits.
       </div>
     );
   }
@@ -68,6 +74,18 @@ export function FrontierChart({ truth, buyer, seller, offers, agreedTerms, quali
         {packages.map((p, i) => (
           <circle key={i} cx={x(p.b)} cy={y(p.s)} r={3} fill={p.fromBuyer ? "var(--buyer)" : "var(--seller)"} opacity={0.85} />
         ))}
+        {missed ? (
+          <rect
+            x={x(utility(missed.terms, buyer)) - 4}
+            y={y(utility(missed.terms, seller)) - 4}
+            width={8}
+            height={8}
+            fill="none"
+            stroke="var(--text)"
+            strokeWidth={1.5}
+            transform={`rotate(45 ${x(utility(missed.terms, buyer))} ${y(utility(missed.terms, seller))})`}
+          />
+        ) : null}
         {agreedTerms ? (
           <circle cx={x(utility(agreedTerms, buyer))} cy={y(utility(agreedTerms, seller))} r={6} fill="none" stroke="var(--agree)" strokeWidth={2} />
         ) : null}
@@ -98,6 +116,17 @@ export function FrontierChart({ truth, buyer, seller, offers, agreedTerms, quali
               was better for both.
             </>
           )}
+        </p>
+      ) : null}
+      {missed ? (
+        <p className="small mute" style={{ marginTop: "0.4rem" }}>
+          Before signing, JANG could have proposed{" "}
+          <span className="mono">
+            {dimensions.map((d) => `${d.label.toLowerCase()} ${missed.terms[d.key]}`).join(", ")}
+          </span>{" "}
+          (white diamond): <span className="mono">+{missed.buyerGain.toFixed(3)}</span> for the buyer and{" "}
+          <span className="mono">+{missed.sellerGain.toFixed(3)}</span> for the seller. It did not, because suggesting it
+          would tell each side something about the other&apos;s preferences.
         </p>
       ) : null}
     </div>

@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { groundTruth, quality } from "./frontier.ts";
+import { bestImprovement, groundTruth, quality } from "./frontier.ts";
 import { issueMandate, parseScenario } from "./scenario.ts";
 import { ItemSpecSchema } from "./types.ts";
 
@@ -47,5 +47,25 @@ describe("the Pareto frontier", () => {
     const six = { ...tv.itemSpec, dimensions: [...tv.itemSpec.dimensions, ...tv.itemSpec.dimensions.slice(0, 2).map((d) => ({ ...d, key: `${d.key}2` }))] };
     expect(six.dimensions).toHaveLength(6);
     expect(ItemSpecSchema.safeParse(six).success).toBe(false);
+  });
+});
+
+describe("the best improvement for both", () => {
+  const tv = load("tv-clearance");
+  const buyer = issueMandate(tv, "buyer");
+  const seller = issueMandate(tv, "seller");
+  const truth = groundTruth(tv.itemSpec, buyer, seller);
+
+  it("is absent for a deal already on the frontier", () => {
+    expect(bestImprovement(truth.frontier[0].terms, buyer, seller, truth)).toBeUndefined();
+  });
+
+  it("for a dominated deal, is a frontier package no worse for either side and better for one", () => {
+    const dominated = truth.feasible.find((p) => !quality(p.terms, buyer, seller, truth).paretoOptimal)!;
+    const better = bestImprovement(dominated.terms, buyer, seller, truth)!;
+    expect(better.buyerGain).toBeGreaterThanOrEqual(-1e-9);
+    expect(better.sellerGain).toBeGreaterThanOrEqual(-1e-9);
+    expect(better.buyerGain + better.sellerGain).toBeGreaterThan(0);
+    expect(quality(better.terms, buyer, seller, truth).paretoOptimal).toBe(true);
   });
 });
