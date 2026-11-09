@@ -209,7 +209,30 @@ Added to `scripts/final/guard-sim.ts` (no Claude calls; M = 100 weight samples p
 - **In narrow markets it is expensive.** Each +0.01 roughly doubles the no-deal rate (15% to 28% to 43%), and bad share barely moves past +0.01: the bad deals left there are not near the line, so a margin mostly removes good ones.
 - **Even exact weights leave tiny losses** (unsafe 72.5%, mean shortfall 0.003): part of what Claude showed (0.006 to 0.015) is unavoidable rounding at the edge, not elicitation error.
 - **Asking more does not substitute** (refit 5 +0.02 is close to refit 3 +0.02), and answer errors (10% wrong) weaken the margin.
-- Suggestion: if we add one, make it small (+0.01) or let the owner choose it ("leave me some room"), and show it as part of the walk-away. We have not added it to the product.
+- Suggestion (one counterparty only; see the next section for several): if we add one, make it small (+0.01) or let the owner choose it ("leave me some room"), and show it as part of the walk-away. We have not added it to the product.
+
+## The margin when an owner can try another counterparty
+
+The margin numbers above are one buyer against one seller, so a no-deal looks like a pure loss. In a marketplace the owner can try someone else, and a no-deal means taking the outside offer (worth exactly the walk-away), not nothing. `npx tsx scripts/final/multi-sim.ts --draws=10 --n=1,2,3,5 --margins=0,0.01,0.02,0.03,0.05` → `results/final/multi-sim-2026-11-09.txt` (no Claude calls). One focal owner (buyer, then seller) meets up to N counterparties in turn and takes the first with which both mandates allow something. Counterparty 1 is the market's own other side (N = 1 is the setting above); the others come from other markets of the same case, re-anchored so each pair's price overlap is that market's (narrow stays narrow with everyone). The focal owner answers the questions once, so the same weight error follows them to every counterparty. **gain** is the focal owner's true utility minus their true walk-away (no deal = 0): **avg** over the packages the deal allows, **edge** at the one worst for them (where a hard bargainer pushes).
+
+| case | margin | N | no deal | bad risk | gain avg | gain edge | counterparties met |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ordinary | 0 | 1 | 1.9% | 87.4% | 0.088 | -0.024 | 1.00 |
+| ordinary | 0 | 5 | 0.0% | 89.1% | 0.090 | -0.024 | 1.03 |
+| ordinary | +0.03 | 1 | 9.4% | 31.4% | 0.092 | +0.004 | 1.00 |
+| ordinary | +0.03 | 3 | 1.7% | 33.6% | 0.100 | +0.005 | 1.14 |
+| ordinary | +0.05 | 3 | 4.6% | 14.6% | 0.106 | +0.024 | 1.25 |
+| narrow | 0 | 1 | 14.5% | 50.7% | 0.024 | -0.003 | 1.00 |
+| narrow | 0 | 5 | 5.0% | 55.0% | 0.028 | -0.002 | 1.37 |
+| narrow | +0.02 | 1 | 45.1% | 13.0% | 0.021 | +0.007 | 1.00 |
+| narrow | +0.02 | 3 | 26.4% | 15.3% | 0.030 | +0.011 | 1.80 |
+| narrow | +0.02 | 5 | 19.1% | 16.1% | 0.033 | +0.012 | 2.28 |
+
+- **With other counterparties, the margin pays.** In narrow markets +0.02 loses value with one counterparty (avg gain 0.021 vs 0.024) but wins from two on (0.030 vs 0.027 at N = 3, 0.033 vs 0.028 at N = 5), and the edge outcome turns from a loss (-0.002) into a gain (+0.012). Most deals a margin blocks are recovered with the next counterparty, and the ones that come through are better for the owner.
+- **Without a margin, more counterparties do not help safety.** Bad risk stays (or grows slightly: 50.7% to 55.0% in narrow) because the owner's weight error comes along to every negotiation.
+- **Ordinary markets barely need a second try** (1.03 to 1.25 counterparties met on average); +0.03 to +0.05 raises avg gain and makes the edge positive.
+- **The cost is search**: in narrow markets +0.02 means meeting 2.3 counterparties on average at N = 5, i.e. more time and more agent runs. It also assumes other counterparties exist and are as tight as the first; a thin market behaves like N = 1.
+- So the earlier "a margin is too expensive in narrow markets" holds only when there is no one else to try. If JANG matches an owner with several counterparties, a default margin of about +0.02 is worth it. Not in the product yet.
 
 ## Getting Claude to use MESO
 

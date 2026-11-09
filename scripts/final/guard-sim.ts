@@ -68,12 +68,12 @@ const seed = 20261101;
 const base = loadScenario();
 
 /** `rankW`: weights from the owner's ranking alone (rank-order centroid), kept for the min/max guards. */
-type Lodged = { party: Party; batna: Terms; order: string[]; rankW: Record<string, number> };
+export type Lodged = { party: Party; batna: Terms; order: string[]; rankW: Record<string, number> };
 
 /** The owner's mandate from the money questions, answered with log-normal error. */
-type Source = "money" | "rank" | "exact";
+export type Source = "money" | "rank" | "exact";
 
-function lodge(party: Party, market: Scenario, rand: () => number, source: Source = "money"): Lodged {
+export function lodge(party: Party, market: Scenario, rand: () => number, source: Source = "money"): Lodged {
   const prefs = party.preferences;
   const price = prefs.price;
   const range = Math.abs(price.ideal - price.worst);
@@ -157,7 +157,7 @@ const GUARDS: Guard[] = [
   { name: "max(money,rank)", wide: true, ok: (t, l) => beatsUnder(t, l, moneyW(l)) || beatsUnder(t, l, l.rankW) },
 ];
 
-type Package = ReturnType<typeof groundTruth>["feasible"][number];
+export type Package = ReturnType<typeof groundTruth>["feasible"][number];
 const lodgedUtility = (t: Terms, l: Lodged) => utility(t, { preferences: l.party.preferences });
 
 /** Width of the interval of the package-vs-outside-offer difference over weights within factor F of the lodged ones. */
@@ -229,8 +229,8 @@ const REFITS: Refit[] = [
 const ROWS = [...GUARDS.map((g) => g.name), ...GROUP_GUARDS.map((g) => g.name), ...REFITS.map((g) => g.name)];
 
 /** Prior weight samples for one owner, with the per-package utility differences vs the outside offer under each sample. */
-type Prior = { keys: string[]; w0: number[]; W: Float64Array; ok: Uint8Array; diff: Float64Array; S: Float64Array; P: number; T: number; anyOk: boolean };
-function makePrior(l: Lodged, trueM: ReturnType<typeof issueMandate>, withinLimits: Package[], rand: () => number): Prior {
+export type Prior = { keys: string[]; w0: number[]; W: Float64Array; ok: Uint8Array; diff: Float64Array; S: Float64Array; P: number; T: number; anyOk: boolean };
+export function makePrior(l: Lodged, trueM: ReturnType<typeof issueMandate>, withinLimits: Package[], rand: () => number): Prior {
   const keys = Object.keys(l.party.preferences);
   const T = keys.length, P = withinLimits.length;
   const w0 = keys.map((k) => l.party.preferences[k].weight);
@@ -261,7 +261,7 @@ function makePrior(l: Lodged, trueM: ReturnType<typeof issueMandate>, withinLimi
 }
 
 /** Run K adaptive confirmations, then return the owner's acceptance of every package in withinLimits. */
-function refitAccept(pr: Prior, trueM: ReturnType<typeof issueMandate>, withinLimits: Package[], K: number, e: number, sure: boolean, rand: () => number, margin = 0): boolean[] {
+export function refitAccept(pr: Prior, trueM: ReturnType<typeof issueMandate>, withinLimits: Package[], K: number, e: number, sure: boolean, rand: () => number, margin = 0): boolean[] {
   const { W, diff, S, P, T } = pr;
   // Margin: the package must beat the outside offer by `margin` in (normalized) utility.
   const verdictNow = (w: number[], i: number) => {
@@ -319,6 +319,8 @@ function refitAccept(pr: Prior, trueM: ReturnType<typeof issueMandate>, withinLi
   return Array.from({ length: P }, (_, i) => verdictNow(est, i));
 }
 
+// Only when run directly, so scripts/final/multi-sim.ts can reuse the helpers above.
+if (process.argv[1]?.endsWith("guard-sim.ts")) {
 for (const kind of cases) {
   const s = Object.fromEntries(ROWS.map((name) => [name, { runs: 0, dead: 0, unsafe: 0, allowed: 0, bad: 0, eff: 0, short: 0, big: 0 }]));
   let markets = 0;
@@ -403,4 +405,5 @@ for (const kind of cases) {
       `  ${name.padEnd(21)} ${pct(st.dead / st.runs).padStart(8)} ${pct(st.unsafe / st.runs).padStart(8)} ${pct(st.bad / Math.max(1, st.allowed)).padStart(10)} ${(st.eff / st.runs).toFixed(3).padStart(10)} ${(st.short / Math.max(1, st.bad)).toFixed(3).padStart(11)} ${pct(st.big / Math.max(1, st.allowed)).padStart(11)}`,
     );
   }
+}
 }
