@@ -110,3 +110,86 @@ describe("mandate privacy", () => {
     expect(JSON.stringify(everythingElse)).not.toMatch(/utilit|preference|weight|reservation/i);
   });
 });
+
+describe("multiple equivalent offers (MESO)", () => {
+  const cheapSlow = { price: 1200, deliveryDays: 28, warrantyMonths: 18, bundle: 0 };
+  const dearBundled = { price: 1300, deliveryDays: 25, warrantyMonths: 12, bundle: 1 };
+
+  function withMeso(): Session {
+    return submitOffer(freshSession(), "agent-seller", agreeable, {
+      offerId: "o1",
+      alternatives: [
+        { offerId: "o1-b", terms: cheapSlow },
+        { offerId: "o1-c", terms: dearBundled },
+      ],
+    }).session;
+  }
+
+  it("records every package in one turn, counting one round", () => {
+    const session = withMeso();
+    expect(session.offers).toHaveLength(1);
+    expect(session.offers[0].alternatives?.map((a) => a.offerId)).toEqual(["o1-b", "o1-c"]);
+    expect(whoseTurn(session)).toBe("agent-buyer");
+  });
+
+  it("refuses the whole turn when any alternative breaches the proposer's mandate", () => {
+    expectJangError(
+      () =>
+        submitOffer(freshSession(), "agent-seller", agreeable, {
+          offerId: "o1",
+          alternatives: [{ offerId: "o1-b", terms: { ...cheapSlow, price: 1100 } }],
+        }),
+      "MANDATE_VIOLATION",
+    );
+  });
+
+  it("refuses more than two alternatives, and packages that share an id", () => {
+    expectJangError(
+      () =>
+        submitOffer(freshSession(), "agent-seller", agreeable, {
+          offerId: "o1",
+          alternatives: [
+            { offerId: "a", terms: cheapSlow },
+            { offerId: "b", terms: cheapSlow },
+            { offerId: "c", terms: cheapSlow },
+          ],
+        }),
+      "INVALID_TERMS",
+    );
+    expectJangError(
+      () =>
+        submitOffer(freshSession(), "agent-seller", agreeable, {
+          offerId: "o1",
+          alternatives: [{ offerId: "o1", terms: cheapSlow }],
+        }),
+      "INVALID_TERMS",
+    );
+  });
+
+  it("refuses an accept that does not say which package", () => {
+    expectJangError(() => acceptStandingOffer(withMeso(), "agent-buyer"), "AMBIGUOUS_ACCEPT");
+  });
+
+  it("refuses an accept naming a package that is not on the table", () => {
+    expectJangError(() => acceptStandingOffer(withMeso(), "agent-buyer", { offerId: "nope" }), "NO_STANDING_OFFER");
+  });
+
+  it("closes on exactly the package the accepter named", () => {
+    const result = acceptStandingOffer(withMeso(), "agent-buyer", { offerId: "o1-b" });
+    expect(result.session.status).toBe("agreed");
+    expect(result.session.acceptedBy).toEqual({ agentId: "agent-buyer", offerId: "o1-b" });
+    expect(result.offer.offerId).toBe("o1-b");
+    expect(result.offer.terms).toEqual(cheapSlow);
+    expect(result.offer.alternatives).toBeUndefined();
+  });
+
+  it("checks the named package, not the main one, against the accepter's mandate", () => {
+    // The buyer will not take delivery after 30 days.
+    const session = submitOffer(freshSession(), "agent-seller", agreeable, {
+      offerId: "o1",
+      alternatives: [{ offerId: "o1-slow", terms: { ...cheapSlow, deliveryDays: 40 } }],
+    }).session;
+    expectJangError(() => acceptStandingOffer(session, "agent-buyer", { offerId: "o1-slow" }), "MANDATE_VIOLATION");
+    expect(acceptStandingOffer(session, "agent-buyer", { offerId: "o1" }).offer.offerId).toBe("o1");
+  });
+});

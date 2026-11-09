@@ -135,9 +135,10 @@ export class PostgresStore implements Store {
 
       for (const offer of session.offers) {
         await tx`
-          insert into offers (offer_id, session_id, from_agent_id, round, terms, note, created_at)
+          insert into offers (offer_id, session_id, from_agent_id, round, terms, alternatives, note, created_at)
           values (${offer.offerId}, ${offer.sessionId}, ${offer.fromAgentId}, ${offer.round},
-                  ${tx.json(offer.terms)}, ${offer.note ?? null}, ${offer.createdAt})
+                  ${tx.json(offer.terms)}, ${offer.alternatives ? tx.json(offer.alternatives) : null},
+                  ${offer.note ?? null}, ${offer.createdAt})
           on conflict (offer_id) do nothing
         `;
       }
@@ -305,6 +306,7 @@ function toOffer(row: Record<string, unknown>): Offer {
     fromAgentId: row.from_agent_id as string,
     round: row.round as number,
     terms: row.terms as Offer["terms"],
+    ...(row.alternatives ? { alternatives: row.alternatives as Offer["alternatives"] } : {}),
     note: (row.note as string) ?? undefined,
     createdAt: new Date(row.created_at as string).toISOString(),
   };

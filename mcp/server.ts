@@ -12,7 +12,9 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { JangApiError, JangClient } from "../src/lib/client.ts";
 import type { SessionView } from "../src/lib/jang/session.ts";
+import type { Terms } from "../src/lib/jang/types.ts";
 import { ItemSpecSchema } from "../src/lib/jang/types.ts";
+import { packagesOf } from "../src/lib/jang/session.ts";
 import { utility } from "../src/lib/jang/utility.ts";
 
 const BASE_URL = process.env.JANG_API_URL ?? "http://localhost:3939";
@@ -70,14 +72,28 @@ function describe(view: SessionView): string {
   ];
   if (standing) {
     const mine = standing.fromAgentId === view.you.agentId;
-    const terms = Object.entries(standing.terms)
-      .map(([key, value]) => `${key}=${value}`)
-      .join(", ");
-    lines.push(
-      `${mine ? "Your" : "Their"} standing offer (round ${standing.round}): ${terms}` +
-        (standing.note ? ` ("${standing.note}")` : ""),
-    );
-    lines.push(`It is worth ${utility(standing.terms, view.yourMandate).toFixed(3)} to you (your reservation is ${view.yourMandate.reservationUtility}).`);
+    const show = (terms: Terms) =>
+      Object.entries(terms)
+        .map(([key, value]) => `${key}=${value}`)
+        .join(", ");
+    const packages = packagesOf(standing);
+    if (packages.length === 1) {
+      lines.push(
+        `${mine ? "Your" : "Their"} standing offer (round ${standing.round}): ${show(standing.terms)}` +
+          (standing.note ? ` ("${standing.note}")` : ""),
+      );
+      lines.push(`It is worth ${utility(standing.terms, view.yourMandate).toFixed(3)} to you (your reservation is ${view.yourMandate.reservationUtility}).`);
+    } else {
+      lines.push(
+        `${mine ? "Your" : "Their"} standing offer (round ${standing.round}) has ${packages.length} packages` +
+          (standing.note ? ` ("${standing.note}")` : "") +
+          (mine ? ":" : "; to accept one, pass its offerId to accept:"),
+      );
+      for (const pkg of packages) {
+        lines.push(`- ${pkg.offerId}: ${show(pkg.terms)} (worth ${utility(pkg.terms, view.yourMandate).toFixed(3)} to you)`);
+      }
+      lines.push(`Your reservation is ${view.yourMandate.reservationUtility}.`);
+    }
   } else {
     lines.push("No offer has been made yet.");
   }
@@ -136,13 +152,30 @@ server.registerTool(
 
 const offerInput = {
   terms: z.record(z.string(), z.number()).describe("One value for every dimension of the item, for example { price: 1320, deliveryDays: 21, warrantyMonths: 24, bundle: 0 }."),
+  alternatives: z
+    .array(z.record(z.string(), z.number()))
+    .max(2)
+    .optional()
+    .describe(
+      "Optional: up to two more complete packages that are worth about the same to you. The counterparty picks one, which tells you what they value without costing you anything.",
+    ),
   note: z.string().max(500).optional().describe("A short message to the counterparty. Never reveal your own limits here."),
   sessionId: z.string().optional(),
 };
 
-async function placeOffer({ terms, note, sessionId }: { terms: Record<string, number>; note?: string; sessionId?: string }) {
+async function placeOffer({
+  terms,
+  alternatives,
+  note,
+  sessionId,
+}: {
+  terms: Record<string, number>;
+  alternatives?: Record<string, number>[];
+  note?: string;
+  sessionId?: string;
+}) {
   try {
-    const view = await client.offer(resolveSession(sessionId), terms, note);
+    const view = await client.offer(resolveSession(sessionId), terms, note, alternatives);
     return ok(describe(view), view);
   } catch (error) {
     return fail(error);
@@ -175,12 +208,15 @@ server.registerTool(
   {
     title: "Accept the standing offer",
     description:
-      "Accept the counterparty's standing offer. JANG re-checks it against your mandate and, if it holds, issues an agreement signed with JANG's key.",
-    inputSchema: { sessionId: z.string().optional() },
+      "Accept the counterparty's standing offer. If it offers several packages, name the one you accept by its offerId. JANG re-checks it against your mandate and, if it holds, issues an agreement signed with JANG's key.",
+    inputSchema: {
+      offerId: z.string().optional().describe("Required when the standing offer has more than one package."),
+      sessionId: z.string().optional(),
+    },
   },
-  async ({ sessionId }) => {
+  async ({ offerId, sessionId }) => {
     try {
-      const { session, agreement } = await client.accept(resolveSession(sessionId));
+      const { session, agreement } = await client.accept(resolveSession(sessionId), offerId);
       return ok(
         `Deal closed in ${agreement.rounds} rounds. JANG signed agreement ${agreement.agreementId}. ` +
           `Verify the signature against JANG's public key and re-check the terms against your own mandate before you pay.`,

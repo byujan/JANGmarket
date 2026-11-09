@@ -230,7 +230,7 @@ export function quality(terms: Terms, buyer: Mandate, seller: Mandate, truth: Gr
 
 // ---------------------------------------------------------------- negotiation
 
-export type StrategyKnobs = { buyer: number; seller: number; deadlineAware?: boolean; respectBounds?: boolean };
+export type StrategyKnobs = { buyer: number; seller: number; deadlineAware?: boolean; respectBounds?: boolean; meso?: boolean };
 
 export type Outcome = {
   agreed: boolean;
@@ -273,14 +273,14 @@ export async function negotiate(market: Scenario, knobs: StrategyKnobs, maxRound
       return port.callCount;
     },
     getSession: () => (finished ? Promise.reject(new Error("counterparty left")) : port.getSession()),
-    offer: (terms: Terms, note: string) => port.offer(terms, note),
-    accept: () => port.accept(),
+    offer: (terms: Terms, note: string, alternatives?: Terms[]) => port.offer(terms, note, alternatives),
+    accept: (offerId?: string) => port.accept(offerId),
   });
   const run = (label: string, port: ServicePort, toughness: number) =>
     runRuleAgent({
       label,
       agent: guard(port),
-      options: { toughness, deadlineAware: knobs.deadlineAware, respectBounds: knobs.respectBounds },
+      options: { toughness, deadlineAware: knobs.deadlineAware, respectBounds: knobs.respectBounds, meso: knobs.meso },
       pollMs: 0,
       maxTurns: 1_000_000,
     }).then((result) => {

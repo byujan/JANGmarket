@@ -8,6 +8,9 @@
  * seller's in from the right, both stopping at the price they named, so the
  * white space between them is the distance still to be bridged. When it
  * disappears, they have agreed.
+ *
+ * A turn that put several packages on the table (MESO) shows its alternatives
+ * as fainter rows under the main one, so the choice the other side had is visible.
  */
 import type { Dimension, Offer, Terms } from "@/lib/jang/types.ts";
 
@@ -51,7 +54,11 @@ export function ConvergenceLadder({ dimensions, offers, buyerAgentId, agreedOffe
 
   // Scale to the ground actually being fought over, not the item's full range,
   // so the convergence fills the width instead of hiding in a corner.
-  const values = offers.map((offer) => offer.terms[axis.key]);
+  const rows = offers.flatMap((offer) => [
+    { offer, packageId: offer.offerId, terms: offer.terms, alternative: false },
+    ...(offer.alternatives ?? []).map((alt) => ({ offer, packageId: alt.offerId, terms: alt.terms, alternative: true })),
+  ]);
+  const values = rows.map((row) => row.terms[axis.key]);
   const low = Math.min(...values);
   const high = Math.max(...values);
   const pad = (high - low || Math.max(1, high * 0.1)) * 0.12;
@@ -68,18 +75,18 @@ export function ConvergenceLadder({ dimensions, offers, buyerAgentId, agreedOffe
       </div>
 
       <ol className="ladder-rows">
-        {offers.map((offer) => {
+        {rows.map(({ offer, packageId, terms, alternative }) => {
           const isBuyer = offer.fromAgentId === buyerAgentId;
-          const value = offer.terms[axis.key];
+          const value = terms[axis.key];
           const at = positionOf(value);
-          const agreed = offer.offerId === agreedOfferId;
+          const agreed = packageId === agreedOfferId;
 
           return (
             <li
-              key={offer.offerId}
-              className={`rung ${isBuyer ? "rung-buyer" : "rung-seller"}${agreed ? " rung-agreed" : ""}`}
+              key={packageId}
+              className={`rung ${isBuyer ? "rung-buyer" : "rung-seller"}${alternative ? " rung-alt" : ""}${agreed ? " rung-agreed" : ""}`}
             >
-              <span className="rung-round mono small faint">{offer.round}</span>
+              <span className="rung-round mono small faint">{alternative ? "or" : offer.round}</span>
 
               <span className="rung-track">
                 <span
@@ -94,9 +101,9 @@ export function ConvergenceLadder({ dimensions, offers, buyerAgentId, agreedOffe
                 </span>
               </span>
 
-              <span className="rung-terms mono small faint">{sideTerms(dimensions, axis, offer.terms)}</span>
+              <span className="rung-terms mono small faint">{sideTerms(dimensions, axis, terms)}</span>
 
-              {offer.note ? <span className="rung-note small mute">{offer.note}</span> : null}
+              {offer.note && !alternative ? <span className="rung-note small mute">{offer.note}</span> : null}
             </li>
           );
         })}

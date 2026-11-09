@@ -66,12 +66,12 @@ export class McpAgent implements NegotiationPort {
     return this.call<SessionView>("get_session", {});
   }
 
-  async offer(terms: Terms, note: string): Promise<SessionView> {
-    return this.call<SessionView>("offer", { terms, note });
+  async offer(terms: Terms, note: string, alternatives?: Terms[]): Promise<SessionView> {
+    return this.call<SessionView>("offer", { terms, note, ...(alternatives?.length ? { alternatives } : {}) });
   }
 
-  async accept(): Promise<{ agreement: Agreement; session: SessionView }> {
-    return this.call<{ agreement: Agreement; session: SessionView }>("accept", {});
+  async accept(offerId?: string): Promise<{ agreement: Agreement; session: SessionView }> {
+    return this.call<{ agreement: Agreement; session: SessionView }>("accept", offerId ? { offerId } : {});
   }
 
   /** Raw tool call, for the misuse test, which needs to see the refusal itself. */

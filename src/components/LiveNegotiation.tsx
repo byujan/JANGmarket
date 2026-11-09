@@ -48,7 +48,9 @@ export function LiveNegotiation({ sessionId, initial }: { sessionId: string; ini
   const { view, agreement } = payload;
   const mandate = view.yourMandate;
   const standing = view.standingOffer;
-  const standingValue = standing ? utility(standing.terms, mandate) : undefined;
+  const packages = standing ? [standing, ...(standing.alternatives ?? [])] : [];
+  // With several packages on the table, the one that matters to you is the best one.
+  const standingValue = packages.length ? Math.max(...packages.map((p) => utility(p.terms, mandate))) : undefined;
 
   return (
     <>
@@ -78,7 +80,7 @@ export function LiveNegotiation({ sessionId, initial }: { sessionId: string; ini
 
       {view.status === "open" && standingValue !== undefined ? (
         <p className="small mute" style={{ marginTop: "0.9rem" }}>
-          The package on the table is worth{" "}
+          {packages.length > 1 ? `The best of the ${packages.length} packages on the table` : "The package on the table"} is worth{" "}
           <span className="mono">{standingValue.toFixed(2)}</span> to you, against the{" "}
           <span className="mono">{mandate.reservationUtility}</span> your mandate says is the least you would accept.
         </p>

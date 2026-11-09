@@ -20,12 +20,12 @@ export class RestPort implements NegotiationPort {
     return this.track(() => this.client.getSession(this.sessionId));
   }
 
-  async offer(terms: Terms, note: string): Promise<SessionView> {
-    return this.track(() => this.client.offer(this.sessionId, terms, note));
+  async offer(terms: Terms, note: string, alternatives?: Terms[]): Promise<SessionView> {
+    return this.track(() => this.client.offer(this.sessionId, terms, note, alternatives));
   }
 
-  async accept(): Promise<{ agreement: Agreement; session: SessionView }> {
-    return this.track(() => this.client.accept(this.sessionId));
+  async accept(offerId?: string): Promise<{ agreement: Agreement; session: SessionView }> {
+    return this.track(() => this.client.accept(this.sessionId, offerId));
   }
 
   private async track<T>(call: () => Promise<T>): Promise<T> {

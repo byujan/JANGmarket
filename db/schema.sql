@@ -71,6 +71,9 @@ create table if not exists offers (
   created_at     timestamptz not null
 );
 create index if not exists offers_session_idx on offers (session_id, round);
+-- MESO: extra packages put on the table in the same turn, each with its own
+-- offerId. Null on every offer that has none, including all older rows.
+alter table offers add column if not exists alternatives jsonb;
 
 create table if not exists agreements (
   agreement_id  text primary key,

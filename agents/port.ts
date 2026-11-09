@@ -11,8 +11,10 @@ import type { Agreement, Terms } from "../src/lib/jang/types.ts";
 
 export interface NegotiationPort {
   getSession(): Promise<SessionView>;
-  offer(terms: Terms, note: string): Promise<SessionView>;
-  accept(): Promise<{ agreement: Agreement; session: SessionView }>;
+  /** `alternatives`: MESO packages offered in the same turn (at most two). */
+  offer(terms: Terms, note: string, alternatives?: Terms[]): Promise<SessionView>;
+  /** `offerId` names the package when the standing offer carries alternatives. */
+  accept(offerId?: string): Promise<{ agreement: Agreement; session: SessionView }>;
   /** How many calls this agent has made, for reporting. */
   readonly callCount: number;
 }

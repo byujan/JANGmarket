@@ -72,12 +72,12 @@ export async function runRuleAgent(input: {
 
     try {
       if (decision.action === "accept") {
-        const { agreement } = await agent.accept();
+        const { agreement } = await agent.accept(decision.offerId);
         onEvent?.({ kind: "accept", label, agreement });
         return { label, agreement, toolCalls: agent.callCount };
       }
 
-      const after = await agent.offer(decision.terms, decision.note);
+      const after = await agent.offer(decision.terms, decision.note, decision.alternatives);
       onEvent?.({
         kind: "offer",
         label,
