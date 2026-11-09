@@ -1,19 +1,24 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
+  answerCheck,
   answerComparison,
   comparisonPackages,
   isComplete,
   maxQuestions,
+  nextCheck,
   nextComparison,
+  refitCandidates,
+  refittedWeights,
   reservationFromAlternative,
+  startRefit,
   startRanking,
   swingConflicts,
   weightsFromRanking,
   weightsFromSwings,
 } from "./elicit.ts";
 import { parseScenario } from "./scenario.ts";
-import { utility } from "./utility.ts";
+import { dimensionScore, utility } from "./utility.ts";
 
 function permutations<T>(items: T[]): T[][] {
   if (items.length <= 1) return [items];
@@ -73,7 +78,7 @@ describe("weights from what each term is worth in money", () => {
 
   it("recovers an owner's exact preferences from honest answers", () => {
     // True weights, and what each swing is worth in dollars to that owner.
-    const truth = { price: 5, deliveryDays: 1, warrantyMonths: 3, bundle: 1.5 };
+    const truth: Record<string, number> = { price: 5, deliveryDays: 1, warrantyMonths: 3, bundle: 1.5 };
     const swing = (k: keyof typeof truth) => (truth[k] / truth.price) * 301;
     const weights = weightsFromSwings("price", { deliveryDays: swing("deliveryDays"), warrantyMonths: swing("warrantyMonths"), bundle: swing("bundle") }, anchors)!;
     const prefs = (w: Record<string, number>) =>
@@ -128,5 +133,83 @@ describe("reservation from the owner's alternative", () => {
     const atIdeals = Object.fromEntries(Object.entries(preferences).map(([k, p]) => [k, p.ideal]));
     expect(reservationFromAlternative(atLimits, preferences)).toBe(0);
     expect(reservationFromAlternative(atIdeals, preferences)).toBe(1);
+  });
+});
+
+describe("refitting weights from a few yes/no checks", () => {
+  const anchors: Record<string, { ideal: number; limit: number; step: number }> = {
+    price: { ideal: 900, limit: 1500, step: 50 },
+    deliveryDays: { ideal: 1, limit: 14, step: 1 },
+    warrantyMonths: { ideal: 36, limit: 0, step: 6 },
+    bundle: { ideal: 1, limit: 0, step: 1 },
+  };
+  const prefs = Object.fromEntries(Object.entries(anchors).map(([k, a]) => [k, { ideal: a.ideal, worst: a.limit }]));
+  const truth = { price: 1, deliveryDays: 0.3, warrantyMonths: 0.5, bundle: 0.2 };
+  // Overstates warranty by 1.5x and understates delivery by 0.6x.
+  const base = { price: 1, deliveryDays: 0.18, warrantyMonths: 0.75, bundle: 0.2 };
+  const alternative: Record<string, number> = { price: 1200, deliveryDays: 7, warrantyMonths: 12, bundle: 0 };
+  const candidates = refitCandidates(anchors);
+  const norm = (w: Record<string, number>) => {
+    const total = Object.values(w).reduce((a, b) => a + b, 0);
+    return Object.fromEntries(Object.entries(w).map(([k, v]) => [k, v / total]));
+  };
+  const l1 = (a: Record<string, number>, b: Record<string, number>) => {
+    const x = norm(a), y = norm(b);
+    return Object.keys(x).reduce((sum, k) => sum + Math.abs(x[k] - y[k]), 0);
+  };
+  const trueUtility = (pkg: Record<string, number>) => {
+    const w = norm(truth);
+    return Object.keys(truth).reduce((s, k) => s + w[k] * dimensionScore(pkg[k], anchors[k].ideal, anchors[k].limit), 0);
+  };
+
+  it("builds a grid with deduplicated values", () => {
+    expect(candidates.length).toBeGreaterThan(100);
+    expect(refitCandidates({ bundle: { ideal: 1, limit: 0, step: 1 } })).toEqual([{ bundle: 0 }, { bundle: 1 }]);
+  });
+
+  it("moves the weights toward the truth after three truthful answers", () => {
+    let state = startRefit(base, undefined);
+    for (let round = 0; round < 3; round += 1) {
+      const pkg = nextCheck(state, candidates, alternative, prefs);
+      expect(pkg).toBeDefined();
+      state = answerCheck(state, pkg!, alternative, prefs, trueUtility(pkg!) >= trueUtility(alternative));
+    }
+    expect(state.answered).toBe(3);
+    expect(l1(refittedWeights(state), truth)).toBeLessThan(l1(base, truth));
+  });
+
+  it("never repeats a package and stays near the line", () => {
+    let state = startRefit(base, undefined);
+    const seen = new Set<string>();
+    for (let round = 0; round < 6; round += 1) {
+      const pkg = nextCheck(state, candidates, alternative, prefs);
+      if (!pkg) break;
+      const key = JSON.stringify(pkg);
+      expect(seen.has(key)).toBe(false);
+      seen.add(key);
+      const est = refittedWeights(state);
+      const total = Object.values(est).reduce((a, b) => a + b, 0);
+      const gap = Object.keys(est).reduce(
+        (s, k) => s + (est[k] / total) * (dimensionScore(pkg[k], prefs[k].ideal, prefs[k].worst) - dimensionScore(alternative[k], prefs[k].ideal, prefs[k].worst)),
+        0,
+      );
+      expect(Math.abs(gap)).toBeLessThanOrEqual(0.05 + 1e-3);
+      state = answerCheck(state, pkg, alternative, prefs, round % 2 === 0);
+    }
+    expect(seen.size).toBeGreaterThan(0);
+  });
+
+  it("falls back to the base weights when the order contradicts every sample", () => {
+    // Base says price > warranty > delivery > bundle; the order claims the reverse by a wide margin.
+    const wide = { price: 100, deliveryDays: 10, warrantyMonths: 1, bundle: 0.01 };
+    const state = startRefit(wide, ["bundle", "warrantyMonths", "deliveryDays", "price"], { noise: 0.01 });
+    expect(state.samples).toHaveLength(1);
+    expect(refittedWeights(state)).toEqual(wide);
+  });
+
+  it("stays close to the base with no answers", () => {
+    const state = startRefit(base, undefined);
+    expect(l1(refittedWeights(state), base)).toBeLessThan(0.15);
+    expect(Object.values(refittedWeights(state)).every((w) => w > 0)).toBe(true);
   });
 });

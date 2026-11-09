@@ -172,6 +172,7 @@ Added to `scripts/final/guard-sim.ts` (no Claude calls; M = 100 weight samples p
 - It holds with 10% wrong answers, and five questions help further.
 - **"80% sure" is the best safety option found**: about as safe as robust x1.2 in ordinary markets (3.9% vs 3.1% bad) but losing 4.7% of markets instead of 19.4%, with efficiency 0.94 instead of 0.77.
 - Caveats: the model's noise assumption (sigma 0.3) matches the simulated owners exactly, which flatters it; real answers may err differently. M = 100 samples. Questions are chosen adaptively, so in the product they must be computed in the browser after each answer (100 to 300 samples is cheap).
+- **Now in the product** ("Check a few deals" in the mandate builder, after the outside offer): `startRefit`, `refitCandidates`, `nextCheck`, `answerCheck`, `refittedWeights` in `elicit.ts` (200 samples, the "mean" rule), up to three yes/no questions, optional. The "80% sure" rule is not in the product: the engine judges a package by one weight vector and one walk-away, so it would need an engine change. Checked in the browser on the Cambridge rental: questions appear only once an alternative is described, three answers end in "Done", and changing anything above resets them with a note.
 
 ## Getting Claude to use MESO
 

@@ -19,23 +19,32 @@ import { useRouter } from "next/navigation";
 import { RegisterAgentForm } from "./RegisterAgentForm.tsx";
 import { loadOrCreateOwnerKey, isSupported, signMandateBody } from "@/lib/browser/signing.ts";
 import {
+  answerCheck,
   answerComparison,
   comparisonPackages,
   isComplete,
   maxQuestions,
+  nextCheck,
   nextComparison,
+  refitCandidates,
+  refittedWeights,
   reservationFromAlternative,
+  startRefit,
   startRanking,
   swingConflicts,
   weightsFromRanking,
   weightsFromSwings,
   type Ranking,
+  type Refit,
 } from "@/lib/jang/elicit.ts";
 import type { Dimension, ItemSpec, MandateBody, Role } from "@/lib/jang/types.ts";
 
 export type BuilderItem = { itemSpec: ItemSpec; title: string };
 
 type Setting = { limit: number };
+
+/** How many yes/no checks the owner is asked. */
+const MAX_CHECKS = 3;
 
 /** Disagreements listed by name; the rest are counted, so the warning stays short. */
 const MAX_CONFLICTS_SHOWN = 2;
@@ -141,10 +150,51 @@ export function MandateBuilder({
   const setAlternative = (dimension: Dimension, value: number) =>
     setAlternatives((current) => ({ ...current, [scope]: { ...alternative, [dimension.key]: value } }));
 
+  // Fine-tuning the weights: a few yes/no checks near the line. Answers are
+  // kept with a signature of what they were asked against; if any of it
+  // changes, they no longer apply.
+  const baseWeights = swingWeights ?? (isComplete(ranking) ? weightsFromRanking(ranking.ranked) : {});
+  const baseFull = Object.fromEntries(dimensions.map((d) => [d.key, baseWeights[d.key] ?? 1]));
+  const alternativeTerms = Object.fromEntries(dimensions.map((d) => [d.key, alternativeValue(d)]));
+  const refitSignature = JSON.stringify({
+    limits: Object.fromEntries(dimensions.map((d) => [d.key, settingFor(d).limit])),
+    base: baseFull,
+    alternative: alternativeTerms,
+    order: isComplete(ranking) ? ranking.ranked : null,
+  });
+  const [refits, setRefits] = useState<Record<string, { signature: string; state: Refit }>>({});
+  const storedRefit = refits[scope];
+  const refitMatches = storedRefit?.signature === refitSignature;
+  const refitLost = !!storedRefit && !refitMatches && storedRefit.state.answered > 0;
+  const freshRefit = () => startRefit(baseFull, isComplete(ranking) ? ranking.ranked : undefined);
+  const refit = refitMatches ? storedRefit.state : freshRefit();
+  const refitPrefs = Object.fromEntries(dimensions.map((d) => [d.key, { ideal: idealEnd(d, role), worst: settingFor(d).limit }]));
+  // Until the owner describes an alternative, it sits at every limit and the
+  // checks would ask about the worst deals, so wait for one.
+  const hasAlternative = !noAlternative && Object.keys(alternative).length > 0;
+  const checkPackage =
+    hasAlternative && refit.answered < MAX_CHECKS
+      ? nextCheck(
+          refit,
+          refitCandidates(Object.fromEntries(dimensions.map((d) => [d.key, { ...anchors[d.key], step: d.step }]))),
+          alternativeTerms,
+          refitPrefs,
+        )
+      : undefined;
+  const answerRefit = (wouldTake: boolean) => {
+    if (!checkPackage) return;
+    setRefits((current) => ({
+      ...current,
+      [scope]: { signature: refitSignature, state: answerCheck(refit, checkPackage, alternativeTerms, refitPrefs, wouldTake) },
+    }));
+  };
+  const restartRefit = () => setRefits((current) => ({ ...current, [scope]: { signature: refitSignature, state: freshRefit() } }));
+
   /** Preferences as the engine scores them: ideal at the far end, worst at the owner's limit. */
   function preferencesFor(): MandateBody["preferences"] {
     // Money answers carry size, so they win; the ranking alone only carries order.
-    const weights = swingWeights ?? (isComplete(ranking) ? weightsFromRanking(ranking.ranked) : {});
+    // Answers to the checks, when they still apply, fine-tune either.
+    const weights = hasAlternative && refitMatches && refit.answered > 0 ? refittedWeights(refit) : baseWeights;
     const preferences: MandateBody["preferences"] = {};
     for (const dimension of dimensions) {
       preferences[dimension.key] = {
@@ -468,6 +518,48 @@ export function MandateBuilder({
               </div>
             ))}
           </div>
+        )}
+      </section>
+
+      <section className="section">
+        <h2>Check a few deals</h2>
+        <p className="small mute">
+          A few deals near the line where your agent would start saying yes. Would you take each one over your
+          alternative? Your answers fine-tune how much each term counts.
+        </p>
+        {!hasAlternative ? (
+          <p className="small faint">Describe your alternative above first; these deals are compared against it.</p>
+        ) : (
+          <>
+            {refitLost ? (
+              <p className="small faint">Your answers below were reset because something above changed.</p>
+            ) : null}
+            {checkPackage ? (
+              <div className="choice">
+                <p className="small faint" style={{ margin: "0 0 0.5rem" }}>
+                  Question {refit.answered + 1} of {MAX_CHECKS}. Would you take this over your alternative?
+                </p>
+                <p className="small" style={{ margin: "0 0 0.5rem" }}>{describePackage(checkPackage)}</p>
+                <div className="field-row">
+                  <button type="button" className="button button-quiet" onClick={() => answerRefit(true)}>
+                    Yes, I&apos;d take this
+                  </button>
+                  <button type="button" className="button button-quiet" onClick={() => answerRefit(false)}>
+                    No, my alternative is better
+                  </button>
+                </div>
+              </div>
+            ) : refit.answered > 0 ? (
+              <p className="small">
+                Done. Your answers were used to fine-tune the weights.{" "}
+                <button type="button" className="link-button small" onClick={restartRefit}>
+                  Answer again
+                </button>
+              </p>
+            ) : (
+              <p className="small faint">No deal sits close enough to your alternative to ask about.</p>
+            )}
+          </>
         )}
       </section>
 
