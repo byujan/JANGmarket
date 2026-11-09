@@ -188,7 +188,28 @@ Added to `scripts/final/guard-sim.ts` (no Claude calls; M = 100 weight samples p
 - **The large loss is gone.** In asymmetric #3 the checks raised the buyer's walk-away (0.272 to 0.310) and the bad deal could no longer be signed; the same happened to narrow #1's seller.
 - **Small losses remain, and there were three of them**: asymmetric #2 (buyer 0.361 vs 0.367), narrow #9 (buyer 0.252 vs 0.267), ordinary #2 (seller 0.336 vs 0.348). All within 0.015 of the walk-away. Hard-bargaining agents push deals to the edge of what the mandate allows, so any remaining weight error shows up as a slightly bad deal.
 - Closing fell from 7/9 to 5/9: two markets became no-deal because the checks protected an owner (asymmetric #3, narrow #1), and asymmetric #0 failed although a deal was possible.
-- This matches the simulation: refit removes most large losses (short>0.05: 2.6% to 0.5% in ordinary) but leaves many small ones. Removing those too needs a margin or the "80% sure" rule, which costs deals. One run per market, 9 markets: direction only.
+- This matches the simulation: refit removes most large losses (short>0.05: 2.6% to 0.5% in ordinary) but leaves many small ones. Removing those too needs a margin or the "80% sure" rule, which costs deals (next section). One run per market, 9 markets: direction only.
+
+## A safety margin on top of the refit
+
+`npx tsx scripts/final/guard-sim.ts --draws=10` (no Claude calls), new rows "refit K +m": after the refit, a package must beat the outside offer by m (utility) under the refitted weights, i.e. the walk-away is raised by m. **unsafe** (some allowed package is below an owner's true walk-away) is the number that matters for Claude agents, since they push to the edge of what the mandate allows.
+
+| guard | ordinary: no deal | unsafe | bad share | best eff. | narrow: no deal | unsafe | bad share | best eff. |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| refit 3 | 1.6% | 97.1% | 8.3% | 0.983 | 15.1% | 71.1% | 29.5% | 0.909 |
+| refit 3 +0.01 | 3.6% | 86.9% | 5.3% | 0.953 | 27.5% | 40.2% | 22.7% | 0.745 |
+| refit 3 +0.02 | 6.5% | 69.1% | 3.5% | 0.923 | 42.6% | 23.5% | 19.9% | 0.560 |
+| refit 3 +0.03 | 9.1% | 51.4% | 2.3% | 0.894 | 58.1% | 14.4% | 19.3% | 0.402 |
+| refit 3 +0.05 | 16.4% | 24.9% | 1.2% | 0.817 | 78.8% | 6.0% | 22.3% | 0.209 |
+| refit 5 +0.02 | 6.0% | 63.6% | 2.9% | 0.927 | 40.2% | 24.0% | 17.9% | 0.574 |
+| refit 3, 80% sure | 4.7% | 84.7% | 3.9% | 0.939 | 32.5% | 40.2% | 20.6% | 0.659 |
+| exact weights | 0.3% | 72.5% | 2.2% | 0.996 | 5.3% | 64.0% | 10.0% | 0.987 |
+
+- **A margin works in ordinary markets.** +0.02 cuts bad share from 8.3% to 3.5% (about what exact weights give) for 5 more points of no-deal; it is about as good as "80% sure", and needs no engine change (it is just a higher walk-away).
+- **In narrow markets it is expensive.** Each +0.01 roughly doubles the no-deal rate (15% to 28% to 43%), and bad share barely moves past +0.01: the bad deals left there are not near the line, so a margin mostly removes good ones.
+- **Even exact weights leave tiny losses** (unsafe 72.5%, mean shortfall 0.003): part of what Claude showed (0.006 to 0.015) is unavoidable rounding at the edge, not elicitation error.
+- **Asking more does not substitute** (refit 5 +0.02 is close to refit 3 +0.02), and answer errors (10% wrong) weaken the margin.
+- Suggestion: if we add one, make it small (+0.01) or let the owner choose it ("leave me some room"), and show it as part of the walk-away. We have not added it to the product.
 
 ## Getting Claude to use MESO
 
