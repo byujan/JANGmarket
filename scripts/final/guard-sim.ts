@@ -36,6 +36,9 @@
  *               prefers it to the outside offer. Rows: refit 3, refit 3 10% wrong, refit 5,
  *               refit 0 (ranking only, no questions), refit 3 80% sure. If every sample is
  *               dropped by the ranking, the lodged weights are kept.
+ *               "refit K +m": the "mean" rule with a safety margin: the walk-away is raised by m
+ *               (normalized utility), so a package must beat the outside offer by m under the
+ *               refitted weights. Also applied when every sample is dropped (lodged weights).
  *
  * Reported per case, over every feasible market x draws of the dollar errors:
  *   no deal     markets where the guard leaves nothing both sides allow
@@ -209,13 +212,19 @@ const GROUP_GUARDS: GroupGuard[] = [
 ];
 
 const M = Number(arg("samples", "100")); // 300 roughly doubles the run time
-type Refit = { name: string; K: number; e: number; sure?: boolean };
+type Refit = { name: string; K: number; e: number; sure?: boolean; margin?: number };
 const REFITS: Refit[] = [
   { name: "refit 3", K: 3, e: 0 },
   { name: "refit 3, 10% wrong", K: 3, e: 0.1 },
   { name: "refit 5", K: 5, e: 0 },
   { name: "refit 0", K: 0, e: 0 },
   { name: "refit 3, 80% sure", K: 3, e: 0, sure: true },
+  { name: "refit 3 +0.01", K: 3, e: 0, margin: 0.01 },
+  { name: "refit 3 +0.02", K: 3, e: 0, margin: 0.02 },
+  { name: "refit 3 +0.03", K: 3, e: 0, margin: 0.03 },
+  { name: "refit 3 +0.05", K: 3, e: 0, margin: 0.05 },
+  { name: "refit 5 +0.02", K: 5, e: 0, margin: 0.02 },
+  { name: "refit 3 +.02 10%wr", K: 3, e: 0.1, margin: 0.02 },
 ];
 const ROWS = [...GUARDS.map((g) => g.name), ...GROUP_GUARDS.map((g) => g.name), ...REFITS.map((g) => g.name)];
 
@@ -252,12 +261,13 @@ function makePrior(l: Lodged, trueM: ReturnType<typeof issueMandate>, withinLimi
 }
 
 /** Run K adaptive confirmations, then return the owner's acceptance of every package in withinLimits. */
-function refitAccept(pr: Prior, trueM: ReturnType<typeof issueMandate>, withinLimits: Package[], K: number, e: number, sure: boolean, rand: () => number): boolean[] {
+function refitAccept(pr: Prior, trueM: ReturnType<typeof issueMandate>, withinLimits: Package[], K: number, e: number, sure: boolean, rand: () => number, margin = 0): boolean[] {
   const { W, diff, S, P, T } = pr;
+  // Margin: the package must beat the outside offer by `margin` in (normalized) utility.
   const verdictNow = (w: number[], i: number) => {
     let v = 0;
     for (let t = 0; t < T; t += 1) v += w[t] * diff[i * T + t];
-    return v >= -1e-9;
+    return v / w.reduce((a, b) => a + b, 0) >= margin - 1e-9;
   };
   if (!pr.anyOk) return Array.from({ length: P }, (_, i) => verdictNow(pr.w0, i));
   const imp = Float64Array.from(pr.ok, (x) => x);
@@ -354,8 +364,8 @@ for (const kind of cases) {
       REFITS.forEach((g, gi) => {
         const rb = mulberry32(seed + index * 31 + d * 7919 + gi * 104729 + 9200001);
         const rs = mulberry32(seed + index * 31 + d * 7919 + gi * 104729 + 9200002);
-        const accB = refitAccept(priorB, tb, withinLimits, g.K, g.e, !!g.sure, rb);
-        const accS = refitAccept(priorS, ts, withinLimits, g.K, g.e, !!g.sure, rs);
+        const accB = refitAccept(priorB, tb, withinLimits, g.K, g.e, !!g.sure, rb, g.margin ?? 0);
+        const accS = refitAccept(priorS, ts, withinLimits, g.K, g.e, !!g.sure, rs, g.margin ?? 0);
         runs.push({ name: g.name, allowed: withinLimits.filter((_, i) => accB[i] && accS[i]) });
       });
       for (const { name, allowed } of runs) {
