@@ -37,6 +37,9 @@ export type BuilderItem = { itemSpec: ItemSpec; title: string };
 
 type Setting = { limit: number };
 
+/** Disagreements listed by name; the rest are counted, so the warning stays short. */
+const MAX_CONFLICTS_SHOWN = 2;
+
 /** The end of the range this side is reaching for. */
 function idealEnd(dimension: Dimension, role: Role): number {
   const buyerWantsLow = dimension.buyerPrefers !== "high";
@@ -379,7 +382,8 @@ export function MandateBuilder({
           <h2>How much is each worth to you?</h2>
           <p className="small mute">
             The order says what matters more, not how much more. For each term, how much {role === "buyer" ? "more would you pay" : "less would you accept"} to get
-            your best instead of your limit? A rough figure is fine. Skip this and the order alone sets the weights.
+            your best instead of your limit? Answer in the same terms as your {money.label.toLowerCase()}; a rough figure is
+            fine. Skip this and the order alone sets the weights.
           </p>
           <div className="field-row">
             {dimensions
@@ -409,9 +413,13 @@ export function MandateBuilder({
           </p>
           {conflicts.length ? (
             <div className="notice" style={{ marginTop: "0.75rem" }}>
-              These amounts disagree with your choices above:{" "}
-              {conflicts.map((c) => `${byKey(c.more).label.toLowerCase()} over ${byKey(c.less).label.toLowerCase()}`).join("; ")}. The amounts
-              are used; change them, or answer the choices again, if that is not what you meant.
+              {conflicts.length === 1 ? "This amount disagrees" : `${conflicts.length} pairs of amounts disagree`} with your choices above:{" "}
+              {conflicts
+                .slice(0, MAX_CONFLICTS_SHOWN)
+                .map((c) => `you chose ${byKey(c.more).label.toLowerCase()} over ${byKey(c.less).label.toLowerCase()}`)
+                .join("; ")}
+              {conflicts.length > MAX_CONFLICTS_SHOWN ? `; and ${conflicts.length - MAX_CONFLICTS_SHOWN} more` : ""}. The amounts are used;
+              change them, or answer the choices again, if that is not what you meant.
             </div>
           ) : null}
         </section>
