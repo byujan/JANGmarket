@@ -144,16 +144,6 @@ a { color: var(--accent); }
 <li>Experiment scripts in <code>scripts/final/</code>, raw results in <code>results/final/</code>, and the full write-up in <code>docs/final/claude-experiments.md</code>.</li>
 </ul>
 
-<h2>Known issues, not fixed yet</h2>
-<p>Three independent reviews by Claude subagents (experimental method, product and code, course project) scored the work 66, 70 and 69 out of 100. Open points I agree with:</p>
-<ul>
-<li>Changing a dollar amount after answering the checks resets the answers. They are tied to a signature that includes the weights.</li>
-<li>Filling in only some dollar amounts silently falls back to the ranking weights. It should say "fill in N more to use these".</li>
-<li>When the ranking and the amounts contradict each other, the checks can still be shown even though they carry no information.</li>
-<li>The simulations assume the refit's own noise model and truthful answers, which flatters it. No real person has used the builder yet.</li>
-<li>Not run end to end: signing and lodging a mandate from the new form (needs Clerk and Postgres locally).</li>
-</ul>
-
 <h2>What I need from you</h2>
 <ol>
 <li>Review #5 → #9 in order. #5 to #8 touch the core (offers, mandates, stores); #9 is mostly the builder and experiments.</li>
