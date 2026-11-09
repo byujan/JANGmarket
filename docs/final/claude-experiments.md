@@ -153,6 +153,26 @@ Added to `scripts/final/guard-sim.ts` (no Claude calls). After the mandate is bu
 - **But the gain is small** (bad share 13.9% to 11.9%), and two more questions add little. It only moves one number, the walk-away; the errors are in the weights' direction, so raising the line to exclude one bad package also cuts good ones elsewhere.
 - Next step if pursued: use the answers to correct the weights, not just the walk-away (find weights consistent with every choice, dollar answer and confirmation), and pick each next package from what the previous answers left uncertain.
 
+## Correcting the weights from the answers (Bayesian refit)
+
+Added to `scripts/final/guard-sim.ts` (no Claude calls; M = 100 weight samples per owner, `--samples`). Per owner: sample plausible weights around the dollar answers (log-normal, sigma 0.3), drop those that contradict the owner's ranking, then ask K adaptive questions. Each question shows the package near the line that the samples disagree on most; the answer reweights the samples (the model assumes 5% answer noise). The final mandate uses the weighted mean of the samples ("mean"), or accepts only packages that beat the outside offer in at least 80% of the weighted samples ("80% sure").
+
+| | ordinary: no deal | bad share | short>0.05 | best eff. | narrow: no deal | bad share | short>0.05 | best eff. |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| none (money questions only) | 3.5% | 13.9% | 2.6% | 0.966 | 25.6% | 56.7% | 15.0% | 0.966 |
+| confirm 3 (walk-away only) | 2.3% | 11.9% | 1.7% | 0.976 | 22.5% | 51.4% | 10.6% | 0.959 |
+| refit 0 (ranking constraint only) | 4.0% | 11.0% | 1.3% | 0.954 | 29.8% | 45.6% | 6.1% | 0.850 |
+| **refit 3** | **1.6%** | **8.3%** | **0.5%** | **0.983** | **15.1%** | **29.5%** | **2.2%** | **0.909** |
+| refit 3, 10% of answers wrong | 2.0% | 9.6% | 0.9% | 0.979 | 19.8% | 35.5% | 3.7% | 0.890 |
+| refit 5 | 1.2% | 7.3% | 0.5% | 0.989 | 11.4% | 27.7% | 1.9% | 0.958 |
+| refit 3, 80% sure | 4.7% | 3.9% | 0.3% | 0.939 | 32.5% | 20.6% | 2.3% | 0.659 |
+| robust x1.2 (for comparison) | 19.4% | 3.1% | 0.3% | 0.770 | 73.0% | 32.5% | 5.3% | 0.253 |
+
+- **Correcting the weights works where moving the walk-away did not.** With three questions, ordinary markets lose fewer deals (3.5% to 1.6%), bad packages fall from 13.9% to 8.3% and large losses from 2.6% to 0.5%, and reachable efficiency rises. Narrow markets gain the most: dead markets 25.6% to 15.1%, bad packages 56.7% to 29.5%, large losses 15.0% to 2.2%.
+- It holds with 10% wrong answers, and five questions help further.
+- **"80% sure" is the best safety option found**: about as safe as robust x1.2 in ordinary markets (3.9% vs 3.1% bad) but losing 4.7% of markets instead of 19.4%, with efficiency 0.94 instead of 0.77.
+- Caveats: the model's noise assumption (sigma 0.3) matches the simulated owners exactly, which flatters it; real answers may err differently. M = 100 samples. Questions are chosen adaptively, so in the product they must be computed in the browser after each answer (100 to 300 samples is cheap).
+
 ## Getting Claude to use MESO
 
 `npx tsx scripts/final/llm-all.ts --markets=3 --arms=meso+disclose --meso-guide` → `results/final/llm-all-2026-11-09T14-19-22-080Z.json` (9 negotiations, about $33)
@@ -181,7 +201,7 @@ Same 9 markets as the earlier meso+disclose arm:
 - `agents/llm-strategy.ts`: optional `env` passed through to the agent's MCP server; opt-in MESO guidance (`JANG_MESO_GUIDE=on`, `agents/prompts/meso.md`).
 - `mcp/server.ts` also gains the opt-in MESO hints in `get_session` (turn reminder, closest package).
 - `src/lib/jang/elicit.ts` (+ tests) and `src/components/MandateBuilder.tsx`: the money questions above.
-- New: `scripts/final/elicit-llm.ts`, `scripts/final/llm-all.ts` (now with an `all4+money` arm), `scripts/final/magnitude-sim.ts`, `scripts/final/guard-sim.ts`.
+- New: `scripts/final/elicit-llm.ts`, `scripts/final/llm-all.ts` (now with an `all4+money` arm), `scripts/final/magnitude-sim.ts`, `scripts/final/guard-sim.ts` (guards, boundary confirmation, Bayesian refit).
 
 ## Limits
 

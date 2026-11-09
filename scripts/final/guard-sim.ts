@@ -25,6 +25,17 @@
  *               packages within limits whose lodged utility clears BOTH adjusted walk-aways.
  *               Rows: confirm 3 (e=0), confirm 3, 10% wrong, confirm 5, confirm 3 + min
  *               (also requires the min(money,rank) condition).
+ *   refit K     Bayesian refit of the WEIGHTS (not just the walk-away) from the answers. Per owner,
+ *               M prior samples w = lodged_w * exp(0.3 z); drop those violating the owner's
+ *               (true) ranking; then K adaptive confirmations: the package near the outside
+ *               offer on which the samples disagree most is shown, the owner answers from the
+ *               TRUE mandate (wrong with probability e), and samples are reweighted 0.95 / 0.05
+ *               by agreement (model always assumes 5% noise). Final rule "mean": importance-
+ *               weighted mean weights, walk-away = outside offer's utility under them;
+ *               "80% sure": a package is allowed iff >= 80% of the weight mass of samples
+ *               prefers it to the outside offer. Rows: refit 3, refit 3 10% wrong, refit 5,
+ *               refit 0 (ranking only, no questions), refit 3 80% sure. If every sample is
+ *               dropped by the ranking, the lodged weights are kept.
  *
  * Reported per case, over every feasible market x draws of the dollar errors:
  *   no deal     markets where the guard leaves nothing both sides allow
@@ -36,7 +47,7 @@
  *   best eff.   the best allowed package's efficiency, judged by the truth
  *               (no deal counts 0), what a good agent could reach
  *
- *   npx tsx scripts/final/guard-sim.ts [--cases=ordinary,narrow] [--draws=10] [--noise=0.3]
+ *   npx tsx scripts/final/guard-sim.ts [--cases=ordinary,narrow] [--draws=10] [--noise=0.3] [--samples=100]
  */
 import { reservationFromAlternative, weightsFromRanking, weightsFromSwings } from "../../src/lib/jang/elicit.ts";
 import { issueMandate, type Party, type Scenario } from "../../src/lib/jang/scenario.ts";
@@ -196,7 +207,107 @@ const GROUP_GUARDS: GroupGuard[] = [
   { name: "confirm 5", K: 5, e: 0 },
   { name: "confirm 3 + min", K: 3, e: 0, min: true },
 ];
-const ROWS = [...GUARDS.map((g) => g.name), ...GROUP_GUARDS.map((g) => g.name)];
+
+const M = Number(arg("samples", "100")); // 300 roughly doubles the run time
+type Refit = { name: string; K: number; e: number; sure?: boolean };
+const REFITS: Refit[] = [
+  { name: "refit 3", K: 3, e: 0 },
+  { name: "refit 3, 10% wrong", K: 3, e: 0.1 },
+  { name: "refit 5", K: 5, e: 0 },
+  { name: "refit 0", K: 0, e: 0 },
+  { name: "refit 3, 80% sure", K: 3, e: 0, sure: true },
+];
+const ROWS = [...GUARDS.map((g) => g.name), ...GROUP_GUARDS.map((g) => g.name), ...REFITS.map((g) => g.name)];
+
+/** Prior weight samples for one owner, with the per-package utility differences vs the outside offer under each sample. */
+type Prior = { keys: string[]; w0: number[]; W: Float64Array; ok: Uint8Array; diff: Float64Array; S: Float64Array; P: number; T: number; anyOk: boolean };
+function makePrior(l: Lodged, trueM: ReturnType<typeof issueMandate>, withinLimits: Package[], rand: () => number): Prior {
+  const keys = Object.keys(l.party.preferences);
+  const T = keys.length, P = withinLimits.length;
+  const w0 = keys.map((k) => l.party.preferences[k].weight);
+  const gauss = () => Math.sqrt(-2 * Math.log(1 - rand())) * Math.cos(2 * Math.PI * rand());
+  const trueW = Object.fromEntries(keys.map((k) => [k, trueM.preferences[k].weight]));
+  const trueOrder = [...keys].sort((a, b) => trueW[b] - trueW[a] || (a < b ? -1 : 1));
+  const W = new Float64Array(M * T), ok = new Uint8Array(M);
+  let anyOk = false;
+  for (let m = 0; m < M; m += 1) {
+    for (let t = 0; t < T; t += 1) W[m * T + t] = w0[t] * Math.exp(NOISE * gauss());
+    const order = [...keys.keys()].sort((a, b) => W[m * T + b] - W[m * T + a] || (keys[a] < keys[b] ? -1 : 1)).map((i) => keys[i]);
+    ok[m] = order.every((k, i) => k === trueOrder[i]) ? 1 : 0;
+    if (ok[m]) anyOk = true;
+  }
+  const diff = new Float64Array(P * T), S = new Float64Array(P * M);
+  withinLimits.forEach((p, i) => {
+    keys.forEach((k, t) => {
+      const pr = l.party.preferences[k];
+      diff[i * T + t] = dimensionScore(p.terms[k], pr.ideal, pr.worst) - dimensionScore(l.batna[k] ?? pr.worst, pr.ideal, pr.worst);
+    });
+    for (let m = 0; m < M; m += 1) {
+      let v = 0;
+      for (let t = 0; t < T; t += 1) v += W[m * T + t] * diff[i * T + t];
+      S[i * M + m] = v;
+    }
+  });
+  return { keys, w0, W, ok, diff, S, P, T, anyOk };
+}
+
+/** Run K adaptive confirmations, then return the owner's acceptance of every package in withinLimits. */
+function refitAccept(pr: Prior, trueM: ReturnType<typeof issueMandate>, withinLimits: Package[], K: number, e: number, sure: boolean, rand: () => number): boolean[] {
+  const { W, diff, S, P, T } = pr;
+  const verdictNow = (w: number[], i: number) => {
+    let v = 0;
+    for (let t = 0; t < T; t += 1) v += w[t] * diff[i * T + t];
+    return v >= -1e-9;
+  };
+  if (!pr.anyOk) return Array.from({ length: P }, (_, i) => verdictNow(pr.w0, i));
+  const imp = Float64Array.from(pr.ok, (x) => x);
+  const mean = () => {
+    const est = new Array(T).fill(0);
+    let tot = 0;
+    for (let m = 0; m < M; m += 1) {
+      if (!imp[m]) continue;
+      tot += imp[m];
+      for (let t = 0; t < T; t += 1) est[t] += imp[m] * W[m * T + t];
+    }
+    return est.map((x) => x / tot);
+  };
+  const used = new Set<number>();
+  for (let r = 0; r < K; r += 1) {
+    const est = mean();
+    const sumW = est.reduce((a, b) => a + b, 0);
+    let pick = -1, bestGap = Infinity, pickP = 0;
+    for (let i = 0; i < P; i += 1) {
+      if (used.has(i)) continue;
+      let v = 0;
+      for (let t = 0; t < T; t += 1) v += est[t] * diff[i * T + t];
+      if (Math.abs(v / sumW) > 0.05) continue;
+      let yes = 0, tot = 0;
+      for (let m = 0; m < M; m += 1) {
+        tot += imp[m];
+        if (S[i * M + m] >= 0) yes += imp[m];
+      }
+      const gap = Math.abs(yes / tot - 0.5);
+      if (gap < bestGap) { bestGap = gap; pick = i; pickP = yes / tot; }
+    }
+    void pickP;
+    if (pick < 0) break;
+    used.add(pick);
+    const truth = utility(withinLimits[pick].terms, trueM) >= trueM.reservationUtility;
+    const answer = rand() < e ? !truth : truth;
+    for (let m = 0; m < M; m += 1) imp[m] *= (S[pick * M + m] >= 0) === answer ? 0.95 : 0.05;
+  }
+  if (sure) {
+    let tot = 0;
+    for (let m = 0; m < M; m += 1) tot += imp[m];
+    return Array.from({ length: P }, (_, i) => {
+      let yes = 0;
+      for (let m = 0; m < M; m += 1) if (S[i * M + m] >= 0) yes += imp[m];
+      return yes / tot >= 0.8 - 1e-12;
+    });
+  }
+  const est = mean();
+  return Array.from({ length: P }, (_, i) => verdictNow(est, i));
+}
 
 for (const kind of cases) {
   const s = Object.fromEntries(ROWS.map((name) => [name, { runs: 0, dead: 0, unsafe: 0, allowed: 0, bad: 0, eff: 0, short: 0, big: 0 }]));
@@ -236,6 +347,16 @@ for (const kind of cases) {
         let allowed = withinLimits.filter((p) => lodgedUtility(p.terms, money.lb) >= wb && lodgedUtility(p.terms, money.ls) >= wsl);
         if (g.min) allowed = allowed.filter((p) => beatsUnder(p.terms, money.lb, money.lb.rankW) && beatsUnder(p.terms, money.ls, money.ls.rankW));
         runs.push({ name: g.name, allowed });
+      });
+      // Refit rows: own streams (prior samples shared by all refit rows, answer noise per row).
+      const priorB = makePrior(money.lb, tb, withinLimits, mulberry32(seed + index * 31 + d * 7919 + 9100001));
+      const priorS = makePrior(money.ls, ts, withinLimits, mulberry32(seed + index * 31 + d * 7919 + 9100002));
+      REFITS.forEach((g, gi) => {
+        const rb = mulberry32(seed + index * 31 + d * 7919 + gi * 104729 + 9200001);
+        const rs = mulberry32(seed + index * 31 + d * 7919 + gi * 104729 + 9200002);
+        const accB = refitAccept(priorB, tb, withinLimits, g.K, g.e, !!g.sure, rb);
+        const accS = refitAccept(priorS, ts, withinLimits, g.K, g.e, !!g.sure, rs);
+        runs.push({ name: g.name, allowed: withinLimits.filter((_, i) => accB[i] && accS[i]) });
       });
       for (const { name, allowed } of runs) {
         const stRun = s[name];
