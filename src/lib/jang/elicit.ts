@@ -91,6 +91,62 @@ export function weightsFromRanking(ranked: string[]): Record<string, number> {
   return Object.fromEntries(ranked.map((key) => [key, Number((roc[key] / least).toFixed(4))]));
 }
 
+// ---------------------------------------------------------------- how much, in money
+
+/**
+ * The smallest weight a term can get, relative to the money term. The engine
+ * needs every weight positive; a term the owner says is worth nothing still
+ * breaks ties.
+ */
+const MIN_RELATIVE_WEIGHT = 0.01;
+
+/**
+ * Weights from what each term is worth in money (swing weighting).
+ *
+ * An order alone cannot tell "price matters a bit more" from "price matters
+ * ten times more", and that gap is enough to leave a narrow market with no
+ * possible deal. So after the ranking the owner is asked, for each other term,
+ * how much of the money term they would trade to move it from their limit to
+ * their best: "how much more would you pay for 36 months of warranty instead
+ * of 12?". The money term's own swing is its whole range, limit to best, so
+ * every weight is in the same unit.
+ *
+ * `money` is any term measured in money (price, rent); `swings` holds an
+ * amount for every other term. Returns undefined if one is missing or not a
+ * finite non-negative number, so the caller falls back to the ranking.
+ */
+export function weightsFromSwings(
+  money: string,
+  swings: Record<string, number | undefined>,
+  anchors: Record<string, { ideal: number; limit: number }>,
+): Record<string, number> | undefined {
+  const range = Math.abs(anchors[money].ideal - anchors[money].limit);
+  if (!(range > 0)) return undefined;
+  const weights: Record<string, number> = { [money]: 1 };
+  for (const key of Object.keys(anchors)) {
+    if (key === money) continue;
+    const amount = swings[key];
+    if (amount === undefined || !Number.isFinite(amount) || amount < 0) return undefined;
+    weights[key] = Number(Math.max(amount / range, MIN_RELATIVE_WEIGHT).toFixed(4));
+  }
+  return weights;
+}
+
+/**
+ * Pairs where the money answers contradict the choice answers: the ranking
+ * says `more` matters more than `less`, but the amounts say the opposite.
+ * Shown to the owner so they can look again; nothing is changed for them.
+ */
+export function swingConflicts(ranked: string[], weights: Record<string, number>): { more: string; less: string }[] {
+  const conflicts: { more: string; less: string }[] = [];
+  for (let i = 0; i < ranked.length; i += 1) {
+    for (let j = i + 1; j < ranked.length; j += 1) {
+      if (weights[ranked[j]] > weights[ranked[i]]) conflicts.push({ more: ranked[i], less: ranked[j] });
+    }
+  }
+  return conflicts;
+}
+
 // ---------------------------------------------------------------- reservation from an alternative
 
 /**

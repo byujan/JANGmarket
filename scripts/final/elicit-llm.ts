@@ -31,6 +31,7 @@ import {
   reservationFromAlternative,
   startRanking,
   weightsFromRanking,
+  weightsFromSwings,
 } from "../../src/lib/jang/elicit.ts";
 import type { Preference, Terms } from "../../src/lib/jang/types.ts";
 import { utility } from "../../src/lib/jang/utility.ts";
@@ -151,6 +152,15 @@ const BATNA_FORM = `You are filling in a form that sets up a software agent to n
 Fields: price (USD), deliveryDays, warrantyMonths (12-48 in steps of 6), bundle (1 = soundbar included, 0 = not). If you truly have no other option, reply {"none": true}.
 Reply with only JSON: {"price": n, "deliveryDays": n, "warrantyMonths": n, "bundle": 0 or 1}`;
 
+// The builder's "How much is each worth to you?" section, as the page shows it.
+const SWING_FORM = `You are filling in a form that sets up a software agent to negotiate this purchase for you.
+"How much is each worth to you?" The order says what matters more, not how much more. For each term, how much more would you pay to get your best instead of your limit? A rough figure is fine.
+- Delivery: 30 days -> 3 days
+- Warranty: 12 months -> 36 months
+- Soundbar bundled: no -> yes
+For scale: your whole price range, $1,300 to $999, is worth $301 to you by definition.
+Reply with only JSON, amounts in USD: {"deliveryDays": n, "warrantyMonths": n, "bundle": n}`;
+
 async function runOwner(o: Owner) {
   const old = json(await ask(o.persona, OLD_FORM));
   let state = startRanking([...KEYS]);
@@ -168,7 +178,8 @@ async function runOwner(o: Owner) {
     state = answerComparison(state, choseCandidate);
   }
   const alt = json(await ask(o.persona, BATNA_FORM));
-  return { old, ranked: state.ranked, asked: state.asked, answers, alt };
+  const swings = json(await ask(o.persona, SWING_FORM));
+  return { old, ranked: state.ranked, asked: state.asked, answers, alt, swings };
 }
 
 // ---------------------------------------------------------------- scoring
@@ -233,19 +244,26 @@ async function worker() {
       const oldR = Number(a.old.walkAway);
       const newW = weightsFromRanking(a.ranked);
       const newR = a.alt.none ? 0 : reservationFromAlternative(a.alt, prefsFrom(newW));
+      const moneyW = weightsFromSwings(
+        "price",
+        Object.fromEntries(KEYS.filter((k) => k !== "price").map((k) => [k, Number(a.swings[k])])),
+        ANCHORS,
+      ) ?? newW;
+      const moneyR = a.alt.none ? 0 : reservationFromAlternative(a.alt, prefsFrom(moneyW));
       const trueOrderW = weightsFromRanking([...KEYS].sort((x, y) => o.weights[y] - o.weights[x]));
       const rec = {
         owner: o.id, trueWeights: o.weights, batna: o.batna, rTrue: o.rTrue, elicited: a,
         arms: {
           old: score(o, oldW, oldR),
           new: score(o, newW, newR),
+          "new + money questions": score(o, moneyW, moneyR),
           "old weights + new reservation": score(o, oldW, a.alt.none ? 0 : reservationFromAlternative(a.alt, prefsFrom(oldW))),
           "new weights + old walk-away": score(o, newW, oldR),
           "true order + ROC (ceiling)": score(o, trueOrderW, reservationFromAlternative(o.batna, prefsFrom(trueOrderW))),
         },
       };
       records.push(rec);
-      console.log(`owner ${o.id}: rTrue ${o.rTrue.toFixed(2)} | old r ${oldR.toFixed(2)} disagree ${(rec.arms.old.disagree * 100).toFixed(1)}% | new r ${newR.toFixed(2)} disagree ${(rec.arms.new.disagree * 100).toFixed(1)}%`);
+      console.log(`owner ${o.id}: rTrue ${o.rTrue.toFixed(2)} | old ${(rec.arms.old.disagree * 100).toFixed(1)}% | new ${(rec.arms.new.disagree * 100).toFixed(1)}% | new+money r ${moneyR.toFixed(2)} ${(rec.arms["new + money questions"].disagree * 100).toFixed(1)}%`);
     } catch (e) {
       console.log(`owner ${o.id}: ERROR ${e}`);
     }
@@ -266,14 +284,16 @@ for (const arm of arms) {
     `${(s("disagree") * 100).toFixed(1)}%`.padStart(9), s("lossPerBadAccept").toFixed(3).padStart(9),
   );
 }
-// Paired: per owner, does new beat old on decision disagreement?
-const diffs = records.map((r) => r.arms.old.disagree - r.arms.new.disagree);
+// Paired: per owner, does the arm beat the old sliders on decision disagreement?
+for (const arm of ["new", "new + money questions"]) {
+const diffs = records.map((r) => r.arms.old.disagree - r.arms[arm].disagree);
 const wins = diffs.filter((d) => d > 1e-9).length, losses = diffs.filter((d) => d < -1e-9).length;
 let p = 0;
 const n = wins + losses, k = Math.min(wins, losses);
 const choose = (a: number, b: number) => { let c = 1; for (let i = 0; i < b; i++) c = (c * (a - i)) / (i + 1); return c; };
 for (let i = 0; i <= k; i++) p += choose(n, i) / 2 ** n;
-console.log(`\npaired (old - new disagreement): mean ${(mean(diffs) * 100).toFixed(1)} pts, new better ${wins} / worse ${losses}, sign test p=${Math.min(1, 2 * p).toFixed(4)}`);
+console.log(`paired vs old, ${arm} (old - arm disagreement): mean ${(mean(diffs) * 100).toFixed(1)} pts, better ${wins} / worse ${losses}, sign test p=${Math.min(1, 2 * p).toFixed(4)}`);
+}
 
 mkdirSync("results/final", { recursive: true });
 const file = `results/final/elicit-llm-${new Date().toISOString().replace(/[:.]/g, "-")}.json`;

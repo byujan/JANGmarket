@@ -5,8 +5,10 @@ import Link from "next/link";
  * Where a person decides how much authority to hand an agent.
  *
  * One decision per term, the line the agent may not cross. How much each term
- * matters comes from a few "which would you rather have" choices, and when to
- * walk away comes from what the owner would do instead. Everything else the
+ * matters comes from a few "which would you rather have" choices, then (when
+ * one term is money) what each other term is worth in money, so the weights
+ * carry size as well as order. When to walk away comes from what the owner
+ * would do instead. Everything else the
  * engine needs is derived, because asking an owner for weights and a 0..1
  * reservation value is a spreadsheet, not a product.
  *
@@ -24,7 +26,9 @@ import {
   nextComparison,
   reservationFromAlternative,
   startRanking,
+  swingConflicts,
   weightsFromRanking,
+  weightsFromSwings,
   type Ranking,
 } from "@/lib/jang/elicit.ts";
 import type { Dimension, ItemSpec, MandateBody, Role } from "@/lib/jang/types.ts";
@@ -108,6 +112,23 @@ export function MandateBuilder({
       .map(([key, value]) => `${byKey(key).label.toLowerCase()} ${formatValue(byKey(key), value)}`)
       .join(", ");
 
+  // How much, in money: what each other term is worth, limit to best.
+  const money = dimensions.find((d) => d.unit === "USD");
+  const [swingAnswers, setSwingAnswers] = useState<Record<string, Record<string, string>>>({});
+  const swingInput = swingAnswers[scope] ?? {};
+  const setSwing = (dimension: Dimension, value: string) =>
+    setSwingAnswers((current) => ({ ...current, [scope]: { ...swingInput, [dimension.key]: value } }));
+  const swingWeights = money
+    ? weightsFromSwings(
+        money.key,
+        Object.fromEntries(
+          dimensions.filter((d) => d.key !== money.key).map((d) => [d.key, swingInput[d.key]?.trim() ? Number(swingInput[d.key]) : undefined]),
+        ),
+        anchors,
+      )
+    : undefined;
+  const conflicts = swingWeights && isComplete(ranking) ? swingConflicts(ranking.ranked, swingWeights) : [];
+
   // When to walk away, from what the owner would do instead.
   const [alternatives, setAlternatives] = useState<Record<string, Record<string, number>>>({});
   const [noAlternatives, setNoAlternatives] = useState<Record<string, boolean>>({});
@@ -119,7 +140,8 @@ export function MandateBuilder({
 
   /** Preferences as the engine scores them: ideal at the far end, worst at the owner's limit. */
   function preferencesFor(): MandateBody["preferences"] {
-    const weights = isComplete(ranking) ? weightsFromRanking(ranking.ranked) : {};
+    // Money answers carry size, so they win; the ranking alone only carries order.
+    const weights = swingWeights ?? (isComplete(ranking) ? weightsFromRanking(ranking.ranked) : {});
     const preferences: MandateBody["preferences"] = {};
     for (const dimension of dimensions) {
       preferences[dimension.key] = {
@@ -351,6 +373,49 @@ export function MandateBuilder({
           </p>
         ) : null}
       </section>
+
+      {money ? (
+        <section className="section">
+          <h2>How much is each worth to you?</h2>
+          <p className="small mute">
+            The order says what matters more, not how much more. For each term, how much {role === "buyer" ? "more would you pay" : "less would you accept"} to get
+            your best instead of your limit? A rough figure is fine. Skip this and the order alone sets the weights.
+          </p>
+          <div className="field-row">
+            {dimensions
+              .filter((dimension) => dimension.key !== money.key)
+              .map((dimension) => (
+                <div key={dimension.key}>
+                  <label htmlFor={`swing-${dimension.key}`}>
+                    {dimension.label}: {formatValue(dimension, anchors[dimension.key].limit)} → {formatValue(dimension, anchors[dimension.key].ideal)}
+                  </label>
+                  <input
+                    id={`swing-${dimension.key}`}
+                    type="number"
+                    inputMode="decimal"
+                    min={0}
+                    step={10}
+                    placeholder="$"
+                    value={swingInput[dimension.key] ?? ""}
+                    onChange={(event) => setSwing(dimension, event.target.value)}
+                  />
+                </div>
+              ))}
+          </div>
+          <p className="small faint" style={{ marginTop: "0.5rem" }}>
+            For scale: your whole {money.label.toLowerCase()} range, {formatValue(money, anchors[money.key].limit)} to{" "}
+            {formatValue(money, anchors[money.key].ideal)}, is worth{" "}
+            {formatValue(money, Math.abs(anchors[money.key].limit - anchors[money.key].ideal))} to you by definition.
+          </p>
+          {conflicts.length ? (
+            <div className="notice" style={{ marginTop: "0.75rem" }}>
+              These amounts disagree with your choices above:{" "}
+              {conflicts.map((c) => `${byKey(c.more).label.toLowerCase()} over ${byKey(c.less).label.toLowerCase()}`).join("; ")}. The amounts
+              are used; change them, or answer the choices again, if that is not what you meant.
+            </div>
+          ) : null}
+        </section>
+      ) : null}
 
       <section className="section">
         <h2>If this falls through</h2>

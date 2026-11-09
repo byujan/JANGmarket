@@ -8,7 +8,9 @@ import {
   nextComparison,
   reservationFromAlternative,
   startRanking,
+  swingConflicts,
   weightsFromRanking,
+  weightsFromSwings,
 } from "./elicit.ts";
 import { parseScenario } from "./scenario.ts";
 import { utility } from "./utility.ts";
@@ -58,6 +60,51 @@ describe("ranking terms by choice", () => {
     expect(weights.warranty).toBeGreaterThan(weights.delivery);
     expect(weights.delivery).toBeGreaterThan(weights.bundle);
     expect(weights.bundle).toBe(1);
+  });
+});
+
+describe("weights from what each term is worth in money", () => {
+  const anchors = {
+    price: { ideal: 999, limit: 1300 },
+    deliveryDays: { ideal: 3, limit: 30 },
+    warrantyMonths: { ideal: 36, limit: 12 },
+    bundle: { ideal: 1, limit: 0 },
+  };
+
+  it("recovers an owner's exact preferences from honest answers", () => {
+    // True weights, and what each swing is worth in dollars to that owner.
+    const truth = { price: 5, deliveryDays: 1, warrantyMonths: 3, bundle: 1.5 };
+    const swing = (k: keyof typeof truth) => (truth[k] / truth.price) * 301;
+    const weights = weightsFromSwings("price", { deliveryDays: swing("deliveryDays"), warrantyMonths: swing("warrantyMonths"), bundle: swing("bundle") }, anchors)!;
+    const prefs = (w: Record<string, number>) =>
+      Object.fromEntries(Object.entries(anchors).map(([k, a]) => [k, { weight: w[k], ideal: a.ideal, worst: a.limit }]));
+    for (const terms of [
+      { price: 1100, deliveryDays: 10, warrantyMonths: 24, bundle: 0 },
+      { price: 1250, deliveryDays: 25, warrantyMonths: 36, bundle: 1 },
+    ]) {
+      expect(utility(terms, { preferences: prefs(weights) })).toBeCloseTo(utility(terms, { preferences: prefs(truth) }), 3);
+    }
+  });
+
+  it("lets a term outweigh the money term when it is worth more than the whole price range", () => {
+    const weights = weightsFromSwings("price", { deliveryDays: 600, warrantyMonths: 50, bundle: 0 }, anchors)!;
+    expect(weights.deliveryDays).toBeGreaterThan(weights.price);
+  });
+
+  it("keeps a term worth nothing positive, as the engine requires", () => {
+    expect(weightsFromSwings("price", { deliveryDays: 0, warrantyMonths: 50, bundle: 0 }, anchors)!.bundle).toBeGreaterThan(0);
+  });
+
+  it("falls back (undefined) until every other term has a usable amount", () => {
+    expect(weightsFromSwings("price", { deliveryDays: 40, warrantyMonths: 50 }, anchors)).toBeUndefined();
+    expect(weightsFromSwings("price", { deliveryDays: 40, warrantyMonths: -5, bundle: 0 }, anchors)).toBeUndefined();
+    expect(weightsFromSwings("price", { deliveryDays: Number.NaN, warrantyMonths: 5, bundle: 0 }, anchors)).toBeUndefined();
+  });
+
+  it("flags only the pairs where the amounts contradict the choices", () => {
+    const weights = { price: 1, warrantyMonths: 0.5, deliveryDays: 0.6, bundle: 0.1 };
+    expect(swingConflicts(["price", "warrantyMonths", "deliveryDays", "bundle"], weights)).toEqual([{ more: "warrantyMonths", less: "deliveryDays" }]);
+    expect(swingConflicts(["price", "deliveryDays", "warrantyMonths", "bundle"], weights)).toEqual([]);
   });
 });
 

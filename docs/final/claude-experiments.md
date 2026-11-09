@@ -9,7 +9,7 @@ Run 2026-11-08/09 by Hendrick (with Claude Code), on top of `hendrick/batna` (PR
 3. **Claude almost never uses MESO.** In 18 sessions where it was available, agents attached alternatives twice. With Claude agents we have not really tested MESO.
 4. **No arm produced a deal worse than an owner's true walk-away.** Builder errors show up as missed deals, not bad ones.
 
-Proposed fix for (1): after the ranking, ask one or two magnitude questions ("how much more would you pay for 6 more months of warranty?") so weights carry size, then rerun both experiments.
+**Fix, now in this PR:** after the ranking, the builder asks what each other term is worth in money ("how much more would you pay to get delivery in 3 days instead of 30?"); `weightsFromSwings` in `elicit.ts` turns the answers into weights, and the ranking stays as a consistency check. See "The fix" below.
 
 ## Experiment 1: does the new questionnaire recover what owners want?
 
@@ -62,11 +62,30 @@ The frontier and operator checks (#7) run server side in every arm and never rea
 | ordinary | 154 | 11 (7%) | 306/3080 (10%) |
 | narrow | 57 | 30 (53%) | 563/1140 (49%) |
 
+## The fix: ask how much, in money
+
+`src/lib/jang/elicit.ts` gains `weightsFromSwings(money, swings, anchors)` (swing weighting: each term's weight is what moving it from limit to best is worth, in units of the money term's whole range) and `swingConflicts` (pairs where the amounts contradict the choices, shown to the owner, nothing overridden). `MandateBuilder.tsx` adds a "How much is each worth to you?" section when one term is in USD; if any amount is blank, the ranking alone sets the weights as before. Five new tests in `elicit.test.ts`.
+
+**Simulated owners, with an honest error in their money answers** (`npx tsx scripts/final/magnitude-sim.ts --draws=10`, no Claude calls, every feasible market on seed 20261101):
+
+| weights | ordinary: no deal left | ordinary: efficiency lost | narrow: no deal left | narrow: efficiency lost |
+| --- | --- | --- | --- | --- |
+| ROC (rank only, before this fix) | 8.2% | 10.2% | 49.6% | 56.2% |
+| money answers, ±30% error | **4.0%** | **7.4%** | **30.5%** | **35.6%** |
+| money answers, ±50% error | 6.3% | 12.1% | 36.7% | 50.6% |
+| exact weights (floor from the outside-offer step) | 1.9% | 2.0% | 7.0% | 8.9% |
+| ROC, walk-away 0.03 below the offer | 2.5% | 4.3% | 26.3% | 35.4% |
+
+Lowering the walk-away is not a fix: it raises the share of allowed deals an owner would truly refuse from 15% to 26% (ordinary) and 45% to 66% (narrow). Narrow markets stay fragile under any elicitation: with exact weights, misvaluing the outside offer by 0.01 still closes 7% of them.
+
+**Claude owners answering the new section** (`elicit-llm.ts`, rerun with a third arm; `results/final/elicit-llm-2026-11-09T05-24-19-701Z.json`; 12 of 16 owners, the last four hit a usage limit): wrong accept/refuse calls fall to **0.1%** (old sliders 4.3%, ranking only 8.5%), better than the old sliders for 12 of 12 owners (p = 0.0005). This mostly shows the plumbing is right: these owners were *told* their dollar trade-offs, so they answer almost exactly. How well people answer is the open question; the ±30%/±50% rows above are the realistic range.
+
 ## Code touched (please review, Peter: these are yours)
 
 - `mcp/server.ts`: `JANG_MESO=off` drops `alternatives` from the `offer`/`counter` input schema. Unset, behaviour is unchanged.
 - `agents/llm-strategy.ts`: optional `env` passed through to the agent's MCP server.
-- New: `scripts/final/elicit-llm.ts`, `scripts/final/llm-all.ts`.
+- `src/lib/jang/elicit.ts` (+ tests) and `src/components/MandateBuilder.tsx`: the money questions above.
+- New: `scripts/final/elicit-llm.ts`, `scripts/final/llm-all.ts`, `scripts/final/magnitude-sim.ts`.
 
 ## Limits
 
