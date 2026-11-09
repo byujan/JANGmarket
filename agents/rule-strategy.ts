@@ -13,6 +13,7 @@ import { packagesOf, type SessionView } from "../src/lib/jang/session.ts";
 import type { Dimension, Mandate, Terms } from "../src/lib/jang/types.ts";
 import { utility } from "../src/lib/jang/utility.ts";
 import { checkTermsAgainstMandate } from "../src/lib/jang/mandate.ts";
+import { rankOrderCentroid } from "../src/lib/jang/priorities.ts";
 
 export type Decision =
   /** `offerId` names the package when the standing offer carries alternatives. */
@@ -129,15 +130,7 @@ function distanceToTheirAsk(
  */
 export function weightsFromOrder(order: string[] | undefined, dimensions: Dimension[]): Record<string, number> | undefined {
   const ranked = (order ?? []).filter((key) => dimensions.some((d) => d.key === key));
-  if (ranked.length === 0) return undefined;
-  const n = ranked.length;
-  const weights: Record<string, number> = {};
-  ranked.forEach((key, i) => {
-    let w = 0;
-    for (let k = i + 1; k <= n; k += 1) w += 1 / k;
-    weights[key] = w / n;
-  });
-  return weights;
+  return ranked.length === 0 ? undefined : rankOrderCentroid(ranked);
 }
 
 export function decide(view: SessionView, options: RuleOptions = {}): Decision {

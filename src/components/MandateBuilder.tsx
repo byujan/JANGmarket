@@ -4,10 +4,11 @@ import Link from "next/link";
 /**
  * Where a person decides how much authority to hand an agent.
  *
- * Two decisions per term, the line the agent may not cross and how much the
- * term matters, plus one for the deal as a whole. Everything else the engine
- * needs is derived, because asking an owner for an ideal, a worst case and a
- * weight per dimension is a spreadsheet, not a product.
+ * One decision per term, the line the agent may not cross. How much each term
+ * matters comes from a few "which would you rather have" choices, and when to
+ * walk away comes from what the owner would do instead. Everything else the
+ * engine needs is derived, because asking an owner for weights and a 0..1
+ * reservation value is a spreadsheet, not a product.
  *
  * The mandate is signed in this browser. The private key never leaves it.
  */
@@ -15,11 +16,22 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { RegisterAgentForm } from "./RegisterAgentForm.tsx";
 import { loadOrCreateOwnerKey, isSupported, signMandateBody } from "@/lib/browser/signing.ts";
+import {
+  answerComparison,
+  comparisonPackages,
+  isComplete,
+  maxQuestions,
+  nextComparison,
+  reservationFromAlternative,
+  startRanking,
+  weightsFromRanking,
+  type Ranking,
+} from "@/lib/jang/elicit.ts";
 import type { Dimension, ItemSpec, MandateBody, Role } from "@/lib/jang/types.ts";
 
 export type BuilderItem = { itemSpec: ItemSpec; title: string };
 
-type Setting = { limit: number; importance: number };
+type Setting = { limit: number };
 
 /** The end of the range this side is reaching for. */
 function idealEnd(dimension: Dimension, role: Role): number {
@@ -57,7 +69,6 @@ export function MandateBuilder({
   const [itemId, setItemId] = useState(items[0]?.itemSpec.itemId ?? "");
   const [agentId, setAgentId] = useState(agents[0]?.agentId ?? "");
   const [role, setRole] = useState<Role>("buyer");
-  const [walkAway, setWalkAway] = useState(0.3);
   const [days, setDays] = useState(7);
   const [disclose, setDisclose] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -72,7 +83,6 @@ export function MandateBuilder({
   const settingFor = (dimension: Dimension): Setting =>
     settings[`${itemId}:${role}:${dimension.key}`] ?? {
       limit: worstEnd(dimension, role),
-      importance: 3,
     };
 
   const update = (dimension: Dimension, patch: Partial<Setting>) =>
@@ -80,6 +90,46 @@ export function MandateBuilder({
       ...current,
       [`${itemId}:${role}:${dimension.key}`]: { ...settingFor(dimension), ...patch },
     }));
+
+  // Importance, by choice rather than by slider.
+  const scope = `${itemId}:${role}`;
+  const [rankings, setRankings] = useState<Record<string, Ranking>>({});
+  const ranking = rankings[scope] ?? startRanking(dimensions.map((d) => d.key));
+  const question = nextComparison(ranking);
+  const answer = (candidateMatters: boolean) =>
+    setRankings((current) => ({ ...current, [scope]: answerComparison(ranking, candidateMatters) }));
+  const restartRanking = () => setRankings((current) => ({ ...current, [scope]: startRanking(dimensions.map((d) => d.key)) }));
+  const anchors = Object.fromEntries(
+    dimensions.map((d) => [d.key, { ideal: idealEnd(d, role), limit: settingFor(d).limit }]),
+  );
+  const byKey = (key: string) => dimensions.find((d) => d.key === key)!;
+  const describePackage = (terms: Record<string, number>) =>
+    Object.entries(terms)
+      .map(([key, value]) => `${byKey(key).label.toLowerCase()} ${formatValue(byKey(key), value)}`)
+      .join(", ");
+
+  // When to walk away, from what the owner would do instead.
+  const [alternatives, setAlternatives] = useState<Record<string, Record<string, number>>>({});
+  const [noAlternatives, setNoAlternatives] = useState<Record<string, boolean>>({});
+  const alternative = alternatives[scope] ?? {};
+  const noAlternative = noAlternatives[scope] ?? false;
+  const alternativeValue = (dimension: Dimension) => alternative[dimension.key] ?? settingFor(dimension).limit;
+  const setAlternative = (dimension: Dimension, value: number) =>
+    setAlternatives((current) => ({ ...current, [scope]: { ...alternative, [dimension.key]: value } }));
+
+  /** Preferences as the engine scores them: ideal at the far end, worst at the owner's limit. */
+  function preferencesFor(): MandateBody["preferences"] {
+    const weights = isComplete(ranking) ? weightsFromRanking(ranking.ranked) : {};
+    const preferences: MandateBody["preferences"] = {};
+    for (const dimension of dimensions) {
+      preferences[dimension.key] = {
+        weight: weights[dimension.key] ?? 1,
+        ideal: idealEnd(dimension, role),
+        worst: settingFor(dimension).limit,
+      };
+    }
+    return preferences;
+  }
 
   async function submit() {
     if (!item || !agentId) return;
@@ -91,16 +141,27 @@ export function MandateBuilder({
       }
 
       const constraints: MandateBody["constraints"] = {};
-      const preferences: MandateBody["preferences"] = {};
+      const preferences = preferencesFor();
 
       for (const dimension of dimensions) {
         const setting = settingFor(dimension);
         const ideal = idealEnd(dimension, role);
         const bound = ideal === dimension.min ? { max: setting.limit } : { min: setting.limit };
         constraints[dimension.key] = bound;
-        // The limit is also the worst outcome worth having, so the scale the
-        // engine scores on matches the one the owner just described.
-        preferences[dimension.key] = { weight: setting.importance, ideal, worst: setting.limit };
+      }
+
+      // The reservation value is what the owner's best alternative is worth to
+      // them. They never see or set the number itself.
+      const walkAway = noAlternative
+        ? 0
+        : reservationFromAlternative(
+            Object.fromEntries(dimensions.map((d) => [d.key, alternativeValue(d)])),
+            preferences,
+          );
+      if (walkAway >= 0.95) {
+        throw new Error(
+          "Your alternative is about as good as the best you could get here, so your agent could never agree to anything. Loosen the alternative, or your limits.",
+        );
       }
 
       const body: MandateBody = {
@@ -245,20 +306,6 @@ export function MandateBuilder({
                     onChange={(event) => update(dimension, { limit: Number(event.target.value) })}
                   />
                 </div>
-                <div>
-                  <label htmlFor={`weight-${dimension.key}`}>
-                    How much it matters: {["barely", "a little", "normally", "a lot", "most of all"][setting.importance - 1]}
-                  </label>
-                  <input
-                    id={`weight-${dimension.key}`}
-                    type="range"
-                    min={1}
-                    max={5}
-                    step={1}
-                    value={setting.importance}
-                    onChange={(event) => update(dimension, { importance: Number(event.target.value) })}
-                  />
-                </div>
               </div>
             </div>
           );
@@ -266,23 +313,89 @@ export function MandateBuilder({
       </section>
 
       <section className="section">
-        <h2>When to walk away</h2>
+        <h2>What matters most</h2>
         <p className="small mute">
-          Scored across every term, from 0 at your limits to 1 at everything you asked for. Your agent will refuse any
-          package below this, and JANG enforces that refusal rather than trusting the agent to behave.
+          A few quick choices instead of weights. Each pair differs on two terms only; everything else is the same.
         </p>
-        <label htmlFor="walk">
-          Walk away below <span className="mono">{walkAway.toFixed(2)}</span>
+        {question ? (
+          <div className="choice">
+            <p className="small faint" style={{ margin: "0 0 0.5rem" }}>
+              Question {ranking.asked + 1} of at most {maxQuestions(dimensions.length)}. Which would you rather have?
+            </p>
+            {(() => {
+              const pair = comparisonPackages(question.candidate, question.against, anchors);
+              return (
+                <div className="field-row">
+                  <button type="button" className="button button-quiet" onClick={() => answer(true)}>
+                    {describePackage(pair.candidateFirst)}
+                  </button>
+                  <button type="button" className="button button-quiet" onClick={() => answer(false)}>
+                    {describePackage(pair.againstFirst)}
+                  </button>
+                </div>
+              );
+            })()}
+          </div>
+        ) : (
+          <p className="small">
+            Most to least important:{" "}
+            <span className="mono">{ranking.ranked.map((key) => byKey(key).label.toLowerCase()).join(" > ")}</span>.{" "}
+            <button type="button" className="link-button small" onClick={restartRanking}>
+              Answer again
+            </button>
+          </p>
+        )}
+        {question && ranking.asked === 0 ? (
+          <p className="small faint" style={{ marginTop: "0.5rem" }}>
+            Skip this and every term counts the same.
+          </p>
+        ) : null}
+      </section>
+
+      <section className="section">
+        <h2>If this falls through</h2>
+        <p className="small mute">
+          What would you do instead? Describe the best deal you could get elsewhere. Your agent will only agree to
+          something at least as good for you as that.
+        </p>
+        <label htmlFor="no-alternative" style={{ display: "flex", gap: "0.6rem", alignItems: "center", marginBottom: "0.75rem" }}>
+          <input
+            id="no-alternative"
+            type="checkbox"
+            checked={noAlternative}
+            onChange={(event) => setNoAlternatives((current) => ({ ...current, [scope]: event.target.checked }))}
+          />
+          <span className="small">I have no other option; anything within my limits is better than nothing.</span>
         </label>
-        <input
-          id="walk"
-          type="range"
-          min={0}
-          max={0.8}
-          step={0.05}
-          value={walkAway}
-          onChange={(event) => setWalkAway(Number(event.target.value))}
-        />
+        {noAlternative ? null : (
+          <div className="field-row">
+            {dimensions.map((dimension) => (
+              <div key={dimension.key}>
+                <label htmlFor={`alt-${dimension.key}`}>{dimension.label}</label>
+                {dimension.min === 0 && dimension.max === 1 ? (
+                  <select
+                    id={`alt-${dimension.key}`}
+                    value={alternativeValue(dimension)}
+                    onChange={(event) => setAlternative(dimension, Number(event.target.value))}
+                  >
+                    <option value={1}>yes</option>
+                    <option value={0}>no</option>
+                  </select>
+                ) : (
+                  <input
+                    id={`alt-${dimension.key}`}
+                    type="number"
+                    min={dimension.min}
+                    max={dimension.max}
+                    step={dimension.step}
+                    value={alternativeValue(dimension)}
+                    onChange={(event) => setAlternative(dimension, Number(event.target.value))}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       <section className="section">

@@ -755,7 +755,7 @@ label {
 
 .band-controls {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 0.75rem;
   margin-top: 0.75rem;
 }
@@ -954,4 +954,25 @@ pre.block {
 
 .explain h3 {
   margin-bottom: 0.35rem;
+}
+
+/* A text-styled button, for small secondary actions inside prose. */
+.link-button {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--mute);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+}
+.link-button:hover {
+  color: var(--text);
+}
+
+/* Checkboxes keep their own size inside a label row, whatever the field styles say. */
+input[type="checkbox"] {
+  width: auto;
+  flex: none;
+  margin-top: 0.2rem;
 }
