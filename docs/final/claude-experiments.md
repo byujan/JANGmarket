@@ -99,14 +99,43 @@ Arm **all4+money**: as all4, but weights come from the money questions, with eac
   - asymmetric #3: serious. The buyer gets 0.176 against a true walk-away of 0.296. Their dollar answers overvalued the soundbar by about 50% and undervalued delivery, so under the lodged weights a deal at the price limit, minimum warranty and 39-day delivery plus a soundbar looked acceptable.
 - Mean efficiency of closed deals is distorted by the narrow #1 outlier; excluding it, the other six average 0.55, below before (0.64) and all4 (0.86). One run per market, so this is direction only.
 
-**What this means.** Rank-only weights fail safe (they lose deals); noisy money answers fail unsafe (they can lower the walk-away the agent effectively applies). The money questions fix closing, but the walk-away now needs protection against error in the weights. Candidate fix, not built: accept a package only if it beats the outside offer under every weight vector within the owner's likely error (for example ±30% on each amount), or simply never below the outside offer on any term the owner ranked above the rest. Either can be checked in this script before touching the product.
+**What this means, corrected by the simulation below.** It is tempting to read this as "rank-only weights fail safe, money answers fail unsafe". That is wrong: rank-only weights allow bad packages just as often; the all4 arm simply closed fewer deals, so it signed none of them in 9 runs.
+
+## Can the walk-away be protected against answer error?
+
+`npx tsx scripts/final/guard-sim.ts --draws=10` (no Claude calls; every feasible market on seed 20261101, 10 draws of dollar answers off by about ±30%). Each guard is applied to both owners on top of the lodged mandate. **bad share** is the share of packages both mandates allow that are worse for an owner than their true walk-away; **short>0.05** the share more than 0.05 (utility) below it; **best eff.** the best allowed package's efficiency under the truth (no deal = 0).
+
+| ordinary (154 markets) | no deal | bad share | short>0.05 | best eff. |
+| --- | --- | --- | --- | --- |
+| rank only (before e4789a1) | 9.4% | 15.6% | 3.4% | 0.896 |
+| **money questions, no guard (now)** | **3.5%** | **13.9%** | **2.6%** | **0.966** |
+| robust x1.2 | 19.4% | 3.1% | 0.3% | 0.770 |
+| robust x1.35 | 31.8% | 0.9% | 0.1% | 0.630 |
+| robust x1.5 | 42.0% | 0.3% | 0.0% | 0.514 |
+| top term no worse than the outside offer | 41.4% | 11.8% | 2.2% | 0.552 |
+| exact weights (floor of the outside-offer step) | 0.3% | 2.2% | 0.0% | 0.996 |
+
+| narrow (57 markets) | no deal | bad share | short>0.05 | best eff. |
+| --- | --- | --- | --- | --- |
+| rank only | 50.7% | 57.6% | 10.6% | 0.581 |
+| **money questions, no guard** | **25.6%** | **56.7%** | **15.0%** | **0.966** |
+| robust x1.2 | 73.0% | 32.5% | 5.3% | 0.253 |
+| robust x1.35 | 91.6% | 20.7% | 2.2% | 0.075 |
+| exact weights | 5.3% | 10.0% | 0.0% | 0.987 |
+
+"robust xF": the package must beat the outside offer under every weight vector within a factor F of the lodged one (closed form, since the difference is linear in the weights). "top term": no worse than the outside offer on the term ranked first.
+
+- **The money questions beat rank-only on every count in ordinary markets**: fewer markets with no deal, slightly fewer bad packages, smaller losses, higher reachable efficiency. In narrow markets they halve the dead markets with the same bad share, but more of the bad packages are large losses (15.0% vs 10.6%).
+- **Any error in the weights lets some bad packages through**, whatever the method; most are small (mean shortfall about 0.03 utility). Even exact weights with the outside offer valued to within 0.01 leave 2% (ordinary) and 10% (narrow).
+- **Guards buy safety with deals.** Robust x1.2 cuts bad packages in ordinary from 13.9% to 3.1% and large losses to 0.3%, but leaves no deal in 19% of markets (from 3.5%) and drops reachable efficiency from 0.97 to 0.77. In narrow markets every guard closes most of them. Top term is dominated: it costs deals and barely helps.
+- **Recommendation:** keep the money questions as the default. Do not add a guard by default. If one is wanted, offer robust x1.2 as an owner's choice ("be cautious: only take deals clearly better than my alternative") and say what it costs. The lever that helps without costing deals is answer accuracy, which only a test with people can measure.
 
 ## Code touched (please review, Peter: these are yours)
 
 - `mcp/server.ts`: `JANG_MESO=off` drops `alternatives` from the `offer`/`counter` input schema. Unset, behaviour is unchanged.
 - `agents/llm-strategy.ts`: optional `env` passed through to the agent's MCP server.
 - `src/lib/jang/elicit.ts` (+ tests) and `src/components/MandateBuilder.tsx`: the money questions above.
-- New: `scripts/final/elicit-llm.ts`, `scripts/final/llm-all.ts` (now with an `all4+money` arm), `scripts/final/magnitude-sim.ts`.
+- New: `scripts/final/elicit-llm.ts`, `scripts/final/llm-all.ts` (now with an `all4+money` arm), `scripts/final/magnitude-sim.ts`, `scripts/final/guard-sim.ts`.
 
 ## Limits
 
