@@ -136,10 +136,33 @@ Arm **all4+money**: as all4, but weights come from the money questions, with eac
 - **Two weightings, min or max** (judge each package under the money weights and the rank-only weights, require both or either): min is a milder guard on the same trade-off (ordinary: no deal 14%, bad 5.5%, versus robust x1.2 at 19% and 3.1%); max is looser than no guard. Neither escapes the trade-off; they are points on it.
 - **Recommendation:** keep the money questions as the default. Do not add a guard by default. If one is wanted, offer robust x1.2 as an owner's choice ("be cautious: only take deals clearly better than my alternative") and say what it costs. The lever that helps without costing deals is answer accuracy, which only a test with people can measure.
 
+## Getting Claude to use MESO
+
+`npx tsx scripts/final/llm-all.ts --markets=3 --arms=meso+disclose --meso-guide` → `results/final/llm-all-2026-11-09T14-19-22-080Z.json` (9 negotiations, about $33)
+
+Three nudges, all opt-in with `JANG_MESO_GUIDE=on` (and never when `JANG_MESO=off`):
+- `agents/prompts/meso.md`, inserted into both prompts: when to offer alternatives, how to build them, what the reply tells you.
+- On the agent's turn, `get_session` reminds it that it may attach alternatives.
+- After an offer with alternatives, `get_session` says which of the agent's own packages the counter came closest to (computed from offers both sides have seen, so nothing new leaks).
+
+Same 9 markets as the earlier meso+disclose arm:
+
+| | closed | eff. of closed | realised eff. | Pareto | buyer share | offers with alternatives | cost |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| before | 7/9 | 0.64 | 0.50 | 1/7 | 0.20 | 0 | $20 |
+| meso+disclose, no guide | 6/9 | 0.73 | 0.49 | 2/6 | 0.23 | 0 | $17 |
+| meso+disclose, guided | 5/9 | 0.70 | 0.39 | 0/5 | 0.13 | 101 of 101 | $33 |
+
+- **The nudge works on behaviour:** Claude attached alternatives to every offer, and 3 of the 5 deals were closed on an alternative.
+- **It does not help outcomes:** one fewer deal, realised efficiency 0.49 to 0.39 (guided better on 2 markets, worse on 4), no Pareto-optimal deal, and the buyer's share fell further. It roughly doubles the cost, and one run hit the 80-turn limit (ordinary #0).
+- This matches the rule-agent benchmark, where MESO alone had no measurable effect. A plausible reason: Claude's "equally good" alternatives are not equally good, or are spread on terms that do not reveal much. A tool that computes alternatives of equal value from the agent's own mandate would test that; not built.
+- **Decision:** the guidance stays opt-in; default prompts are unchanged.
+
 ## Code touched (please review, Peter: these are yours)
 
 - `mcp/server.ts`: `JANG_MESO=off` drops `alternatives` from the `offer`/`counter` input schema. Unset, behaviour is unchanged.
-- `agents/llm-strategy.ts`: optional `env` passed through to the agent's MCP server.
+- `agents/llm-strategy.ts`: optional `env` passed through to the agent's MCP server; opt-in MESO guidance (`JANG_MESO_GUIDE=on`, `agents/prompts/meso.md`).
+- `mcp/server.ts` also gains the opt-in MESO hints in `get_session` (turn reminder, closest package).
 - `src/lib/jang/elicit.ts` (+ tests) and `src/components/MandateBuilder.tsx`: the money questions above.
 - New: `scripts/final/elicit-llm.ts`, `scripts/final/llm-all.ts` (now with an `all4+money` arm), `scripts/final/magnitude-sim.ts`, `scripts/final/guard-sim.ts`.
 

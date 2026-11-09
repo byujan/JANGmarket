@@ -48,6 +48,8 @@ const arms = arg("arms", "before,meso+disclose,all4").split(",") as Arm[];
 const maxTurns = Number(arg("max-turns", "80"));
 const model = process.env.JANG_LLM_MODEL;
 const dry = process.argv.includes("--dry");
+// --meso-guide: agents in MESO arms get the opt-in MESO prompt and session hints (JANG_MESO_GUIDE=on).
+const mesoGuide = process.argv.includes("--meso-guide");
 
 const BUYER =
   "You buy a clearance 65-inch OLED TV for a household. Your owner's limits and how much each term matters to them are in your mandate (yourMandate in get_session): read it and negotiate to score well under it.";
@@ -181,7 +183,7 @@ const records: any[] = [];
 async function runJob(job: Job) {
   const { market, batnas, swings } = marketFor(job);
   const setup = await provision(market, BASE_URL, `-final-${stamp}-${job.kind}-${job.index}-${job.arm}`);
-  const env: Record<string, string> = job.arm === "before" ? { JANG_MESO: "off" } : {};
+  const env: Record<string, string> = job.arm === "before" ? { JANG_MESO: "off" } : mesoGuide ? { JANG_MESO_GUIDE: "on" } : {};
   const started = Date.now();
   const settled = await Promise.allSettled([
     runLlmAgent({ role: "seller", persona: SELLER + (job.kind === "asymmetric" ? STUBBORN : ""), apiUrl: BASE_URL, apiKey: setup.seller.apiKey, sessionId: setup.sessionId, model, maxTurns, env }),
@@ -228,7 +230,7 @@ async function runJob(job: Job) {
     error: errors.length ? errors.join(" | ") : undefined,
   };
   records.push(record);
-  writeFileSync(file, `${JSON.stringify({ seed, model: model ?? null, maxTurns, records }, null, 1)}\n`);
+  writeFileSync(file, `${JSON.stringify({ seed, model: model ?? null, maxTurns, mesoGuide, records }, null, 1)}\n`);
   console.log(
     `${job.kind.padEnd(10)} #${String(job.index).padEnd(3)} ${job.arm.padEnd(13)} ${record.agreed ? `AGREED eff ${q!.efficiency.toFixed(2)} buyer share ${q!.buyerShare.toFixed(2)}` : view.status.toUpperCase()} in ${view.roundsUsed} rounds, meso offers ${record.mesoOffers}, $${record.apiEquivalentUsd}${record.error ? `  error: ${record.error.slice(0, 160)}` : ""}`,
   );
