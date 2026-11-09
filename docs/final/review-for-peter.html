@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JANG final review</title>
+<style>
+:root {
+  --bg: #fbfaf7; --surface: #ffffff; --ink: #1b1b19; --muted: #5d5c57; --faint: #8a8983;
+  --line: #e4e2da; --accent: #2a5db0; --accent-bg: #eaf1fb;
+  --good: #1f7a4d; --good-bg: #e6f4ec; --bad: #a83232; --bad-bg: #fbeaea; --warn: #8a5a00; --warn-bg: #fbf1dc;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161615; --surface: #1f1f1d; --ink: #f0efea; --muted: #b9b8b0; --faint: #8a8983;
+    --line: #34332f; --accent: #7aa7ec; --accent-bg: #1c2a40;
+    --good: #6cc79a; --good-bg: #17301f; --bad: #ec8b8b; --bad-bg: #3a1b1b; --warn: #e6b65c; --warn-bg: #362a12;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161615; --surface: #1f1f1d; --ink: #f0efea; --muted: #b9b8b0; --faint: #8a8983;
+  --line: #34332f; --accent: #7aa7ec; --accent-bg: #1c2a40;
+  --good: #6cc79a; --good-bg: #17301f; --bad: #ec8b8b; --bad-bg: #3a1b1b; --warn: #e6b65c; --warn-bg: #362a12;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; }
+main { max-width: 860px; margin: 0 auto; padding: 40px 16px 80px; }
+h1 { font-size: 28px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.01em; }
+h2 { font-size: 20px; font-weight: 600; margin: 48px 0 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+h3 { font-size: 16px; font-weight: 600; margin: 24px 0 8px; }
+p { margin: 0 0 12px; }
+.sub { color: var(--muted); margin-bottom: 24px; }
+.step { display: inline-block; font-size: 12px; font-weight: 600; color: var(--accent); background: var(--accent-bg); border-radius: 4px; padding: 2px 8px; margin-right: 8px; vertical-align: 2px; }
+.callout { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 20px; margin: 16px 0; }
+.callout strong { font-weight: 600; }
+.flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; margin: 16px 0 8px; }
+.flow div { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font-size: 14px; }
+.flow b { display: block; font-size: 12px; color: var(--faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+.tablewrap { overflow-x: auto; margin: 12px 0 16px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 13px; }
+tr:last-child td { border-bottom: none; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tag { display: inline-block; font-size: 12px; font-weight: 600; border-radius: 4px; padding: 1px 7px; white-space: nowrap; }
+.good { color: var(--good); background: var(--good-bg); }
+.bad { color: var(--bad); background: var(--bad-bg); }
+.warn { color: var(--warn); background: var(--warn-bg); }
+ul, ol { padding-left: 22px; margin: 0 0 12px; }
+li { margin-bottom: 6px; }
+code { font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--accent-bg); padding: 1px 5px; border-radius: 4px; }
+a { color: var(--accent); }
+.foot { color: var(--faint); font-size: 13px; margin-top: 48px; }
+</style>
+</head>
+<body>
+<main>
+<h1>JANG final review</h1>
+<p class="sub">For Peter, from Hendrick. 9 November 2026. What changed since the HW7 submission, what worked, what didn't, what we tried next, and what is in the version I am asking you to review: PRs #5 → #9.</p>
+
+<div class="callout">
+<strong>In one paragraph.</strong> HW7 showed JANG reaches deals a price-only market can't, but not better deals. We added the four techniques from the proposal. Priority disclosure worked. MESO barely mattered. The new mandate builder (ranking questions) broke things: it killed deals. We fixed it by asking what each term is worth in money and then letting the owner check a few deals. Large losses are now gone, but a few small ones remain. A safety margin would fix those, but it only pays off once JANG has many buyers and sellers, so it is noted for later and not built. The demo stays one-to-one.
+</div>
+
+<div class="flow">
+  <div><b>1 · HW7</b>Reach yes, quality no</div>
+  <div><b>2 · Proposal</b>4 negotiation techniques</div>
+  <div><b>3 · Stages 1–4</b>Disclosure works, builder breaks</div>
+  <div><b>4 · Fixes</b>Money questions, deal checks</div>
+  <div><b>5 · This review</b>PRs #5 → #9</div>
+</div>
+
+<h2><span class="step">1</span>Where we started: the HW7 submission</h2>
+<p>The submitted version is <code>main</code> after PR #4 (HW7 benchmark, merged). It compared JANG's four-term negotiation with price-only negotiation on generated TV markets, using rule agents.</p>
+<div class="tablewrap"><table>
+<tr><th>Claim</th><th>Result (ordinary markets, fresh seeds)</th><th>Verdict</th></tr>
+<tr><td>A. JANG reaches deals price-only can't</td><td class="num">close 81% vs 53%</td><td><span class="tag good">proven</span></td></tr>
+<tr><td>B. JANG's deals are better for both sides</td><td class="num">efficiency 0.80 vs 0.84</td><td><span class="tag bad">not proven</span></td></tr>
+<tr><td>Narrow markets (price overlap $0–50)</td><td class="num">close 18%</td><td><span class="tag warn">weak</span></td></tr>
+</table></div>
+
+<h2><span class="step">2</span>What we found to improve</h2>
+<p>Why B failed: our agents never learn what the other side wants (<code>distanceToTheirAsk</code> weights every term equally), so they trade blindly. The proposal (<code>docs/final/PROPOSAL.md</code>) took four standard negotiation techniques, all opt-in and none touching the core:</p>
+<ol>
+<li><b>MESO</b>: offer up to three packages that are equally good for you, and let the other side choose (PR #5).</li>
+<li><b>Priority disclosure</b>: share the order of what matters, never the numbers (PR #6).</li>
+<li><b>Pareto frontier</b> in the product, with deal quality shown to the operator only (PR #7).</li>
+<li><b>Elicitation</b>: replace the sliders with "which would you rather" questions and ask for the owner's alternative instead of a 0.30 number (PR #8).</li>
+</ol>
+
+<h2><span class="step">3</span>What happened when we applied them</h2>
+<h3>With rule agents (fresh seeds, 58 feasible markets per case)</h3>
+<div class="tablewrap"><table>
+<tr><th>Change</th><th>Result</th><th></th></tr>
+<tr><td>Priority disclosure (both sides)</td><td class="num">close 81% → 93%, efficiency 0.80 → 0.84; asymmetric 0.77 → 0.85</td><td><span class="tag good">worked</span></td></tr>
+<tr><td>Pareto frontier / operator view</td><td>Deal quality and missed improvements logged for the operator, never shown to agents</td><td><span class="tag good">worked</span></td></tr>
+<tr><td>MESO</td><td class="num">close +2pt, efficiency flat; lower in asymmetric markets</td><td><span class="tag warn">little effect</span></td></tr>
+</table></div>
+<h3>With Claude agents (Sonnet 5.5, 9 markets × 1 run per arm)</h3>
+<div class="tablewrap"><table>
+<tr><th>Finding</th><th></th></tr>
+<tr><td><b>The new builder kills deals.</b> Turning a ranking into weights (rank-order centroid) loses how <i>much</i> each term matters. No deal is possible in 53% of narrow and 7% of ordinary markets before anyone negotiates. Claude closed 4/9 (before the changes: 7/9).</td><td><span class="tag bad">broke</span></td></tr>
+<tr><td><b>Claude almost never uses MESO</b>: alternatives were attached in 2 of 18 sessions.</td><td><span class="tag warn">untested</span></td></tr>
+<tr><td>Disclosure points the same way as with rule agents (efficiency of closed deals 0.64 → 0.73 → 0.86), but the sample is tiny.</td><td><span class="tag good">direction</span></td></tr>
+</table></div>
+
+<h2><span class="step">4</span>What we tried for the parts that didn't work</h2>
+<div class="tablewrap"><table>
+<tr><th>Tried</th><th>What it does</th><th>Result</th><th>Kept?</th></tr>
+<tr><td>Money questions</td><td>"How much more would you pay for delivery in 3 days instead of 30?" sets the weights; the ranking becomes a consistency check</td><td>Claude closes 7/9 again, but 2 deals fell below an owner's true walk-away (one by 0.12)</td><td><span class="tag good">in product</span></td></tr>
+<tr><td>Guards on the walk-away (robust ×F, top term, min/max of two weightings)</td><td>Accept only deals that are good under several plausible weightings</td><td>Safety improves, but deals are lost one for one (e.g. no deal in 19% of ordinary markets)</td><td><span class="tag bad">dropped</span></td></tr>
+<tr><td>Boundary confirmation</td><td>Show deals near the line and move only the walk-away</td><td>Small gain</td><td><span class="tag bad">dropped</span></td></tr>
+<tr><td><b>Check a few deals</b></td><td>3 yes/no checks near the line; a Bayesian refit corrects the <i>weights</i></td><td>Simulation: bad packages 13.9% → 8.3%, large losses 2.6% → 0.5%. Claude: largest loss 0.12 → 0.015, closing 5/9</td><td><span class="tag good">in product</span></td></tr>
+<tr><td>MESO nudge in the prompt</td><td>Remind Claude each turn and say which package the counter came closest to</td><td>Claude used MESO in 101/101 offers, but outcomes were no better and cost doubled</td><td><span class="tag warn">opt-in only</span></td></tr>
+<tr><td>Safety margin</td><td>Walk-away + 0.02</td><td>One counterparty: costs deals in narrow markets (no deal 15% → 45%). Several counterparties: pays for itself (narrow, 5 counterparties: owner's gain 0.028 → 0.033)</td><td><span class="tag warn">noted, not built</span></td></tr>
+</table></div>
+
+<h3>Claude negotiations, side by side</h3>
+<div class="tablewrap"><table>
+<tr><th>Arm</th><th>Closed</th><th>Below an owner's true walk-away</th><th>Largest loss</th></tr>
+<tr><td>Before the changes</td><td class="num">7/9</td><td class="num">0</td><td>–</td></tr>
+<tr><td>All four changes (ranking only)</td><td class="num">4/9</td><td class="num">0</td><td>–</td></tr>
+<tr><td>+ money questions</td><td class="num">7/9</td><td class="num">2</td><td class="num">0.120</td></tr>
+<tr><td><b>+ check a few deals (final)</b></td><td class="num">5/9</td><td class="num">3</td><td class="num">0.015</td></tr>
+</table></div>
+<p>Of the 4 deals the final version didn't close, 2 are deliberate: the checks protected an owner from a bad deal. 1 is a Claude failure where a deal was possible.</p>
+
+<h2><span class="step">5</span>The version I am sending you</h2>
+<p>A stack of five PRs, to be reviewed in order. Each diff contains only its own stage.</p>
+<div class="tablewrap"><table>
+<tr><th>PR</th><th>Branch</th><th>What</th></tr>
+<tr><td class="num">#5</td><td><code>hendrick/meso</code> → main</td><td>MESO: up to two alternative packages, <code>accept</code> names the package</td></tr>
+<tr><td class="num">#6</td><td><code>hendrick/disclose-priorities</code></td><td>Priority disclosure, opt-in per mandate, with leak tests</td></tr>
+<tr><td class="num">#7</td><td><code>hendrick/frontier</code></td><td>Pareto frontier, deal quality, admin chart (operator only)</td></tr>
+<tr><td class="num">#8</td><td><code>hendrick/batna</code></td><td>Ranking questions and the alternative instead of a reservation number</td></tr>
+<tr><td class="num">#9</td><td><code>hendrick/claude-final-checks</code></td><td>Claude experiments, money questions, "Check a few deals", opt-in MESO nudge, limitations note</td></tr>
+</table></div>
+<h3>What PR #9 changes in the product</h3>
+<ul>
+<li><code>src/lib/jang/elicit.ts</code>: <code>weightsFromSwings</code>, <code>swingConflicts</code>, and the refit (<code>startRefit</code>, <code>nextCheck</code>, <code>answerCheck</code>, <code>refittedWeights</code>). Pure functions with fixed seeds; 10 new tests, 82 in total.</li>
+<li><code>src/components/MandateBuilder.tsx</code>: the "How much is each worth to you?" and "Check a few deals" sections. Both are optional; skipping them gives the PR #8 behaviour.</li>
+<li><code>mcp/server.ts</code>, <code>agents/llm-strategy.ts</code>, <code>agents/prompts/</code>: <code>JANG_MESO=off</code> hides alternatives, and <code>JANG_MESO_GUIDE=on</code> turns on the nudge. Both default to off, so default behaviour is unchanged.</li>
+<li><code>docs/limitations.md</code> §5a: the demo stays one-to-one; the many-to-many direction, open questions about matching, and a note that the protocol may change with many parties.</li>
+<li>Experiment scripts in <code>scripts/final/</code>, raw results in <code>results/final/</code>, and the full write-up in <code>docs/final/claude-experiments.md</code>.</li>
+</ul>
+
+<h2>Known issues, not fixed yet</h2>
+<p>Three independent reviews by Claude subagents (experimental method, product and code, course project) scored the work 66, 70 and 69 out of 100. Open points I agree with:</p>
+<ul>
+<li>Changing a dollar amount after answering the checks resets the answers. They are tied to a signature that includes the weights.</li>
+<li>Filling in only some dollar amounts silently falls back to the ranking weights. It should say "fill in N more to use these".</li>
+<li>When the ranking and the amounts contradict each other, the checks can still be shown even though they carry no information.</li>
+<li>The simulations assume the refit's own noise model and truthful answers, which flatters it. No real person has used the builder yet.</li>
+<li>Not run end to end: signing and lodging a mandate from the new form (needs Clerk and Postgres locally).</li>
+</ul>
+
+<h2>What I need from you</h2>
+<ol>
+<li>Review #5 → #9 in order. #5 to #8 touch the core (offers, mandates, stores); #9 is mostly the builder and experiments.</li>
+<li>Check the Postgres store and the sign-and-lodge path, which I couldn't run.</li>
+<li>Decide whether the four stages ship as merged, or whether we merge only disclosure and the builder fixes for the demo.</li>
+<li>Your view on the many-to-many note in <code>docs/limitations.md</code> §5a: is it the right next step after the course?</li>
+</ol>
+
+<p class="foot">Sources: <code>results/hw7/SUMMARY.md</code>, PR bodies #5–#8, <code>docs/final/claude-experiments.md</code>, <code>results/final/</code>. Claude runs used Sonnet 5.5; 9 markets × 1 run per arm, so they show direction only.</p>
+</main>
+</body>
+</html>

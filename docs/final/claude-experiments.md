@@ -2,12 +2,15 @@
 
 Run 2026-11-08/09 by Hendrick (with Claude Code), on top of `hendrick/batna` (PRs #5 to #8). Model: `claude-sonnet-5-5`. Everything here is reproducible from the scripts and seeds below; raw records are in `results/final/`.
 
-**TL;DR**
+**TL;DR (updated 2026-11-09, after every experiment below)**
 
-1. **The new mandate builder (stage 4, #8) is the problem.** Turning the owner's priority *order* into weights (rank-order centroid) throws away how *much* each term matters. That error alone leaves **no possible deal in 53% of feasible narrow markets and 7% of feasible ordinary ones**, before any agent negotiates.
-2. **Disclosure looks helpful with Claude agents too.** Efficiency of closed deals rose from 0.64 (before) to 0.73 (MESO + disclosure) and 0.86 (all four). This matches the rule-agent result, but the sample is tiny (9 markets per arm, 1 run each), so treat it as direction, not evidence.
-3. **Claude almost never uses MESO.** In 18 sessions where it was available, agents attached alternatives twice. With Claude agents we have not really tested MESO.
-4. **No arm produced a deal worse than an owner's true walk-away.** Builder errors show up as missed deals, not bad ones.
+1. **Stage 4's ranking-only builder was the problem.** Turning the priority *order* into weights (rank-order centroid) loses how *much* each term matters: no possible deal in 53% of feasible narrow markets and 7% of ordinary ones, before anyone negotiates.
+2. **Fixed in two steps, both in the product now.** (a) "How much is each worth to you?" (dollar swings) brings closing back (Claude: 7/9, as before the changes) but lets bad deals through when answers are off (2 deals below an owner's true walk-away, one by 0.12). (b) "Check a few deals" (3 yes/no checks that refit the weights) removes the large losses (largest 0.015 with Claude; in simulation, losses over 0.05 drop from 2.6% to 0.5% of allowed packages) at the cost of some closing (Claude 5/9).
+3. **Small losses remain** because agents push to the edge of the mandate. A safety margin on the walk-away removes them but costs deals with one counterparty; with several counterparties it pays for itself. Not in the product (the demo is one-to-one).
+4. **Disclosure helps; MESO barely matters with Claude.** Claude rarely uses MESO (2 of 18 sessions); a prompt nudge makes it use MESO every turn but outcomes get no better and cost doubles, so the nudge is opt-in (`JANG_MESO_GUIDE=on`).
+5. **Sample sizes:** Claude runs are 9 markets x 1 run per arm: direction only. Simulations cover 154 ordinary and 57 narrow feasible markets, but assume the refit's own noise model and truthful answers, which flatters it.
+
+The sections below are in the order the work was done; the first one describes the builder as it was before the fixes.
 
 **Fix, now in this PR:** after the ranking, the builder asks what each other term is worth in money ("how much more would you pay to get delivery in 3 days instead of 30?"); `weightsFromSwings` in `elicit.ts` turns the answers into weights, and the ranking stays as a consistency check. See "The fix" below.
 

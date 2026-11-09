@@ -81,6 +81,15 @@ blocks is usually recovered with the next counterparty
 ([claude-experiments.md](final/claude-experiments.md), "The margin when an owner can try
 another counterparty"). With one counterparty it costs deals.
 
+**Everything above was designed and tested one-to-one, and may change many-to-many.** The
+mandate builder, the walk-away, priority disclosure, MESO, the agents' prompts and every
+experiment assume one buyer and one seller. With many on each side, some of that may need
+rethinking, for example: the walk-away becomes "the best other deal on JANG", not only an
+outside offer, so it moves with the market; an agent negotiating with several
+counterparties at once needs rules for commitment and withdrawal; disclosure and MESO reveal
+preferences to more parties; and deal quality should be judged against the whole market,
+not one pair. Treat the current protocol and its criteria as the one-to-one version.
+
 ## 6. The benchmark compares against a simple seller
 
 The posted-price baseline is drawn blind, which flatters negotiation. We also report an
