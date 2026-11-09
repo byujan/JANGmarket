@@ -70,6 +70,13 @@ export const MandateBodySchema = z.object({
   /** Lowest normalised utility (0..1) the agent may commit the owner to. */
   reservationUtility: z.number().min(0).max(1),
   expiresAt: z.string().datetime(),
+  /**
+   * Opt in to telling the counterparty which terms matter most to this owner,
+   * as an order of keys and nothing else: no weights, bounds or reservation.
+   * Optional with no default, so a mandate signed before this existed has the
+   * same body, and the same signature, as it always did.
+   */
+  disclosePriorities: z.boolean().optional(),
 });
 export type MandateBody = z.infer<typeof MandateBodySchema>;
 

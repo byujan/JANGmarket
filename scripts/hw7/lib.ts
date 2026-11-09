@@ -230,7 +230,15 @@ export function quality(terms: Terms, buyer: Mandate, seller: Mandate, truth: Gr
 
 // ---------------------------------------------------------------- negotiation
 
-export type StrategyKnobs = { buyer: number; seller: number; deadlineAware?: boolean; respectBounds?: boolean; meso?: boolean };
+export type StrategyKnobs = {
+  buyer: number;
+  seller: number;
+  deadlineAware?: boolean;
+  respectBounds?: boolean;
+  meso?: boolean;
+  /** Which owners share their priority order with the other side. */
+  disclose?: { buyer?: boolean; seller?: boolean };
+};
 
 export type Outcome = {
   agreed: boolean;
@@ -248,8 +256,13 @@ export type Outcome = {
  */
 export async function negotiate(market: Scenario, knobs: StrategyKnobs, maxRounds = market.maxRounds): Promise<Outcome & { buyer: Mandate; seller: Mandate }> {
   const service = new JangService(new MemoryStore());
-  const buyer = issueMandate(market, "buyer");
-  const seller = issueMandate(market, "seller");
+  const disclosing = {
+    ...market,
+    buyer: { ...market.buyer, disclosePriorities: knobs.disclose?.buyer || undefined },
+    seller: { ...market.seller, disclosePriorities: knobs.disclose?.seller || undefined },
+  };
+  const buyer = issueMandate(disclosing, "buyer");
+  const seller = issueMandate(disclosing, "seller");
   await service.registerAgent({ agentId: buyer.agentId, ownerId: buyer.ownerId });
   await service.registerAgent({ agentId: seller.agentId, ownerId: seller.ownerId });
   await service.lodgeMandate(buyer.agentId, buyer);

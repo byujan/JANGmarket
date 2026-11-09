@@ -31,7 +31,7 @@ export function makeMandate(
 }
 
 /** A buyer with a hard $1,500 ceiling who wants it soon, covered, and bundled. */
-export function buyerMandate(): Mandate {
+export function buyerMandate(overrides: Partial<MandateBody> = {}): Mandate {
   return makeMandate({
     agentId: "agent-buyer",
     role: "buyer",
@@ -43,11 +43,12 @@ export function buyerMandate(): Mandate {
       bundle: { weight: 1, ideal: 1, worst: 0 },
     },
     reservationUtility: 0.3,
+    ...overrides,
   });
 }
 
 /** A seller with a hard $1,180 floor who would rather ship late than discount. */
-export function sellerMandate(): Mandate {
+export function sellerMandate(overrides: Partial<MandateBody> = {}): Mandate {
   return makeMandate({
     agentId: "agent-seller",
     role: "seller",
@@ -59,5 +60,6 @@ export function sellerMandate(): Mandate {
       bundle: { weight: 1, ideal: 0, worst: 1 },
     },
     reservationUtility: 0.3,
+    ...overrides,
   });
 }

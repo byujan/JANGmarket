@@ -1,4 +1,5 @@
 import { checkTermsAgainstMandate, isExpired, verifyMandate } from "./mandate.ts";
+import { priorityOrder } from "./priorities.ts";
 import {
   JangError,
   MAX_ALTERNATIVES,
@@ -259,6 +260,11 @@ export type SessionView = {
   you: { agentId: string; role: Role };
   counterparty: { agentId: string; role: Role };
   yourMandate: Mandate;
+  /**
+   * Only when the counterparty's owner opted in: their terms in order of
+   * importance, most important first. Keys only, never a number.
+   */
+  counterpartyPriorities?: string[];
   offers: Offer[];
   standingOffer?: Offer;
   whoseTurn: string | "either";
@@ -278,6 +284,9 @@ export function redactSessionFor(agentId: string, session: Session): SessionView
     you: { agentId, role },
     counterparty: { agentId: otherId, role: role === "buyer" ? "seller" : "buyer" },
     yourMandate: session.mandates[agentId],
+    ...(session.mandates[otherId].disclosePriorities
+      ? { counterpartyPriorities: priorityOrder(session.mandates[otherId]) }
+      : {}),
     offers: session.offers,
     standingOffer: standingOffer(session),
     whoseTurn: whoseTurn(session),

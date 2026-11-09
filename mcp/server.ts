@@ -70,6 +70,11 @@ function describe(view: SessionView): string {
     `Session ${view.sessionId} is ${view.status}. You are the ${view.you.role}; the ${view.counterparty.role} is ${view.counterparty.agentId}.`,
     `Round ${view.roundsUsed} of at most ${view.maxRounds}.`,
   ];
+  if (view.counterpartyPriorities?.length) {
+    lines.push(
+      `The ${view.counterparty.role} has shared what matters most to them, most important first: ${view.counterpartyPriorities.join(" > ")}. Give ground on what they rank high and hold firm on what they rank low.`,
+    );
+  }
   if (standing) {
     const mine = standing.fromAgentId === view.you.agentId;
     const show = (terms: Terms) =>

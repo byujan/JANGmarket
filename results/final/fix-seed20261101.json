@@ -6,6 +6,10 @@
  "deadlineAware": false,
  "respectBounds": true,
  "meso": false,
+ "disclose": {
+  "buyer": false,
+  "seller": false
+ },
  "toughness": {
   "ordinary": {
    "buyer": 1.5,
@@ -30,10 +34,10 @@
   "asymmetric": 40,
   "nozopa": 20
  },
- "commit": "d7984c1",
+ "commit": "93f940c",
  "node": "v24.21.0",
- "ranAt": "2026-11-09T02:58:17.227Z",
- "elapsedSeconds": 3.7,
+ "ranAt": "2026-11-09T03:06:21.188Z",
+ "elapsedSeconds": 3.4,
  "summaries": [
   {
    "case": "ordinary",
@@ -53,7 +57,7 @@
     "meanBuyerShare": "0.571",
     "meanRounds": "11.4",
     "meanApiCalls": "38.3",
-    "meanMs": "10.5"
+    "meanMs": "9.6"
    },
    "priceOnly": {
     "closed": 16,
@@ -64,7 +68,7 @@
     "meanBuyerShare": "0.258",
     "meanRounds": "11.3",
     "meanApiCalls": "38.0",
-    "meanMs": "7.8"
+    "meanMs": "7.0"
    },
    "posted": {
     "closed": 1,
@@ -101,7 +105,7 @@
     "meanBuyerShare": "0.756",
     "meanRounds": "12.0",
     "meanApiCalls": "40.0",
-    "meanMs": "12.3"
+    "meanMs": "11.4"
    },
    "priceOnly": {
     "closed": 0,
@@ -112,7 +116,7 @@
     "meanBuyerShare": "-",
     "meanRounds": "12.0",
     "meanApiCalls": "40.0",
-    "meanMs": "8.3"
+    "meanMs": "7.6"
    },
    "posted": {
     "closed": 0,
@@ -149,7 +153,7 @@
     "meanBuyerShare": "0.485",
     "meanRounds": "11.7",
     "meanApiCalls": "39.1",
-    "meanMs": "10.0"
+    "meanMs": "9.3"
    },
    "priceOnly": {
     "closed": 16,
@@ -160,7 +164,7 @@
     "meanBuyerShare": "0.224",
     "meanRounds": "11.7",
     "meanApiCalls": "39.0",
-    "meanMs": "7.8"
+    "meanMs": "7.2"
    },
    "posted": {
     "closed": 1,
@@ -197,7 +201,7 @@
     "meanBuyerShare": "-",
     "meanRounds": "12.0",
     "meanApiCalls": "40.0",
-    "meanMs": "11.1"
+    "meanMs": "10.1"
    },
    "priceOnly": {
     "closed": 0,
@@ -208,7 +212,7 @@
     "meanBuyerShare": "-",
     "meanRounds": "12.0",
     "meanApiCalls": "40.0",
-    "meanMs": "8.1"
+    "meanMs": "7.6"
    },
    "posted": {
     "closed": 0,
@@ -239,7 +243,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 18.72,
+    "ms": 19.07,
     "violations": 0,
     "q": {
      "buyerValue": 0.5465886939571151,
@@ -255,7 +259,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.17,
+    "ms": 9.52,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -276,7 +280,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.01,
+    "ms": 10.56,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -284,7 +288,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.23,
+    "ms": 8.12,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -305,7 +309,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 10.78,
+    "ms": 10.37,
     "violations": 0,
     "q": {
      "buyerValue": 0.510950080515298,
@@ -321,7 +325,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 7.33,
+    "ms": 7.78,
     "violations": 0,
     "q": {
      "buyerValue": 0.4080515297906602,
@@ -350,7 +354,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.01,
+    "ms": 8.78,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -358,7 +362,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.77,
+    "ms": 7.42,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -379,7 +383,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 11.19,
+    "ms": 9.67,
     "violations": 0,
     "q": {
      "buyerValue": 0.4514161220043573,
@@ -395,7 +399,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.23,
+    "ms": 7.85,
     "violations": 0,
     "q": {
      "buyerValue": 0.39128540305010895,
@@ -424,7 +428,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.53,
+    "ms": 8.2,
     "violations": 0,
     "q": {
      "buyerValue": 0.39417989417989424,
@@ -440,7 +444,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.13,
+    "ms": 7.61,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -461,7 +465,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.08,
+    "ms": 9.79,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -469,7 +473,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.29,
+    "ms": 6.39,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -490,7 +494,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.67,
+    "ms": 8.08,
     "violations": 0,
     "q": {
      "buyerValue": 0.45380116959064326,
@@ -506,7 +510,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.06,
+    "ms": 7.68,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -527,7 +531,7 @@
     "agreed": true,
     "rounds": 9,
     "apiCalls": 31,
-    "ms": 9.21,
+    "ms": 7.47,
     "violations": 0,
     "q": {
      "buyerValue": 0.5891358024691358,
@@ -543,7 +547,7 @@
     "agreed": true,
     "rounds": 7,
     "apiCalls": 25,
-    "ms": 6.01,
+    "ms": 4.12,
     "violations": 0,
     "q": {
      "buyerValue": 0.48790123456790124,
@@ -590,7 +594,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.26,
+    "ms": 11.57,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -598,7 +602,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.64,
+    "ms": 7.64,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -619,7 +623,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.11,
+    "ms": 9.54,
     "violations": 0,
     "q": {
      "buyerValue": 0.4,
@@ -635,7 +639,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.55,
+    "ms": 7.66,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -656,7 +660,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 11.2,
+    "ms": 9.45,
     "violations": 0,
     "q": {
      "buyerValue": 0.471604938271605,
@@ -672,7 +676,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 7.85,
+    "ms": 7.19,
     "violations": 0,
     "q": {
      "buyerValue": 0.49453262786596125,
@@ -701,7 +705,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.51,
+    "ms": 9.61,
     "violations": 0,
     "q": {
      "buyerValue": 0.29532163742690054,
@@ -717,7 +721,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.57,
+    "ms": 7.92,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -738,7 +742,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.44,
+    "ms": 9.72,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -746,7 +750,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.91,
+    "ms": 7.6,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -767,7 +771,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.91,
+    "ms": 9.42,
     "violations": 0,
     "q": {
      "buyerValue": 0.5132553606237816,
@@ -783,7 +787,7 @@
     "agreed": true,
     "rounds": 10,
     "apiCalls": 34,
-    "ms": 7.39,
+    "ms": 6.44,
     "violations": 0,
     "q": {
      "buyerValue": 0.4518518518518519,
@@ -812,7 +816,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.52,
+    "ms": 8.06,
     "violations": 0,
     "q": {
      "buyerValue": 0.5968253968253968,
@@ -828,7 +832,7 @@
     "agreed": true,
     "rounds": 10,
     "apiCalls": 34,
-    "ms": 6.82,
+    "ms": 5.53,
     "violations": 0,
     "q": {
      "buyerValue": 0.4469135802469135,
@@ -857,7 +861,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.19,
+    "ms": 9.08,
     "violations": 0,
     "q": {
      "buyerValue": 0.4710144927536231,
@@ -873,7 +877,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.4,
+    "ms": 6.52,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -894,7 +898,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.82,
+    "ms": 9.48,
     "violations": 0,
     "q": {
      "buyerValue": 0.31393298059964725,
@@ -910,7 +914,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.94,
+    "ms": 7.62,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -931,7 +935,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.96,
+    "ms": 9.44,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -939,7 +943,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.55,
+    "ms": 6.31,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -960,7 +964,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.55,
+    "ms": 8.35,
     "violations": 0,
     "q": {
      "buyerValue": 0.5229276895943562,
@@ -976,7 +980,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.06,
+    "ms": 7.5,
     "violations": 0,
     "q": {
      "buyerValue": 0.42151675485008816,
@@ -1005,7 +1009,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.96,
+    "ms": 9.93,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1013,7 +1017,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.46,
+    "ms": 6.5,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1034,7 +1038,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.43,
+    "ms": 9.9,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1042,7 +1046,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.12,
+    "ms": 7.4,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1063,7 +1067,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 11.62,
+    "ms": 9.44,
     "violations": 0,
     "q": {
      "buyerValue": 0.3871111111111111,
@@ -1079,7 +1083,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.28,
+    "ms": 7.71,
     "violations": 0,
     "q": {
      "buyerValue": 0.28074074074074074,
@@ -1108,7 +1112,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 10,
+    "ms": 9.54,
     "violations": 0,
     "q": {
      "buyerValue": 0.45008051529790655,
@@ -1124,7 +1128,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.9,
+    "ms": 7.47,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1145,7 +1149,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.12,
+    "ms": 9.59,
     "violations": 0,
     "q": {
      "buyerValue": 0.3249512670565302,
@@ -1161,7 +1165,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.36,
+    "ms": 7.42,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1182,7 +1186,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.67,
+    "ms": 9.99,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1190,7 +1194,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.12,
+    "ms": 9.33,
     "violations": 0,
     "q": {
      "buyerValue": 0.456437389770723,
@@ -1219,7 +1223,7 @@
     "agreed": true,
     "rounds": 10,
     "apiCalls": 34,
-    "ms": 9.18,
+    "ms": 8.58,
     "violations": 0,
     "q": {
      "buyerValue": 0.42105263157894735,
@@ -1264,7 +1268,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.95,
+    "ms": 10.38,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1272,7 +1276,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.44,
+    "ms": 7.92,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1293,7 +1297,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.63,
+    "ms": 7.84,
     "violations": 0,
     "q": {
      "buyerValue": 0.4806100217864924,
@@ -1309,7 +1313,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.51,
+    "ms": 7.78,
     "violations": 0,
     "q": {
      "buyerValue": 0.39128540305010895,
@@ -1338,7 +1342,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.29,
+    "ms": 10.84,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1346,7 +1350,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.56,
+    "ms": 6.49,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1367,7 +1371,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.39,
+    "ms": 11.48,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1375,7 +1379,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.03,
+    "ms": 6.43,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1396,7 +1400,7 @@
     "agreed": true,
     "rounds": 10,
     "apiCalls": 34,
-    "ms": 8.07,
+    "ms": 8.7,
     "violations": 0,
     "q": {
      "buyerValue": 0.490448343079922,
@@ -1412,7 +1416,7 @@
     "agreed": true,
     "rounds": 9,
     "apiCalls": 31,
-    "ms": 5.42,
+    "ms": 6.34,
     "violations": 0,
     "q": {
      "buyerValue": 0.4834307992202729,
@@ -1441,7 +1445,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.18,
+    "ms": 10.92,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1449,7 +1453,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.16,
+    "ms": 6.47,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1470,7 +1474,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.7,
+    "ms": 10.05,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1478,7 +1482,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.85,
+    "ms": 7.43,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1499,7 +1503,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.58,
+    "ms": 6.78,
     "violations": 0,
     "q": {
      "buyerValue": 0.5219001610305958,
@@ -1515,7 +1519,7 @@
     "agreed": true,
     "rounds": 9,
     "apiCalls": 31,
-    "ms": 6.97,
+    "ms": 6.33,
     "violations": 0,
     "q": {
      "buyerValue": 0.555877616747182,
@@ -1544,7 +1548,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.53,
+    "ms": 9.1,
     "violations": 0,
     "q": {
      "buyerValue": 0.41446208112874783,
@@ -1560,7 +1564,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.18,
+    "ms": 6.74,
     "violations": 0,
     "q": {
      "buyerValue": 0.4088183421516755,
@@ -1589,7 +1593,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.14,
+    "ms": 10.87,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1597,7 +1601,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.17,
+    "ms": 7.53,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1618,7 +1622,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 6.65,
+    "ms": 9.06,
     "violations": 0,
     "q": {
      "buyerValue": 0.5548500881834215,
@@ -1634,7 +1638,7 @@
     "agreed": true,
     "rounds": 10,
     "apiCalls": 34,
-    "ms": 6.39,
+    "ms": 4.78,
     "violations": 0,
     "q": {
      "buyerValue": 0.4246913580246913,
@@ -1663,7 +1667,7 @@
     "agreed": true,
     "rounds": 10,
     "apiCalls": 34,
-    "ms": 9.42,
+    "ms": 7.63,
     "violations": 0,
     "q": {
      "buyerValue": 0.6031746031746033,
@@ -1679,7 +1683,7 @@
     "agreed": true,
     "rounds": 9,
     "apiCalls": 31,
-    "ms": 5.86,
+    "ms": 4.55,
     "violations": 0,
     "q": {
      "buyerValue": 0.5246913580246912,
@@ -1708,7 +1712,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.85,
+    "ms": 9.04,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1716,7 +1720,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.07,
+    "ms": 6.59,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1737,7 +1741,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.56,
+    "ms": 9.71,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1745,7 +1749,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.15,
+    "ms": 7.57,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1766,7 +1770,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.55,
+    "ms": 9.69,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1774,7 +1778,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.79,
+    "ms": 7.42,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1795,7 +1799,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.41,
+    "ms": 9.95,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1803,7 +1807,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 6.86,
+    "ms": 7.51,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1824,7 +1828,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.12,
+    "ms": 9.41,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1832,7 +1836,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.14,
+    "ms": 7.54,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1853,7 +1857,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.99,
+    "ms": 9.58,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1861,7 +1865,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.9,
+    "ms": 7.47,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1882,7 +1886,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.63,
+    "ms": 9.58,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1890,7 +1894,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.53,
+    "ms": 6.39,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1911,7 +1915,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.33,
+    "ms": 10.64,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1919,7 +1923,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.99,
+    "ms": 7.52,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -1940,537 +1944,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.55,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.33,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 8,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 9.63,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.15,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 9,
-   "feasible": true,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 220,
-   "jang": {
-    "agreed": true,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 9.52,
-    "violations": 0,
-    "q": {
-     "buyerValue": 0.36898096304591266,
-     "sellerValue": 0.297979797979798,
-     "paretoOptimal": true,
-     "paretoDistance": 0,
-     "surplus": 0.13496076102571064,
-     "efficiency": 1,
-     "buyerShare": 0.7556341730059214
-    }
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 7.96,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 10,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 10.28,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.24,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 11,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.79,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.03,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 12,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 11.56,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.14,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 13,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 9.93,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 7.22,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 14,
-   "feasible": true,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 2,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 12.2,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.6,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 15,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 12.65,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.61,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 16,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 12.63,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.66,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 17,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 11.84,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 7.31,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 18,
-   "feasible": true,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 30,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 11.63,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.62,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 19,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 12.11,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.68,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 20,
-   "feasible": true,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 16,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 12.96,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 7.76,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 21,
-   "feasible": true,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 103,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 14.04,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.7,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 22,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 13.45,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
     "ms": 8.77,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 23,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 13.4,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.12,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 24,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 13.81,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "priceOnly": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 8.87,
-    "violations": 0,
-    "stoppedBecause": "buyer: ROUND_LIMIT"
-   },
-   "posted": {
-    "agreed": false
-   },
-   "oracle": {
-    "agreed": false
-   }
-  },
-  {
-   "case": "narrow",
-   "index": 25,
-   "feasible": false,
-   "feasiblePriceOnly": false,
-   "feasibleCount": 0,
-   "jang": {
-    "agreed": false,
-    "rounds": 12,
-    "apiCalls": 40,
-    "ms": 12.36,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2491,6 +1965,536 @@
   },
   {
    "case": "narrow",
+   "index": 8,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 9.49,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.46,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 9,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 220,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 9.19,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.36898096304591266,
+     "sellerValue": 0.297979797979798,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.13496076102571064,
+     "efficiency": 1,
+     "buyerShare": 0.7556341730059214
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.5,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 10,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 8.32,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.34,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 11,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 9.72,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.49,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 12,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 9.9,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.5,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 13,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.52,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.47,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 14,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 2,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 9.34,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.42,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 15,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 9.9,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 6.72,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 16,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.01,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.57,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 17,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.24,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.94,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 18,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 30,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.38,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 6.73,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 19,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.38,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.89,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 20,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 16,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.36,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 8.02,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 21,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 103,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.3,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 8.09,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 22,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 10.99,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 8.11,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 23,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.26,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.04,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 24,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.21,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 8.07,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 25,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.61,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.16,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
    "index": 26,
    "feasible": false,
    "feasiblePriceOnly": false,
@@ -2499,7 +2503,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 13.24,
+    "ms": 11.33,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2507,7 +2511,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.99,
+    "ms": 7.97,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2528,7 +2532,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 14.17,
+    "ms": 13.44,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2536,7 +2540,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 6.78,
+    "ms": 8.4,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2557,7 +2561,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 13.86,
+    "ms": 11.9,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2565,7 +2569,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.84,
+    "ms": 6.86,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2586,7 +2590,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 13.3,
+    "ms": 13.11,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2594,7 +2598,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.06,
+    "ms": 8.1,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2615,7 +2619,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 13.12,
+    "ms": 13.99,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2623,7 +2627,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.72,
+    "ms": 8.03,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2644,7 +2648,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 14.62,
+    "ms": 12.95,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2652,7 +2656,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.81,
+    "ms": 7.95,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2673,7 +2677,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 13.05,
+    "ms": 13.06,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2681,7 +2685,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.91,
+    "ms": 7.3,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2702,7 +2706,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.68,
+    "ms": 13.21,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2710,7 +2714,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.82,
+    "ms": 6.87,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2731,7 +2735,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 14.53,
+    "ms": 13.72,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2739,7 +2743,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.92,
+    "ms": 8.03,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2760,7 +2764,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.52,
+    "ms": 13.49,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2768,7 +2772,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.73,
+    "ms": 8.26,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2789,7 +2793,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 15.09,
+    "ms": 12.95,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2797,7 +2801,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.7,
+    "ms": 8.18,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2818,7 +2822,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.31,
+    "ms": 11.62,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2826,7 +2830,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.05,
+    "ms": 6.93,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2847,7 +2851,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.88,
+    "ms": 12.82,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2855,7 +2859,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.73,
+    "ms": 8.1,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2876,7 +2880,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 14,
+    "ms": 13.82,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2884,7 +2888,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.48,
+    "ms": 7.84,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2905,7 +2909,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.73,
+    "ms": 11.85,
     "violations": 0,
     "q": {
      "buyerValue": 0.43313840155945416,
@@ -2921,7 +2925,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.07,
+    "ms": 6.9,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2942,7 +2946,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.55,
+    "ms": 10.52,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2950,7 +2954,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.45,
+    "ms": 7.82,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2971,7 +2975,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.12,
+    "ms": 11.05,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -2979,7 +2983,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.55,
+    "ms": 7.8,
     "violations": 0,
     "q": {
      "buyerValue": 0.4080515297906602,
@@ -3008,7 +3012,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.12,
+    "ms": 9.5,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3016,7 +3020,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.92,
+    "ms": 6.38,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3037,7 +3041,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.73,
+    "ms": 8.74,
     "violations": 0,
     "q": {
      "buyerValue": 0.49150326797385624,
@@ -3053,7 +3057,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 6.81,
+    "ms": 7.59,
     "violations": 0,
     "q": {
      "buyerValue": 0.39128540305010895,
@@ -3082,7 +3086,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.4,
+    "ms": 7.84,
     "violations": 0,
     "q": {
      "buyerValue": 0.36596119929453264,
@@ -3098,7 +3102,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.49,
+    "ms": 6.82,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3119,7 +3123,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.35,
+    "ms": 9.35,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3127,7 +3131,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.03,
+    "ms": 7.54,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3148,7 +3152,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.33,
+    "ms": 8.92,
     "violations": 0,
     "q": {
      "buyerValue": 0.47933723196881095,
@@ -3164,7 +3168,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.1,
+    "ms": 7.4,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3185,7 +3189,7 @@
     "agreed": true,
     "rounds": 10,
     "apiCalls": 34,
-    "ms": 7.87,
+    "ms": 8.49,
     "violations": 0,
     "q": {
      "buyerValue": 0.5135802469135803,
@@ -3201,7 +3205,7 @@
     "agreed": true,
     "rounds": 9,
     "apiCalls": 31,
-    "ms": 6.76,
+    "ms": 5.21,
     "violations": 0,
     "q": {
      "buyerValue": 0.48790123456790124,
@@ -3248,7 +3252,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.7,
+    "ms": 10.74,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3256,7 +3260,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.02,
+    "ms": 7.56,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3277,7 +3281,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.52,
+    "ms": 10.5,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3285,7 +3289,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.35,
+    "ms": 7.52,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3306,7 +3310,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 10.09,
+    "ms": 7.83,
     "violations": 0,
     "q": {
      "buyerValue": 0.5527336860670194,
@@ -3322,7 +3326,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.21,
+    "ms": 7.53,
     "violations": 0,
     "q": {
      "buyerValue": 0.49453262786596125,
@@ -3351,7 +3355,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.49,
+    "ms": 8.12,
     "violations": 0,
     "q": {
      "buyerValue": 0.30916179337231964,
@@ -3367,7 +3371,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.8,
+    "ms": 6.73,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3388,7 +3392,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.3,
+    "ms": 9.55,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3396,7 +3400,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.02,
+    "ms": 7.52,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3417,7 +3421,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.97,
+    "ms": 9.24,
     "violations": 0,
     "q": {
      "buyerValue": 0.4625730994152047,
@@ -3433,7 +3437,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.18,
+    "ms": 7.82,
     "violations": 0,
     "q": {
      "buyerValue": 0.4518518518518519,
@@ -3462,7 +3466,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.77,
+    "ms": 8.03,
     "violations": 0,
     "q": {
      "buyerValue": 0.4522045855379188,
@@ -3478,7 +3482,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.14,
+    "ms": 7.45,
     "violations": 0,
     "q": {
      "buyerValue": 0.4469135802469135,
@@ -3507,7 +3511,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.34,
+    "ms": 9.03,
     "violations": 0,
     "q": {
      "buyerValue": 0.3790660225442834,
@@ -3523,7 +3527,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 6.74,
+    "ms": 7.46,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3544,7 +3548,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.73,
+    "ms": 9.34,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3552,7 +3556,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 6.87,
+    "ms": 7.4,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3573,7 +3577,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.88,
+    "ms": 9.35,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3581,7 +3585,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.17,
+    "ms": 7.84,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3602,7 +3606,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.25,
+    "ms": 10.21,
     "violations": 0,
     "q": {
      "buyerValue": 0.5828924162257495,
@@ -3618,7 +3622,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.42,
+    "ms": 6.32,
     "violations": 0,
     "q": {
      "buyerValue": 0.42151675485008816,
@@ -3647,7 +3651,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.04,
+    "ms": 9.46,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3655,7 +3659,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.79,
+    "ms": 5.71,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3676,7 +3680,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.06,
+    "ms": 8.44,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3684,7 +3688,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.9,
+    "ms": 7.43,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3705,7 +3709,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.66,
+    "ms": 10.18,
     "violations": 0,
     "q": {
      "buyerValue": 0.38888888888888895,
@@ -3721,7 +3725,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.07,
+    "ms": 7.67,
     "violations": 0,
     "q": {
      "buyerValue": 0.28074074074074074,
@@ -3750,7 +3754,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.84,
+    "ms": 8.27,
     "violations": 0,
     "q": {
      "buyerValue": 0.42834138486312395,
@@ -3766,7 +3770,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.27,
+    "ms": 7.38,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3787,7 +3791,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.24,
+    "ms": 10.88,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3795,7 +3799,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.7,
+    "ms": 8.94,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3816,7 +3820,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.79,
+    "ms": 9.26,
     "violations": 0,
     "q": {
      "buyerValue": 0.4934744268077601,
@@ -3832,7 +3836,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.17,
+    "ms": 7.56,
     "violations": 0,
     "q": {
      "buyerValue": 0.456437389770723,
@@ -3861,7 +3865,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.95,
+    "ms": 8.59,
     "violations": 0,
     "q": {
      "buyerValue": 0.38635477582846006,
@@ -3877,7 +3881,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 5.44,
+    "ms": 6.45,
     "violations": 0,
     "q": {
      "buyerValue": 0.2729044834307992,
@@ -3906,7 +3910,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.71,
+    "ms": 8.73,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3914,7 +3918,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.35,
+    "ms": 7.46,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3935,7 +3939,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.94,
+    "ms": 8.96,
     "violations": 0,
     "q": {
      "buyerValue": 0.4671023965141612,
@@ -3951,7 +3955,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.14,
+    "ms": 6.84,
     "violations": 0,
     "q": {
      "buyerValue": 0.39128540305010895,
@@ -3980,7 +3984,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.11,
+    "ms": 9.42,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -3988,7 +3992,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.22,
+    "ms": 7.35,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4009,7 +4013,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.16,
+    "ms": 9.56,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4017,7 +4021,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.02,
+    "ms": 7.5,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4038,7 +4042,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.26,
+    "ms": 9.23,
     "violations": 0,
     "q": {
      "buyerValue": 0.531384015594542,
@@ -4054,7 +4058,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.02,
+    "ms": 6.43,
     "violations": 0,
     "q": {
      "buyerValue": 0.4834307992202729,
@@ -4083,7 +4087,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.72,
+    "ms": 10.82,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4091,7 +4095,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.9,
+    "ms": 7.94,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4112,7 +4116,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.04,
+    "ms": 9.41,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4120,7 +4124,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 6.53,
+    "ms": 6.32,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4141,7 +4145,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.27,
+    "ms": 8.98,
     "violations": 0,
     "q": {
      "buyerValue": 0.4703703703703703,
@@ -4157,7 +4161,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.09,
+    "ms": 6.77,
     "violations": 0,
     "q": {
      "buyerValue": 0.4341384863123993,
@@ -4186,7 +4190,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 9.55,
+    "ms": 10.08,
     "violations": 0,
     "q": {
      "buyerValue": 0.45114638447971783,
@@ -4202,7 +4206,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 7.25,
+    "ms": 6.39,
     "violations": 0,
     "q": {
      "buyerValue": 0.4088183421516755,
@@ -4231,7 +4235,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.89,
+    "ms": 9.54,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4239,7 +4243,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 6.6,
+    "ms": 6.35,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4260,7 +4264,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.04,
+    "ms": 7.97,
     "violations": 0,
     "q": {
      "buyerValue": 0.4797178130511464,
@@ -4276,7 +4280,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.33,
+    "ms": 7.55,
     "violations": 0,
     "q": {
      "buyerValue": 0.4246913580246913,
@@ -4305,7 +4309,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.65,
+    "ms": 7.86,
     "violations": 0,
     "q": {
      "buyerValue": 0.5317460317460317,
@@ -4321,7 +4325,7 @@
     "agreed": true,
     "rounds": 11,
     "apiCalls": 37,
-    "ms": 8.29,
+    "ms": 7.65,
     "violations": 0,
     "q": {
      "buyerValue": 0.41358024691358025,
@@ -4350,7 +4354,7 @@
     "agreed": true,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.73,
+    "ms": 9.32,
     "violations": 0,
     "q": {
      "buyerValue": 0.30032206119162635,
@@ -4366,7 +4370,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.09,
+    "ms": 7.47,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4387,7 +4391,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.39,
+    "ms": 9.21,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4395,7 +4399,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.88,
+    "ms": 7.46,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4416,7 +4420,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.35,
+    "ms": 8.47,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4424,7 +4428,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.24,
+    "ms": 7.48,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4445,7 +4449,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.14,
+    "ms": 10.37,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4453,7 +4457,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.12,
+    "ms": 7.42,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4474,7 +4478,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.69,
+    "ms": 9.44,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4482,7 +4486,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 6.64,
+    "ms": 7.46,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4503,7 +4507,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.49,
+    "ms": 9.3,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4511,7 +4515,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.67,
+    "ms": 7.45,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4532,7 +4536,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.92,
+    "ms": 9.65,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4540,7 +4544,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.04,
+    "ms": 7.51,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4561,7 +4565,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.2,
+    "ms": 9.54,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4569,7 +4573,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.82,
+    "ms": 7.4,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4590,7 +4594,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.23,
+    "ms": 9.43,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4598,7 +4602,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.13,
+    "ms": 7.53,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4619,7 +4623,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.83,
+    "ms": 9.35,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4627,7 +4631,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 6.8,
+    "ms": 7.45,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4648,7 +4652,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.87,
+    "ms": 8.28,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4656,7 +4660,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.73,
+    "ms": 7.36,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4677,7 +4681,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.95,
+    "ms": 9.7,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4685,7 +4689,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.12,
+    "ms": 7.74,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4706,7 +4710,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.17,
+    "ms": 9.59,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4714,7 +4718,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.02,
+    "ms": 7.45,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4735,7 +4739,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.74,
+    "ms": 8.4,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4743,7 +4747,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.37,
+    "ms": 7.4,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4764,7 +4768,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 10.18,
+    "ms": 10.29,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4772,7 +4776,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.68,
+    "ms": 7.75,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4793,7 +4797,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.74,
+    "ms": 10.45,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4801,7 +4805,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.74,
+    "ms": 7.92,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4822,7 +4826,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.81,
+    "ms": 10.88,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4830,7 +4834,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.59,
+    "ms": 7.89,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4851,7 +4855,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.6,
+    "ms": 12.23,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4859,7 +4863,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 7.43,
+    "ms": 7.83,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4880,7 +4884,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 12.87,
+    "ms": 12.21,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4888,7 +4892,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.04,
+    "ms": 6.79,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4909,7 +4913,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 14.38,
+    "ms": 11.61,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4917,7 +4921,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 9.26,
+    "ms": 7.95,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4938,7 +4942,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 11.55,
+    "ms": 13.51,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },
@@ -4946,7 +4950,7 @@
     "agreed": false,
     "rounds": 12,
     "apiCalls": 40,
-    "ms": 8.85,
+    "ms": 8.1,
     "violations": 0,
     "stoppedBecause": "buyer: ROUND_LIMIT"
    },

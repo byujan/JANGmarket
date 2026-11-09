@@ -59,6 +59,7 @@ export function MandateBuilder({
   const [role, setRole] = useState<Role>("buyer");
   const [walkAway, setWalkAway] = useState(0.3);
   const [days, setDays] = useState(7);
+  const [disclose, setDisclose] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -112,6 +113,8 @@ export function MandateBuilder({
         preferences,
         reservationUtility: walkAway,
         expiresAt: new Date(Date.now() + days * 86_400_000).toISOString(),
+        // Only present when chosen, so an undisclosed mandate signs exactly as before.
+        ...(disclose ? { disclosePriorities: true } : {}),
       };
 
       const key = await loadOrCreateOwnerKey();
@@ -280,6 +283,18 @@ export function MandateBuilder({
           value={walkAway}
           onChange={(event) => setWalkAway(Number(event.target.value))}
         />
+      </section>
+
+      <section className="section">
+        <h2>Tell the other side what matters</h2>
+        <label htmlFor="disclose" style={{ display: "flex", gap: "0.6rem", alignItems: "flex-start" }}>
+          <input id="disclose" type="checkbox" checked={disclose} onChange={(event) => setDisclose(event.target.checked)} />
+          <span>
+            Share the order of importance of these terms with the counterparty&apos;s agent, so it can offer you more of
+            what you care about. Only the order is shared: never your limits, how much more one term matters than
+            another, or when you would walk away.
+          </span>
+        </label>
       </section>
 
       {error ? (
