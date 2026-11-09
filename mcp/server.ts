@@ -155,7 +155,9 @@ server.registerTool(
   },
 );
 
-const offerInput = {
+// JANG_MESO=off hides the alternatives field, so experiments can compare
+// Claude agents with and without MESO. Unset, the tool offers it as always.
+const fullOfferInput = {
   terms: z.record(z.string(), z.number()).describe("One value for every dimension of the item, for example { price: 1320, deliveryDays: 21, warrantyMonths: 24, bundle: 0 }."),
   alternatives: z
     .array(z.record(z.string(), z.number()))
@@ -167,6 +169,8 @@ const offerInput = {
   note: z.string().max(500).optional().describe("A short message to the counterparty. Never reveal your own limits here."),
   sessionId: z.string().optional(),
 };
+const { alternatives: _alternatives, ...offerInputWithoutMeso } = fullOfferInput;
+const offerInput = (process.env.JANG_MESO === "off" ? offerInputWithoutMeso : fullOfferInput) as typeof fullOfferInput;
 
 async function placeOffer({
   terms,

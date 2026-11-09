@@ -38,6 +38,8 @@ export async function runLlmAgent(input: {
   sessionId: string;
   model?: string;
   maxTurns?: number;
+  /** Extra environment for the agent's MCP server, e.g. { JANG_MESO: "off" }. */
+  env?: Record<string, string>;
   onEvent?: (event: LlmEvent) => void;
 }): Promise<LlmRunResult> {
   const label = input.role;
@@ -67,6 +69,7 @@ export async function runLlmAgent(input: {
             JANG_API_URL: input.apiUrl,
             JANG_AGENT_KEY: input.apiKey,
             JANG_SESSION_ID: input.sessionId,
+            ...input.env,
           },
         },
       },
