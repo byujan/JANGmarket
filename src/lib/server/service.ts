@@ -1,5 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
 import { buildAgreementBody, signAgreement } from "../jang/agreement.ts";
+import { quality, sessionFrontier } from "../jang/frontier.ts";
 import { verifyMandate } from "../jang/mandate.ts";
 import {
   acceptStandingOffer,
@@ -17,6 +18,7 @@ import {
   type ItemSpec,
   type Mandate,
   type Role,
+  type Session,
   type Terms,
 } from "../jang/types.ts";
 import { store as defaultStore } from "../store/index.ts";
@@ -172,8 +174,39 @@ export class JangService {
     const closed = { ...accepted, agreementId: agreement.agreementId };
     await this.store.putAgreement(agreement);
     await this.store.putSession(closed);
-    await this.note({ kind: "agreed", sessionId: session.sessionId, agentId: input.agentId, detail: { agreementId: agreement.agreementId, terms: agreement.terms } });
+    await this.note({
+      kind: "agreed",
+      sessionId: session.sessionId,
+      agentId: input.agentId,
+      detail: { agreementId: agreement.agreementId, terms: agreement.terms, quality: this.dealQuality(closed, agreement) },
+    });
     return { view: redactSessionFor(input.agentId, closed), agreement };
+  }
+
+  /**
+   * How good the deal was against everything these two owners could have
+   * agreed: an operator's number, recorded in the event log and never in the
+   * signed agreement or any agent's view, since it is derived from both
+   * private mandates. A failure here must never undo a closed deal.
+   */
+  private dealQuality(session: Session, agreement: Agreement) {
+    try {
+      const truth = sessionFrontier(session);
+      const q = quality(
+        agreement.terms,
+        session.mandates[session.participants.buyer],
+        session.mandates[session.participants.seller],
+        truth,
+      );
+      return {
+        efficiency: Number(q.efficiency.toFixed(4)),
+        paretoOptimal: q.paretoOptimal,
+        paretoDistance: Number(q.paretoDistance.toFixed(4)),
+        buyerShare: Number(q.buyerShare.toFixed(4)),
+      };
+    } catch {
+      return undefined;
+    }
   }
 
   async getAgreement(agreementId: string): Promise<Agreement> {

@@ -21,11 +21,18 @@ export const DimensionSchema = z.object({
 });
 export type Dimension = z.infer<typeof DimensionSchema>;
 
+export const MAX_DIMENSIONS = 5;
+
 export const ItemSpecSchema = z.object({
   itemId: z.string().min(1),
   title: z.string().min(1),
   description: z.string().optional(),
-  dimensions: z.array(DimensionSchema).min(1),
+  /**
+   * At most five negotiable terms. JANG searches every package to find the
+   * Pareto frontier once per session; at five terms that takes milliseconds,
+   * at six close to a second and at seven around ten seconds.
+   */
+  dimensions: z.array(DimensionSchema).min(1).max(MAX_DIMENSIONS),
 });
 export type ItemSpec = z.infer<typeof ItemSpecSchema>;
 
