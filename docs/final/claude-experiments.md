@@ -80,12 +80,33 @@ Lowering the walk-away is not a fix: it raises the share of allowed deals an own
 
 **Claude owners answering the new section** (`elicit-llm.ts`, rerun with a third arm; `results/final/elicit-llm-2026-11-09T05-24-19-701Z.json`; 12 of 16 owners, the last four hit a usage limit): wrong accept/refuse calls fall to **0.1%** (old sliders 4.3%, ranking only 8.5%), better than the old sliders for 12 of 12 owners (p = 0.0005). This mostly shows the plumbing is right: these owners were *told* their dollar trade-offs, so they answer almost exactly. How well people answer is the open question; the ±30%/±50% rows above are the realistic range.
 
+## Rerun: the fixed builder in Claude negotiations
+
+`npx tsx scripts/final/llm-all.ts --markets=3 --arms=all4+money` → `results/final/llm-all-2026-11-09T13-33-57-412Z.json` (9 negotiations, about $19)
+
+Arm **all4+money**: as all4, but weights come from the money questions, with each owner's dollar answers off by a log-normal factor (sigma 0.3, about ±30%). Same markets and same outside offers as all4, so only the weights differ. Before negotiating, all 9 markets still allow a deal (all4: 4 of 9).
+
+| arm | closed | eff. of closed deals | Pareto | deals below an owner's TRUE walk-away |
+| --- | --- | --- | --- | --- |
+| before | 7/9 | 0.64 | 1/7 | 0 |
+| meso+disclose | 6/9 | 0.73 | 2/6 | 0 |
+| all4 (rank only) | 4/9 | 0.86 | 1/4 | 0 |
+| **all4+money** | **7/9** | see below | 1/7 | **2** |
+
+- **Closing is back to where it was before the changes** (7/9), from 4/9.
+- **But two deals were worse for an owner than walking away**, the first in any arm:
+  - narrow #1: both sides land just under their true walk-away (buyer 0.296 vs 0.300, seller 0.335 vs 0.343). Small in value; the efficiency of -4.13 only looks dramatic because a narrow market's whole surplus is tiny.
+  - asymmetric #3: serious. The buyer gets 0.176 against a true walk-away of 0.296. Their dollar answers overvalued the soundbar by about 50% and undervalued delivery, so under the lodged weights a deal at the price limit, minimum warranty and 39-day delivery plus a soundbar looked acceptable.
+- Mean efficiency of closed deals is distorted by the narrow #1 outlier; excluding it, the other six average 0.55, below before (0.64) and all4 (0.86). One run per market, so this is direction only.
+
+**What this means.** Rank-only weights fail safe (they lose deals); noisy money answers fail unsafe (they can lower the walk-away the agent effectively applies). The money questions fix closing, but the walk-away now needs protection against error in the weights. Candidate fix, not built: accept a package only if it beats the outside offer under every weight vector within the owner's likely error (for example ±30% on each amount), or simply never below the outside offer on any term the owner ranked above the rest. Either can be checked in this script before touching the product.
+
 ## Code touched (please review, Peter: these are yours)
 
 - `mcp/server.ts`: `JANG_MESO=off` drops `alternatives` from the `offer`/`counter` input schema. Unset, behaviour is unchanged.
 - `agents/llm-strategy.ts`: optional `env` passed through to the agent's MCP server.
 - `src/lib/jang/elicit.ts` (+ tests) and `src/components/MandateBuilder.tsx`: the money questions above.
-- New: `scripts/final/elicit-llm.ts`, `scripts/final/llm-all.ts`, `scripts/final/magnitude-sim.ts`.
+- New: `scripts/final/elicit-llm.ts`, `scripts/final/llm-all.ts` (now with an `all4+money` arm), `scripts/final/magnitude-sim.ts`.
 
 ## Limits
 

@@ -11,6 +11,10 @@
  *           (198ed59) would produce: weights from the owner's priority order
  *           by rank-order centroid, and the reservation value of an outside
  *           offer that is worth exactly the true reservation to the owner.
+ *   all4+money  all4 with the builder's money questions (e4789a1): weights from
+ *           what each term is worth in dollars, each answer off by a
+ *           log-normal factor (sigma 0.3, so about ±30%). Same markets and
+ *           same outside offers as all4, so the two differ only in the weights.
  *   meso+disclose  MESO and disclosure, with the true mandates: separates the
  *           negotiation changes from the builder change.
  *           The frontier and operator checks (df904bf, 6d936aa) run server
@@ -25,7 +29,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { runLlmAgent, type LlmRunResult } from "../../agents/llm-strategy.ts";
 import { JangClient } from "../../src/lib/client.ts";
-import { reservationFromAlternative, weightsFromRanking } from "../../src/lib/jang/elicit.ts";
+import { reservationFromAlternative, weightsFromRanking, weightsFromSwings } from "../../src/lib/jang/elicit.ts";
 import { issueMandate, type Party, type Scenario } from "../../src/lib/jang/scenario.ts";
 import type { Terms } from "../../src/lib/jang/types.ts";
 import { utility } from "../../src/lib/jang/utility.ts";
@@ -39,7 +43,7 @@ const K = Number(arg("markets", "4"));
 const seed = Number(arg("seed", "20261101"));
 const concurrency = Number(arg("concurrency", "3"));
 const cases = arg("cases", "ordinary,narrow,asymmetric").split(",") as CaseName[];
-type Arm = "before" | "meso+disclose" | "all4";
+type Arm = "before" | "meso+disclose" | "all4" | "all4+money";
 const arms = arg("arms", "before,meso+disclose,all4").split(",") as Arm[];
 const maxTurns = Number(arg("max-turns", "80"));
 const model = process.env.JANG_LLM_MODEL;
@@ -53,12 +57,34 @@ const STUBBORN =
   " Your owner has told you to be extremely stubborn: hold your opening position and make only token concessions until the last two rounds.";
 
 // ---------------------------------------------------------------- what the new builder produces
+/** How far off an owner's dollar answers are: a log-normal factor with this sigma. */
+const MONEY_NOISE = Number(arg("money-noise", "0.3"));
+
 /** The party as the new mandate builder would lodge it for this owner. */
-function elicited(party: Party, market: Scenario, rand: () => number): { party: Party; batna: Terms } {
+function elicited(
+  party: Party,
+  market: Scenario,
+  rand: () => number,
+  money?: () => number,
+): { party: Party; batna: Terms; swings?: Record<string, number> } {
   const order = Object.entries(party.preferences)
     .sort(([ka, a], [kb, b]) => b.weight - a.weight || (ka < kb ? -1 : 1))
     .map(([k]) => k);
-  const w = weightsFromRanking(order);
+  let w = weightsFromRanking(order);
+  let swings: Record<string, number> | undefined;
+  if (money) {
+    // What each term is worth in dollars to this owner, limit to best, as they would roughly say it.
+    const price = party.preferences.price;
+    const range = Math.abs(price.ideal - price.worst);
+    const gauss = () => Math.sqrt(-2 * Math.log(1 - money())) * Math.cos(2 * Math.PI * money());
+    swings = Object.fromEntries(
+      Object.entries(party.preferences)
+        .filter(([k]) => k !== "price")
+        .map(([k, p]) => [k, Math.round((p.weight / price.weight) * range * Math.exp(MONEY_NOISE * gauss()))]),
+    );
+    const anchors = Object.fromEntries(Object.entries(party.preferences).map(([k, p]) => [k, { ideal: p.ideal, limit: p.worst }]));
+    w = weightsFromSwings("price", swings, anchors) ?? w;
+  }
   const preferences = Object.fromEntries(Object.entries(party.preferences).map(([k, p]) => [k, { ...p, weight: w[k] }]));
 
   // The owner's outside offer: a package worth their true reservation to them.
@@ -76,7 +102,7 @@ function elicited(party: Party, market: Scenario, rand: () => number): { party: 
   const close = scored.filter((s) => s.gap < 0.01);
   const pool = close.length ? close : [scored.reduce((a, b) => (b.gap < a.gap ? b : a))];
   const batna = pool[Math.floor(rand() * pool.length)].t;
-  return { party: { ...party, preferences, reservationUtility: reservationFromAlternative(batna, preferences) }, batna };
+  return { party: { ...party, preferences, reservationUtility: reservationFromAlternative(batna, preferences) }, batna, swings };
 }
 
 // ---------------------------------------------------------------- plan
@@ -120,26 +146,29 @@ for (const kind of cases) {
 }
 for (const m of markets) for (const arm of arms) jobs.push({ ...m, arm });
 
-function marketFor(job: Job): { market: Scenario; batnas?: Record<string, Terms> } {
+function marketFor(job: Job): { market: Scenario; batnas?: Record<string, Terms>; swings?: Record<string, Record<string, number> | undefined> } {
   if (job.arm === "before") return { market: job.truth };
   if (job.arm === "meso+disclose")
     return { market: { ...job.truth, buyer: { ...job.truth.buyer, disclosePriorities: true }, seller: { ...job.truth.seller, disclosePriorities: true } } };
+  // Same stream as all4 for the outside offers; a separate one for the dollar answers.
   const rand = mulberry32(seed * 7 + job.index * 131 + job.kind.length);
-  const b = elicited(job.truth.buyer, job.truth, rand);
-  const s = elicited(job.truth.seller, job.truth, rand);
+  const money = job.arm === "all4+money" ? mulberry32(seed * 13 + job.index * 977 + job.kind.length) : undefined;
+  const b = elicited(job.truth.buyer, job.truth, rand, money);
+  const s = elicited(job.truth.seller, job.truth, rand, money);
   return {
     market: { ...job.truth, buyer: { ...b.party, disclosePriorities: true }, seller: { ...s.party, disclosePriorities: true } },
     batnas: { buyer: b.batna, seller: s.batna },
+    ...(b.swings ? { swings: { buyer: b.swings, seller: s.swings } } : {}),
   };
 }
 
 console.log(`Final, Claude agents: ${markets.length} markets x ${arms.join("/")} = ${jobs.length} negotiations, seed ${seed}, model ${model ?? "(llm-strategy default)"}`);
 for (const m of markets) {
-  const e = marketFor({ ...m, arm: "all4" }).market;
-  const feasibleAfter = groundTruth(issueMandate(e, "buyer"), issueMandate(e, "seller"), e).feasible.length > 0;
-  console.log(
-    `  ${m.kind.padEnd(10)} #${m.index}  r buyer ${m.truth.buyer.reservationUtility} -> ${e.buyer.reservationUtility}, seller ${m.truth.seller.reservationUtility} -> ${e.seller.reservationUtility}${feasibleAfter ? "" : "  (no deal possible under the elicited mandates)"}`,
-  );
+  const ok = (arm: Arm) => {
+    const e = marketFor({ ...m, arm }).market;
+    return groundTruth(issueMandate(e, "buyer"), issueMandate(e, "seller"), e).feasible.length > 0 ? "deal possible" : "NO DEAL POSSIBLE";
+  };
+  console.log(`  ${m.kind.padEnd(10)} #${String(m.index).padEnd(3)} all4: ${ok("all4").padEnd(16)} all4+money: ${ok("all4+money")}`);
 }
 if (dry) process.exit(0);
 
@@ -150,7 +179,7 @@ const file = `results/final/llm-all-${stamp}.json`;
 const records: any[] = [];
 
 async function runJob(job: Job) {
-  const { market, batnas } = marketFor(job);
+  const { market, batnas, swings } = marketFor(job);
   const setup = await provision(market, BASE_URL, `-final-${stamp}-${job.kind}-${job.index}-${job.arm}`);
   const env: Record<string, string> = job.arm === "before" ? { JANG_MESO: "off" } : {};
   const started = Date.now();
@@ -191,6 +220,7 @@ async function runJob(job: Job) {
     lodgedReservation: { buyer: setup.buyer.mandate.reservationUtility, seller: setup.seller.mandate.reservationUtility },
     trueReservation: { buyer: trueBuyer.reservationUtility, seller: trueSeller.reservationUtility },
     batnas,
+    swings,
     mesoOffers: view.offers.filter((o) => o.alternatives?.length).length,
     acceptedAlternative: terms ? !view.offers.some((o) => JSON.stringify(o.terms) === JSON.stringify(terms)) : undefined,
     seconds: (Date.now() - started) / 1000,
