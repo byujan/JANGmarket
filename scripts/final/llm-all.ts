@@ -15,6 +15,10 @@
  *           what each term is worth in dollars, each answer off by a
  *           log-normal factor (sigma 0.3, so about ±30%). Same markets and
  *           same outside offers as all4, so the two differ only in the weights.
+ *   all4+refit  all4+money (same dollar answers, same outside offers), then the
+ *           builder's "Check a few deals" step (05baa4f): the owner answers up
+ *           to three yes/no questions truthfully, and the weights are refitted
+ *           with the product's own startRefit / nextCheck / answerCheck.
  *   meso+disclose  MESO and disclosure, with the true mandates: separates the
  *           negotiation changes from the builder change.
  *           The frontier and operator checks (df904bf, 6d936aa) run server
@@ -29,7 +33,16 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { runLlmAgent, type LlmRunResult } from "../../agents/llm-strategy.ts";
 import { JangClient } from "../../src/lib/client.ts";
-import { reservationFromAlternative, weightsFromRanking, weightsFromSwings } from "../../src/lib/jang/elicit.ts";
+import {
+  answerCheck,
+  nextCheck,
+  refitCandidates,
+  refittedWeights,
+  reservationFromAlternative,
+  startRefit,
+  weightsFromRanking,
+  weightsFromSwings,
+} from "../../src/lib/jang/elicit.ts";
 import { issueMandate, type Party, type Scenario } from "../../src/lib/jang/scenario.ts";
 import type { Terms } from "../../src/lib/jang/types.ts";
 import { utility } from "../../src/lib/jang/utility.ts";
@@ -43,13 +56,15 @@ const K = Number(arg("markets", "4"));
 const seed = Number(arg("seed", "20261101"));
 const concurrency = Number(arg("concurrency", "3"));
 const cases = arg("cases", "ordinary,narrow,asymmetric").split(",") as CaseName[];
-type Arm = "before" | "meso+disclose" | "all4" | "all4+money";
+type Arm = "before" | "meso+disclose" | "all4" | "all4+money" | "all4+refit";
 const arms = arg("arms", "before,meso+disclose,all4").split(",") as Arm[];
 const maxTurns = Number(arg("max-turns", "80"));
 const model = process.env.JANG_LLM_MODEL;
 const dry = process.argv.includes("--dry");
 // --meso-guide: agents in MESO arms get the opt-in MESO prompt and session hints (JANG_MESO_GUIDE=on).
 const mesoGuide = process.argv.includes("--meso-guide");
+// --only=narrow:6,asymmetric:0 reruns just those markets (e.g. after a usage limit cut runs short).
+const only = arg("only", "").split(",").filter(Boolean);
 
 const BUYER =
   "You buy a clearance 65-inch OLED TV for a household. Your owner's limits and how much each term matters to them are in your mandate (yourMandate in get_session): read it and negotiate to score well under it.";
@@ -68,7 +83,8 @@ function elicited(
   market: Scenario,
   rand: () => number,
   money?: () => number,
-): { party: Party; batna: Terms; swings?: Record<string, number> } {
+  refit = false,
+): { party: Party; batna: Terms; swings?: Record<string, number>; checks?: { terms: Terms; wouldTake: boolean }[] } {
   const order = Object.entries(party.preferences)
     .sort(([ka, a], [kb, b]) => b.weight - a.weight || (ka < kb ? -1 : 1))
     .map(([k]) => k);
@@ -104,7 +120,27 @@ function elicited(
   const close = scored.filter((s) => s.gap < 0.01);
   const pool = close.length ? close : [scored.reduce((a, b) => (b.gap < a.gap ? b : a))];
   const batna = pool[Math.floor(rand() * pool.length)].t;
-  return { party: { ...party, preferences, reservationUtility: reservationFromAlternative(batna, preferences) }, batna, swings };
+  if (!refit) return { party: { ...party, preferences, reservationUtility: reservationFromAlternative(batna, preferences) }, batna, swings };
+
+  // "Check a few deals", as the builder runs it: the owner answers from their TRUE preferences.
+  const anchors = Object.fromEntries(
+    keys.map((k) => [k, { ideal: party.preferences[k].ideal, limit: party.preferences[k].worst, step: market.itemSpec.dimensions.find((d) => d.key === k)?.step ?? 1 }]),
+  );
+  const prefs = Object.fromEntries(keys.map((k) => [k, { ideal: party.preferences[k].ideal, worst: party.preferences[k].worst }]));
+  const candidates = refitCandidates(anchors);
+  const trueValueOfAlternative = utility(batna, { preferences: party.preferences });
+  let state = startRefit(w, order);
+  const checks: { terms: Terms; wouldTake: boolean }[] = [];
+  for (let i = 0; i < 3; i += 1) {
+    const pkg = nextCheck(state, candidates, batna, prefs);
+    if (!pkg) break;
+    const wouldTake = utility(pkg, { preferences: party.preferences }) >= trueValueOfAlternative;
+    checks.push({ terms: pkg, wouldTake });
+    state = answerCheck(state, pkg, batna, prefs, wouldTake);
+  }
+  const fitted = state.answered > 0 ? refittedWeights(state) : w;
+  const refitted = Object.fromEntries(Object.entries(party.preferences).map(([k, p]) => [k, { ...p, weight: fitted[k] }]));
+  return { party: { ...party, preferences: refitted, reservationUtility: reservationFromAlternative(batna, refitted) }, batna, swings, checks };
 }
 
 // ---------------------------------------------------------------- plan
@@ -146,21 +182,27 @@ for (const kind of cases) {
     found += 1;
   }
 }
-for (const m of markets) for (const arm of arms) jobs.push({ ...m, arm });
+for (const m of markets) {
+  if (only.length && !only.includes(`${m.kind}:${m.index}`)) continue;
+  for (const arm of arms) jobs.push({ ...m, arm });
+}
 
-function marketFor(job: Job): { market: Scenario; batnas?: Record<string, Terms>; swings?: Record<string, Record<string, number> | undefined> } {
+function marketFor(job: Job): { market: Scenario; batnas?: Record<string, Terms>; swings?: Record<string, Record<string, number> | undefined>; checks?: Record<string, unknown> } {
   if (job.arm === "before") return { market: job.truth };
   if (job.arm === "meso+disclose")
     return { market: { ...job.truth, buyer: { ...job.truth.buyer, disclosePriorities: true }, seller: { ...job.truth.seller, disclosePriorities: true } } };
   // Same stream as all4 for the outside offers; a separate one for the dollar answers.
   const rand = mulberry32(seed * 7 + job.index * 131 + job.kind.length);
-  const money = job.arm === "all4+money" ? mulberry32(seed * 13 + job.index * 977 + job.kind.length) : undefined;
-  const b = elicited(job.truth.buyer, job.truth, rand, money);
-  const s = elicited(job.truth.seller, job.truth, rand, money);
+  // all4+refit reuses all4+money's dollar answers, so the two arms differ only by the checks.
+  const money = job.arm === "all4+money" || job.arm === "all4+refit" ? mulberry32(seed * 13 + job.index * 977 + job.kind.length) : undefined;
+  const refit = job.arm === "all4+refit";
+  const b = elicited(job.truth.buyer, job.truth, rand, money, refit);
+  const s = elicited(job.truth.seller, job.truth, rand, money, refit);
   return {
     market: { ...job.truth, buyer: { ...b.party, disclosePriorities: true }, seller: { ...s.party, disclosePriorities: true } },
     batnas: { buyer: b.batna, seller: s.batna },
     ...(b.swings ? { swings: { buyer: b.swings, seller: s.swings } } : {}),
+    ...(b.checks ? { checks: { buyer: b.checks, seller: s.checks } } : {}),
   };
 }
 
@@ -170,7 +212,7 @@ for (const m of markets) {
     const e = marketFor({ ...m, arm }).market;
     return groundTruth(issueMandate(e, "buyer"), issueMandate(e, "seller"), e).feasible.length > 0 ? "deal possible" : "NO DEAL POSSIBLE";
   };
-  console.log(`  ${m.kind.padEnd(10)} #${String(m.index).padEnd(3)} all4: ${ok("all4").padEnd(16)} all4+money: ${ok("all4+money")}`);
+  console.log(`  ${m.kind.padEnd(10)} #${String(m.index).padEnd(3)} all4: ${ok("all4").padEnd(16)} all4+money: ${ok("all4+money").padEnd(16)} all4+refit: ${ok("all4+refit")}`);
 }
 if (dry) process.exit(0);
 
@@ -181,7 +223,7 @@ const file = `results/final/llm-all-${stamp}.json`;
 const records: any[] = [];
 
 async function runJob(job: Job) {
-  const { market, batnas, swings } = marketFor(job);
+  const { market, batnas, swings, checks } = marketFor(job);
   const setup = await provision(market, BASE_URL, `-final-${stamp}-${job.kind}-${job.index}-${job.arm}`);
   const env: Record<string, string> = job.arm === "before" ? { JANG_MESO: "off" } : mesoGuide ? { JANG_MESO_GUIDE: "on" } : {};
   const started = Date.now();
@@ -223,6 +265,7 @@ async function runJob(job: Job) {
     trueReservation: { buyer: trueBuyer.reservationUtility, seller: trueSeller.reservationUtility },
     batnas,
     swings,
+    checks,
     mesoOffers: view.offers.filter((o) => o.alternatives?.length).length,
     acceptedAlternative: terms ? !view.offers.some((o) => JSON.stringify(o.terms) === JSON.stringify(terms)) : undefined,
     seconds: (Date.now() - started) / 1000,

@@ -1,0 +1,456 @@
+{
+ "seed": 20261101,
+ "model": "claude-sonnet-5-5",
+ "maxTurns": 80,
+ "mesoGuide": false,
+ "records": [
+  {
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "arm": "all4+refit",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.406,
+    "seller": 0.342
+   },
+   "trueReservation": {
+    "buyer": 0.393,
+    "seller": 0.358
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1470,
+     "deliveryDays": 11,
+     "warrantyMonths": 36,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1550,
+     "deliveryDays": 11,
+     "warrantyMonths": 24,
+     "bundle": 1
+    }
+   },
+   "swings": {
+    "buyer": {
+     "deliveryDays": 156,
+     "warrantyMonths": 811,
+     "bundle": 281
+    },
+    "seller": {
+     "deliveryDays": 109,
+     "warrantyMonths": 300,
+     "bundle": 718
+    }
+   },
+   "checks": {
+    "buyer": [
+     {
+      "terms": {
+       "price": 1320,
+       "deliveryDays": 17,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1320,
+       "deliveryDays": 23,
+       "warrantyMonths": 18,
+       "bundle": 1
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1020,
+       "deliveryDays": 17,
+       "warrantyMonths": 12,
+       "bundle": 0
+      },
+      "wouldTake": false
+     }
+    ],
+    "seller": [
+     {
+      "terms": {
+       "price": 1150,
+       "deliveryDays": 17,
+       "warrantyMonths": 36,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1680,
+       "deliveryDays": 10,
+       "warrantyMonths": 36,
+       "bundle": 1
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1680,
+       "deliveryDays": 3,
+       "warrantyMonths": 36,
+       "bundle": 1
+      },
+      "wouldTake": false
+     }
+    ]
+   },
+   "mesoOffers": 0,
+   "seconds": 88.878,
+   "apiEquivalentUsd": 2.712
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 6,
+   "arm": "all4+refit",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.301,
+    "seller": 0.301
+   },
+   "trueReservation": {
+    "buyer": 0.31,
+    "seller": 0.292
+   },
+   "batnas": {
+    "buyer": {
+     "price": 940,
+     "deliveryDays": 22,
+     "warrantyMonths": 24,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1040,
+     "deliveryDays": 30,
+     "warrantyMonths": 18,
+     "bundle": 1
+    }
+   },
+   "swings": {
+    "buyer": {
+     "deliveryDays": 153,
+     "warrantyMonths": 396,
+     "bundle": 282
+    },
+    "seller": {
+     "deliveryDays": 111,
+     "warrantyMonths": 432,
+     "bundle": 304
+    }
+   },
+   "checks": {
+    "buyer": [
+     {
+      "terms": {
+       "price": 1070,
+       "deliveryDays": 30,
+       "warrantyMonths": 36,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1070,
+       "deliveryDays": 17,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1070,
+       "deliveryDays": 17,
+       "warrantyMonths": 12,
+       "bundle": 1
+      },
+      "wouldTake": false
+     }
+    ],
+    "seller": [
+     {
+      "terms": {
+       "price": 1390,
+       "deliveryDays": 23,
+       "warrantyMonths": 36,
+       "bundle": 1
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1040,
+       "deliveryDays": 17,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1040,
+       "deliveryDays": 30,
+       "warrantyMonths": 36,
+       "bundle": 0
+      },
+      "wouldTake": false
+     }
+    ]
+   },
+   "mesoOffers": 0,
+   "seconds": 99.452,
+   "apiEquivalentUsd": 3.1158
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 2,
+   "arm": "all4+refit",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 12,
+   "terms": {
+    "price": 1400,
+    "deliveryDays": 30,
+    "warrantyMonths": 30,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.36086956521739133,
+    "sellerValue": 0.49579831932773116,
+    "paretoOptimal": false,
+    "paretoDistance": 0.03199385338743263,
+    "surplus": 0.14166788454512252,
+    "efficiency": 0.7285084876325755,
+    "buyerShare": -0.04327328527769512
+   },
+   "belowTrueReservation": {
+    "buyer": true,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.351,
+    "seller": 0.307
+   },
+   "trueReservation": {
+    "buyer": 0.367,
+    "seller": 0.348
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1500,
+     "deliveryDays": 22,
+     "warrantyMonths": 24,
+     "bundle": 1
+    },
+    "seller": {
+     "price": 1150,
+     "deliveryDays": 18,
+     "warrantyMonths": 18,
+     "bundle": 0
+    }
+   },
+   "swings": {
+    "buyer": {
+     "deliveryDays": 86,
+     "warrantyMonths": 390,
+     "bundle": 165
+    },
+    "seller": {
+     "deliveryDays": 75,
+     "warrantyMonths": 314,
+     "bundle": 149
+    }
+   },
+   "checks": {
+    "buyer": [
+     {
+      "terms": {
+       "price": 1140,
+       "deliveryDays": 23,
+       "warrantyMonths": 12,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1440,
+       "deliveryDays": 23,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1290,
+       "deliveryDays": 17,
+       "warrantyMonths": 18,
+       "bundle": 0
+      },
+      "wouldTake": true
+     }
+    ],
+    "seller": [
+     {
+      "terms": {
+       "price": 1330,
+       "deliveryDays": 17,
+       "warrantyMonths": 12,
+       "bundle": 1
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1150,
+       "deliveryDays": 30,
+       "warrantyMonths": 24,
+       "bundle": 0
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1330,
+       "deliveryDays": 23,
+       "warrantyMonths": 24,
+       "bundle": 1
+      },
+      "wouldTake": false
+     }
+    ]
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 84.55,
+   "apiEquivalentUsd": 2.191
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 3,
+   "arm": "all4+refit",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.31,
+    "seller": 0.381
+   },
+   "trueReservation": {
+    "buyer": 0.296,
+    "seller": 0.338
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1240,
+     "deliveryDays": 22,
+     "warrantyMonths": 18,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1690,
+     "deliveryDays": 22,
+     "warrantyMonths": 30,
+     "bundle": 1
+    }
+   },
+   "swings": {
+    "buyer": {
+     "deliveryDays": 62,
+     "warrantyMonths": 232,
+     "bundle": 343
+    },
+    "seller": {
+     "deliveryDays": 172,
+     "warrantyMonths": 1068,
+     "bundle": 232
+    }
+   },
+   "checks": {
+    "buyer": [
+     {
+      "terms": {
+       "price": 1500,
+       "deliveryDays": 30,
+       "warrantyMonths": 18,
+       "bundle": 1
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1350,
+       "deliveryDays": 30,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1500,
+       "deliveryDays": 3,
+       "warrantyMonths": 24,
+       "bundle": 1
+      },
+      "wouldTake": true
+     }
+    ],
+    "seller": [
+     {
+      "terms": {
+       "price": 1470,
+       "deliveryDays": 30,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1470,
+       "deliveryDays": 10,
+       "warrantyMonths": 18,
+       "bundle": 1
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1470,
+       "deliveryDays": 23,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     }
+    ]
+   },
+   "mesoOffers": 0,
+   "seconds": 96.274,
+   "apiEquivalentUsd": 2.9341
+  }
+ ]
+}

@@ -174,6 +174,22 @@ Added to `scripts/final/guard-sim.ts` (no Claude calls; M = 100 weight samples p
 - Caveats: the model's noise assumption (sigma 0.3) matches the simulated owners exactly, which flatters it; real answers may err differently. M = 100 samples. Questions are chosen adaptively, so in the product they must be computed in the browser after each answer (100 to 300 samples is cheap).
 - **Now in the product** ("Check a few deals" in the mandate builder, after the outside offer): `startRefit`, `refitCandidates`, `nextCheck`, `answerCheck`, `refittedWeights` in `elicit.ts` (200 samples, the "mean" rule), up to three yes/no questions, optional. The "80% sure" rule is not in the product: the engine judges a package by one weight vector and one walk-away, so it would need an engine change. Checked in the browser on the Cambridge rental: questions appear only once an alternative is described, three answers end in "Done", and changing anything above resets them with a note.
 
+## Rerun with "Check a few deals" in Claude negotiations
+
+`JANG_LLM_MODEL=claude-sonnet-5-5 npx tsx scripts/final/llm-all.ts --markets=3 --arms=all4+refit` → `results/final/llm-all-2026-11-09T15-35-29-874Z.json` (5 valid runs) + `llm-all-2026-11-09T18-02-04-984Z.json` (the 4 runs a usage limit cut short, rerun with `--only`). Arm all4+refit: the same markets, outside offers and dollar answers as all4+money, then each owner answers the three checks truthfully, with the product's own `startRefit` / `nextCheck` / `answerCheck`.
+
+| arm | closed | below an owner's true walk-away | largest shortfall |
+| --- | --- | --- | --- |
+| before | 7/9 | 0 | none |
+| all4 (rank only) | 4/9 | 0 | none |
+| all4+money | 7/9 | 2 | 0.120 (asymmetric #3) |
+| **all4+refit** | **5/9** | **3** | **0.015** |
+
+- **The large loss is gone.** In asymmetric #3 the checks raised the buyer's walk-away (0.272 to 0.310) and the bad deal could no longer be signed; the same happened to narrow #1's seller.
+- **Small losses remain, and there were three of them**: asymmetric #2 (buyer 0.361 vs 0.367), narrow #9 (buyer 0.252 vs 0.267), ordinary #2 (seller 0.336 vs 0.348). All within 0.015 of the walk-away. Hard-bargaining agents push deals to the edge of what the mandate allows, so any remaining weight error shows up as a slightly bad deal.
+- Closing fell from 7/9 to 5/9: two markets became no-deal because the checks protected an owner (asymmetric #3, narrow #1), and asymmetric #0 failed although a deal was possible.
+- This matches the simulation: refit removes most large losses (short>0.05: 2.6% to 0.5% in ordinary) but leaves many small ones. Removing those too needs a margin or the "80% sure" rule, which costs deals. One run per market, 9 markets: direction only.
+
 ## Getting Claude to use MESO
 
 `npx tsx scripts/final/llm-all.ts --markets=3 --arms=meso+disclose --meso-guide` → `results/final/llm-all-2026-11-09T14-19-22-080Z.json` (9 negotiations, about $33)
