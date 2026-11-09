@@ -113,6 +113,9 @@ Arm **all4+money**: as all4, but weights come from the money questions, with eac
 | robust x1.35 | 31.8% | 0.9% | 0.1% | 0.630 |
 | robust x1.5 | 42.0% | 0.3% | 0.0% | 0.514 |
 | top term no worse than the outside offer | 41.4% | 11.8% | 2.2% | 0.552 |
+| min(money, rank): beat the offer under both weightings | 14.2% | 5.5% | 0.5% | 0.835 |
+| min(money, rank, equal) | 28.4% | 3.3% | 0.2% | 0.678 |
+| max(money, rank): beat it under either | 0.7% | 21.0% | 4.7% | (counts bad packages) |
 | exact weights (floor of the outside-offer step) | 0.3% | 2.2% | 0.0% | 0.996 |
 
 | narrow (57 markets) | no deal | bad share | short>0.05 | best eff. |
@@ -121,6 +124,8 @@ Arm **all4+money**: as all4, but weights come from the money questions, with eac
 | **money questions, no guard** | **25.6%** | **56.7%** | **15.0%** | **0.966** |
 | robust x1.2 | 73.0% | 32.5% | 5.3% | 0.253 |
 | robust x1.35 | 91.6% | 20.7% | 2.2% | 0.075 |
+| min(money, rank) | 68.1% | 36.4% | 3.4% | 0.334 |
+| max(money, rank) | 8.9% | 62.5% | 15.5% | (counts bad packages) |
 | exact weights | 5.3% | 10.0% | 0.0% | 0.987 |
 
 "robust xF": the package must beat the outside offer under every weight vector within a factor F of the lodged one (closed form, since the difference is linear in the weights). "top term": no worse than the outside offer on the term ranked first.
@@ -128,6 +133,7 @@ Arm **all4+money**: as all4, but weights come from the money questions, with eac
 - **The money questions beat rank-only on every count in ordinary markets**: fewer markets with no deal, slightly fewer bad packages, smaller losses, higher reachable efficiency. In narrow markets they halve the dead markets with the same bad share, but more of the bad packages are large losses (15.0% vs 10.6%).
 - **Any error in the weights lets some bad packages through**, whatever the method; most are small (mean shortfall about 0.03 utility). Even exact weights with the outside offer valued to within 0.01 leave 2% (ordinary) and 10% (narrow).
 - **Guards buy safety with deals.** Robust x1.2 cuts bad packages in ordinary from 13.9% to 3.1% and large losses to 0.3%, but leaves no deal in 19% of markets (from 3.5%) and drops reachable efficiency from 0.97 to 0.77. In narrow markets every guard closes most of them. Top term is dominated: it costs deals and barely helps.
+- **Two weightings, min or max** (judge each package under the money weights and the rank-only weights, require both or either): min is a milder guard on the same trade-off (ordinary: no deal 14%, bad 5.5%, versus robust x1.2 at 19% and 3.1%); max is looser than no guard. Neither escapes the trade-off; they are points on it.
 - **Recommendation:** keep the money questions as the default. Do not add a guard by default. If one is wanted, offer robust x1.2 as an owner's choice ("be cautious: only take deals clearly better than my alternative") and say what it costs. The lever that helps without costing deals is answer accuracy, which only a test with people can measure.
 
 ## Code touched (please review, Peter: these are yours)

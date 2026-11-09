@@ -44,7 +44,8 @@ const NOISE = Number(arg("noise", "0.3"));
 const seed = 20261101;
 const base = loadScenario();
 
-type Lodged = { party: Party; batna: Terms; order: string[] };
+/** `rankW`: weights from the owner's ranking alone (rank-order centroid), kept for the min/max guards. */
+type Lodged = { party: Party; batna: Terms; order: string[]; rankW: Record<string, number> };
 
 /** The owner's mandate from the money questions, answered with log-normal error. */
 type Source = "money" | "rank" | "exact";
@@ -83,7 +84,12 @@ function lodge(party: Party, market: Scenario, rand: () => number, source: Sourc
   const close = scored.filter((s) => s.gap < 0.01);
   const pool = close.length ? close : [scored.reduce((a, b) => (b.gap < a.gap ? b : a))];
   const batna = pool[Math.floor(rand() * pool.length)].t;
-  return { party: { ...party, preferences, reservationUtility: reservationFromAlternative(batna, preferences) }, batna, order };
+  return {
+    party: { ...party, preferences, reservationUtility: reservationFromAlternative(batna, preferences) },
+    batna,
+    order,
+    rankW: weightsFromRanking(trueOrder),
+  };
 }
 
 /** Does `terms` beat the outside offer under every weight vector within factor F of the lodged one? */
@@ -102,7 +108,19 @@ function topTermOk(terms: Terms, l: Lodged): boolean {
   return dimensionScore(terms[k], p.ideal, p.worst) >= dimensionScore(l.batna[k] ?? p.worst, p.ideal, p.worst) - 1e-9;
 }
 
-type Guard = { name: string; source?: Source; ok: (t: Terms, l: Lodged) => boolean };
+/** Is `terms` at least as good as the outside offer under these weights? */
+function beatsUnder(terms: Terms, l: Lodged, w: Record<string, number>): boolean {
+  let diff = 0;
+  for (const [k, p] of Object.entries(l.party.preferences) as [string, Preference][]) {
+    diff += w[k] * (dimensionScore(terms[k], p.ideal, p.worst) - dimensionScore(l.batna[k] ?? p.worst, p.ideal, p.worst));
+  }
+  return diff >= -1e-9;
+}
+const moneyW = (l: Lodged) => Object.fromEntries(Object.entries(l.party.preferences).map(([k, p]) => [k, p.weight]));
+const equalW = (l: Lodged) => Object.fromEntries(Object.keys(l.party.preferences).map((k) => [k, 1]));
+
+/** `wide`: judge every package within the owner's limits, not only those the money mandate allows (needed for max). */
+type Guard = { name: string; source?: Source; wide?: boolean; ok: (t: Terms, l: Lodged) => boolean };
 const GUARDS: Guard[] = [
   { name: "rank only", source: "rank", ok: () => true },
   { name: "exact weights", source: "exact", ok: () => true },
@@ -111,6 +129,9 @@ const GUARDS: Guard[] = [
   { name: "robust x1.35", ok: (t, l) => robustlyBetter(t, l, 1.35) },
   { name: "robust x1.5", ok: (t, l) => robustlyBetter(t, l, 1.5) },
   { name: "top term", ok: topTermOk },
+  { name: "min(money,rank)", ok: (t, l) => beatsUnder(t, l, l.rankW) },
+  { name: "min(m,r,equal)", ok: (t, l) => beatsUnder(t, l, l.rankW) && beatsUnder(t, l, equalW(l)) },
+  { name: "max(money,rank)", wide: true, ok: (t, l) => beatsUnder(t, l, moneyW(l)) || beatsUnder(t, l, l.rankW) },
 ];
 
 for (const kind of cases) {
@@ -133,8 +154,13 @@ for (const kind of cases) {
         const m = { ...truth, buyer: lb.party, seller: ls.party };
         bySource.set(source, { lb, ls, allowed: groundTruth(issueMandate(m, "buyer"), issueMandate(m, "seller"), m).feasible });
       }
+      // Every package within both owners' limits, whatever it is worth (reservation 0).
+      const money = bySource.get("money")!;
+      const open = { ...truth, buyer: { ...money.lb.party, reservationUtility: 0 }, seller: { ...money.ls.party, reservationUtility: 0 } };
+      const withinLimits = groundTruth(issueMandate(open, "buyer"), issueMandate(open, "seller"), open).feasible;
       for (const g of GUARDS) {
-        const { lb, ls, allowed: allowedByMandates } = bySource.get(g.source ?? "money")!;
+        const { lb, ls, allowed: byMandates } = bySource.get(g.source ?? "money")!;
+        const allowedByMandates = g.wide ? withinLimits : byMandates;
         const allowed = allowedByMandates.filter((p) => g.ok(p.terms, lb) && g.ok(p.terms, ls));
         const stRun = s[g.name];
         stRun.runs += 1;
