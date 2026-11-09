@@ -16,6 +16,15 @@
  *               vector within a factor F of the lodged one. The difference is
  *               linear in the weights, so the worst case is closed form.
  *   top term    no worse than the outside offer on the term ranked first
+ *   confirm K   boundary confirmation: each owner is shown K packages near their lodged
+ *               walk-away (lodged utility within 0.05, chosen where a weight error within
+ *               factor 1.35 most widens the package-vs-outside-offer interval), told whether
+ *               their agent would accept, and answers from the TRUE mandate (wrong with
+ *               probability e). A wrongly accepted package raises the walk-away just above
+ *               it; a wrongly refused one lowers it to it (lowers first, raises win). Allowed:
+ *               packages within limits whose lodged utility clears BOTH adjusted walk-aways.
+ *               Rows: confirm 3 (e=0), confirm 3, 10% wrong, confirm 5, confirm 3 + min
+ *               (also requires the min(money,rank) condition).
  *
  * Reported per case, over every feasible market x draws of the dollar errors:
  *   no deal     markets where the guard leaves nothing both sides allow
@@ -134,8 +143,63 @@ const GUARDS: Guard[] = [
   { name: "max(money,rank)", wide: true, ok: (t, l) => beatsUnder(t, l, moneyW(l)) || beatsUnder(t, l, l.rankW) },
 ];
 
+type Package = ReturnType<typeof groundTruth>["feasible"][number];
+const lodgedUtility = (t: Terms, l: Lodged) => utility(t, { preferences: l.party.preferences });
+
+/** Width of the interval of the package-vs-outside-offer difference over weights within factor F of the lodged ones. */
+function flipWidth(terms: Terms, l: Lodged, F: number): number {
+  let lo = 0, hi = 0;
+  for (const [k, p] of Object.entries(l.party.preferences) as [string, Preference][]) {
+    const d = dimensionScore(terms[k], p.ideal, p.worst) - dimensionScore(l.batna[k] ?? p.worst, p.ideal, p.worst);
+    lo += d * (d > 0 ? p.weight / F : p.weight * F);
+    hi += d * (d > 0 ? p.weight * F : p.weight / F);
+  }
+  return hi - lo;
+}
+
+/** The owner's lodged walk-away after the boundary confirmation. */
+function confirmedWalkAway(l: Lodged, trueM: ReturnType<typeof issueMandate>, withinLimits: Package[], K: number, e: number, rand: () => number): number {
+  const lodgedWalk = l.party.reservationUtility;
+  const cands = withinLimits
+    .map((p) => ({ t: p.terms, u: lodgedUtility(p.terms, l) }))
+    .filter((c) => Math.abs(c.u - lodgedWalk) <= 0.05)
+    .map((c) => ({ ...c, width: flipWidth(c.t, l, 1.35) }))
+    .sort((a, b) => b.width - a.width);
+  const shown: typeof cands = [];
+  const seen = new Set<string>();
+  for (const c of cands) {
+    const key = JSON.stringify(Object.entries(c.t).sort());
+    if (seen.has(key)) continue;
+    seen.add(key);
+    shown.push(c);
+    if (shown.length >= K) break;
+  }
+  const lowers: number[] = [], raises: number[] = [];
+  for (const c of shown) {
+    const agentAccepts = c.u >= lodgedWalk;
+    const truthAccepts = utility(c.t, trueM) >= trueM.reservationUtility;
+    const ownerYes = rand() < e ? !truthAccepts : truthAccepts;
+    if (agentAccepts && !ownerYes) raises.push(c.u + 0.001);
+    else if (!agentAccepts && ownerYes) lowers.push(c.u);
+  }
+  let walk = lodgedWalk;
+  for (const u of lowers) walk = Math.min(walk, u);
+  for (const u of raises) walk = Math.max(walk, u);
+  return walk;
+}
+
+/** Guards that need both lodged mandates and both true mandates, and return the allowed list. */
+type GroupGuard = { name: string; K: number; e: number; min?: boolean };
+const GROUP_GUARDS: GroupGuard[] = [
+  { name: "confirm 3", K: 3, e: 0 },
+  { name: "confirm 3, 10% wrong", K: 3, e: 0.1 },
+  { name: "confirm 5", K: 5, e: 0 },
+  { name: "confirm 3 + min", K: 3, e: 0, min: true },
+];
+const ROWS = [...GUARDS.map((g) => g.name), ...GROUP_GUARDS.map((g) => g.name)];
+
 for (const kind of cases) {
-  const s = Object.fromEntries(GUARDS.map((g) => [g.name, { runs: 0, dead: 0, unsafe: 0, allowed: 0, bad: 0, eff: 0, short: 0, big: 0 }]));
+  const s = Object.fromEntries(ROWS.map((name) => [name, { runs: 0, dead: 0, unsafe: 0, allowed: 0, bad: 0, eff: 0, short: 0, big: 0 }]));
   let markets = 0;
   for (let index = 0; index < 200; index += 1) {
     const truth = makeMarket(base, kind, seed, index);
@@ -158,17 +222,29 @@ for (const kind of cases) {
       const money = bySource.get("money")!;
       const open = { ...truth, buyer: { ...money.lb.party, reservationUtility: 0 }, seller: { ...money.ls.party, reservationUtility: 0 } };
       const withinLimits = groundTruth(issueMandate(open, "buyer"), issueMandate(open, "seller"), open).feasible;
-      for (const g of GUARDS) {
+      const runs: { name: string; allowed: Package[] }[] = GUARDS.map((g) => {
         const { lb, ls, allowed: byMandates } = bySource.get(g.source ?? "money")!;
         const allowedByMandates = g.wide ? withinLimits : byMandates;
-        const allowed = allowedByMandates.filter((p) => g.ok(p.terms, lb) && g.ok(p.terms, ls));
-        const stRun = s[g.name];
+        return { name: g.name, allowed: allowedByMandates.filter((p) => g.ok(p.terms, lb) && g.ok(p.terms, ls)) };
+      });
+      GROUP_GUARDS.forEach((g, gi) => {
+        // Own random streams, so the existing guards' draws are untouched.
+        const rb = mulberry32(seed + index * 31 + d * 7919 + gi * 104729 + 1);
+        const rs = mulberry32(seed + index * 31 + d * 7919 + gi * 104729 + 2);
+        const wb = confirmedWalkAway(money.lb, tb, withinLimits, g.K, g.e, rb);
+        const wsl = confirmedWalkAway(money.ls, ts, withinLimits, g.K, g.e, rs);
+        let allowed = withinLimits.filter((p) => lodgedUtility(p.terms, money.lb) >= wb && lodgedUtility(p.terms, money.ls) >= wsl);
+        if (g.min) allowed = allowed.filter((p) => beatsUnder(p.terms, money.lb, money.lb.rankW) && beatsUnder(p.terms, money.ls, money.ls.rankW));
+        runs.push({ name: g.name, allowed });
+      });
+      for (const { name, allowed } of runs) {
+        const stRun = s[name];
         stRun.runs += 1;
         if (!allowed.length) {
           stRun.dead += 1;
           continue;
         }
-        const st = s[g.name];
+        const st = s[name];
         let bad = 0, best = -Infinity;
         for (const p of allowed) {
           const ub = utility(p.terms, tb), us = utility(p.terms, ts);
@@ -188,12 +264,12 @@ for (const kind of cases) {
     }
   }
   console.log(`\n${kind}: ${markets} feasible markets x ${draws} draws of dollar answers (noise sigma ${NOISE})`);
-  console.log(`  ${"guard".padEnd(13)} ${"no deal".padStart(8)} ${"unsafe".padStart(8)} ${"bad share".padStart(10)} ${"best eff.".padStart(10)} ${"mean short".padStart(11)} ${"short>0.05".padStart(11)}`);
-  for (const g of GUARDS) {
-    const st = s[g.name];
+  console.log(`  ${"guard".padEnd(21)} ${"no deal".padStart(8)} ${"unsafe".padStart(8)} ${"bad share".padStart(10)} ${"best eff.".padStart(10)} ${"mean short".padStart(11)} ${"short>0.05".padStart(11)}`);
+  for (const name of ROWS) {
+    const st = s[name];
     const pct = (x: number) => `${(100 * x).toFixed(1)}%`;
     console.log(
-      `  ${g.name.padEnd(13)} ${pct(st.dead / st.runs).padStart(8)} ${pct(st.unsafe / st.runs).padStart(8)} ${pct(st.bad / Math.max(1, st.allowed)).padStart(10)} ${(st.eff / st.runs).toFixed(3).padStart(10)} ${(st.short / Math.max(1, st.bad)).toFixed(3).padStart(11)} ${pct(st.big / Math.max(1, st.allowed)).padStart(11)}`,
+      `  ${name.padEnd(21)} ${pct(st.dead / st.runs).padStart(8)} ${pct(st.unsafe / st.runs).padStart(8)} ${pct(st.bad / Math.max(1, st.allowed)).padStart(10)} ${(st.eff / st.runs).toFixed(3).padStart(10)} ${(st.short / Math.max(1, st.bad)).toFixed(3).padStart(11)} ${pct(st.big / Math.max(1, st.allowed)).padStart(11)}`,
     );
   }
 }

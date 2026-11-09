@@ -136,6 +136,23 @@ Arm **all4+money**: as all4, but weights come from the money questions, with eac
 - **Two weightings, min or max** (judge each package under the money weights and the rank-only weights, require both or either): min is a milder guard on the same trade-off (ordinary: no deal 14%, bad 5.5%, versus robust x1.2 at 19% and 3.1%); max is looser than no guard. Neither escapes the trade-off; they are points on it.
 - **Recommendation:** keep the money questions as the default. Do not add a guard by default. If one is wanted, offer robust x1.2 as an owner's choice ("be cautious: only take deals clearly better than my alternative") and say what it costs. The lever that helps without costing deals is answer accuracy, which only a test with people can measure.
 
+## Boundary confirmation: show the owner a few deals near the line
+
+Added to `scripts/final/guard-sim.ts` (no Claude calls). After the mandate is built, each owner is shown K packages near their lodged walk-away (those whose verdict a weight error is most likely to flip) with what their agent would do, and answers from their true preferences. A wrong "accept" raises the walk-away above that package; a wrong "refuse" lowers it to that package.
+
+| | ordinary: no deal | bad share | short>0.05 | best eff. | narrow: no deal | bad share | short>0.05 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| none (money questions only) | 3.5% | 13.9% | 2.6% | 0.966 | 25.6% | 56.7% | 15.0% |
+| **confirm 3** | **2.3%** | **11.9%** | **1.7%** | **0.976** | **22.5%** | **51.4%** | **10.6%** |
+| confirm 3, 10% of answers wrong | 2.7% | 12.6% | 2.0% | 0.976 | 24.9% | 55.1% | 11.8% |
+| confirm 5 | 2.4% | 11.7% | 1.6% | 0.974 | 21.8% | 50.8% | 10.2% |
+| min(money, rank) | 14.2% | 5.5% | 0.5% | 0.835 | 68.1% | 36.4% | 3.4% |
+| confirm 3 + min | 13.4% | 4.5% | 0.3% | 0.840 | 67.0% | 34.2% | 2.7% |
+
+- **Confirmation is the first change that improves every number at once**: fewer dead markets, fewer bad packages, fewer large losses, higher reachable efficiency. It survives 10% wrong answers.
+- **But the gain is small** (bad share 13.9% to 11.9%), and two more questions add little. It only moves one number, the walk-away; the errors are in the weights' direction, so raising the line to exclude one bad package also cuts good ones elsewhere.
+- Next step if pursued: use the answers to correct the weights, not just the walk-away (find weights consistent with every choice, dollar answer and confirmation), and pick each next package from what the previous answers left uncertain.
+
 ## Getting Claude to use MESO
 
 `npx tsx scripts/final/llm-all.ts --markets=3 --arms=meso+disclose --meso-guide` → `results/final/llm-all-2026-11-09T14-19-22-080Z.json` (9 negotiations, about $33)
