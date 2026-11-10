@@ -193,3 +193,58 @@ describe("multiple equivalent offers (MESO)", () => {
     expect(acceptStandingOffer(session, "agent-buyer", { offerId: "o1" }).offer.offerId).toBe("o1");
   });
 });
+
+describe("priority disclosure", () => {
+  function sessionWith(sellerDiscloses: boolean, buyerDiscloses = false): Session {
+    const seller = sellerMandate({ disclosePriorities: sellerDiscloses || undefined });
+    const buyer = buyerMandate({ disclosePriorities: buyerDiscloses || undefined });
+    return submitOffer(
+      createSession({
+        sessionId: "sess-p",
+        itemSpec: testItemSpec,
+        buyerAgentId: "agent-buyer",
+        sellerAgentId: "agent-seller",
+        mandates: [buyer, seller],
+      }),
+      "agent-seller",
+      agreeable,
+      { offerId: "o1" },
+    ).session;
+  }
+
+  it("still verifies a mandate signed before the flag existed", () => {
+    expect(sellerMandate()).not.toHaveProperty("disclosePriorities");
+    expect(() => sessionWith(false)).not.toThrow();
+  });
+
+  it("shows nothing about priorities unless the counterparty opted in", () => {
+    const view = redactSessionFor("agent-buyer", sessionWith(false, true));
+    expect(view.counterpartyPriorities).toBeUndefined();
+  });
+
+  it("discloses the counterparty's order of importance, most important first", () => {
+    // The seller weighs price 5, delivery 2, warranty 2, bundle 1; ties break by key.
+    const view = redactSessionFor("agent-buyer", sessionWith(true));
+    expect(view.counterpartyPriorities).toEqual(["price", "deliveryDays", "warrantyMonths", "bundle"]);
+  });
+
+  it("leaks no number from the disclosing mandate: no weight, bound, ideal or reservation", () => {
+    const session = sessionWith(true);
+    const view = redactSessionFor("agent-buyer", session);
+    const { yourMandate, offers, standingOffer, ...rest } = view;
+    const serialised = JSON.stringify(rest);
+    const seller = session.mandates["agent-seller"];
+    const secrets = [
+      seller.reservationUtility,
+      ...Object.values(seller.constraints).flatMap((c) => [c.min, c.max]),
+      ...Object.values(seller.preferences).flatMap((p) => [p.weight, p.ideal, p.worst]),
+    ].filter((n): n is number => n !== undefined);
+    const disclosed = JSON.stringify(view.counterpartyPriorities);
+    expect(disclosed).not.toMatch(/\d/);
+    for (const secret of secrets) {
+      if (String(secret).length >= 3) expect(serialised).not.toContain(String(secret));
+    }
+    expect(serialised).not.toMatch(/utilit|preference|weight|reservation|1180|1900/i);
+    expect(serialised).not.toContain(seller.mandateId);
+  });
+});

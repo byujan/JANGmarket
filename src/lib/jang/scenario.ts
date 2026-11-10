@@ -25,6 +25,8 @@ export const PartySchema = z.object({
   constraints: z.record(z.string(), ConstraintSchema),
   preferences: z.record(z.string(), PreferenceSchema),
   reservationUtility: z.number().min(0).max(1),
+  /** Opt in to sharing this party's priority order with the counterparty. */
+  disclosePriorities: z.boolean().optional(),
 });
 export type Party = z.infer<typeof PartySchema>;
 
@@ -89,6 +91,7 @@ export function issueMandate(scenario: Scenario, role: Role, now = new Date()): 
       preferences: party.preferences,
       reservationUtility: party.reservationUtility,
       expiresAt: new Date(now.getTime() + scenario.mandateTtlSeconds * 1000).toISOString(),
+      ...(party.disclosePriorities ? { disclosePriorities: true } : {}),
     },
     owner.privateKeyPem,
     owner.publicKeyPem,

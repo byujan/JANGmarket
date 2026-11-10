@@ -12,6 +12,7 @@ import { runRuleAgent } from "../../agents/runner.ts";
 import { ServicePort } from "../../agents/service-port.ts";
 import { auditAgreement } from "../../src/lib/jang/agreement.ts";
 import { checkTermsAgainstMandate } from "../../src/lib/jang/mandate.ts";
+import { groundTruth as frontierGroundTruth, type GroundTruth } from "../../src/lib/jang/frontier.ts";
 import { issueMandate, type Scenario } from "../../src/lib/jang/scenario.ts";
 import type { Mandate, Terms } from "../../src/lib/jang/types.ts";
 import { utility } from "../../src/lib/jang/utility.ts";
@@ -121,116 +122,25 @@ export function priceOnly(market: Scenario): Scenario {
 
 // ---------------------------------------------------------------- ground truth
 
-export type Point = { terms: Terms; buyer: number; seller: number };
-
-/** Every package on the item's step lattice that sits inside both owners' bounds. */
-function lattice(market: Scenario): Terms[] {
-  const bounds = (key: string) => {
-    const lows: number[] = [];
-    const highs: number[] = [];
-    for (const party of [market.buyer, market.seller]) {
-      const c = party.constraints[key];
-      if (c?.min !== undefined) lows.push(c.min);
-      if (c?.max !== undefined) highs.push(c.max);
-    }
-    return { lows, highs };
-  };
-  const axes = market.itemSpec.dimensions.map((d) => {
-    const { lows, highs } = bounds(d.key);
-    const low = Math.max(d.min, ...lows);
-    const high = Math.min(d.max, ...highs);
-    const values: number[] = [];
-    // Values on the item's own step lattice, anchored at the item minimum.
-    const first = d.min + Math.ceil((low - d.min) / d.step - 1e-9) * d.step;
-    for (let v = first; v <= high + 1e-9; v += d.step) values.push(Number(v.toFixed(6)));
-    return { key: d.key, values };
-  });
-  const out: Terms[] = [];
-  const current: Terms = {};
-  const walk = (i: number) => {
-    if (i === axes.length) {
-      out.push({ ...current });
-      return;
-    }
-    for (const v of axes[i].values) {
-      current[axes[i].key] = v;
-      walk(i + 1);
-    }
-  };
-  walk(0);
-  return out;
-}
-
-export type GroundTruth = {
-  /** Packages acceptable to both owners (bounds + reservation), on the lattice. */
-  feasible: Point[];
-  /** The Pareto frontier of `feasible`. */
-  frontier: Point[];
-  /** Largest joint surplus (uB - rB) + (uS - rS) available. */
-  maxSurplus: number;
-};
+// The exhaustive search now lives in the product (src/lib/jang/frontier.ts);
+// HW7 calls the same code, so its numbers and the product's cannot drift.
+export { quality, type GroundTruth, type Point, type Quality } from "../../src/lib/jang/frontier.ts";
 
 export function groundTruth(buyer: Mandate, seller: Mandate, market: Scenario): GroundTruth {
-  const feasible: Point[] = [];
-  for (const terms of lattice(market)) {
-    if (!checkTermsAgainstMandate(terms, buyer).ok || !checkTermsAgainstMandate(terms, seller).ok) continue;
-    feasible.push({ terms, buyer: utility(terms, buyer), seller: utility(terms, seller) });
-  }
-  // Frontier: sort by buyer utility descending, keep strictly improving seller utility.
-  const sorted = [...feasible].sort((a, b) => b.buyer - a.buyer || b.seller - a.seller);
-  const frontier: Point[] = [];
-  let bestSeller = -Infinity;
-  for (const p of sorted) {
-    if (p.seller > bestSeller + 1e-12) {
-      frontier.push(p);
-      bestSeller = p.seller;
-    }
-  }
-  const maxSurplus = feasible.reduce(
-    (m, p) => Math.max(m, p.buyer - buyer.reservationUtility + p.seller - seller.reservationUtility),
-    0,
-  );
-  return { feasible, frontier, maxSurplus };
-}
-
-export type Quality = {
-  buyerValue: number;
-  sellerValue: number;
-  /** No feasible package is at least as good for both and strictly better for one. */
-  paretoOptimal: boolean;
-  /** Euclidean distance in (buyer, seller) utility space to the nearest frontier point. */
-  paretoDistance: number;
-  /** Joint surplus over both reservation values. */
-  surplus: number;
-  /** surplus / maxSurplus available in this market (1 = best possible joint outcome). */
-  efficiency: number;
-  /** Buyer's share of the joint surplus (0.5 = even split). */
-  buyerShare: number;
-};
-
-export function quality(terms: Terms, buyer: Mandate, seller: Mandate, truth: GroundTruth): Quality {
-  const b = utility(terms, buyer);
-  const s = utility(terms, seller);
-  const eps = 1e-9;
-  const dominated = truth.feasible.some((p) => p.buyer >= b - eps && p.seller >= s - eps && (p.buyer > b + eps || p.seller > s + eps));
-  const paretoDistance = truth.frontier.reduce((m, p) => Math.min(m, Math.hypot(p.buyer - b, p.seller - s)), Infinity);
-  const sb = b - buyer.reservationUtility;
-  const ss = s - seller.reservationUtility;
-  const surplus = sb + ss;
-  return {
-    buyerValue: b,
-    sellerValue: s,
-    paretoOptimal: !dominated,
-    paretoDistance: Number.isFinite(paretoDistance) ? paretoDistance : 0,
-    surplus,
-    efficiency: truth.maxSurplus > 0 ? surplus / truth.maxSurplus : 0,
-    buyerShare: surplus > 0 ? sb / surplus : 0.5,
-  };
+  return frontierGroundTruth(market.itemSpec, buyer, seller);
 }
 
 // ---------------------------------------------------------------- negotiation
 
-export type StrategyKnobs = { buyer: number; seller: number; deadlineAware?: boolean; respectBounds?: boolean; meso?: boolean };
+export type StrategyKnobs = {
+  buyer: number;
+  seller: number;
+  deadlineAware?: boolean;
+  respectBounds?: boolean;
+  meso?: boolean;
+  /** Which owners share their priority order with the other side. */
+  disclose?: { buyer?: boolean; seller?: boolean };
+};
 
 export type Outcome = {
   agreed: boolean;
@@ -248,8 +158,13 @@ export type Outcome = {
  */
 export async function negotiate(market: Scenario, knobs: StrategyKnobs, maxRounds = market.maxRounds): Promise<Outcome & { buyer: Mandate; seller: Mandate }> {
   const service = new JangService(new MemoryStore());
-  const buyer = issueMandate(market, "buyer");
-  const seller = issueMandate(market, "seller");
+  const disclosing = {
+    ...market,
+    buyer: { ...market.buyer, disclosePriorities: knobs.disclose?.buyer || undefined },
+    seller: { ...market.seller, disclosePriorities: knobs.disclose?.seller || undefined },
+  };
+  const buyer = issueMandate(disclosing, "buyer");
+  const seller = issueMandate(disclosing, "seller");
   await service.registerAgent({ agentId: buyer.agentId, ownerId: buyer.ownerId });
   await service.registerAgent({ agentId: seller.agentId, ownerId: seller.ownerId });
   await service.lodgeMandate(buyer.agentId, buyer);

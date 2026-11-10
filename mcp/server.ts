@@ -63,6 +63,30 @@ function resolveSession(sessionId?: string): string {
   return id;
 }
 
+/** Opt-in nudges towards MESO (turn reminder, which package their counter was closest to). */
+const MESO_GUIDE = process.env.JANG_MESO !== "off" && process.env.JANG_MESO_GUIDE === "on";
+
+/**
+ * Which of our own last packages the counterparty's counter came closest to,
+ * when our last offer carried alternatives. Distance is per term, scaled by
+ * the term's range, so no term dominates by its units. Uses only offers both
+ * sides have already seen.
+ */
+function closestOfOurs(view: SessionView): { index: number; count: number; terms: Terms } | undefined {
+  const standing = view.standingOffer;
+  if (!standing || standing.fromAgentId === view.you.agentId) return undefined;
+  const ours = view.offers.filter((o) => o.fromAgentId === view.you.agentId && o.round < standing.round).at(-1);
+  if (!ours?.alternatives?.length) return undefined;
+  const packages = packagesOf(ours);
+  const distance = (terms: Terms) =>
+    view.itemSpec.dimensions.reduce((sum, d) => sum + Math.abs((terms[d.key] ?? 0) - (standing.terms[d.key] ?? 0)) / (d.max - d.min || 1), 0);
+  let index = 0;
+  packages.forEach((pkg, i) => {
+    if (distance(pkg.terms) < distance(packages[index].terms)) index = i;
+  });
+  return { index, count: packages.length, terms: packages[index].terms };
+}
+
 /** What the agent is told after every move, in words it can reason over. */
 function describe(view: SessionView): string {
   const standing = view.standingOffer;
@@ -70,6 +94,11 @@ function describe(view: SessionView): string {
     `Session ${view.sessionId} is ${view.status}. You are the ${view.you.role}; the ${view.counterparty.role} is ${view.counterparty.agentId}.`,
     `Round ${view.roundsUsed} of at most ${view.maxRounds}.`,
   ];
+  if (view.counterpartyPriorities?.length) {
+    lines.push(
+      `The ${view.counterparty.role} has shared what matters most to them, most important first: ${view.counterpartyPriorities.join(" > ")}. Give ground on what they rank high and hold firm on what they rank low.`,
+    );
+  }
   if (standing) {
     const mine = standing.fromAgentId === view.you.agentId;
     const show = (terms: Terms) =>
@@ -97,13 +126,23 @@ function describe(view: SessionView): string {
   } else {
     lines.push("No offer has been made yet.");
   }
+  const closest = MESO_GUIDE ? closestOfOurs(view) : undefined;
+  if (closest) {
+    lines.push(
+      `Your last offer had ${closest.count} packages; their counter came closest to ${closest.index === 0 ? "your main package" : `your alternative ${closest.index}`} (${Object.entries(closest.terms)
+        .map(([key, value]) => `${key}=${value}`)
+        .join(", ")}). That is a hint about what they value.`,
+    );
+  }
   lines.push(
     view.status !== "open"
       ? "This session is closed."
       : view.whoseTurn === "either"
         ? "Either side may open."
         : view.whoseTurn === view.you.agentId
-          ? "It is your turn."
+          ? MESO_GUIDE
+            ? "It is your turn. You may attach up to two alternatives to your counter: packages worth about the same to you, built differently."
+            : "It is your turn."
           : "It is the counterparty's turn; wait for them.",
   );
   return lines.join("\n");
@@ -150,7 +189,9 @@ server.registerTool(
   },
 );
 
-const offerInput = {
+// JANG_MESO=off hides the alternatives field, so experiments can compare
+// Claude agents with and without MESO. Unset, the tool offers it as always.
+const fullOfferInput = {
   terms: z.record(z.string(), z.number()).describe("One value for every dimension of the item, for example { price: 1320, deliveryDays: 21, warrantyMonths: 24, bundle: 0 }."),
   alternatives: z
     .array(z.record(z.string(), z.number()))
@@ -162,6 +203,8 @@ const offerInput = {
   note: z.string().max(500).optional().describe("A short message to the counterparty. Never reveal your own limits here."),
   sessionId: z.string().optional(),
 };
+const { alternatives: _alternatives, ...offerInputWithoutMeso } = fullOfferInput;
+const offerInput = (process.env.JANG_MESO === "off" ? offerInputWithoutMeso : fullOfferInput) as typeof fullOfferInput;
 
 async function placeOffer({
   terms,

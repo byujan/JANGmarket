@@ -13,6 +13,7 @@ import { packagesOf, type SessionView } from "../src/lib/jang/session.ts";
 import type { Dimension, Mandate, Terms } from "../src/lib/jang/types.ts";
 import { utility } from "../src/lib/jang/utility.ts";
 import { checkTermsAgainstMandate } from "../src/lib/jang/mandate.ts";
+import { rankOrderCentroid } from "../src/lib/jang/priorities.ts";
 
 export type Decision =
   /** `offerId` names the package when the standing offer carries alternatives. */
@@ -97,15 +98,39 @@ function bestPossible(view: SessionView, grid: number): number {
   return utility(ideal, mandate);
 }
 
-/** Weighted distance from a package to the counterparty's last request, 0..1 per dimension. */
-function distanceToTheirAsk(terms: Terms, theirAsk: Terms | undefined, dimensions: Dimension[]): number {
+/**
+ * Distance from a package to the counterparty's last request, 0..1.
+ *
+ * Without `weights` every dimension counts the same, which is all an agent can
+ * do when it does not know what the other side cares about. With them (from a
+ * disclosed priority order), standing close to their ask on what matters most
+ * to them counts for more, so the search trades on the terms that are cheap
+ * for us and valuable for them.
+ */
+function distanceToTheirAsk(
+  terms: Terms,
+  theirAsk: Terms | undefined,
+  dimensions: Dimension[],
+  weights?: Record<string, number>,
+): number {
   if (!theirAsk) return 0;
   let total = 0;
   for (const dimension of dimensions) {
     const span = dimension.max - dimension.min || 1;
-    total += Math.abs((terms[dimension.key] ?? 0) - (theirAsk[dimension.key] ?? 0)) / span;
+    const gap = Math.abs((terms[dimension.key] ?? 0) - (theirAsk[dimension.key] ?? 0)) / span;
+    total += weights ? gap * (weights[dimension.key] ?? 0) : gap;
   }
-  return total / dimensions.length;
+  return weights ? total : total / dimensions.length;
+}
+
+/**
+ * Weights implied by an order alone: rank-order centroid weights, the
+ * standard estimate when only the ranking is known. They sum to 1. Dimensions
+ * missing from the order share nothing; with no order there are no weights.
+ */
+export function weightsFromOrder(order: string[] | undefined, dimensions: Dimension[]): Record<string, number> | undefined {
+  const ranked = (order ?? []).filter((key) => dimensions.some((d) => d.key === key));
+  return ranked.length === 0 ? undefined : rankOrderCentroid(ranked);
 }
 
 export function decide(view: SessionView, options: RuleOptions = {}): Decision {
@@ -191,7 +216,7 @@ function mesoNote(view: SessionView, theirAsk: Terms | undefined, count: number)
  * chosen. Searched over a coarse grid per dimension.
  */
 function bestCounters(view: SessionView, target: number, grid: number, theirAsk: Terms | undefined, count: number): Terms[] {
-  const primary = bestCounter(view, target, grid, theirAsk, count > 1);
+  const primary = bestCounter(view, target, grid, theirAsk, count > 1, weightsFromOrder(view.counterpartyPriorities, view.itemSpec.dimensions));
   if (!primary) return [];
   if (count <= 1) return [primary.terms];
 
@@ -220,6 +245,7 @@ function bestCounter(
   grid: number,
   theirAsk: Terms | undefined,
   collect = false,
+  weights?: Record<string, number>,
 ): { terms: Terms; score: number; pool: { terms: Terms; score: number }[] } | undefined {
   const mandate = view.yourMandate;
   const dimensions = view.itemSpec.dimensions;
@@ -238,7 +264,7 @@ function bestCounter(
       const score = utility(current, mandate);
       if (score < target) return;
       if (collect) pool.push({ terms: { ...current }, score });
-      const distance = distanceToTheirAsk(current, theirAsk, dimensions);
+      const distance = distanceToTheirAsk(current, theirAsk, dimensions, weights);
       if (!best || distance < best.distance - 1e-9 || (Math.abs(distance - best.distance) < 1e-9 && score > best.score)) {
         best = { terms: { ...current }, distance, score };
       }

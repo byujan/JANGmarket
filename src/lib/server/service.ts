@@ -1,5 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
 import { buildAgreementBody, signAgreement } from "../jang/agreement.ts";
+import { bestImprovement, quality, sessionFrontier } from "../jang/frontier.ts";
 import { verifyMandate } from "../jang/mandate.ts";
 import {
   acceptStandingOffer,
@@ -17,6 +18,7 @@ import {
   type ItemSpec,
   type Mandate,
   type Role,
+  type Session,
   type Terms,
 } from "../jang/types.ts";
 import { store as defaultStore } from "../store/index.ts";
@@ -105,7 +107,7 @@ export class JangService {
       ttlSeconds: input.ttlSeconds,
     });
     await this.store.putSession(session);
-    await this.note({ kind: "session_opened", sessionId: session.sessionId, agentId: input.agentId, detail: { itemId: itemSpec.itemId } });
+    await this.note({ kind: "session_opened", sessionId: session.sessionId, agentId: input.agentId, ...this.feasibility(session, itemSpec.itemId) });
     return redactSessionFor(input.agentId, session);
   }
 
@@ -172,8 +174,69 @@ export class JangService {
     const closed = { ...accepted, agreementId: agreement.agreementId };
     await this.store.putAgreement(agreement);
     await this.store.putSession(closed);
-    await this.note({ kind: "agreed", sessionId: session.sessionId, agentId: input.agentId, detail: { agreementId: agreement.agreementId, terms: agreement.terms } });
+    await this.note({
+      kind: "agreed",
+      sessionId: session.sessionId,
+      agentId: input.agentId,
+      detail: { agreementId: agreement.agreementId, terms: agreement.terms, quality: this.dealQuality(closed, agreement) },
+    });
     return { view: redactSessionFor(input.agentId, closed), agreement };
+  }
+
+  /**
+   * Whether any deal is possible at all, for the operator's log only. The
+   * agents are deliberately not told: if they were, an agent could re-lodge
+   * its own mandate with different limits, reopen, and binary-search the
+   * counterparty's limit from the yes/no. The session runs as usual.
+   */
+  private feasibility(session: Session, itemId: string): Pick<EventRecord, "code" | "message" | "detail"> {
+    try {
+      const truth = sessionFrontier(session);
+      const possible = truth.feasible.length > 0;
+      return {
+        ...(possible
+          ? {}
+          : { code: "NO_POSSIBLE_DEAL", message: "no package satisfies both mandates; this session cannot close (agents not told)" }),
+        detail: { itemId, possibleDeal: possible, feasiblePackages: truth.feasible.length, frontierSize: truth.frontier.length },
+      };
+    } catch {
+      return { detail: { itemId } };
+    }
+  }
+
+  /**
+   * How good the deal was against everything these two owners could have
+   * agreed: an operator's number, recorded in the event log and never in the
+   * signed agreement or any agent's view, since it is derived from both
+   * private mandates. A failure here must never undo a closed deal.
+   */
+  private dealQuality(session: Session, agreement: Agreement) {
+    try {
+      const truth = sessionFrontier(session);
+      const buyer = session.mandates[session.participants.buyer];
+      const seller = session.mandates[session.participants.seller];
+      const q = quality(agreement.terms, buyer, seller, truth);
+      // What JANG could have proposed before signing, had it been allowed to
+      // speak. Recorded for the operator; never offered to the agents.
+      const better = bestImprovement(agreement.terms, buyer, seller, truth);
+      return {
+        efficiency: Number(q.efficiency.toFixed(4)),
+        paretoOptimal: q.paretoOptimal,
+        paretoDistance: Number(q.paretoDistance.toFixed(4)),
+        buyerShare: Number(q.buyerShare.toFixed(4)),
+        ...(better
+          ? {
+              missedImprovement: {
+                terms: better.terms,
+                buyerGain: Number(better.buyerGain.toFixed(4)),
+                sellerGain: Number(better.sellerGain.toFixed(4)),
+              },
+            }
+          : {}),
+      };
+    } catch {
+      return undefined;
+    }
   }
 
   async getAgreement(agreementId: string): Promise<Agreement> {

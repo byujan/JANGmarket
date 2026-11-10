@@ -9,6 +9,8 @@
  * --variant=option1  deadline-aware concession (same round budget)
  * --variant=option2  the shipped strategy with double the round budget
  * --variant=meso     agents put up to three equally good packages on the table per turn
+ * --variant=disclose  both owners share their priority order (keys only)
+ * --variant=disclose1 only the buyer shares it, to see whether the side that discloses loses out
  * Variants combine with "+", e.g. --variant=fix+option1
  * --out=results/final writes somewhere other than results/hw7 (the final-project arms)
  *
@@ -44,6 +46,7 @@ const maxRounds = parts.has("option2") ? base.maxRounds * 2 : base.maxRounds;
 const deadlineAware = parts.has("option1");
 const respectBounds = parts.has("fix");
 const meso = parts.has("meso");
+const disclose = { buyer: parts.has("disclose") || parts.has("disclose1"), seller: parts.has("disclose") };
 const outDir = arg("out", "results/hw7");
 
 type Condition = { agreed: boolean; rounds?: number; apiCalls?: number; ms?: number; violations?: number; stoppedBecause?: string; q?: Quality };
@@ -66,7 +69,7 @@ for (const kind of only) {
   const toughness = TOUGHNESS[kind];
   for (let index = 0; index < CASE_SIZE[kind]; index += 1) {
     const market = makeMarket(base, kind, seed, index);
-    const knobs = { ...toughness, deadlineAware, respectBounds, meso };
+    const knobs = { ...toughness, deadlineAware, respectBounds, meso, disclose };
 
     const multi = await negotiate(market, knobs, maxRounds);
     const truth = groundTruth(multi.buyer, multi.seller, market);
@@ -181,6 +184,7 @@ const out = {
   deadlineAware,
   respectBounds,
   meso,
+  disclose,
   toughness: TOUGHNESS,
   caseSize: CASE_SIZE,
   commit,

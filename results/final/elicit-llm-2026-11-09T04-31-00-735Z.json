@@ -1,0 +1,1507 @@
+{
+ "seed": 20261108,
+ "model": "claude-sonnet-5-5",
+ "owners": 16,
+ "usd": 7.802834299999998,
+ "records": [
+  {
+   "owner": 3,
+   "trueWeights": {
+    "price": 0.10596800377213185,
+    "deliveryDays": 0.3789244292187458,
+    "warrantyMonths": 0.038644587882232836,
+    "bundle": 0.47646297912688945
+   },
+   "batna": {
+    "price": 1019,
+    "deliveryDays": 6,
+    "warrantyMonths": 18,
+    "bundle": 0
+   },
+   "rTrue": 0.4454098022302338,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 2,
+      "deliveryDays": 4,
+      "warrantyMonths": 1,
+      "bundle": 5
+     },
+     "walkAway": 0.45
+    },
+    "ranked": [
+     "bundle",
+     "deliveryDays",
+     "price",
+     "warrantyMonths"
+    ],
+    "asked": 4,
+    "answers": [
+     "deliveryDays vs price: deliveryDays",
+     "warrantyMonths vs price: price",
+     "bundle vs price: bundle",
+     "bundle vs deliveryDays: bundle"
+    ],
+    "alt": {
+     "price": 1019,
+     "deliveryDays": 6,
+     "warrantyMonths": 18,
+     "bundle": 0
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 1,
+     "weightL1": 0.21077481669127057,
+     "rErr": 0.004590197769766213,
+     "badAccept": 0.0175,
+     "missedOfWanted": 0.004714757190004715,
+     "disagree": 0.02,
+     "lossPerBadAccept": 0.01677907708984865
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.21618297302570777,
+     "rErr": 0.05240980223023378,
+     "badAccept": 0.00475,
+     "missedOfWanted": 0.014144271570014143,
+     "disagree": 0.01225,
+     "lossPerBadAccept": 0.014199515045008552
+    },
+    "old weights + new reservation": {
+     "tau": 1,
+     "weightL1": 0.21077481669127057,
+     "rErr": 0.027590197769766178,
+     "badAccept": 0.00625,
+     "missedOfWanted": 0.023573785950023574,
+     "disagree": 0.01875,
+     "lossPerBadAccept": 0.014974097791166102
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.21618297302570777,
+     "rErr": 0.004590197769766213,
+     "badAccept": 0,
+     "missedOfWanted": 0.05469118340405469,
+     "disagree": 0.029,
+     "lossPerBadAccept": 0
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.21618297302570777,
+     "rErr": 0.05240980223023378,
+     "badAccept": 0.00475,
+     "missedOfWanted": 0.014144271570014143,
+     "disagree": 0.01225,
+     "lossPerBadAccept": 0.014199515045008552
+    }
+   }
+  },
+  {
+   "owner": 0,
+   "trueWeights": {
+    "price": 0.07032204550776293,
+    "deliveryDays": 0.5398061413062882,
+    "warrantyMonths": 0.28724933541226255,
+    "bundle": 0.10262247777368615
+   },
+   "batna": {
+    "price": 1119,
+    "deliveryDays": 21,
+    "warrantyMonths": 24,
+    "bundle": 1
+   },
+   "rTrue": 0.46846920444317086,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 1,
+      "deliveryDays": 5,
+      "warrantyMonths": 3,
+      "bundle": 1
+     },
+     "walkAway": 0.45
+    },
+    "ranked": [
+     "deliveryDays",
+     "warrantyMonths",
+     "bundle",
+     "price"
+    ],
+    "asked": 5,
+    "answers": [
+     "deliveryDays vs price: deliveryDays",
+     "warrantyMonths vs price: warrantyMonths",
+     "warrantyMonths vs deliveryDays: deliveryDays",
+     "bundle vs warrantyMonths: warrantyMonths",
+     "bundle vs price: bundle"
+    ],
+    "alt": {
+     "price": 1119,
+     "deliveryDays": 21,
+     "warrantyMonths": 24,
+     "bundle": 1
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.08485723815994889,
+     "rErr": 0.01846920444317085,
+     "badAccept": 0.03875,
+     "missedOfWanted": 0.0004580852038479157,
+     "disagree": 0.039,
+     "lossPerBadAccept": 0.016258949934821847
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.08641936735464559,
+     "rErr": 0.02353079555682913,
+     "badAccept": 0.00225,
+     "missedOfWanted": 0.0787906550618415,
+     "disagree": 0.04525,
+     "lossPerBadAccept": 0.0031092139016796255
+    },
+    "old weights + new reservation": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.08485723815994889,
+     "rErr": 0.008530795556829118,
+     "badAccept": 0.00675,
+     "missedOfWanted": 0.024278515803939534,
+     "disagree": 0.02,
+     "lossPerBadAccept": 0.007840307215246544
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.08641936735464559,
+     "rErr": 0.01846920444317085,
+     "badAccept": 0.0365,
+     "missedOfWanted": 0.005497022446174988,
+     "disagree": 0.0395,
+     "lossPerBadAccept": 0.02184332289467177
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.08641936735464559,
+     "rErr": 0.02353079555682913,
+     "badAccept": 0.00225,
+     "missedOfWanted": 0.0787906550618415,
+     "disagree": 0.04525,
+     "lossPerBadAccept": 0.0031092139016796255
+    }
+   }
+  },
+  {
+   "owner": 1,
+   "trueWeights": {
+    "price": 0.010271360674694127,
+    "deliveryDays": 0.6865801299548465,
+    "warrantyMonths": 0.135704250474802,
+    "bundle": 0.16744425889565737
+   },
+   "batna": {
+    "price": 1149,
+    "deliveryDays": 28,
+    "warrantyMonths": 12,
+    "bundle": 1
+   },
+   "rTrue": 0.22345478869798854,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 1,
+      "deliveryDays": 5,
+      "warrantyMonths": 1,
+      "bundle": 1
+     },
+     "walkAway": 0.2
+    },
+    "ranked": [
+     "deliveryDays",
+     "bundle",
+     "warrantyMonths",
+     "price"
+    ],
+    "asked": 5,
+    "answers": [
+     "deliveryDays vs price: deliveryDays",
+     "warrantyMonths vs price: warrantyMonths",
+     "warrantyMonths vs deliveryDays: deliveryDays",
+     "bundle vs warrantyMonths: bundle",
+     "bundle vs deliveryDays: deliveryDays"
+    ],
+    "alt": {
+     "price": 1149,
+     "deliveryDays": 28,
+     "warrantyMonths": 12,
+     "bundle": 1
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 0.5,
+     "weightL1": 0.22945727865061175,
+     "rErr": 0.023454788697988532,
+     "badAccept": 0.0465,
+     "missedOfWanted": 0.001708914839077186,
+     "disagree": 0.048,
+     "lossPerBadAccept": 0.03773867374209158
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.3314912494783779,
+     "rErr": 0.11754521130201148,
+     "badAccept": 0.001,
+     "missedOfWanted": 0.1347194531472515,
+     "disagree": 0.11925,
+     "lossPerBadAccept": 0.01674417340412787
+    },
+    "old weights + new reservation": {
+     "tau": 0.5,
+     "weightL1": 0.22945727865061175,
+     "rErr": 0.01054521130201147,
+     "badAccept": 0.0245,
+     "missedOfWanted": 0.009399031614924523,
+     "disagree": 0.03275,
+     "lossPerBadAccept": 0.03150562097296483
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.3314912494783779,
+     "rErr": 0.023454788697988532,
+     "badAccept": 0.03125,
+     "missedOfWanted": 0.0019937339789233835,
+     "disagree": 0.033,
+     "lossPerBadAccept": 0.025604218530486764
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.3314912494783779,
+     "rErr": 0.11754521130201148,
+     "badAccept": 0.001,
+     "missedOfWanted": 0.1347194531472515,
+     "disagree": 0.11925,
+     "lossPerBadAccept": 0.01674417340412787
+    }
+   }
+  },
+  {
+   "owner": 2,
+   "trueWeights": {
+    "price": 0.037567623001478895,
+    "deliveryDays": 0.232064534799406,
+    "warrantyMonths": 0.626450338552889,
+    "bundle": 0.10391750364622604
+   },
+   "batna": {
+    "price": 1139,
+    "deliveryDays": 28,
+    "warrantyMonths": 30,
+    "bundle": 1
+   },
+   "rTrue": 0.6110395330791247,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 1,
+      "deliveryDays": 2,
+      "warrantyMonths": 5,
+      "bundle": 1
+     },
+     "walkAway": 0.6
+    },
+    "ranked": [
+     "warrantyMonths",
+     "deliveryDays",
+     "bundle",
+     "price"
+    ],
+    "asked": 5,
+    "answers": [
+     "deliveryDays vs price: deliveryDays",
+     "warrantyMonths vs price: warrantyMonths",
+     "warrantyMonths vs deliveryDays: warrantyMonths",
+     "bundle vs deliveryDays: deliveryDays",
+     "bundle vs price: bundle"
+    ],
+    "alt": {
+     "price": 1139,
+     "deliveryDays": 28,
+     "warrantyMonths": 30,
+     "bundle": 1
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.1614741911490345,
+     "rErr": 0.011039533079124753,
+     "badAccept": 0.01225,
+     "missedOfWanted": 0.04612159329140461,
+     "disagree": 0.02875,
+     "lossPerBadAccept": 0.015476171996752462
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.2112316666744629,
+     "rErr": 0.02103953307912476,
+     "badAccept": 0.022,
+     "missedOfWanted": 0.06079664570230608,
+     "disagree": 0.04375,
+     "lossPerBadAccept": 0.028557796024471
+    },
+    "old weights + new reservation": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.1614741911490345,
+     "rErr": 0.007039533079124749,
+     "badAccept": 0.00975,
+     "missedOfWanted": 0.055904961565338925,
+     "disagree": 0.02975,
+     "lossPerBadAccept": 0.0149299736296864
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.2112316666744629,
+     "rErr": 0.011039533079124753,
+     "badAccept": 0.01525,
+     "missedOfWanted": 0.08735150244584207,
+     "disagree": 0.0465,
+     "lossPerBadAccept": 0.020340075940669725
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.2112316666744629,
+     "rErr": 0.02103953307912476,
+     "badAccept": 0.022,
+     "missedOfWanted": 0.06079664570230608,
+     "disagree": 0.04375,
+     "lossPerBadAccept": 0.028557796024471
+    }
+   }
+  },
+  {
+   "owner": 4,
+   "trueWeights": {
+    "price": 0.44395950974735565,
+    "deliveryDays": 0.11919099003460486,
+    "warrantyMonths": 0.02545977723516757,
+    "bundle": 0.41138972298287185
+   },
+   "batna": {
+    "price": 1169,
+    "deliveryDays": 13,
+    "warrantyMonths": 18,
+    "bundle": 0
+   },
+   "rTrue": 0.27462938161449757,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 5,
+      "deliveryDays": 1,
+      "warrantyMonths": 1,
+      "bundle": 5
+     },
+     "walkAway": 0.3
+    },
+    "ranked": [
+     "price",
+     "bundle",
+     "deliveryDays",
+     "warrantyMonths"
+    ],
+    "asked": 4,
+    "answers": [
+     "deliveryDays vs price: price",
+     "warrantyMonths vs deliveryDays: deliveryDays",
+     "bundle vs deliveryDays: bundle",
+     "bundle vs price: price"
+    ],
+    "alt": {
+     "price": 1169,
+     "deliveryDays": 13,
+     "warrantyMonths": 18,
+     "bundle": 0
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 0.6666666666666666,
+     "weightL1": 0.1263009995639211,
+     "rErr": 0.02537061838550242,
+     "badAccept": 0.002,
+     "missedOfWanted": 0.040116467162730506,
+     "disagree": 0.033,
+     "lossPerBadAccept": 0.004568224929566017
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.28111356055395986,
+     "rErr": 0.05937061838550245,
+     "badAccept": 0.008,
+     "missedOfWanted": 0.010029116790682626,
+     "disagree": 0.01575,
+     "lossPerBadAccept": 0.008169459318949161
+    },
+    "old weights + new reservation": {
+     "tau": 0.6666666666666666,
+     "weightL1": 0.1263009995639211,
+     "rErr": 0.019629381614497565,
+     "badAccept": 0.024,
+     "missedOfWanted": 0.002588159171789065,
+     "disagree": 0.026,
+     "lossPerBadAccept": 0.01997664196608737
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.28111356055395986,
+     "rErr": 0.02537061838550242,
+     "badAccept": 0.036,
+     "missedOfWanted": 0.002264639275315432,
+     "disagree": 0.03775,
+     "lossPerBadAccept": 0.01981660851119399
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.28111356055395986,
+     "rErr": 0.05937061838550245,
+     "badAccept": 0.008,
+     "missedOfWanted": 0.010029116790682626,
+     "disagree": 0.01575,
+     "lossPerBadAccept": 0.008169459318949161
+    }
+   }
+  },
+  {
+   "owner": 5,
+   "trueWeights": {
+    "price": 0.1376527067272338,
+    "deliveryDays": 0.21908407067998079,
+    "warrantyMonths": 0.48348885691507437,
+    "bundle": 0.15977436567771092
+   },
+   "batna": {
+    "price": 1169,
+    "deliveryDays": 23,
+    "warrantyMonths": 24,
+    "bundle": 1
+   },
+   "rTrue": 0.5182270211091556,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 1,
+      "deliveryDays": 2,
+      "warrantyMonths": 5,
+      "bundle": 2
+     },
+     "walkAway": 0.55
+    },
+    "ranked": [
+     "warrantyMonths",
+     "deliveryDays",
+     "bundle",
+     "price"
+    ],
+    "asked": 5,
+    "answers": [
+     "deliveryDays vs price: deliveryDays",
+     "warrantyMonths vs price: warrantyMonths",
+     "warrantyMonths vs deliveryDays: warrantyMonths",
+     "bundle vs deliveryDays: deliveryDays",
+     "bundle vs price: bundle"
+    ],
+    "alt": {
+     "price": 1169,
+     "deliveryDays": 23,
+     "warrantyMonths": 24,
+     "bundle": 1
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.11347355481442928,
+     "rErr": 0.031772978890844406,
+     "badAccept": 0,
+     "missedOfWanted": 0.10662358642972536,
+     "disagree": 0.0495,
+     "lossPerBadAccept": 0
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.17818904065298868,
+     "rErr": 0.014227021109155635,
+     "badAccept": 0.0335,
+     "missedOfWanted": 0.02046311254711901,
+     "disagree": 0.043,
+     "lossPerBadAccept": 0.021845202061461483
+    },
+    "old weights + new reservation": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.11347355481442928,
+     "rErr": 0.0267729788908444,
+     "badAccept": 0.00125,
+     "missedOfWanted": 0.08508346795907377,
+     "disagree": 0.04075,
+     "lossPerBadAccept": 0.006783517022898411
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.17818904065298868,
+     "rErr": 0.031772978890844406,
+     "badAccept": 0.002,
+     "missedOfWanted": 0.10608508346795907,
+     "disagree": 0.05125,
+     "lossPerBadAccept": 0.009527803385137631
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.17818904065298868,
+     "rErr": 0.014227021109155635,
+     "badAccept": 0.0335,
+     "missedOfWanted": 0.02046311254711901,
+     "disagree": 0.043,
+     "lossPerBadAccept": 0.021845202061461483
+    }
+   }
+  },
+  {
+   "owner": 6,
+   "trueWeights": {
+    "price": 0.007974134618909752,
+    "deliveryDays": 0.7411920504307983,
+    "warrantyMonths": 0.08885341115831032,
+    "bundle": 0.1619804037919817
+   },
+   "batna": {
+    "price": 1229,
+    "deliveryDays": 11,
+    "warrantyMonths": 24,
+    "bundle": 0
+   },
+   "rTrue": 0.5678872386760156,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 1,
+      "deliveryDays": 5,
+      "warrantyMonths": 2,
+      "bundle": 3
+     },
+     "walkAway": 0.55
+    },
+    "ranked": [
+     "deliveryDays",
+     "bundle",
+     "warrantyMonths",
+     "price"
+    ],
+    "asked": 5,
+    "answers": [
+     "deliveryDays vs price: deliveryDays",
+     "warrantyMonths vs price: warrantyMonths",
+     "warrantyMonths vs deliveryDays: deliveryDays",
+     "bundle vs warrantyMonths: bundle",
+     "bundle vs deliveryDays: deliveryDays"
+    ],
+    "alt": {
+     "price": 1229,
+     "deliveryDays": 11,
+     "warrantyMonths": 24,
+     "bundle": 0
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 1,
+     "weightL1": 0.5732931917706874,
+     "rErr": 0.017887238676015604,
+     "badAccept": 0.08225,
+     "missedOfWanted": 0.22194668319900807,
+     "disagree": 0.17175,
+     "lossPerBadAccept": 0.09563488123957849
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.44071509043028134,
+     "rErr": 0.11388723867601563,
+     "badAccept": 0.1755,
+     "missedOfWanted": 0.01425914445133292,
+     "disagree": 0.18125,
+     "lossPerBadAccept": 0.11971819499758427
+    },
+    "old weights + new reservation": {
+     "tau": 1,
+     "weightL1": 0.5732931917706874,
+     "rErr": 0.13588723867601565,
+     "badAccept": 0.235,
+     "missedOfWanted": 0.024798512089274645,
+     "disagree": 0.245,
+     "lossPerBadAccept": 0.14530980883950126
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.44071509043028134,
+     "rErr": 0.017887238676015604,
+     "badAccept": 0.0645,
+     "missedOfWanted": 0.18164910105393675,
+     "disagree": 0.13775,
+     "lossPerBadAccept": 0.06626485546625727
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.44071509043028134,
+     "rErr": 0.11388723867601563,
+     "badAccept": 0.1755,
+     "missedOfWanted": 0.01425914445133292,
+     "disagree": 0.18125,
+     "lossPerBadAccept": 0.11971819499758427
+    }
+   }
+  },
+  {
+   "owner": 7,
+   "trueWeights": {
+    "price": 0.05952984477194028,
+    "deliveryDays": 0.6922383708806377,
+    "warrantyMonths": 0.19933026946111385,
+    "bundle": 0.04890151488630822
+   },
+   "batna": {
+    "price": 1079,
+    "deliveryDays": 21,
+    "warrantyMonths": 36,
+    "bundle": 1
+   },
+   "rTrue": 0.5226858670925697,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 1,
+      "deliveryDays": 5,
+      "warrantyMonths": 2,
+      "bundle": 1
+     },
+     "walkAway": 0.55
+    },
+    "ranked": [
+     "deliveryDays",
+     "warrantyMonths",
+     "price",
+     "bundle"
+    ],
+    "asked": 5,
+    "answers": [
+     "deliveryDays vs price: deliveryDays",
+     "warrantyMonths vs price: warrantyMonths",
+     "warrantyMonths vs deliveryDays: deliveryDays",
+     "bundle vs warrantyMonths: warrantyMonths",
+     "bundle vs price: price"
+    ],
+    "alt": {
+     "price": 1079,
+     "deliveryDays": 21,
+     "warrantyMonths": 36,
+     "bundle": 1
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.27336563065016417,
+     "rErr": 0.027314132907430344,
+     "badAccept": 0.01225,
+     "missedOfWanted": 0.1508828250401284,
+     "disagree": 0.08275,
+     "lossPerBadAccept": 0.025370477617980367
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.3428077313299602,
+     "rErr": 0.09131413290743029,
+     "badAccept": 0.00075,
+     "missedOfWanted": 0.3756019261637239,
+     "disagree": 0.17625,
+     "lossPerBadAccept": 0.01443128917608009
+    },
+    "old weights + new reservation": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.27336563065016417,
+     "rErr": 0.07731413290743028,
+     "badAccept": 0.0005,
+     "missedOfWanted": 0.2969502407704655,
+     "disagree": 0.13925,
+     "lossPerBadAccept": 0.012783176087155956
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.3428077313299602,
+     "rErr": 0.027314132907430344,
+     "badAccept": 0.0205,
+     "missedOfWanted": 0.1653290529695024,
+     "disagree": 0.09775,
+     "lossPerBadAccept": 0.032422526959390956
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.3428077313299602,
+     "rErr": 0.09131413290743029,
+     "badAccept": 0.00075,
+     "missedOfWanted": 0.3756019261637239,
+     "disagree": 0.17625,
+     "lossPerBadAccept": 0.01443128917608009
+    }
+   }
+  },
+  {
+   "owner": 8,
+   "trueWeights": {
+    "price": 0.30861397667075097,
+    "deliveryDays": 0.3153729928356496,
+    "warrantyMonths": 0.21854422217932598,
+    "bundle": 0.15746880831427357
+   },
+   "batna": {
+    "price": 1089,
+    "deliveryDays": 30,
+    "warrantyMonths": 24,
+    "bundle": 1
+   },
+   "rTrue": 0.4830782917545293,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 5,
+      "deliveryDays": 5,
+      "warrantyMonths": 3,
+      "bundle": 2
+     },
+     "walkAway": 0.5
+    },
+    "ranked": [
+     "deliveryDays",
+     "price",
+     "warrantyMonths",
+     "bundle"
+    ],
+    "asked": 4,
+    "answers": [
+     "deliveryDays vs price: deliveryDays",
+     "warrantyMonths vs price: price",
+     "bundle vs price: price",
+     "bundle vs warrantyMonths: warrantyMonths"
+    ],
+    "alt": {
+     "price": 1089,
+     "deliveryDays": 30,
+     "warrantyMonths": 24,
+     "bundle": 1
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.08535939432053224,
+     "rErr": 0.01692170824547068,
+     "badAccept": 0.0045,
+     "missedOfWanted": 0.07887323943661972,
+     "disagree": 0.0465,
+     "lossPerBadAccept": 0.0055244778502706255
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.4109230247600161,
+     "rErr": 0.1580782917545293,
+     "badAccept": 0.264,
+     "missedOfWanted": 0.00046948356807511736,
+     "disagree": 0.26425,
+     "lossPerBadAccept": 0.08078686581073209
+    },
+    "old weights + new reservation": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.08535939432053224,
+     "rErr": 0.016078291754529295,
+     "badAccept": 0.0395,
+     "missedOfWanted": 0.007042253521126761,
+     "disagree": 0.04325,
+     "lossPerBadAccept": 0.016645993014811258
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.4109230247600161,
+     "rErr": 0.01692170824547068,
+     "badAccept": 0.06625,
+     "missedOfWanted": 0.18215962441314554,
+     "disagree": 0.16325,
+     "lossPerBadAccept": 0.04934079586541984
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.4109230247600161,
+     "rErr": 0.1580782917545293,
+     "badAccept": 0.264,
+     "missedOfWanted": 0.00046948356807511736,
+     "disagree": 0.26425,
+     "lossPerBadAccept": 0.08078686581073209
+    }
+   }
+  },
+  {
+   "owner": 10,
+   "trueWeights": {
+    "price": 0.6045483528137017,
+    "deliveryDays": 0.12632677178889404,
+    "warrantyMonths": 0.05272628584211065,
+    "bundle": 0.21639858955529379
+   },
+   "batna": {
+    "price": 1089,
+    "deliveryDays": 15,
+    "warrantyMonths": 30,
+    "bundle": 0
+   },
+   "rTrue": 0.5335126411204183,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 5,
+      "deliveryDays": 1,
+      "warrantyMonths": 1,
+      "bundle": 2
+     },
+     "walkAway": 0.55
+    },
+    "ranked": [
+     "price",
+     "bundle",
+     "deliveryDays",
+     "warrantyMonths"
+    ],
+    "asked": 4,
+    "answers": [
+     "deliveryDays vs price: price",
+     "warrantyMonths vs deliveryDays: deliveryDays",
+     "bundle vs deliveryDays: bundle",
+     "bundle vs price: price"
+    ],
+    "alt": {
+     "price": 1089,
+     "deliveryDays": 15,
+     "warrantyMonths": 30,
+     "bundle": 0
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.1284169158718579,
+     "rErr": 0.01648735887958175,
+     "badAccept": 0.00425,
+     "missedOfWanted": 0.09020044543429843,
+     "disagree": 0.04475,
+     "lossPerBadAccept": 0.011952773328572926
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.16742769519608805,
+     "rErr": 0.0405126411204183,
+     "badAccept": 0.071,
+     "missedOfWanted": 0.018374164810690423,
+     "disagree": 0.07925,
+     "lossPerBadAccept": 0.04370548726366986
+    },
+    "old weights + new reservation": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.1284169158718579,
+     "rErr": 0.001487358879581735,
+     "badAccept": 0.0135,
+     "missedOfWanted": 0.0467706013363029,
+     "disagree": 0.0345,
+     "lossPerBadAccept": 0.016027959007000627
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.16742769519608805,
+     "rErr": 0.01648735887958175,
+     "badAccept": 0.018,
+     "missedOfWanted": 0.12694877505567928,
+     "disagree": 0.075,
+     "lossPerBadAccept": 0.016152230304159035
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.16742769519608805,
+     "rErr": 0.0405126411204183,
+     "badAccept": 0.071,
+     "missedOfWanted": 0.018374164810690423,
+     "disagree": 0.07925,
+     "lossPerBadAccept": 0.04370548726366986
+    }
+   }
+  },
+  {
+   "owner": 9,
+   "trueWeights": {
+    "price": 0.13984885166816916,
+    "deliveryDays": 0.4504424733815577,
+    "warrantyMonths": 0.29930226737753446,
+    "bundle": 0.11040640757273873
+   },
+   "batna": {
+    "price": 1299,
+    "deliveryDays": 18,
+    "warrantyMonths": 12,
+    "bundle": 0
+   },
+   "rTrue": 0.20066126896139128,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 2,
+      "deliveryDays": 5,
+      "warrantyMonths": 3,
+      "bundle": 1
+     },
+     "walkAway": 0.2
+    },
+    "ranked": [
+     "deliveryDays",
+     "warrantyMonths",
+     "price",
+     "bundle"
+    ],
+    "asked": 5,
+    "answers": [
+     "deliveryDays vs price: deliveryDays",
+     "warrantyMonths vs price: warrantyMonths",
+     "warrantyMonths vs deliveryDays: deliveryDays",
+     "bundle vs warrantyMonths: warrantyMonths",
+     "bundle vs price: price"
+    ],
+    "alt": {
+     "price": 1299,
+     "deliveryDays": 18,
+     "warrantyMonths": 12,
+     "bundle": 0
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 1,
+     "weightL1": 0.09214462262781908,
+     "rErr": 0.0006612689613912648,
+     "badAccept": 0.0055,
+     "missedOfWanted": 0.0015923566878980893,
+     "disagree": 0.007,
+     "lossPerBadAccept": 0.01744626898649505
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.1527506832338796,
+     "rErr": 0.031338731038608736,
+     "badAccept": 0,
+     "missedOfWanted": 0.03211252653927813,
+     "disagree": 0.03025,
+     "lossPerBadAccept": 0
+    },
+    "old weights + new reservation": {
+     "tau": 1,
+     "weightL1": 0.09214462262781908,
+     "rErr": 0.002338731038608738,
+     "badAccept": 0.00475,
+     "missedOfWanted": 0.002653927813163482,
+     "disagree": 0.00725,
+     "lossPerBadAccept": 0.017230029152634913
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.1527506832338796,
+     "rErr": 0.0006612689613912648,
+     "badAccept": 0.00375,
+     "missedOfWanted": 0.012208067940552018,
+     "disagree": 0.01525,
+     "lossPerBadAccept": 0.01326850815482099
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.1527506832338796,
+     "rErr": 0.031338731038608736,
+     "badAccept": 0,
+     "missedOfWanted": 0.03211252653927813,
+     "disagree": 0.03025,
+     "lossPerBadAccept": 0
+    }
+   }
+  },
+  {
+   "owner": 11,
+   "trueWeights": {
+    "price": 0.041656967829163796,
+    "deliveryDays": 0.6272366492682881,
+    "warrantyMonths": 0.24032010514913144,
+    "bundle": 0.09078627775341663
+   },
+   "batna": {
+    "price": 1239,
+    "deliveryDays": 25,
+    "warrantyMonths": 12,
+    "bundle": 0
+   },
+   "rTrue": 0.12459704480908163,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 1,
+      "deliveryDays": 5,
+      "warrantyMonths": 2,
+      "bundle": 1
+     },
+     "walkAway": 0.15
+    },
+    "ranked": [
+     "deliveryDays",
+     "warrantyMonths",
+     "bundle",
+     "price"
+    ],
+    "asked": 5,
+    "answers": [
+     "deliveryDays vs price: deliveryDays",
+     "warrantyMonths vs price: warrantyMonths",
+     "warrantyMonths vs deliveryDays: deliveryDays",
+     "bundle vs warrantyMonths: warrantyMonths",
+     "bundle vs price: bundle"
+    ],
+    "alt": {
+     "price": 1239,
+     "deliveryDays": 25,
+     "warrantyMonths": 12,
+     "bundle": 0
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.1795579532792836,
+     "rErr": 0.02540295519091837,
+     "badAccept": 0.00575,
+     "missedOfWanted": 0.006716610694910876,
+     "disagree": 0.01225,
+     "lossPerBadAccept": 0.010189228726082878
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.21280428810526109,
+     "rErr": 0.015597044809081625,
+     "badAccept": 0.01075,
+     "missedOfWanted": 0,
+     "disagree": 0.01075,
+     "lossPerBadAccept": 0.01322406629958877
+    },
+    "old weights + new reservation": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.1795579532792836,
+     "rErr": 0.00040295519091837484,
+     "badAccept": 0.01175,
+     "missedOfWanted": 0.0002583311805734952,
+     "disagree": 0.012,
+     "lossPerBadAccept": 0.016557242193572384
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.21280428810526109,
+     "rErr": 0.02540295519091837,
+     "badAccept": 0.003,
+     "missedOfWanted": 0.011624903125807285,
+     "disagree": 0.01425,
+     "lossPerBadAccept": 0.007434732211820433
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.21280428810526109,
+     "rErr": 0.015597044809081625,
+     "badAccept": 0.01075,
+     "missedOfWanted": 0,
+     "disagree": 0.01075,
+     "lossPerBadAccept": 0.01322406629958877
+    }
+   }
+  },
+  {
+   "owner": 12,
+   "trueWeights": {
+    "price": 0.48425695881568165,
+    "deliveryDays": 0.061147524718256484,
+    "warrantyMonths": 0.22921357553079116,
+    "bundle": 0.22538194093527078
+   },
+   "batna": {
+    "price": 1139,
+    "deliveryDays": 19,
+    "warrantyMonths": 24,
+    "bundle": 0
+   },
+   "rTrue": 0.39853990629793096,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 5,
+      "deliveryDays": 1,
+      "warrantyMonths": 2,
+      "bundle": 2
+     },
+     "walkAway": 0.4
+    },
+    "ranked": [
+     "price",
+     "warrantyMonths",
+     "bundle",
+     "deliveryDays"
+    ],
+    "asked": 5,
+    "answers": [
+     "deliveryDays vs price: price",
+     "warrantyMonths vs deliveryDays: warrantyMonths",
+     "warrantyMonths vs price: price",
+     "bundle vs warrantyMonths: warrantyMonths",
+     "bundle vs deliveryDays: bundle"
+    ],
+    "alt": {
+     "price": 1139,
+     "deliveryDays": 19,
+     "warrantyMonths": 24,
+     "bundle": 0
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.10919103293212379,
+     "rErr": 0.0014600937020690652,
+     "badAccept": 0.01775,
+     "missedOfWanted": 0.015843773028739867,
+     "disagree": 0.0285,
+     "lossPerBadAccept": 0.016113920544340465
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.15909955896852346,
+     "rErr": 0.040460093702069044,
+     "badAccept": 0.0045,
+     "missedOfWanted": 0.11016949152542373,
+     "disagree": 0.07925,
+     "lossPerBadAccept": 0.005138229234189517
+    },
+    "old weights + new reservation": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.10919103293212379,
+     "rErr": 0.009460093702069017,
+     "badAccept": 0.00875,
+     "missedOfWanted": 0.026897568165070006,
+     "disagree": 0.027,
+     "lossPerBadAccept": 0.012265282439963283
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.15909955896852346,
+     "rErr": 0.0014600937020690652,
+     "badAccept": 0.037,
+     "missedOfWanted": 0.05969049373618276,
+     "disagree": 0.0775,
+     "lossPerBadAccept": 0.020097219945781238
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.15909955896852346,
+     "rErr": 0.040460093702069044,
+     "badAccept": 0.0045,
+     "missedOfWanted": 0.11016949152542373,
+     "disagree": 0.07925,
+     "lossPerBadAccept": 0.005138229234189517
+    }
+   }
+  },
+  {
+   "owner": 14,
+   "trueWeights": {
+    "price": 0.3332111424333666,
+    "deliveryDays": 0.31554315551816636,
+    "warrantyMonths": 0.24800743237724548,
+    "bundle": 0.10323826967122164
+   },
+   "batna": {
+    "price": 1029,
+    "deliveryDays": 30,
+    "warrantyMonths": 30,
+    "bundle": 1
+   },
+   "rTrue": 0.5892445735204093,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 5,
+      "deliveryDays": 5,
+      "warrantyMonths": 4,
+      "bundle": 2
+     },
+     "walkAway": 0.6
+    },
+    "ranked": [
+     "price",
+     "deliveryDays",
+     "warrantyMonths",
+     "bundle"
+    ],
+    "asked": 4,
+    "answers": [
+     "deliveryDays vs price: price",
+     "warrantyMonths vs deliveryDays: deliveryDays",
+     "bundle vs deliveryDays: deliveryDays",
+     "bundle vs warrantyMonths: warrantyMonths"
+    ],
+    "alt": {
+     "price": 1029,
+     "deliveryDays": 30,
+     "warrantyMonths": 30,
+     "bundle": 1
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.04750859590306582,
+     "rErr": 0.010755426479590713,
+     "badAccept": 0.002,
+     "missedOfWanted": 0.07673667205169628,
+     "disagree": 0.02575,
+     "lossPerBadAccept": 0.0038703925439081133
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.3752467255645821,
+     "rErr": 0.05175542647959075,
+     "badAccept": 0.02725,
+     "missedOfWanted": 0.27221324717285944,
+     "disagree": 0.1115,
+     "lossPerBadAccept": 0.03156585652463785
+    },
+    "old weights + new reservation": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.04750859590306582,
+     "rErr": 0.0047554264795907075,
+     "badAccept": 0.006,
+     "missedOfWanted": 0.05896607431340872,
+     "disagree": 0.02425,
+     "lossPerBadAccept": 0.005702027215595665
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.3752467255645821,
+     "rErr": 0.010755426479590713,
+     "badAccept": 0.06575,
+     "missedOfWanted": 0.15589660743134087,
+     "disagree": 0.114,
+     "lossPerBadAccept": 0.047758521440921305
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.3752467255645821,
+     "rErr": 0.05175542647959075,
+     "badAccept": 0.02725,
+     "missedOfWanted": 0.27221324717285944,
+     "disagree": 0.1115,
+     "lossPerBadAccept": 0.03156585652463785
+    }
+   }
+  },
+  {
+   "owner": 13,
+   "trueWeights": {
+    "price": 0.2001437202206264,
+    "deliveryDays": 0.06279790258331136,
+    "warrantyMonths": 0.31626391861564096,
+    "bundle": 0.42079445858042125
+   },
+   "batna": {
+    "price": 1269,
+    "deliveryDays": 7,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "rTrue": 0.3903712366184623,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 2,
+      "deliveryDays": 1,
+      "warrantyMonths": 4,
+      "bundle": 5
+     },
+     "walkAway": 0.4
+    },
+    "ranked": [
+     "bundle",
+     "warrantyMonths",
+     "price",
+     "deliveryDays"
+    ],
+    "asked": 5,
+    "answers": [
+     "deliveryDays vs price: price",
+     "warrantyMonths vs deliveryDays: warrantyMonths",
+     "warrantyMonths vs price: warrantyMonths",
+     "bundle vs price: bundle",
+     "bundle vs warrantyMonths: bundle"
+    ],
+    "alt": {
+     "price": 1269,
+     "deliveryDays": 7,
+     "warrantyMonths": 36,
+     "bundle": 0
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 1,
+     "weightL1": 0.07520969093542863,
+     "rErr": 0.00962876338153773,
+     "badAccept": 0.00625,
+     "missedOfWanted": 0.013676588897827836,
+     "disagree": 0.01475,
+     "lossPerBadAccept": 0.009809076281680776
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.20008009327047263,
+     "rErr": 0.05137123661846227,
+     "badAccept": 0,
+     "missedOfWanted": 0.026146419951729685,
+     "disagree": 0.01625,
+     "lossPerBadAccept": 0
+    },
+    "old weights + new reservation": {
+     "tau": 1,
+     "weightL1": 0.07520969093542863,
+     "rErr": 0.030628763381537694,
+     "badAccept": 0.0005,
+     "missedOfWanted": 0.0418342719227675,
+     "disagree": 0.0265,
+     "lossPerBadAccept": 0.002996394814399367
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.20008009327047263,
+     "rErr": 0.00962876338153773,
+     "badAccept": 0,
+     "missedOfWanted": 0.13917940466613032,
+     "disagree": 0.0865,
+     "lossPerBadAccept": 0
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.20008009327047263,
+     "rErr": 0.05137123661846227,
+     "badAccept": 0,
+     "missedOfWanted": 0.026146419951729685,
+     "disagree": 0.01625,
+     "lossPerBadAccept": 0
+    }
+   }
+  },
+  {
+   "owner": 15,
+   "trueWeights": {
+    "price": 0.009521122572889364,
+    "deliveryDays": 0.6262014972444159,
+    "warrantyMonths": 0.06134204422146836,
+    "bundle": 0.30293533596122624
+   },
+   "batna": {
+    "price": 1289,
+    "deliveryDays": 23,
+    "warrantyMonths": 30,
+    "bundle": 1
+   },
+   "rTrue": 0.5116383534509565,
+   "elicited": {
+    "old": {
+     "importance": {
+      "price": 1,
+      "deliveryDays": 5,
+      "warrantyMonths": 1,
+      "bundle": 2
+     },
+     "walkAway": 0.5
+    },
+    "ranked": [
+     "deliveryDays",
+     "bundle",
+     "warrantyMonths",
+     "price"
+    ],
+    "asked": 5,
+    "answers": [
+     "deliveryDays vs price: deliveryDays",
+     "warrantyMonths vs price: warrantyMonths",
+     "warrantyMonths vs deliveryDays: deliveryDays",
+     "bundle vs warrantyMonths: bundle",
+     "bundle vs deliveryDays: deliveryDays"
+    ],
+    "alt": {
+     "price": 1289,
+     "deliveryDays": 23,
+     "warrantyMonths": 30,
+     "bundle": 1
+    }
+   },
+   "arms": {
+    "old": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.3027181108557288,
+     "rErr": 0.01163835345095654,
+     "badAccept": 0.036,
+     "missedOfWanted": 0.05028810895756941,
+     "disagree": 0.06,
+     "lossPerBadAccept": 0.031401110791615935
+    },
+    "new": {
+     "tau": 1,
+     "weightL1": 0.2749387705681854,
+     "rErr": 0.006361646549043476,
+     "badAccept": 0.0215,
+     "missedOfWanted": 0.08171817705605029,
+     "disagree": 0.0605,
+     "lossPerBadAccept": 0.024431907507264684
+    },
+    "old weights + new reservation": {
+     "tau": 0.8333333333333334,
+     "weightL1": 0.3027181108557288,
+     "rErr": 0.057638353450956525,
+     "badAccept": 0.09575,
+     "missedOfWanted": 0.00785751702462022,
+     "disagree": 0.0995,
+     "lossPerBadAccept": 0.049429996792709714
+    },
+    "new weights + old walk-away": {
+     "tau": 1,
+     "weightL1": 0.2749387705681854,
+     "rErr": 0.01163835345095654,
+     "badAccept": 0.037,
+     "missedOfWanted": 0.046621267679413304,
+     "disagree": 0.05925,
+     "lossPerBadAccept": 0.0313508549879587
+    },
+    "true order + ROC (ceiling)": {
+     "tau": 1,
+     "weightL1": 0.2749387705681854,
+     "rErr": 0.006361646549043476,
+     "badAccept": 0.0215,
+     "missedOfWanted": 0.08171817705605029,
+     "disagree": 0.0605,
+     "lossPerBadAccept": 0.024431907507264684
+    }
+   }
+  }
+ ]
+}

@@ -38,11 +38,19 @@ export async function runLlmAgent(input: {
   sessionId: string;
   model?: string;
   maxTurns?: number;
+  /** Extra environment for the agent's MCP server, e.g. { JANG_MESO: "off" }. */
+  env?: Record<string, string>;
   onEvent?: (event: LlmEvent) => void;
 }): Promise<LlmRunResult> {
   const label = input.role;
   const promptPath = fileURLToPath(new URL(`./prompts/${input.role}.md`, import.meta.url));
-  const systemPrompt = readFileSync(promptPath, "utf8").replace("{{PERSONA}}", input.persona);
+  // MESO guidance is opt-in (JANG_MESO_GUIDE=on): with it Claude offers
+  // alternatives every turn, but in 9 test negotiations outcomes got no better
+  // (docs/final/claude-experiments.md). Never when MESO itself is off.
+  const env = { ...process.env, ...input.env };
+  const guide = env.JANG_MESO !== "off" && env.JANG_MESO_GUIDE === "on";
+  const meso = !guide ? "" : readFileSync(fileURLToPath(new URL("./prompts/meso.md", import.meta.url)), "utf8");
+  const systemPrompt = readFileSync(promptPath, "utf8").replace("{{PERSONA}}", input.persona).replace("{{MESO}}", meso);
 
   let turns = 0;
   let toolCalls = 0;
@@ -67,6 +75,7 @@ export async function runLlmAgent(input: {
             JANG_API_URL: input.apiUrl,
             JANG_AGENT_KEY: input.apiKey,
             JANG_SESSION_ID: input.sessionId,
+            ...input.env,
           },
         },
       },

@@ -21,11 +21,18 @@ export const DimensionSchema = z.object({
 });
 export type Dimension = z.infer<typeof DimensionSchema>;
 
+export const MAX_DIMENSIONS = 5;
+
 export const ItemSpecSchema = z.object({
   itemId: z.string().min(1),
   title: z.string().min(1),
   description: z.string().optional(),
-  dimensions: z.array(DimensionSchema).min(1),
+  /**
+   * At most five negotiable terms. JANG searches every package to find the
+   * Pareto frontier once per session; at five terms that takes milliseconds,
+   * at six close to a second and at seven around ten seconds.
+   */
+  dimensions: z.array(DimensionSchema).min(1).max(MAX_DIMENSIONS),
 });
 export type ItemSpec = z.infer<typeof ItemSpecSchema>;
 
@@ -70,6 +77,13 @@ export const MandateBodySchema = z.object({
   /** Lowest normalised utility (0..1) the agent may commit the owner to. */
   reservationUtility: z.number().min(0).max(1),
   expiresAt: z.string().datetime(),
+  /**
+   * Opt in to telling the counterparty which terms matter most to this owner,
+   * as an order of keys and nothing else: no weights, bounds or reservation.
+   * Optional with no default, so a mandate signed before this existed has the
+   * same body, and the same signature, as it always did.
+   */
+  disclosePriorities: z.boolean().optional(),
 });
 export type MandateBody = z.infer<typeof MandateBodySchema>;
 

@@ -18,7 +18,7 @@ export function dimensionScore(value: number, ideal: number, worst: number): num
  * Normalised utility (0..1) of a package of terms under a mandate's preferences.
  * Dimensions the mandate expresses no preference about do not affect the score.
  */
-export function utility(terms: Terms, mandate: Mandate): number {
+export function utility(terms: Terms, mandate: Pick<Mandate, "preferences">): number {
   const keys = Object.keys(mandate.preferences);
   let weighted = 0;
   let totalWeight = 0;

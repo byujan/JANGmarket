@@ -1,0 +1,1055 @@
+{
+ "seed": 20261101,
+ "model": "claude-sonnet-5-5",
+ "maxTurns": 80,
+ "mesoGuide": false,
+ "records": [
+  {
+   "case": "ordinary",
+   "marketIndex": 2,
+   "arm": "all4+refit",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1430,
+    "deliveryDays": 30,
+    "warrantyMonths": 30,
+    "bundle": 1
+   },
+   "quality": {
+    "buyerValue": 0.4652173913043478,
+    "sellerValue": 0.33613445378151263,
+    "paretoOptimal": false,
+    "paretoDistance": 0.0742201377880874,
+    "surplus": 0.08635184508586047,
+    "efficiency": 0.4440530206953564,
+    "buyerShare": 1.137409295732932
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": true
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.387,
+    "seller": 0.331
+   },
+   "trueReservation": {
+    "buyer": 0.367,
+    "seller": 0.348
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1420,
+     "deliveryDays": 22,
+     "warrantyMonths": 18,
+     "bundle": 1
+    },
+    "seller": {
+     "price": 1450,
+     "deliveryDays": 7,
+     "warrantyMonths": 24,
+     "bundle": 1
+    }
+   },
+   "swings": {
+    "buyer": {
+     "deliveryDays": 113,
+     "warrantyMonths": 383,
+     "bundle": 174
+    },
+    "seller": {
+     "deliveryDays": 121,
+     "warrantyMonths": 219,
+     "bundle": 241
+    }
+   },
+   "checks": {
+    "buyer": [
+     {
+      "terms": {
+       "price": 1590,
+       "deliveryDays": 3,
+       "warrantyMonths": 24,
+       "bundle": 1
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1290,
+       "deliveryDays": 17,
+       "warrantyMonths": 18,
+       "bundle": 0
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1590,
+       "deliveryDays": 17,
+       "warrantyMonths": 30,
+       "bundle": 1
+      },
+      "wouldTake": false
+     }
+    ],
+    "seller": [
+     {
+      "terms": {
+       "price": 1150,
+       "deliveryDays": 23,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1150,
+       "deliveryDays": 10,
+       "warrantyMonths": 12,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1330,
+       "deliveryDays": 23,
+       "warrantyMonths": 18,
+       "bundle": 1
+      },
+      "wouldTake": false
+     }
+    ]
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 50.913,
+   "apiEquivalentUsd": 1.8795
+  },
+  {
+   "case": "ordinary",
+   "marketIndex": 0,
+   "arm": "all4+refit",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 9,
+   "terms": {
+    "price": 1350,
+    "deliveryDays": 26,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.4155945419103314,
+    "sellerValue": 0.5294839352810367,
+    "paretoOptimal": true,
+    "paretoDistance": 0,
+    "surplus": 0.19407847719136806,
+    "efficiency": 0.9158930371986088,
+    "buyerShare": 0.11641961662782624
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.398,
+    "seller": 0.385
+   },
+   "trueReservation": {
+    "buyer": 0.393,
+    "seller": 0.358
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1210,
+     "deliveryDays": 15,
+     "warrantyMonths": 24,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1650,
+     "deliveryDays": 18,
+     "warrantyMonths": 36,
+     "bundle": 1
+    }
+   },
+   "swings": {
+    "buyer": {
+     "deliveryDays": 115,
+     "warrantyMonths": 595,
+     "bundle": 327
+    },
+    "seller": {
+     "deliveryDays": 129,
+     "warrantyMonths": 281,
+     "bundle": 408
+    }
+   },
+   "checks": {
+    "buyer": [
+     {
+      "terms": {
+       "price": 1320,
+       "deliveryDays": 23,
+       "warrantyMonths": 18,
+       "bundle": 1
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1020,
+       "deliveryDays": 10,
+       "warrantyMonths": 12,
+       "bundle": 0
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1470,
+       "deliveryDays": 10,
+       "warrantyMonths": 36,
+       "bundle": 0
+      },
+      "wouldTake": false
+     }
+    ],
+    "seller": [
+     {
+      "terms": {
+       "price": 1150,
+       "deliveryDays": 10,
+       "warrantyMonths": 24,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1150,
+       "deliveryDays": 3,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1330,
+       "deliveryDays": 23,
+       "warrantyMonths": 12,
+       "bundle": 1
+      },
+      "wouldTake": false
+     }
+    ]
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 51.91,
+   "apiEquivalentUsd": 1.6695
+  },
+  {
+   "case": "ordinary",
+   "marketIndex": 3,
+   "arm": "all4+refit",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1330,
+    "deliveryDays": 30,
+    "warrantyMonths": 18,
+    "bundle": 1
+   },
+   "quality": {
+    "buyerValue": 0.3686274509803922,
+    "sellerValue": 0.36041939711664484,
+    "paretoOptimal": false,
+    "paretoDistance": 0.055127842363827444,
+    "surplus": 0.095046848097037,
+    "efficiency": 0.49556218527906626,
+    "buyerShare": 0.7641226661850377
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.312,
+    "seller": 0.346
+   },
+   "trueReservation": {
+    "buyer": 0.296,
+    "seller": 0.338
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1410,
+     "deliveryDays": 30,
+     "warrantyMonths": 36,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1490,
+     "deliveryDays": 26,
+     "warrantyMonths": 24,
+     "bundle": 1
+    }
+   },
+   "swings": {
+    "buyer": {
+     "deliveryDays": 229,
+     "warrantyMonths": 260,
+     "bundle": 227
+    },
+    "seller": {
+     "deliveryDays": 159,
+     "warrantyMonths": 662,
+     "bundle": 372
+    }
+   },
+   "checks": {
+    "buyer": [
+     {
+      "terms": {
+       "price": 1500,
+       "deliveryDays": 17,
+       "warrantyMonths": 36,
+       "bundle": 0
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1350,
+       "deliveryDays": 30,
+       "warrantyMonths": 12,
+       "bundle": 1
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1500,
+       "deliveryDays": 3,
+       "warrantyMonths": 18,
+       "bundle": 1
+      },
+      "wouldTake": true
+     }
+    ],
+    "seller": [
+     {
+      "terms": {
+       "price": 1290,
+       "deliveryDays": 17,
+       "warrantyMonths": 12,
+       "bundle": 1
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1470,
+       "deliveryDays": 30,
+       "warrantyMonths": 24,
+       "bundle": 1
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1640,
+       "deliveryDays": 23,
+       "warrantyMonths": 30,
+       "bundle": 1
+      },
+      "wouldTake": false
+     }
+    ]
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 56.47,
+   "apiEquivalentUsd": 1.9916
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 9,
+   "arm": "all4+refit",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 11,
+   "terms": {
+    "price": 1070,
+    "deliveryDays": 26,
+    "warrantyMonths": 30,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.25243664717348924,
+    "sellerValue": 0.37552776441665325,
+    "paretoOptimal": false,
+    "paretoDistance": 0.020052977699299278,
+    "surplus": 0.09596441159014246,
+    "efficiency": 0.7110541676025434,
+    "buyerShare": -0.1517578504905535
+   },
+   "belowTrueReservation": {
+    "buyer": true,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.264,
+    "seller": 0.267
+   },
+   "trueReservation": {
+    "buyer": 0.267,
+    "seller": 0.265
+   },
+   "batnas": {
+    "buyer": {
+     "price": 800,
+     "deliveryDays": 22,
+     "warrantyMonths": 12,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1140,
+     "deliveryDays": 22,
+     "warrantyMonths": 24,
+     "bundle": 1
+    }
+   },
+   "swings": {
+    "buyer": {
+     "deliveryDays": 172,
+     "warrantyMonths": 396,
+     "bundle": 192
+    },
+    "seller": {
+     "deliveryDays": 117,
+     "warrantyMonths": 457,
+     "bundle": 246
+    }
+   },
+   "checks": {
+    "buyer": [
+     {
+      "terms": {
+       "price": 950,
+       "deliveryDays": 30,
+       "warrantyMonths": 12,
+       "bundle": 1
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 950,
+       "deliveryDays": 30,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1070,
+       "deliveryDays": 17,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     }
+    ],
+    "seller": [
+     {
+      "terms": {
+       "price": 1040,
+       "deliveryDays": 17,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1390,
+       "deliveryDays": 17,
+       "warrantyMonths": 36,
+       "bundle": 1
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1040,
+       "deliveryDays": 30,
+       "warrantyMonths": 36,
+       "bundle": 0
+      },
+      "wouldTake": true
+     }
+    ]
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 53.592,
+   "apiEquivalentUsd": 1.716
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 1,
+   "arm": "all4+refit",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.288,
+    "seller": 0.359
+   },
+   "trueReservation": {
+    "buyer": 0.3,
+    "seller": 0.343
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1260,
+     "deliveryDays": 30,
+     "warrantyMonths": 36,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1840,
+     "deliveryDays": 22,
+     "warrantyMonths": 36,
+     "bundle": 1
+    }
+   },
+   "swings": {
+    "buyer": {
+     "deliveryDays": 62,
+     "warrantyMonths": 321,
+     "bundle": 115
+    },
+    "seller": {
+     "deliveryDays": 199,
+     "warrantyMonths": 654,
+     "bundle": 666
+    }
+   },
+   "checks": {
+    "buyer": [
+     {
+      "terms": {
+       "price": 1110,
+       "deliveryDays": 17,
+       "warrantyMonths": 12,
+       "bundle": 1
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1260,
+       "deliveryDays": 3,
+       "warrantyMonths": 24,
+       "bundle": 1
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 960,
+       "deliveryDays": 3,
+       "warrantyMonths": 12,
+       "bundle": 0
+      },
+      "wouldTake": true
+     }
+    ],
+    "seller": [
+     {
+      "terms": {
+       "price": 1420,
+       "deliveryDays": 3,
+       "warrantyMonths": 12,
+       "bundle": 1
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1240,
+       "deliveryDays": 23,
+       "warrantyMonths": 12,
+       "bundle": 1
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1240,
+       "deliveryDays": 30,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     }
+    ]
+   },
+   "mesoOffers": 0,
+   "seconds": 70.711,
+   "apiEquivalentUsd": 2.7977
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "arm": "all4+refit",
+   "agreed": false,
+   "status": "open",
+   "rounds": 4,
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.406,
+    "seller": 0.342
+   },
+   "trueReservation": {
+    "buyer": 0.393,
+    "seller": 0.358
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1470,
+     "deliveryDays": 11,
+     "warrantyMonths": 36,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1550,
+     "deliveryDays": 11,
+     "warrantyMonths": 24,
+     "bundle": 1
+    }
+   },
+   "swings": {
+    "buyer": {
+     "deliveryDays": 156,
+     "warrantyMonths": 811,
+     "bundle": 281
+    },
+    "seller": {
+     "deliveryDays": 109,
+     "warrantyMonths": 300,
+     "bundle": 718
+    }
+   },
+   "checks": {
+    "buyer": [
+     {
+      "terms": {
+       "price": 1320,
+       "deliveryDays": 17,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1320,
+       "deliveryDays": 23,
+       "warrantyMonths": 18,
+       "bundle": 1
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1020,
+       "deliveryDays": 17,
+       "warrantyMonths": 12,
+       "bundle": 0
+      },
+      "wouldTake": false
+     }
+    ],
+    "seller": [
+     {
+      "terms": {
+       "price": 1150,
+       "deliveryDays": 17,
+       "warrantyMonths": 36,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1680,
+       "deliveryDays": 10,
+       "warrantyMonths": 36,
+       "bundle": 1
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1680,
+       "deliveryDays": 3,
+       "warrantyMonths": 36,
+       "bundle": 1
+      },
+      "wouldTake": false
+     }
+    ]
+   },
+   "mesoOffers": 0,
+   "seconds": 14.807,
+   "apiEquivalentUsd": 0.4216,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 1pm (America/New_York) | buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 1pm (America/New_York)"
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 6,
+   "arm": "all4+refit",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.301,
+    "seller": 0.301
+   },
+   "trueReservation": {
+    "buyer": 0.31,
+    "seller": 0.292
+   },
+   "batnas": {
+    "buyer": {
+     "price": 940,
+     "deliveryDays": 22,
+     "warrantyMonths": 24,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1040,
+     "deliveryDays": 30,
+     "warrantyMonths": 18,
+     "bundle": 1
+    }
+   },
+   "swings": {
+    "buyer": {
+     "deliveryDays": 153,
+     "warrantyMonths": 396,
+     "bundle": 282
+    },
+    "seller": {
+     "deliveryDays": 111,
+     "warrantyMonths": 432,
+     "bundle": 304
+    }
+   },
+   "checks": {
+    "buyer": [
+     {
+      "terms": {
+       "price": 1070,
+       "deliveryDays": 30,
+       "warrantyMonths": 36,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1070,
+       "deliveryDays": 17,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1070,
+       "deliveryDays": 17,
+       "warrantyMonths": 12,
+       "bundle": 1
+      },
+      "wouldTake": false
+     }
+    ],
+    "seller": [
+     {
+      "terms": {
+       "price": 1390,
+       "deliveryDays": 23,
+       "warrantyMonths": 36,
+       "bundle": 1
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1040,
+       "deliveryDays": 17,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1040,
+       "deliveryDays": 30,
+       "warrantyMonths": 36,
+       "bundle": 0
+      },
+      "wouldTake": false
+     }
+    ]
+   },
+   "mesoOffers": 0,
+   "seconds": 73.424,
+   "apiEquivalentUsd": 2.7453,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 1pm (America/New_York)"
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 2,
+   "arm": "all4+refit",
+   "agreed": false,
+   "status": "open",
+   "rounds": 0,
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.351,
+    "seller": 0.307
+   },
+   "trueReservation": {
+    "buyer": 0.367,
+    "seller": 0.348
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1500,
+     "deliveryDays": 22,
+     "warrantyMonths": 24,
+     "bundle": 1
+    },
+    "seller": {
+     "price": 1150,
+     "deliveryDays": 18,
+     "warrantyMonths": 18,
+     "bundle": 0
+    }
+   },
+   "swings": {
+    "buyer": {
+     "deliveryDays": 86,
+     "warrantyMonths": 390,
+     "bundle": 165
+    },
+    "seller": {
+     "deliveryDays": 75,
+     "warrantyMonths": 314,
+     "bundle": 149
+    }
+   },
+   "checks": {
+    "buyer": [
+     {
+      "terms": {
+       "price": 1140,
+       "deliveryDays": 23,
+       "warrantyMonths": 12,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1440,
+       "deliveryDays": 23,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1290,
+       "deliveryDays": 17,
+       "warrantyMonths": 18,
+       "bundle": 0
+      },
+      "wouldTake": true
+     }
+    ],
+    "seller": [
+     {
+      "terms": {
+       "price": 1330,
+       "deliveryDays": 17,
+       "warrantyMonths": 12,
+       "bundle": 1
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1150,
+       "deliveryDays": 30,
+       "warrantyMonths": 24,
+       "bundle": 0
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1330,
+       "deliveryDays": 23,
+       "warrantyMonths": 24,
+       "bundle": 1
+      },
+      "wouldTake": false
+     }
+    ]
+   },
+   "mesoOffers": 0,
+   "seconds": 3.924,
+   "apiEquivalentUsd": 0,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 1pm (America/New_York) | buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 1pm (America/New_York)"
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 3,
+   "arm": "all4+refit",
+   "agreed": false,
+   "status": "open",
+   "rounds": 0,
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.31,
+    "seller": 0.381
+   },
+   "trueReservation": {
+    "buyer": 0.296,
+    "seller": 0.338
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1240,
+     "deliveryDays": 22,
+     "warrantyMonths": 18,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1690,
+     "deliveryDays": 22,
+     "warrantyMonths": 30,
+     "bundle": 1
+    }
+   },
+   "swings": {
+    "buyer": {
+     "deliveryDays": 62,
+     "warrantyMonths": 232,
+     "bundle": 343
+    },
+    "seller": {
+     "deliveryDays": 172,
+     "warrantyMonths": 1068,
+     "bundle": 232
+    }
+   },
+   "checks": {
+    "buyer": [
+     {
+      "terms": {
+       "price": 1500,
+       "deliveryDays": 30,
+       "warrantyMonths": 18,
+       "bundle": 1
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1350,
+       "deliveryDays": 30,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": false
+     },
+     {
+      "terms": {
+       "price": 1500,
+       "deliveryDays": 3,
+       "warrantyMonths": 24,
+       "bundle": 1
+      },
+      "wouldTake": true
+     }
+    ],
+    "seller": [
+     {
+      "terms": {
+       "price": 1470,
+       "deliveryDays": 30,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1470,
+       "deliveryDays": 10,
+       "warrantyMonths": 18,
+       "bundle": 1
+      },
+      "wouldTake": true
+     },
+     {
+      "terms": {
+       "price": 1470,
+       "deliveryDays": 23,
+       "warrantyMonths": 30,
+       "bundle": 0
+      },
+      "wouldTake": true
+     }
+    ]
+   },
+   "mesoOffers": 0,
+   "seconds": 4.548,
+   "apiEquivalentUsd": 0.0882,
+   "error": "seller: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 1pm (America/New_York) | buyer: Error: Claude Code returned an error result: You've hit your 5-hour limit · resets 1pm (America/New_York)"
+  }
+ ]
+}
