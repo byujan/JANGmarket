@@ -105,7 +105,10 @@ export function OperationsBoard({ initial }: { initial: Board }) {
         ) : (
           <ul className="feed">
             {board.events.map((event, index) => (
-              <li key={event.id ?? index} className={`feed-item${event.kind === "refusal" ? " feed-deny" : ""}`}>
+              <li
+                key={event.id ?? index}
+                className={`feed-item${event.kind === "refusal" || event.code === "NO_POSSIBLE_DEAL" ? " feed-deny" : ""}`}
+              >
                 <span className="mono small faint">{new Date(event.createdAt).toLocaleTimeString()}</span>
                 <span className="feed-body">
                   <span className="mono small">{event.code ?? event.kind}</span>{" "}
@@ -127,6 +130,7 @@ function describe(event: EventRecord): string {
     return `offer in round ${detail?.round ?? "?"}`;
   }
   if (event.kind === "session_opened") return "session opened";
+  // NO_POSSIBLE_DEAL sessions carry their own message; agents are never told.
   if (event.kind === "agreed") return "agreement signed";
   return event.kind;
 }
