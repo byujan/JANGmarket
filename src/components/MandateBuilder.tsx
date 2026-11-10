@@ -5,8 +5,10 @@ import Link from "next/link";
  * Where a person decides how much authority to hand an agent.
  *
  * One decision per term, the line the agent may not cross. How much each term
- * matters comes from a few "which would you rather have" choices, and when to
- * walk away comes from what the owner would do instead. Everything else the
+ * matters comes from a few "which would you rather have" choices, then (when
+ * one term is money) what each other term is worth in money, so the weights
+ * carry size as well as order. When to walk away comes from what the owner
+ * would do instead. Everything else the
  * engine needs is derived, because asking an owner for weights and a 0..1
  * reservation value is a spreadsheet, not a product.
  *
@@ -17,21 +19,35 @@ import { useRouter } from "next/navigation";
 import { RegisterAgentForm } from "./RegisterAgentForm.tsx";
 import { loadOrCreateOwnerKey, isSupported, signMandateBody } from "@/lib/browser/signing.ts";
 import {
+  answerCheck,
   answerComparison,
   comparisonPackages,
   isComplete,
   maxQuestions,
+  nextCheck,
   nextComparison,
+  refitCandidates,
+  refittedWeights,
   reservationFromAlternative,
+  startRefit,
   startRanking,
+  swingConflicts,
   weightsFromRanking,
+  weightsFromSwings,
   type Ranking,
+  type Refit,
 } from "@/lib/jang/elicit.ts";
 import type { Dimension, ItemSpec, MandateBody, Role } from "@/lib/jang/types.ts";
 
 export type BuilderItem = { itemSpec: ItemSpec; title: string };
 
 type Setting = { limit: number };
+
+/** How many yes/no checks the owner is asked. */
+const MAX_CHECKS = 3;
+
+/** Disagreements listed by name; the rest are counted, so the warning stays short. */
+const MAX_CONFLICTS_SHOWN = 2;
 
 /** The end of the range this side is reaching for. */
 function idealEnd(dimension: Dimension, role: Role): number {
@@ -108,6 +124,23 @@ export function MandateBuilder({
       .map(([key, value]) => `${byKey(key).label.toLowerCase()} ${formatValue(byKey(key), value)}`)
       .join(", ");
 
+  // How much, in money: what each other term is worth, limit to best.
+  const money = dimensions.find((d) => d.unit === "USD");
+  const [swingAnswers, setSwingAnswers] = useState<Record<string, Record<string, string>>>({});
+  const swingInput = swingAnswers[scope] ?? {};
+  const setSwing = (dimension: Dimension, value: string) =>
+    setSwingAnswers((current) => ({ ...current, [scope]: { ...swingInput, [dimension.key]: value } }));
+  const swingWeights = money
+    ? weightsFromSwings(
+        money.key,
+        Object.fromEntries(
+          dimensions.filter((d) => d.key !== money.key).map((d) => [d.key, swingInput[d.key]?.trim() ? Number(swingInput[d.key]) : undefined]),
+        ),
+        anchors,
+      )
+    : undefined;
+  const conflicts = swingWeights && isComplete(ranking) ? swingConflicts(ranking.ranked, swingWeights) : [];
+
   // When to walk away, from what the owner would do instead.
   const [alternatives, setAlternatives] = useState<Record<string, Record<string, number>>>({});
   const [noAlternatives, setNoAlternatives] = useState<Record<string, boolean>>({});
@@ -117,9 +150,51 @@ export function MandateBuilder({
   const setAlternative = (dimension: Dimension, value: number) =>
     setAlternatives((current) => ({ ...current, [scope]: { ...alternative, [dimension.key]: value } }));
 
+  // Fine-tuning the weights: a few yes/no checks near the line. Answers are
+  // kept with a signature of what they were asked against; if any of it
+  // changes, they no longer apply.
+  const baseWeights = swingWeights ?? (isComplete(ranking) ? weightsFromRanking(ranking.ranked) : {});
+  const baseFull = Object.fromEntries(dimensions.map((d) => [d.key, baseWeights[d.key] ?? 1]));
+  const alternativeTerms = Object.fromEntries(dimensions.map((d) => [d.key, alternativeValue(d)]));
+  const refitSignature = JSON.stringify({
+    limits: Object.fromEntries(dimensions.map((d) => [d.key, settingFor(d).limit])),
+    base: baseFull,
+    alternative: alternativeTerms,
+    order: isComplete(ranking) ? ranking.ranked : null,
+  });
+  const [refits, setRefits] = useState<Record<string, { signature: string; state: Refit }>>({});
+  const storedRefit = refits[scope];
+  const refitMatches = storedRefit?.signature === refitSignature;
+  const refitLost = !!storedRefit && !refitMatches && storedRefit.state.answered > 0;
+  const freshRefit = () => startRefit(baseFull, isComplete(ranking) ? ranking.ranked : undefined);
+  const refit = refitMatches ? storedRefit.state : freshRefit();
+  const refitPrefs = Object.fromEntries(dimensions.map((d) => [d.key, { ideal: idealEnd(d, role), worst: settingFor(d).limit }]));
+  // Until the owner describes an alternative, it sits at every limit and the
+  // checks would ask about the worst deals, so wait for one.
+  const hasAlternative = !noAlternative && Object.keys(alternative).length > 0;
+  const checkPackage =
+    hasAlternative && refit.answered < MAX_CHECKS
+      ? nextCheck(
+          refit,
+          refitCandidates(Object.fromEntries(dimensions.map((d) => [d.key, { ...anchors[d.key], step: d.step }]))),
+          alternativeTerms,
+          refitPrefs,
+        )
+      : undefined;
+  const answerRefit = (wouldTake: boolean) => {
+    if (!checkPackage) return;
+    setRefits((current) => ({
+      ...current,
+      [scope]: { signature: refitSignature, state: answerCheck(refit, checkPackage, alternativeTerms, refitPrefs, wouldTake) },
+    }));
+  };
+  const restartRefit = () => setRefits((current) => ({ ...current, [scope]: { signature: refitSignature, state: freshRefit() } }));
+
   /** Preferences as the engine scores them: ideal at the far end, worst at the owner's limit. */
   function preferencesFor(): MandateBody["preferences"] {
-    const weights = isComplete(ranking) ? weightsFromRanking(ranking.ranked) : {};
+    // Money answers carry size, so they win; the ranking alone only carries order.
+    // Answers to the checks, when they still apply, fine-tune either.
+    const weights = hasAlternative && refitMatches && refit.answered > 0 ? refittedWeights(refit) : baseWeights;
     const preferences: MandateBody["preferences"] = {};
     for (const dimension of dimensions) {
       preferences[dimension.key] = {
@@ -352,6 +427,54 @@ export function MandateBuilder({
         ) : null}
       </section>
 
+      {money ? (
+        <section className="section">
+          <h2>How much is each worth to you?</h2>
+          <p className="small mute">
+            The order says what matters more, not how much more. For each term, how much {role === "buyer" ? "more would you pay" : "less would you accept"} to get
+            your best instead of your limit? Answer in the same terms as your {money.label.toLowerCase()}; a rough figure is
+            fine. Skip this and the order alone sets the weights.
+          </p>
+          <div className="field-row">
+            {dimensions
+              .filter((dimension) => dimension.key !== money.key)
+              .map((dimension) => (
+                <div key={dimension.key}>
+                  <label htmlFor={`swing-${dimension.key}`}>
+                    {dimension.label}: {formatValue(dimension, anchors[dimension.key].limit)} → {formatValue(dimension, anchors[dimension.key].ideal)}
+                  </label>
+                  <input
+                    id={`swing-${dimension.key}`}
+                    type="number"
+                    inputMode="decimal"
+                    min={0}
+                    step={10}
+                    placeholder="$"
+                    value={swingInput[dimension.key] ?? ""}
+                    onChange={(event) => setSwing(dimension, event.target.value)}
+                  />
+                </div>
+              ))}
+          </div>
+          <p className="small faint" style={{ marginTop: "0.5rem" }}>
+            For scale: your whole {money.label.toLowerCase()} range, {formatValue(money, anchors[money.key].limit)} to{" "}
+            {formatValue(money, anchors[money.key].ideal)}, is worth{" "}
+            {formatValue(money, Math.abs(anchors[money.key].limit - anchors[money.key].ideal))} to you by definition.
+          </p>
+          {conflicts.length ? (
+            <div className="notice" style={{ marginTop: "0.75rem" }}>
+              {conflicts.length === 1 ? "This amount disagrees" : `${conflicts.length} pairs of amounts disagree`} with your choices above:{" "}
+              {conflicts
+                .slice(0, MAX_CONFLICTS_SHOWN)
+                .map((c) => `you chose ${byKey(c.more).label.toLowerCase()} over ${byKey(c.less).label.toLowerCase()}`)
+                .join("; ")}
+              {conflicts.length > MAX_CONFLICTS_SHOWN ? `; and ${conflicts.length - MAX_CONFLICTS_SHOWN} more` : ""}. The amounts are used;
+              change them, or answer the choices again, if that is not what you meant.
+            </div>
+          ) : null}
+        </section>
+      ) : null}
+
       <section className="section">
         <h2>If this falls through</h2>
         <p className="small mute">
@@ -395,6 +518,48 @@ export function MandateBuilder({
               </div>
             ))}
           </div>
+        )}
+      </section>
+
+      <section className="section">
+        <h2>Check a few deals</h2>
+        <p className="small mute">
+          A few deals near the line where your agent would start saying yes. Would you take each one over your
+          alternative? Your answers fine-tune how much each term counts.
+        </p>
+        {!hasAlternative ? (
+          <p className="small faint">Describe your alternative above first; these deals are compared against it.</p>
+        ) : (
+          <>
+            {refitLost ? (
+              <p className="small faint">Your answers below were reset because something above changed.</p>
+            ) : null}
+            {checkPackage ? (
+              <div className="choice">
+                <p className="small faint" style={{ margin: "0 0 0.5rem" }}>
+                  Question {refit.answered + 1} of {MAX_CHECKS}. Would you take this over your alternative?
+                </p>
+                <p className="small" style={{ margin: "0 0 0.5rem" }}>{describePackage(checkPackage)}</p>
+                <div className="field-row">
+                  <button type="button" className="button button-quiet" onClick={() => answerRefit(true)}>
+                    Yes, I&apos;d take this
+                  </button>
+                  <button type="button" className="button button-quiet" onClick={() => answerRefit(false)}>
+                    No, my alternative is better
+                  </button>
+                </div>
+              </div>
+            ) : refit.answered > 0 ? (
+              <p className="small">
+                Done. Your answers were used to fine-tune the weights.{" "}
+                <button type="button" className="link-button small" onClick={restartRefit}>
+                  Answer again
+                </button>
+              </p>
+            ) : (
+              <p className="small faint">No deal sits close enough to your alternative to ask about.</p>
+            )}
+          </>
         )}
       </section>
 

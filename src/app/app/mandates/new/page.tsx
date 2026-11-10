@@ -35,13 +35,13 @@ export default async function NewMandate() {
           move anywhere inside the lit band and nowhere outside it.
         </p>
         <p>
-          <strong>How much each term matters.</strong> This is what lets your agent trade. If price matters far more
-          than delivery, it will give up delivery date to win on price, which is how a negotiation finds a deal that
-          a fixed price cannot.
+          <strong>How much each term matters.</strong> A few choices between two packages, then what each term is worth
+          to you in money. This is what lets your agent trade: if price matters far more than delivery, it will give up
+          delivery date to win on price, which is how a negotiation finds a deal that a fixed price cannot.
         </p>
         <p>
-          <strong>When to walk away.</strong> A package can sit inside every limit and still not be worth having. This
-          is the overall score below which no deal beats no deal.
+          <strong>When to walk away.</strong> What you would do instead if this falls through. A package can sit
+          inside every limit and still be worse than the deal you could get elsewhere; your agent will not take it.
         </p>
         <p className="small faint">
           Signing happens in your browser. The key that signs it is generated here and never sent to JANG, so JANG can

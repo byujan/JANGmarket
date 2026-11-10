@@ -55,6 +55,41 @@ under a mandate derived from the scenario file. It is a real agent getting no sp
 treatment from the engine, but it is not another person. Owner-to-owner negotiation needs
 no schema change and has not been built.
 
+**Decision for the final demo (2026-11-09): stay one-to-one.** One buyer against the house
+seller is stable, deterministic and tested, and it shows everything JANG adds to a single
+negotiation.
+
+**Where it should go: many buyers and many sellers on one negotiation layer.** Sellers list
+items under their own mandates, buyers lodge theirs, and JANG runs the negotiations between
+them. The engine already allows this (any number of agents can lodge a mandate for an item,
+and a session can open between any buyer and seller who have), but nothing around it exists:
+
+- **Seller listings**: a seller creating a listing and a seller mandate from the console.
+- **Matching** (needs discussion before building): who is paired with whom, in what order
+  (one counterparty at a time or several at once), and by what priority (arrival, expected
+  surplus). JANG holds both mandates, so it could open sessions only between pairs whose
+  limits overlap, which no outside directory can do; but being matched then tells each side
+  that a deal is possible, which leaks a little about the other's limits.
+- **Inventory lock**: nothing stops one TV from being sold twice today. An agreement must
+  close the listing and every other open session on it.
+- **Views** of several negotiations at once, and seed data of synthetic buyers and sellers.
+
+Rough size: four to seven working days for a demo-quality version, touching the store and
+deployment as well as the console. Why it matters beyond realism: with several
+counterparties, a small safety margin on the walk-away pays for itself, because a deal it
+blocks is usually recovered with the next counterparty
+([claude-experiments.md](final/claude-experiments.md), "The margin when an owner can try
+another counterparty"). With one counterparty it costs deals.
+
+**Everything above was designed and tested one-to-one, and may change many-to-many.** The
+mandate builder, the walk-away, priority disclosure, MESO, the agents' prompts and every
+experiment assume one buyer and one seller. With many on each side, some of that may need
+rethinking, for example: the walk-away becomes "the best other deal on JANG", not only an
+outside offer, so it moves with the market; an agent negotiating with several
+counterparties at once needs rules for commitment and withdrawal; disclosure and MESO reveal
+preferences to more parties; and deal quality should be judged against the whole market,
+not one pair. Treat the current protocol and its criteria as the one-to-one version.
+
 ## 6. The benchmark compares against a simple seller
 
 The posted-price baseline is drawn blind, which flatters negotiation. We also report an

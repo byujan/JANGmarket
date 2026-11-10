@@ -1,0 +1,1041 @@
+{
+ "seed": 20261101,
+ "model": null,
+ "maxTurns": 80,
+ "records": [
+  {
+   "case": "ordinary",
+   "marketIndex": 0,
+   "arm": "meso+disclose",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1365,
+    "deliveryDays": 26,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.4050682261208577,
+    "sellerValue": 0.5388007054673721,
+    "paretoOptimal": true,
+    "paretoDistance": 0.0007594895988145496,
+    "surplus": 0.19286893158822982,
+    "efficiency": 0.9101849627530527,
+    "buyerShare": 0.06257216246016763
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.393,
+    "seller": 0.358
+   },
+   "trueReservation": {
+    "buyer": 0.393,
+    "seller": 0.358
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 56.654,
+   "apiEquivalentUsd": 1.4541
+  },
+  {
+   "case": "ordinary",
+   "marketIndex": 0,
+   "arm": "all4",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1300,
+    "deliveryDays": 26,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.450682261208577,
+    "sellerValue": 0.4984280346599187,
+    "paretoOptimal": true,
+    "paretoDistance": 0,
+    "surplus": 0.1981102958684957,
+    "efficiency": 0.9349199520171303,
+    "buyerShare": 0.29116235961237524
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.396,
+    "seller": 0.407
+   },
+   "trueReservation": {
+    "buyer": 0.393,
+    "seller": 0.358
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1210,
+     "deliveryDays": 15,
+     "warrantyMonths": 24,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1650,
+     "deliveryDays": 18,
+     "warrantyMonths": 36,
+     "bundle": 1
+    }
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 60.5,
+   "apiEquivalentUsd": 1.4575
+  },
+  {
+   "case": "ordinary",
+   "marketIndex": 0,
+   "arm": "before",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1290,
+    "deliveryDays": 22,
+    "warrantyMonths": 30,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.39434697855750483,
+    "sellerValue": 0.513419216317767,
+    "paretoOptimal": false,
+    "paretoDistance": 0.025222345187579737,
+    "surplus": 0.15676619487527182,
+    "efficiency": 0.7398093206018194,
+    "buyerShare": 0.008592276916439273
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.393,
+    "seller": 0.358
+   },
+   "trueReservation": {
+    "buyer": 0.393,
+    "seller": 0.358
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 67.165,
+   "apiEquivalentUsd": 1.8049
+  },
+  {
+   "case": "ordinary",
+   "marketIndex": 2,
+   "arm": "before",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1450,
+    "deliveryDays": 30,
+    "warrantyMonths": 30,
+    "bundle": 1
+   },
+   "quality": {
+    "buyerValue": 0.44782608695652176,
+    "sellerValue": 0.3529411764705883,
+    "paretoOptimal": false,
+    "paretoDistance": 0.0742201377880874,
+    "surplus": 0.08576726342711011,
+    "efficiency": 0.44104688630236116,
+    "buyerShare": 0.9423885492768738
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.367,
+    "seller": 0.348
+   },
+   "trueReservation": {
+    "buyer": 0.367,
+    "seller": 0.348
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 52.907,
+   "apiEquivalentUsd": 1.4714
+  },
+  {
+   "case": "ordinary",
+   "marketIndex": 2,
+   "arm": "meso+disclose",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1370,
+    "deliveryDays": 5,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.5326892109500805,
+    "sellerValue": 0.37410519763460953,
+    "paretoOptimal": true,
+    "paretoDistance": 0,
+    "surplus": 0.19179440858469005,
+    "efficiency": 0.986277553187529,
+    "buyerShare": 0.8638896836083604
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.367,
+    "seller": 0.348
+   },
+   "trueReservation": {
+    "buyer": 0.367,
+    "seller": 0.348
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 53.147,
+   "apiEquivalentUsd": 1.5012
+  },
+  {
+   "case": "ordinary",
+   "marketIndex": 2,
+   "arm": "all4",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 11,
+   "terms": {
+    "price": 1340,
+    "deliveryDays": 28,
+    "warrantyMonths": 30,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.4194847020933978,
+    "sellerValue": 0.44102085278555875,
+    "paretoOptimal": false,
+    "paretoDistance": 0.030974541450810952,
+    "surplus": 0.14550555487895656,
+    "efficiency": 0.7482432032310381,
+    "buyerShare": 0.3607058310389515
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.38,
+    "seller": 0.305
+   },
+   "trueReservation": {
+    "buyer": 0.367,
+    "seller": 0.348
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1420,
+     "deliveryDays": 22,
+     "warrantyMonths": 18,
+     "bundle": 1
+    },
+    "seller": {
+     "price": 1450,
+     "deliveryDays": 7,
+     "warrantyMonths": 24,
+     "bundle": 1
+    }
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 60.345,
+   "apiEquivalentUsd": 1.6194
+  },
+  {
+   "case": "ordinary",
+   "marketIndex": 3,
+   "arm": "meso+disclose",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1390,
+    "deliveryDays": 30,
+    "warrantyMonths": 18,
+    "bundle": 1
+   },
+   "quality": {
+    "buyerValue": 0.3215686274509804,
+    "sellerValue": 0.3918741808650066,
+    "paretoOptimal": false,
+    "paretoDistance": 0.05512784236382741,
+    "surplus": 0.07944280831598699,
+    "efficiency": 0.41420470517426633,
+    "buyerShare": 0.3218494913885745
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.296,
+    "seller": 0.338
+   },
+   "trueReservation": {
+    "buyer": 0.296,
+    "seller": 0.338
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 51.806,
+   "apiEquivalentUsd": 1.647
+  },
+  {
+   "case": "ordinary",
+   "marketIndex": 3,
+   "arm": "before",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 12,
+   "terms": {
+    "price": 1290,
+    "deliveryDays": 21,
+    "warrantyMonths": 24,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.3215686274509804,
+    "sellerValue": 0.4281345565749236,
+    "paretoOptimal": false,
+    "paretoDistance": 0.027327600475046582,
+    "surplus": 0.11570318402590402,
+    "efficiency": 0.6032616953387474,
+    "buyerShare": 0.22098464848863658
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.296,
+    "seller": 0.338
+   },
+   "trueReservation": {
+    "buyer": 0.296,
+    "seller": 0.338
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 78.849,
+   "apiEquivalentUsd": 2.4104
+  },
+  {
+   "case": "ordinary",
+   "marketIndex": 3,
+   "arm": "all4",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": false,
+   "lodgedReservation": {
+    "buyer": 0.349,
+    "seller": 0.337
+   },
+   "trueReservation": {
+    "buyer": 0.296,
+    "seller": 0.338
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1410,
+     "deliveryDays": 30,
+     "warrantyMonths": 36,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1490,
+     "deliveryDays": 26,
+     "warrantyMonths": 24,
+     "bundle": 1
+    }
+   },
+   "mesoOffers": 0,
+   "seconds": 73.49,
+   "apiEquivalentUsd": 2.2623
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 1,
+   "arm": "meso+disclose",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.3,
+    "seller": 0.343
+   },
+   "trueReservation": {
+    "buyer": 0.3,
+    "seller": 0.343
+   },
+   "mesoOffers": 0,
+   "seconds": 78.238,
+   "apiEquivalentUsd": 2.3143
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 1,
+   "arm": "all4",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": false,
+   "lodgedReservation": {
+    "buyer": 0.271,
+    "seller": 0.49
+   },
+   "trueReservation": {
+    "buyer": 0.3,
+    "seller": 0.343
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1260,
+     "deliveryDays": 30,
+     "warrantyMonths": 36,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1840,
+     "deliveryDays": 22,
+     "warrantyMonths": 36,
+     "bundle": 1
+    }
+   },
+   "mesoOffers": 2,
+   "seconds": 86.385,
+   "apiEquivalentUsd": 2.8666
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 6,
+   "arm": "before",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.31,
+    "seller": 0.292
+   },
+   "trueReservation": {
+    "buyer": 0.31,
+    "seller": 0.292
+   },
+   "mesoOffers": 0,
+   "seconds": 71.081,
+   "apiEquivalentUsd": 2.6502
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 6,
+   "arm": "meso+disclose",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.31,
+    "seller": 0.292
+   },
+   "trueReservation": {
+    "buyer": 0.31,
+    "seller": 0.292
+   },
+   "mesoOffers": 0,
+   "seconds": 77.872,
+   "apiEquivalentUsd": 2.3371
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 1,
+   "arm": "before",
+   "agreed": false,
+   "status": "open",
+   "rounds": 10,
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.3,
+    "seller": 0.343
+   },
+   "trueReservation": {
+    "buyer": 0.3,
+    "seller": 0.343
+   },
+   "mesoOffers": 0,
+   "seconds": 200.402,
+   "apiEquivalentUsd": 4.13,
+   "error": "buyer: Error: Claude Code returned an error result: Reached maximum number of turns (80)"
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 6,
+   "arm": "all4",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": false,
+   "lodgedReservation": {
+    "buyer": 0.298,
+    "seller": 0.266
+   },
+   "trueReservation": {
+    "buyer": 0.31,
+    "seller": 0.292
+   },
+   "batnas": {
+    "buyer": {
+     "price": 940,
+     "deliveryDays": 22,
+     "warrantyMonths": 24,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1040,
+     "deliveryDays": 30,
+     "warrantyMonths": 18,
+     "bundle": 1
+    }
+   },
+   "mesoOffers": 0,
+   "seconds": 77.213,
+   "apiEquivalentUsd": 2.5584
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 9,
+   "arm": "before",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 12,
+   "terms": {
+    "price": 1050,
+    "deliveryDays": 26,
+    "warrantyMonths": 18,
+    "bundle": 1
+   },
+   "quality": {
+    "buyerValue": 0.2703537804321679,
+    "sellerValue": 0.29327668216557107,
+    "paretoOptimal": false,
+    "paretoDistance": 0.05828775509259328,
+    "surplus": 0.03163046259773894,
+    "efficiency": 0.2343678440855353,
+    "buyerShare": 0.10603007849804973
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.267,
+    "seller": 0.265
+   },
+   "trueReservation": {
+    "buyer": 0.267,
+    "seller": 0.265
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 61.8,
+   "apiEquivalentUsd": 2.0581
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 9,
+   "arm": "meso+disclose",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 11,
+   "terms": {
+    "price": 1050,
+    "deliveryDays": 26,
+    "warrantyMonths": 30,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.2703537804321679,
+    "sellerValue": 0.3639837528726418,
+    "paretoOptimal": false,
+    "paretoDistance": 0.018867703404974324,
+    "surplus": 0.10233753330480966,
+    "efficiency": 0.7582762021126562,
+    "buyerShare": 0.03277175366518498
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.267,
+    "seller": 0.265
+   },
+   "trueReservation": {
+    "buyer": 0.267,
+    "seller": 0.265
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 63.881,
+   "apiEquivalentUsd": 1.8105
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "arm": "before",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1370,
+    "deliveryDays": 26,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.40155945419103317,
+    "sellerValue": 0.5419062955294839,
+    "paretoOptimal": true,
+    "paretoDistance": 0,
+    "surplus": 0.19246574972051705,
+    "efficiency": 0.9082822712712005,
+    "buyerShare": 0.0444726098199939
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.393,
+    "seller": 0.358
+   },
+   "trueReservation": {
+    "buyer": 0.393,
+    "seller": 0.358
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 62.953,
+   "apiEquivalentUsd": 1.6023
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "arm": "meso+disclose",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 12,
+   "terms": {
+    "price": 1150,
+    "deliveryDays": 26,
+    "warrantyMonths": 24,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.3980506822612086,
+    "sellerValue": 0.47772410091250667,
+    "paretoOptimal": false,
+    "paretoDistance": 0.04946988462021826,
+    "surplus": 0.12477478317371526,
+    "efficiency": 0.5888357986964602,
+    "buyerShare": 0.04047838940482765
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.393,
+    "seller": 0.358
+   },
+   "trueReservation": {
+    "buyer": 0.393,
+    "seller": 0.358
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 63.172,
+   "apiEquivalentUsd": 1.9155
+  },
+  {
+   "case": "narrow",
+   "marketIndex": 9,
+   "arm": "all4",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": false,
+   "lodgedReservation": {
+    "buyer": 0.318,
+    "seller": 0.254
+   },
+   "trueReservation": {
+    "buyer": 0.267,
+    "seller": 0.265
+   },
+   "batnas": {
+    "buyer": {
+     "price": 800,
+     "deliveryDays": 22,
+     "warrantyMonths": 12,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1140,
+     "deliveryDays": 22,
+     "warrantyMonths": 24,
+     "bundle": 1
+    }
+   },
+   "mesoOffers": 0,
+   "seconds": 79.55,
+   "apiEquivalentUsd": 2.2991
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 0,
+   "arm": "all4",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 12,
+   "terms": {
+    "price": 1440,
+    "deliveryDays": 3,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.4421052631578948,
+    "sellerValue": 0.4989648033126294,
+    "paretoOptimal": false,
+    "paretoDistance": 0.004374426665040261,
+    "surplus": 0.19007006647052416,
+    "efficiency": 0.8969765889526079,
+    "buyerShare": 0.258353480217833
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.315,
+    "seller": 0.389
+   },
+   "trueReservation": {
+    "buyer": 0.393,
+    "seller": 0.358
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1470,
+     "deliveryDays": 11,
+     "warrantyMonths": 36,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1550,
+     "deliveryDays": 11,
+     "warrantyMonths": 24,
+     "bundle": 1
+    }
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 69.856,
+   "apiEquivalentUsd": 2.3255
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 2,
+   "arm": "meso+disclose",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 11,
+   "terms": {
+    "price": 1380,
+    "deliveryDays": 30,
+    "warrantyMonths": 30,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.3782608695652174,
+    "sellerValue": 0.47899159663865554,
+    "paretoOptimal": false,
+    "paretoDistance": 0.031993853387432714,
+    "surplus": 0.14225246620387294,
+    "efficiency": 0.7315146220255709,
+    "buyerShare": 0.0791611552736004
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.367,
+    "seller": 0.348
+   },
+   "trueReservation": {
+    "buyer": 0.367,
+    "seller": 0.348
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 69.339,
+   "apiEquivalentUsd": 1.8804
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 2,
+   "arm": "before",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 11,
+   "terms": {
+    "price": 1460,
+    "deliveryDays": 34,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.3739130434782609,
+    "sellerValue": 0.504201680672269,
+    "paretoOptimal": false,
+    "paretoDistance": 0.01681483578034829,
+    "surplus": 0.1631147241505299,
+    "efficiency": 0.8387960431756054,
+    "buyerShare": 0.04238148036152274
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.367,
+    "seller": 0.348
+   },
+   "trueReservation": {
+    "buyer": 0.367,
+    "seller": 0.348
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 73.773,
+   "apiEquivalentUsd": 1.9874
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 2,
+   "arm": "all4",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 10,
+   "terms": {
+    "price": 1440,
+    "deliveryDays": 30,
+    "warrantyMonths": 36,
+    "bundle": 0
+   },
+   "quality": {
+    "buyerValue": 0.391304347826087,
+    "sellerValue": 0.4873949579831934,
+    "paretoOptimal": false,
+    "paretoDistance": 0.016814835780348335,
+    "surplus": 0.16369930580928038,
+    "efficiency": 0.8418021775686012,
+    "buyerShare": 0.148469461772813
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.378,
+    "seller": 0.415
+   },
+   "trueReservation": {
+    "buyer": 0.367,
+    "seller": 0.348
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1500,
+     "deliveryDays": 22,
+     "warrantyMonths": 24,
+     "bundle": 1
+    },
+    "seller": {
+     "price": 1150,
+     "deliveryDays": 18,
+     "warrantyMonths": 18,
+     "bundle": 0
+    }
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 55.983,
+   "apiEquivalentUsd": 1.6411
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 3,
+   "arm": "before",
+   "agreed": true,
+   "status": "agreed",
+   "rounds": 12,
+   "terms": {
+    "price": 1490,
+    "deliveryDays": 3,
+    "warrantyMonths": 12,
+    "bundle": 1
+   },
+   "quality": {
+    "buyerValue": 0.30196078431372547,
+    "sellerValue": 0.471821756225426,
+    "paretoOptimal": false,
+    "paretoDistance": 0.025951735975899465,
+    "surplus": 0.13978254053915146,
+    "efficiency": 0.7288083996506668,
+    "buyerShare": 0.04264326782682806
+   },
+   "belowTrueReservation": {
+    "buyer": false,
+    "seller": false
+   },
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.296,
+    "seller": 0.338
+   },
+   "trueReservation": {
+    "buyer": 0.296,
+    "seller": 0.338
+   },
+   "mesoOffers": 0,
+   "acceptedAlternative": false,
+   "seconds": 60.374,
+   "apiEquivalentUsd": 2.0144
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 3,
+   "arm": "meso+disclose",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": true,
+   "lodgedReservation": {
+    "buyer": 0.296,
+    "seller": 0.338
+   },
+   "trueReservation": {
+    "buyer": 0.296,
+    "seller": 0.338
+   },
+   "mesoOffers": 0,
+   "seconds": 63.35,
+   "apiEquivalentUsd": 2.1898
+  },
+  {
+   "case": "asymmetric",
+   "marketIndex": 3,
+   "arm": "all4",
+   "agreed": false,
+   "status": "open",
+   "rounds": 12,
+   "feasibleTrue": true,
+   "feasibleLodged": false,
+   "lodgedReservation": {
+    "buyer": 0.312,
+    "seller": 0.409
+   },
+   "trueReservation": {
+    "buyer": 0.296,
+    "seller": 0.338
+   },
+   "batnas": {
+    "buyer": {
+     "price": 1240,
+     "deliveryDays": 22,
+     "warrantyMonths": 18,
+     "bundle": 0
+    },
+    "seller": {
+     "price": 1690,
+     "deliveryDays": 22,
+     "warrantyMonths": 30,
+     "bundle": 1
+    }
+   },
+   "mesoOffers": 0,
+   "seconds": 79.663,
+   "apiEquivalentUsd": 2.7879
+  }
+ ]
+}
