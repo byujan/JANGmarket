@@ -1,6 +1,7 @@
 import { checkTermsAgainstMandate, isExpired, verifyMandate } from "./mandate.ts";
 import {
   JangError,
+  MAX_ALTERNATIVES,
   type ItemSpec,
   type Mandate,
   type Offer,
@@ -113,11 +114,22 @@ export function validateTermsShape(terms: Terms, spec: ItemSpec): void {
 
 export type OfferResult = { session: Session; offer: Offer };
 
+/** Every package an offer puts on the table, main package first. */
+export function packagesOf(offer: Offer): { offerId: string; terms: Terms }[] {
+  return [{ offerId: offer.offerId, terms: offer.terms }, ...(offer.alternatives ?? [])];
+}
+
 export function submitOffer(
   session: Session,
   agentId: string,
   terms: Terms,
-  options: { note?: string; offerId: string; now?: Date } ,
+  options: {
+    note?: string;
+    offerId: string;
+    /** MESO: extra packages offered in the same turn, each with its own id. */
+    alternatives?: { offerId: string; terms: Terms }[];
+    now?: Date;
+  },
 ): OfferResult {
   const now = options.now ?? new Date();
   const role = roleOf(session, agentId);
@@ -132,18 +144,32 @@ export function submitOffer(
     throw new JangError("NOT_YOUR_TURN", "the counterparty has a standing offer; counter it or accept it");
   }
 
-  validateTermsShape(terms, session.itemSpec);
+  const alternatives = options.alternatives ?? [];
+  if (alternatives.length > MAX_ALTERNATIVES) {
+    throw new JangError("INVALID_TERMS", `an offer may carry at most ${MAX_ALTERNATIVES} alternatives`);
+  }
+  const ids = new Set([options.offerId, ...alternatives.map((a) => a.offerId)]);
+  if (ids.size !== alternatives.length + 1) {
+    throw new JangError("INVALID_TERMS", "every package in an offer needs its own offerId");
+  }
 
   // The authority check: an agent may not propose a package its own owner did
-  // not authorise, because proposing it is an offer to be bound by it.
-  const check = checkTermsAgainstMandate(terms, session.mandates[agentId], now);
-  if (!check.ok) {
-    throw new JangError(
-      "MANDATE_VIOLATION",
-      `this package is outside the authority your owner granted you as ${role}`,
-      check.violations,
-    );
-  }
+  // not authorise, because proposing it is an offer to be bound by it. Every
+  // alternative is an offer in its own right, so every one is checked, and one
+  // bad package refuses the whole turn.
+  const packages = [{ offerId: options.offerId, terms }, ...alternatives];
+  packages.forEach((pkg, index) => {
+    validateTermsShape(pkg.terms, session.itemSpec);
+    const check = checkTermsAgainstMandate(pkg.terms, session.mandates[agentId], now);
+    if (!check.ok) {
+      const which = index === 0 ? "this package" : `alternative ${index}`;
+      throw new JangError(
+        "MANDATE_VIOLATION",
+        `${which} is outside the authority your owner granted you as ${role}`,
+        check.violations,
+      );
+    }
+  });
 
   const offer: Offer = {
     offerId: options.offerId,
@@ -151,6 +177,9 @@ export function submitOffer(
     fromAgentId: agentId,
     round: session.offers.length + 1,
     terms: { ...terms },
+    ...(alternatives.length > 0
+      ? { alternatives: alternatives.map((a) => ({ offerId: a.offerId, terms: { ...a.terms } })) }
+      : {}),
     note: options.note,
     createdAt: now.toISOString(),
   };
@@ -158,6 +187,7 @@ export function submitOffer(
   return { session: { ...session, offers: [...session.offers, offer] }, offer };
 }
 
+/** `offer` is the package that was accepted, with its own offerId and terms. */
 export type AcceptResult = { session: Session; offer: Offer };
 
 /**
@@ -165,25 +195,43 @@ export type AcceptResult = { session: Session; offer: Offer };
  * already checked against the proposer's mandate when it was made, and it is
  * checked against the accepter's mandate here, so an agreement always satisfies
  * both owners by construction.
+ *
+ * When the standing offer carries alternatives, the accepter must name which
+ * package by its offerId. Guessing would make the signed agreement ambiguous.
  */
 export function acceptStandingOffer(
   session: Session,
   agentId: string,
-  options: { now?: Date } = {},
+  options: { offerId?: string; now?: Date } = {},
 ): AcceptResult {
   const now = options.now ?? new Date();
   roleOf(session, agentId);
   assertLive(session, now);
 
-  const offer = standingOffer(session);
-  if (!offer) {
+  const standing = standingOffer(session);
+  if (!standing) {
     throw new JangError("NO_STANDING_OFFER", "there is nothing to accept yet");
   }
-  if (offer.fromAgentId === agentId) {
+  if (standing.fromAgentId === agentId) {
     throw new JangError("NOT_YOUR_TURN", "you cannot accept your own offer");
   }
 
-  const check = checkTermsAgainstMandate(offer.terms, session.mandates[agentId], now);
+  const packages = packagesOf(standing);
+  let chosen = packages[0];
+  if (options.offerId !== undefined) {
+    const match = packages.find((p) => p.offerId === options.offerId);
+    if (!match) {
+      throw new JangError("NO_STANDING_OFFER", `${options.offerId} is not a package in the standing offer`);
+    }
+    chosen = match;
+  } else if (packages.length > 1) {
+    throw new JangError(
+      "AMBIGUOUS_ACCEPT",
+      `the standing offer has ${packages.length} packages; name the one you accept by its offerId`,
+    );
+  }
+
+  const check = checkTermsAgainstMandate(chosen.terms, session.mandates[agentId], now);
   if (!check.ok) {
     throw new JangError(
       "MANDATE_VIOLATION",
@@ -192,8 +240,10 @@ export function acceptStandingOffer(
     );
   }
 
+  const { alternatives: _siblings, ...rest } = standing;
+  const offer: Offer = { ...rest, offerId: chosen.offerId, terms: { ...chosen.terms } };
   return {
-    session: { ...session, status: "agreed", acceptedBy: { agentId, offerId: offer.offerId } },
+    session: { ...session, status: "agreed", acceptedBy: { agentId, offerId: chosen.offerId } },
     offer,
   };
 }

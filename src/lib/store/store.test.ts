@@ -135,6 +135,18 @@ for (const candidate of candidates) {
       expect(loaded?.mandates["agent-buyer"].signature).toBe(opened.mandates["agent-buyer"].signature);
     });
 
+    it("keeps an offer's alternatives, in order, across a round trip", async () => {
+      const opened = freshSession();
+      const alternatives = [
+        { offerId: "o1-b", terms: { ...agreeable, price: 1250, deliveryDays: 28 } },
+        { offerId: "o1-c", terms: { ...agreeable, price: 1300, warrantyMonths: 12 } },
+      ];
+      const withOffer = submitOffer(opened, "agent-seller", agreeable, { offerId: "o1", alternatives }).session;
+      await store.putSession(withOffer);
+      const loaded = await store.getSession(withOffer.sessionId);
+      expect(loaded?.offers[0].alternatives).toEqual(alternatives);
+    });
+
     it("appends offers without duplicating the ones already stored", async () => {
       let session = freshSession();
       await store.putSession(session);

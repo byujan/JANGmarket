@@ -9,14 +9,15 @@
  *
  * Being deterministic is the point: the benchmark needs runs it can repeat.
  */
-import type { SessionView } from "../src/lib/jang/session.ts";
+import { packagesOf, type SessionView } from "../src/lib/jang/session.ts";
 import type { Dimension, Mandate, Terms } from "../src/lib/jang/types.ts";
 import { utility } from "../src/lib/jang/utility.ts";
 import { checkTermsAgainstMandate } from "../src/lib/jang/mandate.ts";
 
 export type Decision =
-  | { action: "accept"; reason: string }
-  | { action: "offer"; terms: Terms; note: string; targetUtility: number }
+  /** `offerId` names the package when the standing offer carries alternatives. */
+  | { action: "accept"; reason: string; offerId?: string }
+  | { action: "offer"; terms: Terms; note: string; targetUtility: number; alternatives?: Terms[] }
   | { action: "wait" }
   | { action: "stop"; reason: string };
 
@@ -38,7 +39,17 @@ export type RuleOptions = {
    * the agent only accepts packages inside its own mandate. Off by default.
    */
   respectBounds?: boolean;
+  /**
+   * MESO (multiple equivalent simultaneous offers). Alongside each counter,
+   * put up to two more packages on the table that are worth about the same to
+   * us but differ as much as possible from each other, and let the
+   * counterparty pick. Off by default.
+   */
+  meso?: boolean;
 };
+
+/** MESO alternatives must be worth no more than this above the main package to us. */
+const MESO_BAND = 0.03;
 
 /** Candidate values for one dimension, inside both the item's range and the mandate's bounds. */
 function candidates(dimension: Dimension, mandate: Mandate, grid: number, anchor?: number): number[] {
@@ -106,8 +117,12 @@ export function decide(view: SessionView, options: RuleOptions = {}): Decision {
   if (view.status !== "open") return { action: "stop", reason: `session is ${view.status}` };
 
   const standing = view.standingOffer;
-  const theirs = standing && standing.fromAgentId !== view.you.agentId ? standing : undefined;
-  if (standing && !theirs) return { action: "wait" };
+  if (standing && standing.fromAgentId === view.you.agentId) return { action: "wait" };
+  // When they offer several packages, the one that matters is the one best
+  // for us: it is the one we would accept, and the one we counter from.
+  const theirs = standing ? bestPackageForMe(packagesOf(standing), mandate, options.respectBounds) : undefined;
+  const multi = standing ? packagesOf(standing).length > 1 : false;
+  const pick = theirs && multi ? { offerId: theirs.offerId } : {};
 
   const ceiling = bestPossible(view, grid);
   const floor = mandate.reservationUtility;
@@ -122,35 +137,90 @@ export function decide(view: SessionView, options: RuleOptions = {}): Decision {
   const acceptable = !theirs || !options.respectBounds || checkTermsAgainstMandate(theirs.terms, mandate).ok;
   const onTheTable = theirs && acceptable ? utility(theirs.terms, mandate) : -Infinity;
   if (theirs && onTheTable >= target) {
-    return { action: "accept", reason: `their package is worth ${onTheTable.toFixed(3)} to me, at or above my target ${target.toFixed(3)}` };
+    return { action: "accept", ...pick, reason: `their package is worth ${onTheTable.toFixed(3)} to me, at or above my target ${target.toFixed(3)}` };
   }
 
-  const counter = bestCounter(view, target, grid, theirs?.terms);
+  const counters = bestCounters(view, target, grid, theirs?.terms, options.meso ? 3 : 1);
+  const counter = counters[0];
   if (!counter) {
     if (theirs && onTheTable >= floor) {
-      return { action: "accept", reason: `nothing better is reachable and ${onTheTable.toFixed(3)} still clears my reservation` };
+      return { action: "accept", ...pick, reason: `nothing better is reachable and ${onTheTable.toFixed(3)} still clears my reservation` };
     }
     return { action: "stop", reason: "no package inside my mandate is reachable" };
   }
 
   // Never counter with something worse for me than what is already on the table.
   if (theirs && onTheTable >= utility(counter, mandate)) {
-    return { action: "accept", reason: `their package beats my own next move, so there is nothing to gain by countering` };
+    return { action: "accept", ...pick, reason: `their package beats my own next move, so there is nothing to gain by countering` };
   }
 
+  const alternatives = counters.slice(1);
   return {
     action: "offer",
     terms: counter,
-    note: noteFor(view, counter, theirs?.terms),
+    ...(alternatives.length > 0 ? { alternatives } : {}),
+    note: alternatives.length > 0 ? mesoNote(view, theirs?.terms, alternatives.length + 1) : noteFor(view, counter, theirs?.terms),
     targetUtility: target,
   };
 }
 
 /**
- * Among packages worth at least `target` to us, the one closest to the
- * counterparty's last ask. Searched over a coarse grid per dimension.
+ * The counterparty's package worth most to us. With `respectBounds`, a
+ * package outside our own hard limits is not a candidate at all; when none is
+ * left the main package still stands, scored as worthless by the caller.
  */
-function bestCounter(view: SessionView, target: number, grid: number, theirAsk: Terms | undefined): Terms | undefined {
+function bestPackageForMe(
+  packages: { offerId: string; terms: Terms }[],
+  mandate: Mandate,
+  respectBounds: boolean | undefined,
+): { offerId: string; terms: Terms } {
+  const eligible = respectBounds ? packages.filter((p) => checkTermsAgainstMandate(p.terms, mandate).ok) : packages;
+  if (eligible.length === 0) return packages[0];
+  return eligible.reduce((best, p) => (utility(p.terms, mandate) > utility(best.terms, mandate) ? p : best));
+}
+
+function mesoNote(view: SessionView, theirAsk: Terms | undefined, count: number): string {
+  const lead = theirAsk ? "I cannot take that package as it stands." : "Opening proposal.";
+  return `${lead} Here are ${count} packages that work equally well for me; pick whichever suits you best, or counter from the one closest to what you need.`;
+}
+
+/**
+ * Among packages worth at least `target` to us, the one closest to the
+ * counterparty's last ask, then (MESO, `count` > 1) up to `count - 1` more
+ * worth about the same to us, each as far as possible from those already
+ * chosen. Searched over a coarse grid per dimension.
+ */
+function bestCounters(view: SessionView, target: number, grid: number, theirAsk: Terms | undefined, count: number): Terms[] {
+  const primary = bestCounter(view, target, grid, theirAsk, count > 1);
+  if (!primary) return [];
+  if (count <= 1) return [primary.terms];
+
+  const mandate = view.yourMandate;
+  const dimensions = view.itemSpec.dimensions;
+  const ceiling = Math.max(target, primary.score) + MESO_BAND;
+  const pool = primary.pool.filter((p) => p.score <= ceiling);
+  const chosen: Terms[] = [primary.terms];
+  while (chosen.length < count) {
+    let next: { terms: Terms; spread: number } | undefined;
+    for (const p of pool) {
+      const spread = Math.min(...chosen.map((c) => distanceToTheirAsk(p.terms, c, dimensions)));
+      if (spread <= 1e-9) continue;
+      if (!next || spread > next.spread + 1e-9) next = { terms: p.terms, spread };
+    }
+    if (!next) break;
+    chosen.push(next.terms);
+  }
+  // Every package must clear what the owner authorised, as JANG will check.
+  return chosen.filter((terms) => checkTermsAgainstMandate(terms, mandate).ok);
+}
+
+function bestCounter(
+  view: SessionView,
+  target: number,
+  grid: number,
+  theirAsk: Terms | undefined,
+  collect = false,
+): { terms: Terms; score: number; pool: { terms: Terms; score: number }[] } | undefined {
   const mandate = view.yourMandate;
   const dimensions = view.itemSpec.dimensions;
   const axes = dimensions.map((dimension) => ({
@@ -160,12 +230,14 @@ function bestCounter(view: SessionView, target: number, grid: number, theirAsk: 
   if (axes.some((axis) => axis.values.length === 0)) return undefined;
 
   let best: { terms: Terms; distance: number; score: number } | undefined;
+  const pool: { terms: Terms; score: number }[] = [];
   const current: Terms = {};
 
   const walk = (index: number): void => {
     if (index === axes.length) {
       const score = utility(current, mandate);
       if (score < target) return;
+      if (collect) pool.push({ terms: { ...current }, score });
       const distance = distanceToTheirAsk(current, theirAsk, dimensions);
       if (!best || distance < best.distance - 1e-9 || (Math.abs(distance - best.distance) < 1e-9 && score > best.score)) {
         best = { terms: { ...current }, distance, score };
@@ -181,7 +253,7 @@ function bestCounter(view: SessionView, target: number, grid: number, theirAsk: 
   };
   walk(0);
 
-  return best?.terms;
+  return best ? { terms: best.terms, score: best.score, pool } : undefined;
 }
 
 /**

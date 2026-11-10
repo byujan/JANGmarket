@@ -79,12 +79,29 @@ export const MandateSchema = MandateBodySchema.extend({
 });
 export type Mandate = z.infer<typeof MandateSchema>;
 
+/** Most packages one turn may carry: the main offer plus this many alternatives. */
+export const MAX_ALTERNATIVES = 2;
+
+/**
+ * An extra package put on the table in the same turn (MESO: multiple
+ * equivalent simultaneous offers). It has its own offerId, so accepting it is
+ * as unambiguous as accepting the main package, and an agreement names it the
+ * same way.
+ */
+export const AlternativeSchema = z.object({
+  offerId: z.string().min(1),
+  terms: TermsSchema,
+});
+export type Alternative = z.infer<typeof AlternativeSchema>;
+
 export const OfferSchema = z.object({
   offerId: z.string().min(1),
   sessionId: z.string().min(1),
   fromAgentId: z.string().min(1),
   round: z.number().int().nonnegative(),
   terms: TermsSchema,
+  /** Optional, and absent on every offer made before MESO existed. */
+  alternatives: z.array(AlternativeSchema).max(MAX_ALTERNATIVES).optional(),
   note: z.string().max(500).optional(),
   createdAt: z.string().datetime(),
 });
@@ -152,6 +169,7 @@ export const JangErrorCodes = [
   "ROUND_LIMIT",
   "NOT_A_PARTICIPANT",
   "NO_STANDING_OFFER",
+  "AMBIGUOUS_ACCEPT",
   "INVALID_TERMS",
   "INVALID_MANDATE",
   "NOT_FOUND",

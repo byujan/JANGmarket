@@ -113,21 +113,50 @@ export class JangService {
     return redactSessionFor(agentId, await this.loadSession(sessionId));
   }
 
-  async makeOffer(input: { agentId: string; sessionId: string; terms: unknown; note?: string }): Promise<SessionView> {
+  async makeOffer(input: {
+    agentId: string;
+    sessionId: string;
+    terms: unknown;
+    /** MESO: up to two more packages offered in the same turn. */
+    alternatives?: unknown[];
+    note?: string;
+  }): Promise<SessionView> {
     const session = await this.loadSession(input.sessionId);
     const terms: Terms = TermsSchema.parse(input.terms);
+    // JANG mints every package's id, so an agent cannot collide with or
+    // impersonate another offer by choosing its own.
+    const alternatives = (input.alternatives ?? []).map((raw) => ({
+      offerId: `offer_${randomUUID()}`,
+      terms: TermsSchema.parse(raw),
+    }));
     const { session: next, offer } = await this.recording(input, () =>
-      submitOffer(session, input.agentId, terms, { note: input.note, offerId: `offer_${randomUUID()}` }),
+      submitOffer(session, input.agentId, terms, {
+        note: input.note,
+        offerId: `offer_${randomUUID()}`,
+        alternatives: alternatives.length > 0 ? alternatives : undefined,
+      }),
     );
     await this.store.putSession(next);
-    await this.note({ kind: "offer", sessionId: session.sessionId, agentId: input.agentId, detail: { round: offer.round, terms: offer.terms } });
+    await this.note({
+      kind: "offer",
+      sessionId: session.sessionId,
+      agentId: input.agentId,
+      detail: { round: offer.round, terms: offer.terms, ...(offer.alternatives ? { alternatives: offer.alternatives } : {}) },
+    });
     return redactSessionFor(input.agentId, next);
   }
 
   /** Accepting the standing offer closes the session and mints a signed agreement. */
-  async accept(input: { agentId: string; sessionId: string }): Promise<{ view: SessionView; agreement: Agreement }> {
+  async accept(input: {
+    agentId: string;
+    sessionId: string;
+    /** Which package to accept. Required when the standing offer has alternatives. */
+    offerId?: string;
+  }): Promise<{ view: SessionView; agreement: Agreement }> {
     const session = await this.loadSession(input.sessionId);
-    const { session: accepted, offer } = await this.recording(input, () => acceptStandingOffer(session, input.agentId));
+    const { session: accepted, offer } = await this.recording(input, () =>
+      acceptStandingOffer(session, input.agentId, { offerId: input.offerId }),
+    );
 
     const agreement = signAgreement(
       buildAgreementBody({

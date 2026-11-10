@@ -27,12 +27,16 @@ export class ServicePort implements NegotiationPort {
     return this.track(() => this.service.viewSession(this.agentId, this.sessionId));
   }
 
-  async offer(terms: Terms, note: string): Promise<SessionView> {
-    return this.track(() => this.service.makeOffer({ agentId: this.agentId, sessionId: this.sessionId, terms, note }));
+  async offer(terms: Terms, note: string, alternatives?: Terms[]): Promise<SessionView> {
+    return this.track(() =>
+      this.service.makeOffer({ agentId: this.agentId, sessionId: this.sessionId, terms, note, alternatives }),
+    );
   }
 
-  async accept(): Promise<{ agreement: Agreement; session: SessionView }> {
-    const result = await this.track(() => this.service.accept({ agentId: this.agentId, sessionId: this.sessionId }));
+  async accept(offerId?: string): Promise<{ agreement: Agreement; session: SessionView }> {
+    const result = await this.track(() =>
+      this.service.accept({ agentId: this.agentId, sessionId: this.sessionId, offerId }),
+    );
     return { agreement: result.agreement, session: result.view };
   }
 

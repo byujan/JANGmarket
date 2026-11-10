@@ -8,7 +8,9 @@
  * --variant=fix      agents accept only packages inside their own hard limits
  * --variant=option1  deadline-aware concession (same round budget)
  * --variant=option2  the shipped strategy with double the round budget
+ * --variant=meso     agents put up to three equally good packages on the table per turn
  * Variants combine with "+", e.g. --variant=fix+option1
+ * --out=results/final writes somewhere other than results/hw7 (the final-project arms)
  *
  * Writes results/hw7/<variant>-seed<seed>.json (every market, every condition)
  * and prints a summary table. Same seed + variant = same markets, same numbers.
@@ -41,6 +43,8 @@ const base = loadScenario();
 const maxRounds = parts.has("option2") ? base.maxRounds * 2 : base.maxRounds;
 const deadlineAware = parts.has("option1");
 const respectBounds = parts.has("fix");
+const meso = parts.has("meso");
+const outDir = arg("out", "results/hw7");
 
 type Condition = { agreed: boolean; rounds?: number; apiCalls?: number; ms?: number; violations?: number; stoppedBecause?: string; q?: Quality };
 type Row = {
@@ -62,7 +66,7 @@ for (const kind of only) {
   const toughness = TOUGHNESS[kind];
   for (let index = 0; index < CASE_SIZE[kind]; index += 1) {
     const market = makeMarket(base, kind, seed, index);
-    const knobs = { ...toughness, deadlineAware, respectBounds };
+    const knobs = { ...toughness, deadlineAware, respectBounds, meso };
 
     const multi = await negotiate(market, knobs, maxRounds);
     const truth = groundTruth(multi.buyer, multi.seller, market);
@@ -176,6 +180,7 @@ const out = {
   maxRounds,
   deadlineAware,
   respectBounds,
+  meso,
   toughness: TOUGHNESS,
   caseSize: CASE_SIZE,
   commit,
@@ -185,8 +190,8 @@ const out = {
   summaries,
   rows,
 };
-mkdirSync("results/hw7", { recursive: true });
-const file = `results/hw7/${variant}-seed${seed}.json`;
+mkdirSync(outDir, { recursive: true });
+const file = `${outDir}/${variant}-seed${seed}.json`;
 writeFileSync(file, `${JSON.stringify(out, null, 1)}\n`);
 
 console.log(`\nHW7 benchmark  variant=${variant}  seed=${seed}  maxRounds=${maxRounds}  (${elapsedS.toFixed(1)}s)`);

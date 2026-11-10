@@ -6,7 +6,7 @@ import { buyerMandate, sellerMandate, testItemSpec } from "./testing.ts";
 
 const agreeable = { price: 1280, deliveryDays: 20, warrantyMonths: 24, bundle: 0 };
 
-function closedDeal() {
+function closedDeal(meso = false) {
   const buyer = buyerMandate();
   const seller = sellerMandate();
   const session = createSession({
@@ -16,8 +16,9 @@ function closedDeal() {
     sellerAgentId: "agent-seller",
     mandates: [buyer, seller],
   });
-  const offered = submitOffer(session, "agent-seller", agreeable, { offerId: "o1" }).session;
-  const accepted = acceptStandingOffer(offered, "agent-buyer");
+  const alternatives = meso ? [{ offerId: "o1-b", terms: { ...agreeable, price: 1250, deliveryDays: 28 } }] : undefined;
+  const offered = submitOffer(session, "agent-seller", agreeable, { offerId: "o1", alternatives }).session;
+  const accepted = acceptStandingOffer(offered, "agent-buyer", meso ? { offerId: "o1-b" } : {});
   const jang = generateKeyPair();
   const agreement = signAgreement(
     buildAgreementBody({
@@ -64,5 +65,13 @@ describe("signed agreements", () => {
     expect(audit).toMatchObject({ ok: true, signatureValid: true });
     expect(audit.buyer.violations).toEqual([]);
     expect(audit.seller.violations).toEqual([]);
+  });
+
+  it("names the chosen alternative, and only its terms, when one of several packages was accepted", () => {
+    const { agreement, jang, mandates } = closedDeal(true);
+    expect(agreement.offerId).toBe("o1-b");
+    expect(agreement.terms).toEqual({ ...agreeable, price: 1250, deliveryDays: 28 });
+    expect(agreement.rounds).toBe(1);
+    expect(auditAgreement(agreement, jang.publicKeyPem, mandates).ok).toBe(true);
   });
 });

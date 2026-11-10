@@ -51,12 +51,16 @@ export class JangClient {
     return this.request("GET", `/api/sessions/${sessionId}`);
   }
 
-  async offer(sessionId: string, terms: Terms, note?: string): Promise<SessionView> {
-    return this.request("POST", `/api/sessions/${sessionId}/offers`, { terms, note });
+  async offer(sessionId: string, terms: Terms, note?: string, alternatives?: Terms[]): Promise<SessionView> {
+    return this.request("POST", `/api/sessions/${sessionId}/offers`, {
+      terms,
+      note,
+      ...(alternatives?.length ? { alternatives } : {}),
+    });
   }
 
-  async accept(sessionId: string): Promise<{ session: SessionView; agreement: Agreement }> {
-    return this.request("POST", `/api/sessions/${sessionId}/accept`, {});
+  async accept(sessionId: string, offerId?: string): Promise<{ session: SessionView; agreement: Agreement }> {
+    return this.request("POST", `/api/sessions/${sessionId}/accept`, offerId ? { offerId } : {});
   }
 
   async getAgreement(agreementId: string): Promise<Agreement> {

@@ -1,6 +1,7 @@
 #!/usr/bin/env tsx
 /**
  * Pool results/hw7/*.json into results/hw7/SUMMARY.md and summary.json.
+ * --dir=results/final --variants=fix,fix+meso pools another directory's arms instead.
  * Reads the per-market rows, not the printed summaries, so every number here
  * can be traced to a row.
  */
@@ -8,13 +9,15 @@ import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 
 const TUNING = [20261028];
 const FRESH = [20261101, 20261102];
-const VARIANTS = ["base", "fix", "option1", "option2", "fix+option1", "fix+option2"];
+const arg = (name: string) => process.argv.find((a) => a.startsWith(`--${name}=`))?.slice(name.length + 3);
+const DIR = arg("dir") ?? "results/hw7";
+const VARIANTS = arg("variants")?.split(",") ?? ["base", "fix", "option1", "option2", "fix+option1", "fix+option2"];
 const CASES = ["ordinary", "narrow", "asymmetric", "nozopa"];
 const CONDS = ["jang", "priceOnly", "posted", "oracle"] as const;
 
 type Row = any;
-const files = readdirSync("results/hw7").filter((f) => f.endsWith(".json") && f.includes("-seed"));
-const runs = files.map((f) => JSON.parse(readFileSync(`results/hw7/${f}`, "utf8")));
+const files = readdirSync(DIR).filter((f) => f.endsWith(".json") && f.includes("-seed"));
+const runs = files.map((f) => JSON.parse(readFileSync(`${DIR}/${f}`, "utf8")));
 
 const rowsFor = (variant: string, seeds: number[], kind: string): Row[] =>
   runs.filter((r) => r.variant === variant && seeds.includes(r.seed)).flatMap((r) => r.rows.filter((x: Row) => x.case === kind));
@@ -90,9 +93,9 @@ for (const [label, seeds] of [["Fresh seeds 20261101 + 20261102", FRESH], ["Tuni
   }
 }
 // ---------------------------------------------------------------- Claude agents
-const llmFiles = readdirSync("results/hw7").filter((f) => f.startsWith("llm-") && f.endsWith(".json")).sort();
+const llmFiles = readdirSync(DIR).filter((f) => f.startsWith("llm-") && f.endsWith(".json")).sort();
 const llm = llmFiles.flatMap((f) => {
-  const d = JSON.parse(readFileSync(`results/hw7/${f}`, "utf8"));
+  const d = JSON.parse(readFileSync(`${DIR}/${f}`, "utf8"));
   return d.records.map((r: any) => ({ ...r, seed: d.seed, file: f }));
 });
 if (llm.length) {
@@ -117,6 +120,6 @@ if (llm.length) {
   md.push("", `Totals over all ${llm.length} negotiations (including incomplete ones): ${f(usd, 2)} USD API-equivalent, ${f(secs / 60, 0)} minutes of wall-clock time.`, "");
 }
 
-writeFileSync("results/hw7/SUMMARY.md", md.join("\n") + "\n");
-writeFileSync("results/hw7/summary.json", JSON.stringify(json, null, 1) + "\n");
-console.log("wrote results/hw7/SUMMARY.md");
+writeFileSync(`${DIR}/SUMMARY.md`, md.join("\n") + "\n");
+writeFileSync(`${DIR}/summary.json`, JSON.stringify(json, null, 1) + "\n");
+console.log(`wrote ${DIR}/SUMMARY.md`);

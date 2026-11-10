@@ -639,6 +639,15 @@ label {
   padding-top: 0.1rem;
 }
 
+/* A MESO alternative: same turn, same sender, offered as an equal choice. */
+.rung-alt {
+  padding-top: 0;
+  opacity: 0.6;
+}
+.rung-alt.rung-agreed {
+  opacity: 1;
+}
+
 .rung-agreed .rung-bar {
   height: 5px;
   background: var(--agree);
