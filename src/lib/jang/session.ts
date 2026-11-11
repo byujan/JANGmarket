@@ -5,6 +5,7 @@ import {
   MAX_ALTERNATIVES,
   type ItemSpec,
   type Mandate,
+  type Market,
   type Offer,
   type Role,
   type Session,
@@ -265,6 +266,12 @@ export type SessionView = {
    * importance, most important first. Keys only, never a number.
    */
   counterpartyPriorities?: string[];
+  /**
+   * How contested this item is, from this agent's own side. Filled in by the
+   * service, which can see the store; nothing here comes from the
+   * counterparty's mandate.
+   */
+  market?: Market;
   offers: Offer[];
   standingOffer?: Offer;
   whoseTurn: string | "either";

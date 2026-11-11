@@ -62,6 +62,15 @@ export type SessionFilter = {
 /** Totals across everything stored, not across one page of results. */
 export type SessionCounts = { open: number; agreed: number; expired: number; failed: number; total: number };
 
+/**
+ * How contested one item is, from one agent's side of it.
+ *
+ * `committed` counts deals this agent has already closed on the item, which is
+ * what a supply limit is spent on. `openSessions` counts negotiations still
+ * running for it, which is what makes a limited supply urgent.
+ */
+export type MarketState = { committed: number; openSessions: number };
+
 export interface Store {
   upsertOwner(owner: OwnerRecord): Promise<void>;
   getOwner(ownerId: string): Promise<OwnerRecord | undefined>;
@@ -86,6 +95,8 @@ export interface Store {
    * presented as a total.
    */
   countSessions(filter?: { agentIds?: string[] }): Promise<SessionCounts>;
+  /** Deals closed and negotiations running, for one agent on one item. */
+  marketState(agentId: string, itemId: string): Promise<MarketState>;
 
   putAgreement(agreement: Agreement): Promise<void>;
   getAgreement(agreementId: string): Promise<Agreement | undefined>;

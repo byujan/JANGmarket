@@ -78,6 +78,14 @@ export const MandateBodySchema = z.object({
   reservationUtility: z.number().min(0).max(1),
   expiresAt: z.string().datetime(),
   /**
+   * How many of this item the owner is willing to part with, or acquire, under
+   * this mandate. Absent means one.
+   *
+   * Without it a seller's agent can sign the same television away to every
+   * buyer it talks to, because each session only ever checks its own terms.
+   */
+  supply: z.number().int().positive().max(10_000).optional(),
+  /**
    * Opt in to telling the counterparty which terms matter most to this owner,
    * as an order of keys and nothing else: no weights, bounds or reservation.
    * Optional with no default, so a mandate signed before this existed has the
@@ -166,6 +174,13 @@ export const AgreementSchema = AgreementBodySchema.extend({
 });
 export type Agreement = z.infer<typeof AgreementSchema>;
 
+/**
+ * What an agent is told about how contested its item is. None of it comes from
+ * anyone's mandate but its own, so it leaks nothing: how many it may still
+ * commit, and how many negotiations are running for the same thing.
+ */
+export type Market = { remaining: number; authorised: number; openSessions: number };
+
 export type Violation = {
   dimension: string;
   reason: string;
@@ -177,6 +192,7 @@ export type MandateCheck = { ok: true } | { ok: false; violations: Violation[] }
 
 export const JangErrorCodes = [
   "MANDATE_VIOLATION",
+  "SUPPLY_EXHAUSTED",
   "NOT_YOUR_TURN",
   "SESSION_EXPIRED",
   "SESSION_CLOSED",

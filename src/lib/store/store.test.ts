@@ -220,6 +220,30 @@ for (const candidate of candidates) {
       expect(await store.countSessions({ agentIds: ["agent-nobody"] })).toMatchObject({ total: 0 });
     });
 
+    it("reports what one agent has committed and how contested its item is", async () => {
+      // Opening sessions costs nothing; only a closed one is committed.
+      await store.putSession(freshSession("sess-m1"));
+      await store.putSession(freshSession("sess-m2"));
+      let closed = freshSession("sess-m3");
+      closed = submitOffer(closed, "agent-seller", agreeable, { offerId: "om" }).session;
+      await store.putSession(acceptStandingOffer(closed, "agent-buyer").session);
+
+      expect(await store.marketState("agent-seller", testItemSpec.itemId)).toEqual({
+        committed: 1,
+        openSessions: 2,
+      });
+      // An agent with nothing on this item sees an empty market.
+      expect(await store.marketState("agent-nobody", testItemSpec.itemId)).toEqual({
+        committed: 0,
+        openSessions: 0,
+      });
+      // And nothing leaks across items.
+      expect(await store.marketState("agent-seller", "item-that-does-not-exist")).toEqual({
+        committed: 0,
+        openSessions: 0,
+      });
+    });
+
     it("counts events by kind across all of them", async () => {
       const at = new Date().toISOString();
       for (let i = 0; i < 4; i += 1) {

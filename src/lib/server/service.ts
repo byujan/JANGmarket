@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from "node:crypto";
 import { buildAgreementBody, signAgreement } from "../jang/agreement.ts";
 import type { DilemmaPoint } from "../jang/analysis.ts";
+import type { Market } from "../jang/types.ts";
 import { bestImprovement, quality, sessionFrontier } from "../jang/frontier.ts";
 import { verifyMandate } from "../jang/mandate.ts";
 import {
@@ -113,7 +114,21 @@ export class JangService {
   }
 
   async viewSession(agentId: string, sessionId: string): Promise<SessionView> {
-    return redactSessionFor(agentId, await this.loadSession(sessionId));
+    return this.withMarket(agentId, await this.loadSession(sessionId));
+  }
+
+  /**
+   * A redacted view, plus what this agent may know about the contest for the
+   * item: its own remaining allowance, and how many negotiations are running.
+   * Neither figure comes from the counterparty's mandate.
+   */
+  private async withMarket(agentId: string, session: Session): Promise<SessionView> {
+    const view = redactSessionFor(agentId, session);
+    try {
+      return { ...view, market: await this.marketFor(agentId, session.itemSpec.itemId) };
+    } catch {
+      return view;
+    }
   }
 
   async makeOffer(input: {
@@ -157,6 +172,15 @@ export class JangService {
     offerId?: string;
   }): Promise<{ view: SessionView; agreement: Agreement }> {
     const session = await this.loadSession(input.sessionId);
+
+    // A mandate authorises a quantity as well as a package. Checked at the
+    // moment of acceptance for both sides, because nothing is spent before
+    // then: an agent may hold many negotiations open and close only what its
+    // owner allowed it to.
+    for (const participant of [session.participants.buyer, session.participants.seller]) {
+      await this.assertSupplyRemains(session, participant);
+    }
+
     const { session: accepted, offer } = await this.recording(input, () =>
       acceptStandingOffer(session, input.agentId, { offerId: input.offerId }),
     );
@@ -315,6 +339,49 @@ export class JangService {
     } catch {
       // Never let bookkeeping break a negotiation.
     }
+  }
+
+  /**
+   * Refuse an acceptance that would commit an owner past the quantity their
+   * mandate allows. Absent a supply the allowance is one, which is what a
+   * single clearance television means.
+   */
+  private async assertSupplyRemains(session: Session, agentId: string): Promise<void> {
+    const mandate = session.mandates[agentId];
+    if (!mandate) return;
+    const allowed = mandate.supply ?? 1;
+    // This session is still open, so it is not among the committed.
+    const { committed } = await this.store.marketState(agentId, session.itemSpec.itemId);
+
+    if (committed >= allowed) {
+      const verb = mandate.role === "seller" ? "sell" : "buy";
+      const error = new JangError(
+        "SUPPLY_EXHAUSTED",
+        `${agentId} has already agreed ${committed} of the ${allowed} its owner authorised it to ${verb}`,
+      );
+      await this.note({
+        kind: "refusal",
+        sessionId: session.sessionId,
+        agentId,
+        code: error.code,
+        message: error.message,
+      });
+      throw error;
+    }
+  }
+
+  /** What an agent may be told about how contested its item is. */
+  async marketFor(agentId: string, itemId: string): Promise<Market> {
+    const [state, mandate] = await Promise.all([
+      this.store.marketState(agentId, itemId),
+      this.store.getMandate(agentId, itemId),
+    ]);
+    const authorised = mandate?.supply ?? 1;
+    return {
+      remaining: Math.max(0, authorised - state.committed),
+      authorised,
+      openSessions: state.openSessions,
+    };
   }
 
   private async loadSession(sessionId: string) {

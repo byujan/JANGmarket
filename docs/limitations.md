@@ -48,10 +48,32 @@ route the command-line demos use, is now closed unless `JANG_OPEN_REGISTRATION=t
 no database is configured. What is still missing is revocation: a leaked agent key is good
 until the mandate expires, and there is no way to withdraw one.
 
+## 5b. Many buyers to one seller: what it does and does not do
+
+A seller mandate can now authorise a quantity, and JANG refuses an acceptance
+once it is spent, so the same item cannot be promised to two buyers. Agents are
+told how many they may still commit and how many negotiations are running for
+the item, and the rule strategy concedes faster as rivals outnumber the units.
+`npm run market -- --buyers=6 --supply=1` runs it.
+
+What it does not do:
+
+- **Supply is counted, not reserved.** Two acceptances arriving in the same
+  instant both read the count before either writes, so both could pass. The
+  window is milliseconds and the fix is a transaction or a unique constraint,
+  neither of which is written.
+- **Nobody is told who the rivals are**, only how many. That is deliberate, but
+  it also means an agent cannot tell one serious rival from five idle ones.
+- **The seller runs one mandate across every buyer.** It cannot ask more of a
+  buyer who seems keen, which is most of what a real seller does with scarcity.
+- **An expired or abandoned session still counts as a rival** until it closes,
+  so contention reads high after a burst of dead sessions.
+
 ## 5a. The only counterparty is the house
 
 An owner negotiating from the console bargains against JANG's own house agent, which runs
-under a mandate derived from the scenario file. It is a real agent getting no special
+under a mandate derived from the scenario file, authorised for a large quantity so repeated
+demos do not exhaust it. It is a real agent getting no special
 treatment from the engine, but it is not another person. Owner-to-owner negotiation needs
 no schema change and has not been built.
 

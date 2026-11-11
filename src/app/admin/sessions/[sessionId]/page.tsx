@@ -51,6 +51,7 @@ export default async function AdminSession({ params }: { params: Promise<{ sessi
   const anchors = anchoring(session.itemSpec, session.offers, session.participants.buyer, agreement?.terms);
   const pulledBack = reversals(session.itemSpec, session.offers, session.mandates, session.participants);
   const tempo = pace(session.offers, session.maxRounds);
+  const sellerMarket = await jang.marketFor(session.participants.seller, session.itemSpec.itemId);
   const mesoOffers = session.offers.filter((offer) => (offer.alternatives?.length ?? 0) > 0);
   // Re-checked rather than trusted: a keyless instance mints a new signing key
   // on restart, and an agreement signed before that will not verify after it.
@@ -125,6 +126,17 @@ export default async function AdminSession({ params }: { params: Promise<{ sessi
                   {anchors.towardBuyer === undefined
                     ? "no agreement"
                     : `${(anchors.towardBuyer * 100).toFixed(0)}% of the way to the buyer's opening`}
+                </span>
+              </div>
+              <div className={`card${sellerMarket.remaining <= 0 ? " card-live" : ""}`}>
+                <dt>Seller still has</dt>
+                <dd className="mono">
+                  {sellerMarket.remaining}/{sellerMarket.authorised}
+                </dd>
+                <span className="card-foot">
+                  {sellerMarket.openSessions > 1
+                    ? `${sellerMarket.openSessions} negotiations running for it`
+                    : "no other negotiation for it"}
                 </span>
               </div>
               <div className="card">

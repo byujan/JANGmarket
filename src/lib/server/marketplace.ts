@@ -50,7 +50,15 @@ export async function ensureHouseAgent(scenario: Scenario): Promise<string> {
   }
 
   if (!(await store.getMandate(agentId, scenario.itemSpec.itemId))) {
-    const mandate = issueMandate({ ...scenario, seller: { ...scenario.seller, agentId } }, "seller");
+    // The house is a stand-in so that one person can negotiate alone, not a
+    // real warehouse. It is authorised generously on purpose: a supply of one,
+    // which is what an absent supply means, would let it sell once and then
+    // refuse every console demo afterwards. Real inventory belongs to real
+    // sellers, whose scenarios declare it.
+    const mandate = issueMandate(
+      { ...scenario, seller: { ...scenario.seller, agentId, supply: scenario.seller.supply ?? 10_000 } },
+      "seller",
+    );
     await store.putMandate(mandate);
   }
 

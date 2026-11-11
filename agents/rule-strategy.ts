@@ -52,6 +52,28 @@ export type RuleOptions = {
 /** MESO alternatives must be worth no more than this above the main package to us. */
 const MESO_BAND = 0.03;
 
+/**
+ * How much the contest for this item weakens our hand, from 0 to a cap.
+ *
+ * One rival for one unit is no pressure at all; several rivals for a single
+ * unit is a weak position. Capped so competition hurries an agent rather than
+ * collapsing it straight to its walk-away.
+ */
+export const MAX_COMPETITIVE_PRESSURE = 0.5;
+
+export function competitivePressure(view: SessionView): number {
+  const market = view.market;
+  if (!market || market.remaining <= 0) return 0;
+  // Everyone in an open session is a rival except us.
+  const rivals = Math.max(0, market.openSessions - 1);
+  if (rivals <= 0) return 0;
+  // Rivals per unit still available, with diminishing returns: one rival for
+  // one unit is uncomfortable, four is worse, and the fortieth adds almost
+  // nothing that the fourth did not.
+  const perUnit = rivals / market.remaining;
+  return Math.min(MAX_COMPETITIVE_PRESSURE, MAX_COMPETITIVE_PRESSURE * (perUnit / (perUnit + 2)));
+}
+
 /** Candidate values for one dimension, inside both the item's range and the mandate's bounds. */
 function candidates(dimension: Dimension, mandate: Mandate, grid: number, anchor?: number): number[] {
   const constraint = mandate.constraints[dimension.key] ?? {};
@@ -157,6 +179,14 @@ export function decide(view: SessionView, options: RuleOptions = {}): Decision {
   // Deadline-aware (HW7 Option 1): with fewer than two offers left in the
   // session, no deal is worth nothing, so drop straight to the reservation value.
   if (options.deadlineAware && view.roundsUsed >= view.maxRounds - 2) target = floor;
+
+  // Competition. Being one of several bidding for a scarce thing weakens your
+  // position in the same way a poor alternative does, so the schedule runs
+  // faster: with rivals outnumbering what is left, part of the distance to the
+  // reservation value is given up at once. No rival's limits are involved;
+  // only how many of them there are, which the market view already says.
+  const pressure = competitivePressure(view);
+  if (pressure > 0) target = Math.max(floor, target - (target - floor) * pressure);
 
   // With respectBounds, a package outside our own hard limits is worth nothing to us.
   const acceptable = !theirs || !options.respectBounds || checkTermsAgainstMandate(theirs.terms, mandate).ok;

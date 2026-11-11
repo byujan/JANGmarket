@@ -3,6 +3,7 @@ import type {
   AgentRecord,
   EventRecord,
   OwnerRecord,
+  MarketState,
   SessionCounts,
   SessionFilter,
   SessionSummary,
@@ -107,6 +108,18 @@ export class MemoryStore implements Store {
       counts.total += 1;
     }
     return counts;
+  }
+
+  async marketState(agentId: string, itemId: string): Promise<MarketState> {
+    let committed = 0;
+    let openSessions = 0;
+    for (const session of this.sessions.values()) {
+      const involved = session.participants.buyer === agentId || session.participants.seller === agentId;
+      if (!involved || session.itemSpec.itemId !== itemId) continue;
+      if (session.status === "agreed") committed += 1;
+      else if (session.status === "open") openSessions += 1;
+    }
+    return { committed, openSessions };
   }
 
   async putAgreement(agreement: Agreement): Promise<void> {

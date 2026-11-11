@@ -134,6 +134,16 @@ function describe(view: SessionView): string {
         .join(", ")}). That is a hint about what they value.`,
     );
   }
+  if (view.market && (view.market.openSessions > 1 || view.market.remaining <= 1)) {
+    const rivals = Math.max(0, view.market.openSessions - 1);
+    lines.push(
+      `You may still commit to ${view.market.remaining} of the ${view.market.authorised} your owner authorised` +
+        (rivals > 0
+          ? `, and ${rivals} other ${rivals === 1 ? "negotiation is" : "negotiations are"} running for the same item.`
+          : "."),
+    );
+  }
+
   lines.push(
     view.status !== "open"
       ? "This session is closed."

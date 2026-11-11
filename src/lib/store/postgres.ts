@@ -4,6 +4,7 @@ import type {
   AgentRecord,
   EventRecord,
   OwnerRecord,
+  MarketState,
   SessionCounts,
   SessionFilter,
   SessionSummary,
@@ -207,6 +208,22 @@ export class PostgresStore implements Store {
       counts.total += n;
     }
     return counts;
+  }
+
+  async marketState(agentId: string, itemId: string): Promise<MarketState> {
+    const rows = await this.sql<{ status: string; n: string }[]>`
+      select status, count(*)::text as n from sessions
+      where (buyer_agent_id = ${agentId} or seller_agent_id = ${agentId})
+        and item_spec->>'itemId' = ${itemId}
+      group by status
+    `;
+    let committed = 0;
+    let openSessions = 0;
+    for (const row of rows) {
+      if (row.status === "agreed") committed = Number(row.n);
+      else if (row.status === "open") openSessions = Number(row.n);
+    }
+    return { committed, openSessions };
   }
 
   async putAgreement(agreement: Agreement): Promise<void> {
