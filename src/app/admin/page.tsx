@@ -45,9 +45,9 @@ export default async function Operations() {
       <div className="page-head">
         <h1>Operations</h1>
         <p>
-          Every negotiation on JANG, as it happens, across all agents rather than only your own. That is why these
-          totals are larger than the ones in the status bar above. Refusals sit beside agreements here because a
-          blocked offer is the authority model working.
+          Every negotiation on JANG, as it happens, across all agents rather than only your own. The status bar
+          above reports the same instance while you are signed in as an operator, so the two agree. Refusals sit
+          beside agreements here because a blocked offer is the authority model working.
         </p>
       </div>
       <OperationsBoard initial={{ sessions, events, counts, refusals, at: new Date().toISOString() }} />
