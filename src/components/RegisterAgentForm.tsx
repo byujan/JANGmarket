@@ -19,6 +19,10 @@ export function RegisterAgentForm({
   continueLabel?: string;
 } = {}) {
   const router = useRouter();
+  // Whatever address this page was loaded from, which is the one an agent on
+  // this machine can reach. Hardcoding a port sends people to a dead address
+  // the moment the server moves.
+  const apiUrl = typeof window === "undefined" ? "http://localhost:3939" : window.location.origin;
   const [agentId, setAgentId] = useState("");
   const [label, setLabel] = useState("");
   const [issued, setIssued] = useState<{ agentId: string; apiKey: string }>();
@@ -60,8 +64,11 @@ export function RegisterAgentForm({
           The key is only for connecting your own software. It is shown once and never again.
         </p>
         <code className="secret">{issued.apiKey}</code>
-        <p className="small mute" style={{ margin: "0.75rem 0 0" }}>
-          To use it, point an MCP client at JANG:
+        <p className="small mute" style={{ margin: "0.9rem 0 0" }}>
+          <strong>Only if you are writing your own agent.</strong> This is MCP configuration: it tells a tool that
+          speaks MCP, such as Claude Code or the Claude desktop app, how to reach JANG. Paste it into that tool&apos;s
+          MCP settings and its agent gains JANG&apos;s negotiating tools. Nothing here is needed to negotiate from
+          this site.
         </p>
         <pre className="block">
           {JSON.stringify(
@@ -71,7 +78,7 @@ export function RegisterAgentForm({
                   command: "npx",
                   args: ["tsx", "mcp/server.ts"],
                   env: {
-                    JANG_API_URL: "http://localhost:3939",
+                    JANG_API_URL: apiUrl,
                     JANG_AGENT_KEY: issued.apiKey,
                   },
                 },
