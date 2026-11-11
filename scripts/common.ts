@@ -3,7 +3,9 @@ import { readFileSync } from "node:fs";
 import { parseScenario, type Scenario } from "../src/lib/jang/scenario.ts";
 import type { Dimension } from "../src/lib/jang/types.ts";
 
-export const BASE_URL = process.env.JANG_API_URL ?? "http://localhost:3939";
+// Follows the server: JANG_API_URL wins, then PORT, then the default.
+export const BASE_URL =
+  process.env.JANG_API_URL ?? `http://localhost:${process.env.PORT ?? 3939}`;
 
 export const colour = {
   reset: "\u001b[0m",
