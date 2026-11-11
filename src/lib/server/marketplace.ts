@@ -34,13 +34,26 @@ export type CatalogueEntry = {
   itemSpec: ItemSpec;
   title: string;
   description?: string;
-  /** Which side a visitor may take. A listing leaves the other side open. */
-  openRole?: Role;
+  /** The side the lister took. Built-in markets leave this unset. */
+  listedRole?: Role;
   source: "built-in" | "listed";
   listedBy?: string;
 };
 
-export async function catalogue(): Promise<CatalogueEntry[]> {
+/**
+ * Which side of an item a given owner takes.
+ *
+ * Whoever listed it keeps the side they listed: a person selling a bike
+ * negotiates as the seller, not as a buyer of their own bike. Anyone else
+ * takes the side left open. A built-in market has the house selling, so a
+ * visitor buys.
+ */
+export function roleFor(entry: CatalogueEntry, ownerId: string): Role | undefined {
+  if (entry.source !== "listed" || !entry.listedRole) return undefined;
+  return entry.listedBy === ownerId ? entry.listedRole : opposite(entry.listedRole);
+}
+
+export async function catalogue(forOwnerId?: string): Promise<CatalogueEntry[]> {
   const built = catalog().map((scenario) => ({
     itemSpec: scenario.itemSpec,
     title: scenario.title,
@@ -48,12 +61,11 @@ export async function catalogue(): Promise<CatalogueEntry[]> {
     source: "built-in" as const,
   }));
 
-  const listed = (await store.listItems({ limit: 200 })).map((item) => ({
+  const listed = (await store.listItems({ ownerId: forOwnerId, limit: 200 })).map((item) => ({
     itemSpec: itemSpecOfListing(item),
     title: item.title,
     description: item.description,
-    // The lister took one side, so a visitor takes the other.
-    openRole: opposite(item.listedRole),
+    listedRole: item.listedRole,
     source: "listed" as const,
     listedBy: item.ownerId,
   }));
@@ -171,12 +183,17 @@ export async function launchNegotiation(input: {
   if (!mine) {
     throw new JangError("INVALID_MANDATE", "issue a mandate for this item before starting a negotiation");
   }
-  // A listing leaves one side open; a built-in market has the house selling.
-  const openRole = listing ? opposite(listing.listedRole) : "buyer";
-  if (mine.role !== openRole) {
+  // Whoever listed it keeps the side they listed. A built-in market has the
+  // house selling, so a visitor buys.
+  const expected: Role = listing
+    ? listing.ownerId === input.ownerId
+      ? listing.listedRole
+      : opposite(listing.listedRole)
+    : "buyer";
+  if (mine.role !== expected) {
     throw new JangError(
       "INVALID_MANDATE",
-      `the other side of this item is already taken, so your agent needs a ${openRole} mandate`,
+      `this item needs a ${expected} mandate from you, and your agent holds a ${mine.role} one`,
     );
   }
 

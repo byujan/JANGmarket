@@ -21,6 +21,8 @@ type Board = {
   events: EventRecord[];
   counts: SessionCounts;
   refusals: number;
+  /** Items people listed themselves, as opposed to the markets that ship. */
+  listed: number;
   at: string;
 };
 
@@ -68,6 +70,12 @@ export function OperationsBoard({ initial }: { initial: Board }) {
           value={board.refusals}
           foot="offers blocked by a mandate"
           index={2}
+        />
+        <Stat
+          label="Items listed"
+          value={board.listed}
+          foot="brought by owners, beyond the markets that ship"
+          index={3}
         />
       </dl>
 

@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { ConcessionChart } from "@/components/ConcessionChart.tsx";
+import { ListItemForm } from "@/components/ListItemForm.tsx";
 import { ConvergenceLadder } from "@/components/ConvergenceLadder.tsx";
 import { DilemmaChart } from "@/components/DilemmaChart.tsx";
 import { MandateBuilder } from "@/components/MandateBuilder.tsx";
@@ -135,6 +136,13 @@ export default function Preview() {
       </section>
 
       <section className="section">
+        <h2>Listing an item</h2>
+        <div className="sheet">
+          <ListItemForm />
+        </div>
+      </section>
+
+      <section className="section">
         <h2>Limits builder, as a sheet</h2>
         <div className="sheet">
           <MandateBuilder
@@ -153,6 +161,7 @@ export default function Preview() {
             events,
             counts: { open: 1, agreed: 2, expired: 1, failed: 0, total: 4 },
             refusals: 2,
+            listed: 3,
             at: new Date().toISOString(),
           }}
         />

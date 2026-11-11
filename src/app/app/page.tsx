@@ -20,7 +20,8 @@ export default async function Console() {
     ? await store.listSessions({ agentIds: agents.map((agent) => agent.agentId), limit: 8 })
     : [];
 
-  const items = await catalogue();
+  const items = await catalogue(owner.ownerId);
+  const listings = await store.listItems({ ownerId: owner.ownerId, limit: 20 });
   const launchable = mandates
 
     .map((mandate) => {
@@ -95,6 +96,60 @@ export default async function Console() {
                   </td>
                 </tr>
                 ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      </section>
+
+      <section className="section enter" style={{ "--i": 2 } as React.CSSProperties}>
+        <div className="panel">
+          <div className="panel-head">
+            <h2>Things you have listed</h2>
+            <Link className="panel-meta" href="/app/items/new">
+              List an item
+            </Link>
+          </div>
+          {listings.length === 0 ? (
+            <div className="panel-body">
+              <div className="empty">
+                <strong>You have not listed anything</strong>
+                The four markets that ship with JANG are ready to negotiate over. To bring your own, with terms of
+                your choosing, <Link href="/app/items/new">list an item</Link>.
+              </div>
+            </div>
+          ) : (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Your side</th>
+                  <th>Terms</th>
+                  <th>Limits set</th>
+                </tr>
+              </thead>
+              <tbody>
+                {listings.map((item) => {
+                  const hasLimits = mandates.some((mandate) => mandate.itemId === item.itemId);
+                  return (
+                    <tr key={item.itemId}>
+                      <td>{item.title}</td>
+                      <td className={item.listedRole}>{item.listedRole === "seller" ? "selling" : "buying"}</td>
+                      <td className="mono small">
+                        {item.dimensions.map((dimension) => dimension.label).join(", ")}
+                      </td>
+                      <td>
+                        {hasLimits ? (
+                          <span className="tag tag-agreed">set</span>
+                        ) : (
+                          <Link className="small" href="/app/mandates/new">
+                            set them
+                          </Link>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           )}

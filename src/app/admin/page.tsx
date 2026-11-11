@@ -24,12 +24,13 @@ export default async function Operations() {
     );
   }
 
-  const [sessions, events, counts, refusals, readings] = await Promise.all([
+  const [sessions, events, counts, refusals, readings, listings] = await Promise.all([
     store.listSessions({ limit: 40 }),
     store.listEvents({ limit: 40 }),
     store.countSessions(),
     store.countEvents({ kind: "refusal" }),
     jang.operatorReadings(),
+    store.listItems({ limit: 200 }),
   ]);
 
   const onFrontier = readings.filter((r) => r.paretoOptimal).length;
@@ -50,7 +51,9 @@ export default async function Operations() {
           beside agreements here because a blocked offer is the authority model working.
         </p>
       </div>
-      <OperationsBoard initial={{ sessions, events, counts, refusals, at: new Date().toISOString() }} />
+      <OperationsBoard
+        initial={{ sessions, events, counts, refusals, listed: listings.length, at: new Date().toISOString() }}
+      />
 
       <section className="section enter" style={{ "--i": 5 } as React.CSSProperties}>
         <div className="panel">

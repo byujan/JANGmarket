@@ -90,8 +90,10 @@ It is still a synthetic counterparty, with the obvious consequences:
   `listing.ts`. A listing whose ranges are unrealistic gets an unrealistic
   counterparty, and nothing warns the lister.
 - **Owner-to-owner still is not wired up in the console.** The protocol allows
-  it, and a listing names which side is open, but nothing yet lets one owner
-  discover another's listing and take the other side of it.
+  it, and a listing records which side was taken, but the catalogue deliberately
+  shows an owner only the markets that ship and their own listings. Showing
+  other people's would offer a negotiation against the house while implying one
+  against them, which would be a lie about who you are dealing with.
 - **Nothing expires or withdraws a listing.** It stays in the catalogue until
   the row is deleted by hand.
 

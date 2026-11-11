@@ -42,8 +42,8 @@ import type { Dimension, ItemSpec, MandateBody, Role } from "@/lib/jang/types.ts
 export type BuilderItem = {
   itemSpec: ItemSpec;
   title: string;
-  /** For a listing, the side still open. Built-in markets leave this unset. */
-  openRole?: Role;
+  /** For a listing, the side this owner takes. Built-in markets leave it unset. */
+  yourRole?: Role;
   source?: "built-in" | "listed";
 };
 
@@ -99,7 +99,7 @@ export function MandateBuilder({
   const item = items.find((candidate) => candidate.itemSpec.itemId === itemId);
   // A listing leaves exactly one side open, so there is nothing to choose and
   // everything below works from this rather than from what the select says.
-  const fixedRole = item?.openRole;
+  const fixedRole = item?.yourRole;
   const role: Role = fixedRole ?? chosenRole;
   const dimensions = useMemo(() => item?.itemSpec.dimensions ?? [], [item]);
 
@@ -331,7 +331,9 @@ export function MandateBuilder({
             <>
               <input id="role" value={fixedRole === "buyer" ? "Buying" : "Selling"} readOnly />
               <p className="hint">
-                Whoever listed this took the other side, so this one is yours.
+                {item?.source === "listed"
+                  ? "You listed this, so this is your side of it."
+                  : "The other side of this item is taken, so this one is yours."}
               </p>
             </>
           ) : (
