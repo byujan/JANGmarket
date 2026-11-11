@@ -53,15 +53,34 @@ by splitting every issue and 13,200 by trading. The session view computes the sa
 Often the more interesting answer: in the shipped television market, the midpoint package
 is not allowed by either mandate, so the compromise everyone reaches for was never a deal.
 
+**Anchoring** (Class 2), per session. Both opening positions and where the deal landed
+between them, as a percentage of the distance. The lecture's anchoring question, asked of
+a finished negotiation.
+
+**Reversals** (Class 4). "Beware of sudden counterparty reversals at the end of
+negotiations." A reversal is a package worth *less to the counterparty* than that same
+side's previous one. The test has to be on the whole package rather than on single terms:
+a multi-issue negotiation moves individual terms backwards constantly, and that is
+logrolling working. Building this the naive way flagged our own agents trading a soundbar
+for a longer warranty as bad faith.
+
+**Pace and deadline pressure** (Class 2). Time between offers, and rounds used against the
+budget. A negotiation that went to the wire reads differently from one that closed early.
+
+**Session facts that were stored and never shown.** Whether either owner opted into
+priority disclosure, how many turns carried MESOs, and whether the agreement still
+verifies against the *current* signing key, which matters because a keyless instance mints
+a new one on restart.
+
 **Concession curves** (Class 3). "Declining magnitude of concessions is an unspoken signal
 to suggest closeness to the RP." Each side's own valuation of its own successive offers,
 drawn against both walk-away lines.
 
 ## Not done, in rough order of what it would be worth
 
-1. **Anchoring and first-offer effects** (Class 2). Does the opener's first offer predict
-   where the deal lands? We store every offer, so this is a query away, and it would say
-   whether our agents are susceptible to an anchor the way people are.
+1. **Anchoring across many sessions** (Class 2). The per-session reading exists now; what
+   is missing is the aggregate, which would say whether opening first systematically pays
+   on this platform the way it does for people.
 2. **Reciprocity of concessions** (Class 3). The lecture advises labelling a concession and
    waiting. Our agents already label them in the note. Nobody has measured whether a
    labelled concession actually draws one back.

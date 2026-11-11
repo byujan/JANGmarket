@@ -183,3 +183,130 @@ export function concessionSeries(
     return { round: offer.round, toSelf, conceded };
   });
 }
+
+/* -------------------------------------------------------------------------
+   Readings taken from the offer stream itself. Timestamps, opening positions
+   and direction of travel are all recorded and, until now, unread.
+   ------------------------------------------------------------------------- */
+
+/** The term a negotiation is mostly argued over: money, or the first one. */
+export function axisOf(itemSpec: ItemSpec): Dimension {
+  return itemSpec.dimensions.find((d) => d.unit === "USD") ?? itemSpec.dimensions[0];
+}
+
+export type Anchoring = {
+  axis: Dimension;
+  buyerOpen?: number;
+  sellerOpen?: number;
+  settled?: number;
+  /**
+   * Where the deal landed between the two opening positions: 0 at the
+   * seller's opening, 1 at the buyer's. Class 2's anchoring question, asked
+   * of a finished negotiation.
+   */
+  towardBuyer?: number;
+};
+
+export function anchoring(
+  itemSpec: ItemSpec,
+  offers: Offer[],
+  buyerAgentId: string,
+  settledTerms?: Terms,
+): Anchoring {
+  const axis = axisOf(itemSpec);
+  const firstFrom = (isBuyer: boolean) =>
+    offers.find((o) => (o.fromAgentId === buyerAgentId) === isBuyer)?.terms[axis.key];
+
+  const buyerOpen = firstFrom(true);
+  const sellerOpen = firstFrom(false);
+  const settled = settledTerms?.[axis.key];
+
+  let towardBuyer: number | undefined;
+  if (buyerOpen !== undefined && sellerOpen !== undefined && settled !== undefined) {
+    const span = buyerOpen - sellerOpen;
+    towardBuyer = span === 0 ? 0.5 : Math.max(0, Math.min(1, (settled - sellerOpen) / span));
+  }
+  return { axis, buyerOpen, sellerOpen, settled, towardBuyer };
+}
+
+export type Reversal = {
+  offerId: string;
+  round: number;
+  fromAgentId: string;
+  /** What the counterparty lost between this side's previous offer and this one. */
+  worseBy: number;
+  /** The terms that moved away from the counterparty, for context. */
+  pulledBack: { key: string; label: string; from: number; to: number }[];
+};
+
+/**
+ * Offers that are worth *less to the counterparty* than the same side's
+ * previous offer.
+ *
+ * Class 4 warns to "beware of sudden counterparty reversals at the end of
+ * negotiations". The test has to be on the whole package: a multi-issue
+ * negotiation moves individual terms backwards all the time, and that is
+ * logrolling working, not bad faith. Only a package that leaves the other
+ * side worse off than the last one did is a reversal.
+ *
+ * Needs the counterparty's mandate, so this is an operator's reading.
+ */
+export function reversals(
+  itemSpec: ItemSpec,
+  offers: Offer[],
+  mandates: Record<string, Mandate>,
+  participants: { buyer: string; seller: string },
+): Reversal[] {
+  const found: Reversal[] = [];
+  const previous = new Map<string, Terms>();
+
+  for (const offer of offers) {
+    const mine = previous.get(offer.fromAgentId);
+    const otherId = offer.fromAgentId === participants.buyer ? participants.seller : participants.buyer;
+    const theirMandate = mandates[otherId];
+
+    if (mine && theirMandate) {
+      const before = utility(mine, theirMandate);
+      const now = utility(offer.terms, theirMandate);
+      if (now < before - 1e-9) {
+        found.push({
+          offerId: offer.offerId,
+          round: offer.round,
+          fromAgentId: offer.fromAgentId,
+          worseBy: before - now,
+          pulledBack: itemSpec.dimensions
+            .filter((d) => mine[d.key] !== offer.terms[d.key])
+            .map((d) => ({ key: d.key, label: d.label, from: mine[d.key], to: offer.terms[d.key] })),
+        });
+      }
+    }
+    previous.set(offer.fromAgentId, offer.terms);
+  }
+  return found;
+}
+
+export type Pace = {
+  /** Seconds from the previous offer to this one. */
+  steps: { round: number; fromAgentId: string; seconds: number }[];
+  totalSeconds: number;
+  /** Rounds used as a share of the budget. Near 1 means it went to the wire. */
+  roundPressure: number;
+};
+
+export function pace(offers: Offer[], maxRounds: number): Pace {
+  const steps = offers.map((offer, i) => ({
+    round: offer.round,
+    fromAgentId: offer.fromAgentId,
+    seconds:
+      i === 0
+        ? 0
+        : Math.max(0, (Date.parse(offer.createdAt) - Date.parse(offers[i - 1].createdAt)) / 1000),
+  }));
+  const first = offers[0] ? Date.parse(offers[0].createdAt) : 0;
+  const last = offers.at(-1) ? Date.parse(offers.at(-1)!.createdAt) : 0;
+  return {
+    steps,
+    totalSeconds: offers.length > 1 ? Math.max(0, (last - first) / 1000) : 0,
+    roundPressure: maxRounds > 0 ? Math.min(1, offers.length / maxRounds) : 0,
+  };
+}

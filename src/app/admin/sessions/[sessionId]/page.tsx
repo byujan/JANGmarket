@@ -3,7 +3,17 @@ import { notFound, redirect } from "next/navigation";
 import { ConvergenceLadder } from "@/components/ConvergenceLadder.tsx";
 import { ConcessionChart } from "@/components/ConcessionChart.tsx";
 import { FrontierChart } from "@/components/FrontierChart.tsx";
-import { classifyIssues, compromiseBenchmark, concessionSeries, loseLose } from "@/lib/jang/analysis.ts";
+import {
+  anchoring,
+  classifyIssues,
+  compromiseBenchmark,
+  concessionSeries,
+  loseLose,
+  pace,
+  reversals,
+} from "@/lib/jang/analysis.ts";
+import { verifyAgreementSignature } from "@/lib/jang/agreement.ts";
+import { jang } from "@/lib/server/service.ts";
 import { bestImprovement, quality, sessionFrontier } from "@/lib/jang/frontier.ts";
 import { utility } from "@/lib/jang/utility.ts";
 import { currentOwner } from "@/lib/server/owner.ts";
@@ -38,6 +48,17 @@ export default async function AdminSession({ params }: { params: Promise<{ sessi
     ? compromiseBenchmark(session.itemSpec, buyer, seller, truth, agreement.terms)
     : undefined;
   const dealQuality = agreement ? quality(agreement.terms, buyer, seller, truth) : undefined;
+  const anchors = anchoring(session.itemSpec, session.offers, session.participants.buyer, agreement?.terms);
+  const pulledBack = reversals(session.itemSpec, session.offers, session.mandates, session.participants);
+  const tempo = pace(session.offers, session.maxRounds);
+  const mesoOffers = session.offers.filter((offer) => (offer.alternatives?.length ?? 0) > 0);
+  // Re-checked rather than trusted: a keyless instance mints a new signing key
+  // on restart, and an agreement signed before that will not verify after it.
+  const signatureHolds = agreement ? verifyAgreementSignature(agreement, jang.publicKey) : undefined;
+  const disclosedBy = [buyer.disclosePriorities ? "buyer" : null, seller.disclosePriorities ? "seller" : null]
+    .filter(Boolean)
+    .join(" and ");
+  const span = (seconds: number) => (seconds >= 90 ? `${(seconds / 60).toFixed(1)} min` : `${seconds.toFixed(1)} s`);
   const missed = agreement ? bestImprovement(agreement.terms, buyer, seller, truth) : undefined;
 
   return (
@@ -71,6 +92,76 @@ export default async function AdminSession({ params }: { params: Promise<{ sessi
           missed={missed}
           dimensions={session.itemSpec.dimensions}
         />
+      </section>
+
+      <section className="section enter">
+        <div className="panel">
+          <div className="panel-head">
+            <h2>Where it started and where it landed</h2>
+            <span className="panel-meta">opening positions, and the ground between them</span>
+          </div>
+          <div className="panel-body">
+            <dl className="cards" style={{ margin: 0 }}>
+              <div className="card">
+                <dt>Seller opened at</dt>
+                <dd className="mono seller">
+                  {anchors.sellerOpen === undefined ? "none" : formatTerm(anchors.axis, anchors.sellerOpen)}
+                </dd>
+                <span className="card-foot">first {anchors.axis.label.toLowerCase()} named</span>
+              </div>
+              <div className="card">
+                <dt>Buyer opened at</dt>
+                <dd className="mono buyer">
+                  {anchors.buyerOpen === undefined ? "none" : formatTerm(anchors.axis, anchors.buyerOpen)}
+                </dd>
+                <span className="card-foot">first {anchors.axis.label.toLowerCase()} named</span>
+              </div>
+              <div className="card">
+                <dt>Settled</dt>
+                <dd className="mono">
+                  {anchors.settled === undefined ? "none" : formatTerm(anchors.axis, anchors.settled)}
+                </dd>
+                <span className="card-foot">
+                  {anchors.towardBuyer === undefined
+                    ? "no agreement"
+                    : `${(anchors.towardBuyer * 100).toFixed(0)}% of the way to the buyer's opening`}
+                </span>
+              </div>
+              <div className="card">
+                <dt>Rounds used</dt>
+                <dd className="mono">
+                  {session.offers.length}/{session.maxRounds}
+                </dd>
+                <span className="card-foot">
+                  {tempo.roundPressure >= 0.9 ? "went to the wire" : `over ${span(tempo.totalSeconds)}`}
+                </span>
+              </div>
+            </dl>
+
+            {pulledBack.length > 0 ? (
+              <div className="notice notice-warn" style={{ marginTop: "1rem" }}>
+                {pulledBack.length === 1 ? "One offer" : `${pulledBack.length} offers`} pulled a term back after
+                conceding it:{" "}
+                {pulledBack
+                  .map((r) => `round ${r.round} (${r.pulledBack.map((t) => t.label.toLowerCase()).join(", ")})`)
+                  .join("; ")}
+                . A reversal late in a negotiation is worth a look.
+              </div>
+            ) : null}
+
+            <p className="small faint" style={{ marginTop: "0.9rem", marginBottom: 0 }}>
+              {mesoOffers.length > 0
+                ? `${mesoOffers.length} ${mesoOffers.length === 1 ? "turn" : "turns"} put several equally good packages on the table at once. `
+                : "Neither side offered alternatives; every turn carried one package. "}
+              {disclosedBy ? `Priority order was disclosed by the ${disclosedBy}. ` : "Neither owner disclosed their priority order. "}
+              {signatureHolds === undefined
+                ? ""
+                : signatureHolds
+                  ? "The agreement still verifies against the current signing key."
+                  : "The agreement does NOT verify against the current signing key: it was signed before a restart."}
+            </p>
+          </div>
+        </div>
       </section>
 
       <section className="section enter">
@@ -203,6 +294,12 @@ export default async function AdminSession({ params }: { params: Promise<{ sessi
       </section>
     </main>
   );
+}
+
+function formatTerm(dimension: { unit?: string; min: number; max: number }, value: number): string {
+  if (dimension.unit === "USD") return `$${value.toLocaleString("en-US")}`;
+  if (dimension.min === 0 && dimension.max === 1) return value ? "yes" : "no";
+  return `${value}${dimension.unit ? ` ${dimension.unit}` : ""}`;
 }
 
 function describeBound(bound?: { min?: number; max?: number }): string {
