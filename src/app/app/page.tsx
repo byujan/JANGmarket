@@ -33,7 +33,7 @@ export default async function Console() {
     .filter((option): option is NonNullable<typeof option> => Boolean(option));
 
   return (
-    <main className="page">
+    <main className="page page-wide">
       <div className="page-head">
         <h1>{owner.displayName ? `Hello, ${owner.displayName}` : "Your console"}</h1>
         <p>
@@ -60,19 +60,23 @@ export default async function Console() {
         <LaunchNegotiation options={launchable} />
       </section>
 
-      <section className="section">
-        <div className="row-between">
-          <h2>Your agents</h2>
-          <Link className="small mute" href="/app/agents">
-            Register an agent
-          </Link>
-        </div>
-        {agents.length === 0 ? (
-          <div className="empty">
-            <strong>No agents yet</strong>
-            An agent is the software that negotiates for you. <Link href="/app/agents">Register one</Link> to get a key.
+      <section className="section enter" style={{ "--i": 1 } as React.CSSProperties}>
+        <div className="panel">
+          <div className="panel-head">
+            <h2>Your agents</h2>
+            <Link className="panel-meta" href="/app/agents">
+              Register an agent
+            </Link>
           </div>
-        ) : (
+          {agents.length === 0 ? (
+            <div className="panel-body">
+              <div className="empty">
+            <strong>No agents yet</strong>
+                An agent is the software that negotiates for you. <Link href="/app/agents">Register one</Link> to get
+                a key.
+              </div>
+            </div>
+          ) : (
           <table className="table">
             <thead>
               <tr>
@@ -90,21 +94,28 @@ export default async function Console() {
                     {mandates.filter((mandate) => mandate.agentId === agent.agentId).length}
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </section>
 
-      <section className="section">
-        <h2>Limits you have signed</h2>
-        {mandates.length === 0 ? (
-          <div className="empty">
-            <strong>You have not set any limits yet</strong>
-            Until you do, your agent has no authority to act. <Link href="/app/mandates/new">Set your limits</Link>{" "}
-            Set your budget, what matters most, and when to walk away.
+      <section className="section enter" style={{ "--i": 2 } as React.CSSProperties}>
+        <div className="panel">
+          <div className="panel-head">
+            <h2>Limits you have signed</h2>
           </div>
-        ) : (
+          {mandates.length === 0 ? (
+            <div className="panel-body">
+              <div className="empty">
+            <strong>You have not set any limits yet</strong>
+                Until you do, your agent has no authority to act.{" "}
+                <Link href="/app/mandates/new">Set your limits</Link>: your budget, what matters most, and when to
+                walk away.
+              </div>
+            </div>
+          ) : (
           <table className="table">
             <thead>
               <tr>
@@ -124,38 +135,45 @@ export default async function Console() {
                   <td className="mono small">{mandate.reservationUtility}</td>
                   <td className="small faint">{new Date(mandate.expiresAt).toLocaleDateString()}</td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </section>
 
-      <section className="section">
-        <div className="row-between">
-          <h2>Recent negotiations</h2>
-          <Link className="small mute" href="/app/negotiations">
-            See all
-          </Link>
+      <section className="section enter" style={{ "--i": 3 } as React.CSSProperties}>
+        <div className="panel">
+          <div className="panel-head">
+            <h2>Recent negotiations</h2>
+            <Link className="panel-meta" href="/app/negotiations">
+              See all
+            </Link>
+          </div>
+          {sessions.length === 0 ? (
+            <div className="panel-body">
+              <p className="mute small" style={{ margin: 0 }}>
+                None yet.
+              </p>
+            </div>
+          ) : (
+            <table className="table">
+              <tbody>
+                {sessions.map((session) => (
+                  <tr key={session.sessionId}>
+                    <td>
+                      <Link href={`/app/negotiations/${session.sessionId}`}>{session.itemTitle}</Link>
+                    </td>
+                    <td className="num mono small">{session.rounds} rounds</td>
+                    <td>
+                      <span className={`tag tag-${session.status}`}>{session.status}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
-        {sessions.length === 0 ? (
-          <p className="mute small">None yet.</p>
-        ) : (
-          <table className="table">
-            <tbody>
-              {sessions.map((session) => (
-                <tr key={session.sessionId}>
-                  <td>
-                    <Link href={`/app/negotiations/${session.sessionId}`}>{session.itemTitle}</Link>
-                  </td>
-                  <td className="num mono small">{session.rounds} rounds</td>
-                  <td>
-                    <span className={`tag tag-${session.status}`}>{session.status}</span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
       </section>
     </main>
   );

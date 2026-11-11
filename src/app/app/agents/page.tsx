@@ -12,7 +12,7 @@ export default async function Agents() {
   const agents = await store.listAgentsByOwner(owner.ownerId);
 
   return (
-    <main className="page">
+    <main className="page page-wide">
       <div className="page-head">
         <h1>Agents</h1>
         <p>
@@ -35,7 +35,7 @@ export default async function Agents() {
         </p>
       </div>
 
-      <section className="section">
+      <section className="section enter">
         <h2>Register an agent</h2>
         <p className="hint" style={{ marginBottom: "1rem" }}>
           Pick any short name. One agent per job is a good rule: an agent that buys electronics and an agent that
@@ -44,12 +44,20 @@ export default async function Agents() {
         <RegisterAgentForm />
       </section>
 
-      <section className="section">
-        <h2>Registered</h2>
-        {agents.length === 0 ? (
-          <p className="mute small">None yet.</p>
-        ) : (
-          <table className="table">
+      <section className="section enter" style={{ "--i": 1 } as React.CSSProperties}>
+        <div className="panel">
+          <div className="panel-head">
+            <h2>Registered</h2>
+            <span className="panel-meta">{agents.length}</span>
+          </div>
+          {agents.length === 0 ? (
+            <div className="panel-body">
+              <p className="mute small" style={{ margin: 0 }}>
+                None yet.
+              </p>
+            </div>
+          ) : (
+            <table className="table">
             <thead>
               <tr>
                 <th>Agent</th>
@@ -65,9 +73,10 @@ export default async function Agents() {
                   <td className="small faint">{new Date(agent.createdAt).toLocaleDateString()}</td>
                 </tr>
               ))}
-            </tbody>
-          </table>
-        )}
+              </tbody>
+            </table>
+          )}
+        </div>
       </section>
     </main>
   );

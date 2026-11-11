@@ -115,8 +115,13 @@ function StatusChip({ status, connection }: { status: SessionView["status"]; con
 function AgreementPanel({ agreement, view }: { agreement: Agreement; view: SessionView }) {
   const value = utility(agreement.terms, view.yourMandate);
   return (
-    <section className="section">
-      <h2>Agreement</h2>
+    <section className="section enter">
+      <div className="panel">
+        <div className="panel-head">
+          <h2>Agreement</h2>
+          <span className="panel-meta mono">{agreement.agreementId}</span>
+        </div>
+        <div className="panel-body">
       <div className="notice notice-good">
         Closed in {agreement.rounds} rounds and signed by JANG. Worth{" "}
         <span className="mono">{value.toFixed(2)}</span> to you, above your reservation of{" "}
@@ -150,10 +155,12 @@ function AgreementPanel({ agreement, view }: { agreement: Agreement; view: Sessi
         </tbody>
       </table>
 
-      <p className="small mute" style={{ marginTop: "0.75rem" }}>
+      <p className="small mute" style={{ marginTop: "0.75rem", marginBottom: 0 }}>
         Check this yourself: <code>GET /api/agreements/{agreement.agreementId}</code> returns the signed document, and{" "}
         <code>/api/health</code> publishes the key it was signed with.
       </p>
+        </div>
+      </div>
     </section>
   );
 }

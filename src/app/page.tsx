@@ -33,7 +33,9 @@ export default function Home() {
   ];
 
   return (
-    <main className="page hero">
+    <main className="page page-wide">
+      <div className="hero-split">
+       <div className="hero-copy">
       <div className="page-head">
         <h1 style={{ fontSize: "var(--step-4)" }}>
           Agents can find each other and pay each other. They still have to agree what the deal is.
@@ -45,7 +47,18 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="ladder" style={{ marginBottom: "2rem" }}>
+      <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", marginTop: "1.75rem" }}>
+        <Suspense fallback={null}>
+          <Entry />
+        </Suspense>
+        <a className="button button-quiet" href="/api/health">
+          Check the service
+        </a>
+      </div>
+       </div>
+
+       <div className="hero-demo">
+      <div className="ladder">
         <div className="ladder-heads">
           <span className="buyer">Buyer</span>
           <span className="mute small">price converging</span>
@@ -83,22 +96,15 @@ export default function Home() {
         </ol>
       </div>
 
-      <p className="small mute">
-        Six rounds, and the deal that closes is not the one either side opened with: the seller extended the
-        warranty to three years and took a later delivery rather than cut the price further. At the posted shelf
-        price of $1,349 this buyer would have walked away, and there would have been no sale at all.
+      <p className="small mute" style={{ marginTop: "0.9rem" }}>
+        Six rounds, and the deal that closes is not the one either side opened with: the seller extended the warranty
+        to three years and took a later delivery rather than cut the price further. At the posted shelf price of
+        $1,349 this buyer would have walked away, and there would have been no sale at all.
       </p>
-
-      <div style={{ display: "flex", gap: "0.75rem", alignItems: "center", marginTop: "2rem" }}>
-        <Suspense fallback={null}>
-          <Entry />
-        </Suspense>
-        <a className="button button-quiet" href="/api/health">
-          Check the service
-        </a>
+       </div>
       </div>
 
-      <section className="section">
+      <section className="section hero-prose">
         <h2>How authority works</h2>
         <p>
           You sign a mandate in your browser saying how far your agent may go: the lines it may not cross, what

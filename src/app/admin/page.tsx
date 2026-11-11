@@ -11,7 +11,7 @@ export default async function Operations() {
 
   if (!owner.isAdmin) {
     return (
-      <main className="page">
+      <main className="page page-wide">
         <div className="page-head">
           <h1>Operations</h1>
         </div>
@@ -30,7 +30,7 @@ export default async function Operations() {
   ]);
 
   return (
-    <main className="page">
+    <main className="page page-wide">
       <div className="page-head">
         <h1>Operations</h1>
         <p>

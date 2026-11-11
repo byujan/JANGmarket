@@ -1007,3 +1007,312 @@ input[type="checkbox"] {
 .hero p {
   max-width: none;
 }
+
+/* =========================================================================
+   Application surfaces
+   The marketing page is a column of prose and stays narrow. Everything behind
+   a sign-in is a working surface: it fills the window, groups into panels, and
+   says what is live.
+   ========================================================================= */
+
+.page-wide {
+  max-width: 1480px;
+}
+
+/* ---------- panels ---------- */
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--raise);
+  /* A single hairline of light along the top edge, so a panel reads as raised
+     without a drop shadow under everything. */
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  overflow: hidden;
+}
+
+.panel + .panel {
+  margin-top: 1.25rem;
+}
+
+.panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(var(--sunk), var(--raise));
+}
+
+.panel-head h2,
+.panel-head h3 {
+  font-size: var(--step-0);
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.panel-meta {
+  font-size: var(--step--1);
+  color: var(--faint);
+  white-space: nowrap;
+}
+
+.panel-body {
+  padding: 1.1rem;
+}
+
+/* A table reaches the panel's edges; its own padding supplies the inset. */
+.panel > .table {
+  margin: 0;
+}
+
+/* ---------- tables that look like data, not like text ---------- */
+
+.table thead th {
+  position: sticky;
+  top: 3.3rem;
+  z-index: 1;
+  background: var(--sunk);
+  padding: 0.55rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+  font-size: var(--step--1);
+  font-weight: 500;
+  color: var(--mute);
+  letter-spacing: 0.01em;
+}
+
+.table tbody td {
+  padding: 0.7rem 1.1rem;
+  border-bottom: 1px solid var(--line-soft);
+  vertical-align: middle;
+}
+
+.table tbody tr {
+  transition: background 120ms ease;
+}
+
+/* The row under the cursor gains an edge rather than a wash, so the eye lands
+   on the start of the row and reads across it. */
+.table tbody tr:hover {
+  background: #202b38;
+  box-shadow: inset 2px 0 0 var(--buyer);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table a {
+  text-decoration: none;
+  border-bottom: 1px solid var(--line);
+}
+
+.table a:hover {
+  border-bottom-color: var(--buyer);
+  color: #fff;
+}
+
+/* ---------- figures ---------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+  margin: 0 0 1.25rem;
+}
+
+.card {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--raise);
+  padding: 0.9rem 1.1rem 1rem;
+  overflow: hidden;
+}
+
+.card dt {
+  font-size: var(--step--1);
+  color: var(--mute);
+  margin: 0;
+}
+
+.card dd {
+  margin: 0.35rem 0 0;
+  font-size: var(--step-4);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.card-foot {
+  display: block;
+  margin-top: 0.45rem;
+  font-size: var(--step--1);
+  color: var(--faint);
+}
+
+/* The one card that is happening now carries the accent, and nothing else does. */
+.card-live {
+  border-color: var(--buyer-dim);
+}
+
+.card-live::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: var(--buyer);
+}
+
+.card-live dd {
+  color: var(--buyer);
+}
+
+/* ---------- one orchestrated entrance ---------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.enter {
+  animation: rise 420ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* ---------- status, filled rather than outlined ---------- */
+
+.tag-open {
+  color: var(--buyer);
+  background: rgba(224, 160, 60, 0.12);
+  border-color: var(--buyer-dim);
+}
+
+.tag-agreed {
+  color: var(--agree);
+  background: rgba(111, 191, 115, 0.12);
+  border-color: #2f4a31;
+}
+
+.tag-expired,
+.tag-failed {
+  color: var(--deny);
+  background: rgba(198, 90, 90, 0.12);
+  border-color: #4a2f2f;
+}
+
+@media (max-width: 860px) {
+  .table thead th {
+    position: static;
+  }
+}
+
+/* ---------- the event feed ---------- */
+
+.feed-item {
+  grid-template-columns: 6rem 1fr;
+  padding: 0.5rem 0.75rem;
+  border-left-width: 2px;
+  border-radius: 0 3px 3px 0;
+  align-items: baseline;
+}
+
+.feed-item + .feed-item {
+  margin-top: 0.2rem;
+}
+
+/* A refusal is the authority model working, so it is the thing an operator
+   should find without reading every row. */
+.feed-deny {
+  background: rgba(198, 90, 90, 0.07);
+}
+
+.feed-deny .mono {
+  color: var(--deny);
+}
+
+/* ---------- empty states inside panels ---------- */
+
+.panel .empty {
+  border-style: dashed;
+  background: var(--sunk);
+}
+
+/* ---------- sheets ----------
+   A form page whose every section is a panel. Done here rather than by
+   wrapping each one, so a form can grow a section without also growing a
+   layer of markup around it. */
+
+.sheet .section {
+  margin-top: 1.25rem;
+  padding: 0 1.1rem 1.15rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--raise);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.sheet .section > h2 {
+  margin: 0 -1.1rem 1rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--line);
+  border-radius: 5px 5px 0 0;
+  background: linear-gradient(var(--sunk), var(--raise));
+  font-size: var(--step-0);
+}
+
+/* A section inside a section is a grouping, not another panel. */
+.sheet .section .section {
+  margin-top: 1rem;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.sheet .section .section > h2 {
+  margin: 0 0 0.6rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--mute);
+  font-size: var(--step--1);
+}
+
+/* ---------- the landing hero ----------
+   The claim and the thing it claims, side by side, so a wide window shows the
+   product working rather than a column of text with space beside it. */
+
+.hero-split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 3.5rem;
+  align-items: center;
+  padding: 1.5rem 0 2.5rem;
+}
+
+.hero-copy .page-head {
+  margin-bottom: 0;
+}
+
+.hero-copy p {
+  max-width: 46ch;
+}
+
+/* Prose below the fold keeps a readable measure of its own. */
+.hero-prose {
+  max-width: 62ch;
+}
+
+@media (max-width: 1000px) {
+  .hero-split {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+    padding-top: 0.5rem;
+  }
+}

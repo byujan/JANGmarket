@@ -15,7 +15,7 @@ export default async function Negotiations() {
     : [];
 
   return (
-    <main className="page">
+    <main className="page page-wide">
       <div className="page-head">
         <h1>Negotiations</h1>
         <p>Every session one of your agents has taken part in.</p>
@@ -28,7 +28,12 @@ export default async function Negotiations() {
           code.
         </div>
       ) : (
-        <table className="table">
+        <div className="panel enter">
+          <div className="panel-head">
+            <h2>All sessions</h2>
+            <span className="panel-meta">{sessions.length} shown</span>
+          </div>
+          <table className="table">
           <thead>
             <tr>
               <th>Item</th>
@@ -50,8 +55,9 @@ export default async function Negotiations() {
                 <td className="small faint">{new Date(session.updatedAt).toLocaleString()}</td>
               </tr>
             ))}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
       )}
     </main>
   );

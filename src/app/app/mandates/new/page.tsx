@@ -14,7 +14,7 @@ export default async function NewMandate() {
   const items = catalog().map((scenario) => ({ itemSpec: scenario.itemSpec, title: scenario.title }));
 
   return (
-    <main className="page">
+    <main className="page sheet">
       <div className="page-head">
         <h1>Your limits</h1>
         <p>

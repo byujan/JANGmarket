@@ -42,29 +42,53 @@ export function OperationsBoard({ initial }: { initial: Board }) {
 
   return (
     <>
-      <div className="row-between" style={{ marginBottom: "1.5rem" }}>
-        <dl className="stats" title="Across every agent on this instance, not only your own">
-          <Stat label="Negotiating now" value={board.counts.open} />
-          <Stat label="Deals closed" value={board.counts.agreed} />
-          <Stat label="Refusals held" value={board.refusals} />
-        </dl>
+      <div className="row-between" style={{ marginBottom: "0.9rem" }}>
+        <p className="small faint" style={{ margin: 0 }}>
+          Across every agent on this instance, not only your own.
+        </p>
         <span className={`tag${live ? " tag-open tag-pulse" : ""}`}>{live ? "Live" : "Not connected"}</span>
       </div>
 
-      <section className="section">
-        <div className="row-between">
-          <h2>Sessions</h2>
-          <span className="small faint">
-            {board.sessions.length} most recent of {board.counts.total}
-          </span>
-        </div>
-        {board.sessions.length === 0 ? (
-          <div className="empty">
-            <strong>Nothing has been negotiated yet</strong>
-            Sessions appear here the moment an agent opens one, whether it came from this site or straight from MCP.
+      <dl className="cards">
+        <Stat
+          label="Negotiating now"
+          value={board.counts.open}
+          foot={board.counts.open > 0 ? "updating as agents move" : "nothing in flight"}
+          live={board.counts.open > 0}
+          index={0}
+        />
+        <Stat
+          label="Deals closed"
+          value={board.counts.agreed}
+          foot={`${board.counts.total} sessions all told`}
+          index={1}
+        />
+        <Stat
+          label="Refusals held"
+          value={board.refusals}
+          foot="offers blocked by a mandate"
+          index={2}
+        />
+      </dl>
+
+      <section className="section enter" style={{ "--i": 3 } as React.CSSProperties}>
+        <div className="panel">
+          <div className="panel-head">
+            <h2>Sessions</h2>
+            <span className="panel-meta">
+              {board.sessions.length} most recent of {board.counts.total}
+            </span>
           </div>
-        ) : (
-          <table className="table">
+          {board.sessions.length === 0 ? (
+            <div className="panel-body">
+              <div className="empty">
+                <strong>Nothing has been negotiated yet</strong>
+                Sessions appear here the moment an agent opens one, whether it came from this site or straight from
+                MCP.
+              </div>
+            </div>
+          ) : (
+            <table className="table">
             <thead>
               <tr>
                 <th>Item</th>
@@ -90,20 +114,25 @@ export function OperationsBoard({ initial }: { initial: Board }) {
                   <td className="small faint mono">{new Date(session.updatedAt).toLocaleTimeString()}</td>
                 </tr>
               ))}
-            </tbody>
-          </table>
-        )}
+              </tbody>
+            </table>
+          )}
+        </div>
       </section>
 
-      <section className="section">
-        <div className="row-between">
-          <h2>Refusals and events</h2>
-          <span className="small faint">{board.events.length} most recent</span>
-        </div>
-        {board.events.length === 0 ? (
-          <p className="mute small">Nothing recorded yet.</p>
-        ) : (
-          <ul className="feed">
+      <section className="section enter" style={{ "--i": 4 } as React.CSSProperties}>
+        <div className="panel">
+          <div className="panel-head">
+            <h2>Refusals and events</h2>
+            <span className="panel-meta">{board.events.length} most recent</span>
+          </div>
+          <div className="panel-body">
+            {board.events.length === 0 ? (
+              <p className="mute small" style={{ margin: 0 }}>
+                Nothing recorded yet.
+              </p>
+            ) : (
+              <ul className="feed">
             {board.events.map((event, index) => (
               <li
                 key={event.id ?? index}
@@ -117,8 +146,10 @@ export function OperationsBoard({ initial }: { initial: Board }) {
                 </span>
               </li>
             ))}
-          </ul>
-        )}
+              </ul>
+            )}
+          </div>
+        </div>
       </section>
     </>
   );
@@ -135,11 +166,24 @@ function describe(event: EventRecord): string {
   return event.kind;
 }
 
-function Stat({ label, value }: { label: string; value: number }) {
+function Stat({
+  label,
+  value,
+  foot,
+  live,
+  index,
+}: {
+  label: string;
+  value: number;
+  foot: string;
+  live?: boolean;
+  index: number;
+}) {
   return (
-    <div className="stat">
-      <dt className="small mute">{label}</dt>
+    <div className={`card enter${live ? " card-live" : ""}`} style={{ "--i": index } as React.CSSProperties}>
+      <dt>{label}</dt>
       <dd className="mono">{value}</dd>
+      <span className="card-foot">{foot}</span>
     </div>
   );
 }
