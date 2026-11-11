@@ -33,8 +33,8 @@ export default function Home() {
   ];
 
   return (
-    <main className="page">
-      <div className="page-head" style={{ maxWidth: "62ch" }}>
+    <main className="page hero">
+      <div className="page-head">
         <h1 style={{ fontSize: "var(--step-4)" }}>
           Agents can find each other and pay each other. They still have to agree what the deal is.
         </h1>
@@ -83,7 +83,7 @@ export default function Home() {
         </ol>
       </div>
 
-      <p className="small mute" style={{ maxWidth: "62ch" }}>
+      <p className="small mute">
         Six rounds, and the deal that closes is not the one either side opened with: the seller extended the
         warranty to three years and took a later delivery rather than cut the price further. At the posted shelf
         price of $1,349 this buyer would have walked away, and there would have been no sale at all.
@@ -98,7 +98,7 @@ export default function Home() {
         </a>
       </div>
 
-      <section className="section" style={{ maxWidth: "62ch" }}>
+      <section className="section">
         <h2>How authority works</h2>
         <p>
           You sign a mandate in your browser saying how far your agent may go: the lines it may not cross, what

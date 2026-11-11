@@ -211,6 +211,13 @@ code,
 
 .shell-main {
   min-width: 0;
+  /*
+   * Pin it to the second track. The rail renders nothing at all when signed
+   * out, and without this the main content becomes the grid's only child,
+   * drops into the rail's `auto` track, sizes to its content and leaves the
+   * 1fr track empty beside it.
+   */
+  grid-column: 2;
 }
 
 .siderail {
@@ -460,6 +467,11 @@ label {
   /* The rail becomes a strip above the content rather than disappearing. */
   .shell {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* One track here, so the pinning above would invent a second one. */
+  .shell-main {
+    grid-column: auto;
   }
 
   .siderail {
@@ -975,4 +987,23 @@ input[type="checkbox"] {
   width: auto;
   flex: none;
   margin-top: 0.2rem;
+}
+
+/*
+ * The landing page is one column of a single width. Capping some children and
+ * not others left the prose at 62ch while the ladder ran to the full page,
+ * so the two shared a left edge and nothing else.
+ */
+.hero {
+  max-width: 62ch;
+  margin-inline: auto;
+}
+
+/*
+ * The column already sets the measure. Leaving the global paragraph cap in
+ * place made small-type paragraphs narrower than the rest, because `ch` is
+ * computed against their own smaller font.
+ */
+.hero p {
+  max-width: none;
 }
