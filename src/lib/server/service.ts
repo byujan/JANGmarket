@@ -1,5 +1,6 @@
 import { createHash, randomUUID } from "node:crypto";
 import { buildAgreementBody, signAgreement } from "../jang/agreement.ts";
+import type { DilemmaPoint } from "../jang/analysis.ts";
 import { bestImprovement, quality, sessionFrontier } from "../jang/frontier.ts";
 import { verifyMandate } from "../jang/mandate.ts";
 import {
@@ -237,6 +238,44 @@ export class JangService {
     } catch {
       return undefined;
     }
+  }
+
+  /**
+   * Readings of every closed negotiation, for the operator's charts. Derived
+   * from both private mandates, so it is never offered to an agent and never
+   * reaches an owner's own view of a session.
+   */
+  async operatorReadings(limit = 60): Promise<DilemmaPoint[]> {
+    const summaries = await this.store.listSessions({ status: "agreed", limit });
+    const points: DilemmaPoint[] = [];
+
+    for (const summary of summaries) {
+      const session = await this.store.getSession(summary.sessionId);
+      if (!session?.agreementId) continue;
+      const agreement = await this.store.getAgreement(session.agreementId);
+      if (!agreement) continue;
+
+      try {
+        const truth = sessionFrontier(session);
+        const q = quality(
+          agreement.terms,
+          session.mandates[session.participants.buyer],
+          session.mandates[session.participants.seller],
+          truth,
+        );
+        points.push({
+          sessionId: session.sessionId,
+          itemTitle: session.itemSpec.title,
+          created: Number.isFinite(q.efficiency) ? Math.max(0, Math.min(1, q.efficiency)) : 0,
+          claimed: Number.isFinite(q.buyerShare) ? Math.max(0, Math.min(1, q.buyerShare)) : 0,
+          paretoOptimal: q.paretoOptimal,
+        });
+      } catch {
+        // A session whose lattice will not build is left out rather than
+        // allowed to take the whole board down with it.
+      }
+    }
+    return points;
   }
 
   async getAgreement(agreementId: string): Promise<Agreement> {

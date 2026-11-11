@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ConvergenceLadder } from "@/components/ConvergenceLadder.tsx";
+import { ConcessionChart } from "@/components/ConcessionChart.tsx";
 import { FrontierChart } from "@/components/FrontierChart.tsx";
+import { classifyIssues, compromiseBenchmark, concessionSeries, loseLose } from "@/lib/jang/analysis.ts";
 import { bestImprovement, quality, sessionFrontier } from "@/lib/jang/frontier.ts";
 import { utility } from "@/lib/jang/utility.ts";
 import { currentOwner } from "@/lib/server/owner.ts";
@@ -30,11 +32,16 @@ export default async function AdminSession({ params }: { params: Promise<{ sessi
   const buyer = session.mandates[session.participants.buyer];
   const seller = session.mandates[session.participants.seller];
   const truth = sessionFrontier(session);
+  const issues = classifyIssues(session.itemSpec, buyer, seller);
+  const loseLoseTerms = agreement ? loseLose(agreement.terms, issues) : [];
+  const benchmark = agreement
+    ? compromiseBenchmark(session.itemSpec, buyer, seller, truth, agreement.terms)
+    : undefined;
   const dealQuality = agreement ? quality(agreement.terms, buyer, seller, truth) : undefined;
   const missed = agreement ? bestImprovement(agreement.terms, buyer, seller, truth) : undefined;
 
   return (
-    <main className="page">
+    <main className="page page-wide">
       <p className="small mute" style={{ marginBottom: "0.75rem" }}>
         <Link href="/admin">Operations</Link> <span className="faint">/</span>{" "}
         <span className="mono">{session.sessionId}</span>
@@ -64,6 +71,78 @@ export default async function AdminSession({ params }: { params: Promise<{ sessi
           missed={missed}
           dimensions={session.itemSpec.dimensions}
         />
+      </section>
+
+      <section className="section enter">
+        <div className="panel">
+          <div className="panel-head">
+            <h2>How each side moved</h2>
+            <span className="panel-meta">declining steps signal closeness to a walk-away</span>
+          </div>
+          <div className="panel-body">
+            <ConcessionChart
+              buyer={concessionSeries(session.offers, session.participants.buyer, buyer)}
+              seller={concessionSeries(session.offers, session.participants.seller, seller)}
+              buyerReservation={buyer.reservationUtility}
+              sellerReservation={seller.reservationUtility}
+              maxRounds={session.maxRounds}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="section enter">
+        <div className="panel">
+          <div className="panel-head">
+            <h2>What kind of terms these were</h2>
+            <span className="panel-meta">
+              {issues.filter((i) => i.kind === "integrative").length} offered a trade
+            </span>
+          </div>
+          <div className="panel-body">
+            <p className="hint" style={{ marginTop: 0 }}>
+              A term both sides want the same end of is compatible, and settling it anywhere else loses value for
+              nobody&apos;s benefit. A term they pull against but weigh very differently is where a trade lives.
+            </p>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Term</th>
+                  <th>Kind</th>
+                  <th className="num">Buyer&apos;s attention</th>
+                  <th className="num">Seller&apos;s attention</th>
+                </tr>
+              </thead>
+              <tbody>
+                {issues.map((issue) => (
+                  <tr key={issue.key}>
+                    <th scope="row">{issue.label}</th>
+                    <td>
+                      <span className={`issue-kind issue-${issue.kind}`}>{issue.kind}</span>
+                    </td>
+                    <td className="num mono small">{(issue.buyerWeight * 100).toFixed(0)}%</td>
+                    <td className="num mono small">{(issue.sellerWeight * 100).toFixed(0)}%</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {loseLoseTerms.length > 0 ? (
+              <div className="notice notice-warn" style={{ marginTop: "1rem" }}>
+                Lose-lose: {loseLoseTerms.map((i) => i.label.toLowerCase()).join(", ")} settled away from what both
+                owners
+                wanted. Nobody gained by it.
+              </div>
+            ) : null}
+            {benchmark ? (
+              <p className="small mute" style={{ marginTop: "1rem", marginBottom: 0 }}>
+                Splitting every term down the middle{" "}
+                {benchmark.compromiseAllowed
+                  ? `would have reached ${(benchmark.compromise * 100).toFixed(0)}% of the value available, against ${(benchmark.achieved * 100).toFixed(0)}% for the deal they actually struck.`
+                  : "would not have been allowed by both mandates at all, so the compromise everyone reaches for was never a deal here."}
+              </p>
+            ) : null}
+          </div>
+        </div>
       </section>
 
       <section className="section">

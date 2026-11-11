@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
+import { ConcessionChart } from "@/components/ConcessionChart.tsx";
 import { ConvergenceLadder } from "@/components/ConvergenceLadder.tsx";
+import { DilemmaChart } from "@/components/DilemmaChart.tsx";
 import { MandateBuilder } from "@/components/MandateBuilder.tsx";
 import { GettingStarted } from "@/components/GettingStarted.tsx";
 import { OperationsBoard } from "@/components/OperationsBoard.tsx";
@@ -88,6 +90,48 @@ export default function Preview() {
       <section className="section">
         <h2>Getting started, at step two</h2>
         <GettingStarted progress={{ agents: 1, mandates: 0, negotiations: 0 }} />
+      </section>
+
+      <section className="section">
+        <h2>Operator charts</h2>
+        <div className="panel">
+          <div className="panel-head">
+            <h2>Creating and claiming</h2>
+            <span className="panel-meta">5 closed deals</span>
+          </div>
+          <div className="panel-body">
+            <div className="chart-row">
+              <DilemmaChart
+                points={[
+                  { sessionId: "s1", itemTitle: "Clearance OLED", created: 0.95, claimed: 0.52, paretoOptimal: true },
+                  { sessionId: "s2", itemTitle: "Cambridge lease", created: 0.88, claimed: 0.61, paretoOptimal: true },
+                  { sessionId: "s3", itemTitle: "Clearance OLED", created: 0.61, claimed: 0.34, paretoOptimal: false },
+                  { sessionId: "s4", itemTitle: "Clearance OLED", created: 0.47, claimed: 0.72, paretoOptimal: false },
+                  { sessionId: "s5", itemTitle: "Cambridge lease", created: 0.79, claimed: 0.48, paretoOptimal: false },
+                ]}
+              />
+              <ConcessionChart
+                buyer={[
+                  { round: 2, toSelf: 1.0, conceded: 0 },
+                  { round: 4, toSelf: 0.84, conceded: 0.16 },
+                  { round: 6, toSelf: 0.71, conceded: 0.13 },
+                  { round: 8, toSelf: 0.63, conceded: 0.08 },
+                  { round: 10, toSelf: 0.6, conceded: 0.03 },
+                ]}
+                seller={[
+                  { round: 1, toSelf: 0.98, conceded: 0 },
+                  { round: 3, toSelf: 0.8, conceded: 0.18 },
+                  { round: 5, toSelf: 0.66, conceded: 0.14 },
+                  { round: 7, toSelf: 0.58, conceded: 0.08 },
+                  { round: 9, toSelf: 0.55, conceded: 0.03 },
+                ]}
+                buyerReservation={0.3}
+                sellerReservation={0.35}
+                maxRounds={12}
+              />
+            </div>
+          </div>
+        </div>
       </section>
 
       <section className="section">
