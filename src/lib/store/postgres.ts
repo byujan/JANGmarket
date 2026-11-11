@@ -25,7 +25,11 @@ export class PostgresStore implements Store {
     private readonly databaseName = "",
   ) {}
 
-  static fromUrl(url: string): PostgresStore {
+  /**
+   * `sql` may be supplied so a caller can keep one connection pool alive
+   * across reloads while still rebuilding the wrapper from current code.
+   */
+  static fromUrl(url: string, sql?: Sql): PostgresStore {
     let databaseName = "";
     try {
       databaseName = new URL(url).pathname.replace(/^\//, "");
@@ -33,7 +37,7 @@ export class PostgresStore implements Store {
       // An unparseable URL simply gets no name, which the reset guard treats
       // as "not obviously a test database" and refuses.
     }
-    return new PostgresStore(postgres(url, { onnotice: () => {} }), databaseName);
+    return new PostgresStore(sql ?? postgres(url, { onnotice: () => {} }), databaseName);
   }
 
   async upsertOwner(owner: OwnerRecord): Promise<void> {
