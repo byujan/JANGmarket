@@ -1,0 +1,49 @@
+{
+  "scenarioId": "datacentre-power",
+  "title": "Datacentre power contract, twelve-month supply",
+  "itemSpec": {
+    "itemId": "item-power-supply",
+    "title": "Datacentre power contract, twelve-month supply",
+    "description": "An operator needs firm power for a year and a generator has capacity to commit. The rate per megawatt-hour is the obvious term, but the contract length, how much load may be curtailed at peak, and how quickly the operator is paid all carry real value, and each side prices them very differently.",
+    "dimensions": [
+      { "key": "ratePerMwh", "label": "Rate", "unit": "USD/MWh", "min": 30, "max": 180, "step": 1, "buyerPrefers": "low" },
+      { "key": "termMonths", "label": "Contract length", "unit": "months", "min": 3, "max": 36, "step": 3, "buyerPrefers": "low" },
+      { "key": "curtailmentHours", "label": "Curtailable hours a year", "unit": "hours", "min": 0, "max": 200, "step": 10, "buyerPrefers": "low" },
+      { "key": "paymentDays", "label": "Payment terms", "unit": "days", "min": 7, "max": 90, "step": 7, "buyerPrefers": "high" }
+    ]
+  },
+  "buyer": {
+    "agentId": "agent-buyer-operator",
+    "ownerId": "owner-meridian-compute",
+    "role": "buyer",
+    "persona": "You buy power for a datacentre running inference workloads. Above about 120 USD per MWh the site stops making sense. Curtailment is what you really fear: every hour your load can be cut is an hour of missed work, and you will pay a noticeably higher rate to avoid it. A longer contract is mildly unattractive because prices may fall, and slow payment terms help your cash position.",
+    "constraints": { "ratePerMwh": { "max": 120 }, "curtailmentHours": { "max": 120 } },
+    "preferences": {
+      "ratePerMwh": { "weight": 3, "ideal": 45, "worst": 120 },
+      "termMonths": { "weight": 1, "ideal": 6, "worst": 36 },
+      "curtailmentHours": { "weight": 4, "ideal": 0, "worst": 120 },
+      "paymentDays": { "weight": 2, "ideal": 90, "worst": 7 }
+    },
+    "reservationUtility": 0.3
+  },
+  "seller": {
+    "agentId": "agent-seller-generator",
+    "ownerId": "owner-cascade-power",
+    "role": "seller",
+    "persona": "You sell firm power from a plant that is cheap to run but expensive to keep idle. Below about 55 USD per MWh you lose money. A long contract is worth a great deal to you because it lets you finance maintenance, and you will give up rate to get one. Curtailment rights are valuable but tradeable; being paid quickly matters less than people assume.",
+    "constraints": { "ratePerMwh": { "min": 55 }, "termMonths": { "min": 6 } },
+    "preferences": {
+      "ratePerMwh": { "weight": 3, "ideal": 150, "worst": 55 },
+      "termMonths": { "weight": 4, "ideal": 36, "worst": 6 },
+      "curtailmentHours": { "weight": 2, "ideal": 200, "worst": 0 },
+      "paymentDays": { "weight": 1, "ideal": 7, "worst": 90 }
+    },
+    "reservationUtility": 0.3
+  },
+  "fixedPriceBaseline": {
+    "label": "The generator's standard tariff, take it or leave it",
+    "terms": { "ratePerMwh": 115, "termMonths": 24, "curtailmentHours": 150, "paymentDays": 30 }
+  },
+  "maxRounds": 12,
+  "mandateTtlSeconds": 3600
+}

@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 const primary = [
   { href: "/app", label: "Console", exact: true },
   { href: "/app/agents", label: "Agents" },
+  { href: "/app/items/new", label: "List an item" },
   { href: "/app/mandates/new", label: "Your limits" },
   { href: "/app/negotiations", label: "Negotiations" },
 ];

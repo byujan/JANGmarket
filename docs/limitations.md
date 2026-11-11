@@ -69,6 +69,32 @@ What it does not do:
 - **An expired or abandoned session still counts as a rival** until it closes,
   so contention reads high after a burst of dead sessions.
 
+## 5c. Listings, and the counterparty they get
+
+An owner can list an item with terms of their own, stored in the database
+rather than written as a scenario file. The terms and their ranges are public,
+because a counterparty cannot make an offer without them; how far the lister
+would actually go stays private and is signed in their browser like any other
+mandate.
+
+The other side is derived from the item's declared ranges alone, never from the
+lister's mandate. That is deliberate: a counterparty built from your own limits
+could always deal with you, and the negotiation would be theatre. Derived this
+way the house holds a real position and refuses packages it does not like.
+
+It is still a synthetic counterparty, with the obvious consequences:
+
+- **It is the same every time.** One listing, one house position, forever. No
+  variation, no learning, no second opinion.
+- **Its position is a guess from the ranges**, at fixed fractions written into
+  `listing.ts`. A listing whose ranges are unrealistic gets an unrealistic
+  counterparty, and nothing warns the lister.
+- **Owner-to-owner still is not wired up in the console.** The protocol allows
+  it, and a listing names which side is open, but nothing yet lets one owner
+  discover another's listing and take the other side of it.
+- **Nothing expires or withdraws a listing.** It stays in the catalogue until
+  the row is deleted by hand.
+
 ## 5a. The only counterparty is the house
 
 An owner negotiating from the console bargains against JANG's own house agent, which runs

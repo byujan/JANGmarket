@@ -39,7 +39,13 @@ import {
 } from "@/lib/jang/elicit.ts";
 import type { Dimension, ItemSpec, MandateBody, Role } from "@/lib/jang/types.ts";
 
-export type BuilderItem = { itemSpec: ItemSpec; title: string };
+export type BuilderItem = {
+  itemSpec: ItemSpec;
+  title: string;
+  /** For a listing, the side still open. Built-in markets leave this unset. */
+  openRole?: Role;
+  source?: "built-in" | "listed";
+};
 
 type Setting = { limit: number };
 
@@ -84,13 +90,17 @@ export function MandateBuilder({
   const router = useRouter();
   const [itemId, setItemId] = useState(items[0]?.itemSpec.itemId ?? "");
   const [agentId, setAgentId] = useState(agents[0]?.agentId ?? "");
-  const [role, setRole] = useState<Role>("buyer");
+  const [chosenRole, setRole] = useState<Role>("buyer");
   const [days, setDays] = useState(7);
   const [disclose, setDisclose] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string>();
 
   const item = items.find((candidate) => candidate.itemSpec.itemId === itemId);
+  // A listing leaves exactly one side open, so there is nothing to choose and
+  // everything below works from this rather than from what the select says.
+  const fixedRole = item?.openRole;
+  const role: Role = fixedRole ?? chosenRole;
   const dimensions = useMemo(() => item?.itemSpec.dimensions ?? [], [item]);
 
   // Start every limit at the owner's own worst case: full authority, which
@@ -317,10 +327,19 @@ export function MandateBuilder({
       <div className="field-row" style={{ marginBottom: "1.25rem" }}>
         <div>
           <label htmlFor="role">Side</label>
-          <select id="role" value={role} onChange={(event) => setRole(event.target.value as Role)}>
-            <option value="buyer">Buying</option>
-            <option value="seller">Selling</option>
-          </select>
+          {fixedRole ? (
+            <>
+              <input id="role" value={fixedRole === "buyer" ? "Buying" : "Selling"} readOnly />
+              <p className="hint">
+                Whoever listed this took the other side, so this one is yours.
+              </p>
+            </>
+          ) : (
+            <select id="role" value={chosenRole} onChange={(event) => setRole(event.target.value as Role)}>
+              <option value="buyer">Buying</option>
+              <option value="seller">Selling</option>
+            </select>
+          )}
         </div>
         <div>
           <label htmlFor="days">Expires in</label>

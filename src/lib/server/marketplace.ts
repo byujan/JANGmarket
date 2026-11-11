@@ -7,7 +7,11 @@ import { join } from "node:path";
 import { runRuleAgent } from "../../../agents/runner.ts";
 import { ServicePort } from "../../../agents/service-port.ts";
 import { issueMandate, parseScenario, type Scenario } from "../jang/scenario.ts";
-import { JangError, type ItemSpec } from "../jang/types.ts";
+import { houseMandateBody, opposite } from "../jang/listing.ts";
+import { signMandate } from "../jang/mandate.ts";
+import { generateKeyPair } from "../jang/crypto.ts";
+import type { ItemRecord } from "../store/types.ts";
+import { JangError, type ItemSpec, type Role } from "../jang/types.ts";
 import { store } from "../store/index.ts";
 import { jang } from "./service.ts";
 
@@ -19,6 +23,58 @@ export function catalog(): Scenario[] {
     .filter((name) => name.endsWith(".json"))
     .map((name) => parseScenario(JSON.parse(readFileSync(join(SCENARIO_DIR, name), "utf8"))))
     .sort((a, b) => a.title.localeCompare(b.title));
+}
+
+/**
+ * Everything negotiable: the scenario files that ship with the project, and
+ * the items people listed. A listing has no written counterparty, so one is
+ * derived from its declared ranges when a negotiation starts.
+ */
+export type CatalogueEntry = {
+  itemSpec: ItemSpec;
+  title: string;
+  description?: string;
+  /** Which side a visitor may take. A listing leaves the other side open. */
+  openRole?: Role;
+  source: "built-in" | "listed";
+  listedBy?: string;
+};
+
+export async function catalogue(): Promise<CatalogueEntry[]> {
+  const built = catalog().map((scenario) => ({
+    itemSpec: scenario.itemSpec,
+    title: scenario.title,
+    description: scenario.itemSpec.description,
+    source: "built-in" as const,
+  }));
+
+  const listed = (await store.listItems({ limit: 200 })).map((item) => ({
+    itemSpec: itemSpecOfListing(item),
+    title: item.title,
+    description: item.description,
+    // The lister took one side, so a visitor takes the other.
+    openRole: opposite(item.listedRole),
+    source: "listed" as const,
+    listedBy: item.ownerId,
+  }));
+
+  return [...listed, ...built];
+}
+
+export function itemSpecOfListing(item: ItemRecord): ItemSpec {
+  return {
+    itemId: item.itemId,
+    title: item.title,
+    description: item.description,
+    dimensions: item.dimensions,
+  };
+}
+
+/** The spec for anything negotiable, listed or built in. */
+export async function specFor(itemId: string): Promise<ItemSpec> {
+  const listed = await store.getItem(itemId);
+  if (listed) return itemSpecOfListing(listed);
+  return catalogItem(itemId).itemSpec;
 }
 
 export function catalogItem(itemId: string): Scenario {
@@ -40,6 +96,33 @@ const HOUSE_OWNER = "jang-house";
  * is a real agent under a real signed mandate, getting no special treatment
  * from the engine, so that a single person can run an honest negotiation.
  */
+/**
+ * The house's agent for an item somebody listed. Its position comes from the
+ * item's ranges, never from the lister's mandate, so it is a real counterparty
+ * rather than an echo.
+ */
+export async function ensureHouseForListing(item: ItemRecord): Promise<string> {
+  const agentId = `house-${item.itemId}`;
+  if (!(await store.getAgent(agentId))) {
+    await jang.registerAgent({ agentId, ownerId: HOUSE_OWNER, label: `House side of ${item.title}` });
+  }
+
+  if (!(await store.getMandate(agentId, item.itemId))) {
+    const keys = generateKeyPair();
+    const body = houseMandateBody({
+      itemSpec: itemSpecOfListing(item),
+      listedRole: item.listedRole,
+      agentId,
+      ownerId: HOUSE_OWNER,
+      mandateId: `mdt_house_${item.itemId}`,
+      expiresAt: new Date(Date.now() + 365 * 86_400_000).toISOString(),
+      supply: 10_000,
+    });
+    await store.putMandate(signMandate(body, keys.privateKeyPem, keys.publicKeyPem));
+  }
+  return agentId;
+}
+
 export async function ensureHouseAgent(scenario: Scenario): Promise<string> {
   const agentId = `house-${scenario.itemSpec.itemId}`;
   const existing = await store.getAgent(agentId);
@@ -81,21 +164,28 @@ export async function launchNegotiation(input: {
     throw new JangError("UNAUTHORIZED", "that agent does not belong to you");
   }
 
-  const scenario = catalogItem(input.itemId);
+  const listing = await store.getItem(input.itemId);
+  const scenario = listing ? undefined : catalogItem(input.itemId);
+  const itemSpec = listing ? itemSpecOfListing(listing) : scenario!.itemSpec;
   const mine = await store.getMandate(input.agentId, input.itemId);
   if (!mine) {
     throw new JangError("INVALID_MANDATE", "issue a mandate for this item before starting a negotiation");
   }
-  if (mine.role !== "buyer") {
-    throw new JangError("INVALID_MANDATE", "the house takes the seller side, so your agent needs a buyer mandate");
+  // A listing leaves one side open; a built-in market has the house selling.
+  const openRole = listing ? opposite(listing.listedRole) : "buyer";
+  if (mine.role !== openRole) {
+    throw new JangError(
+      "INVALID_MANDATE",
+      `the other side of this item is already taken, so your agent needs a ${openRole} mandate`,
+    );
   }
 
-  const houseAgentId = await ensureHouseAgent(scenario);
+  const houseAgentId = listing ? await ensureHouseForListing(listing) : await ensureHouseAgent(scenario!);
   const view = await jang.openSession({
     agentId: houseAgentId,
     counterpartyAgentId: input.agentId,
-    itemSpec: scenario.itemSpec,
-    maxRounds: scenario.maxRounds,
+    itemSpec,
+    maxRounds: scenario?.maxRounds ?? 12,
     ttlSeconds: 900,
   });
 

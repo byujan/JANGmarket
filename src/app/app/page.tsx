@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { GettingStarted } from "@/components/GettingStarted.tsx";
 import { LaunchNegotiation } from "@/components/LaunchNegotiation.tsx";
-import { catalog } from "@/lib/server/marketplace.ts";
+import { catalogue } from "@/lib/server/marketplace.ts";
 import { currentOwner } from "@/lib/server/owner.ts";
 import { store } from "@/lib/store/index.ts";
 
@@ -20,9 +20,9 @@ export default async function Console() {
     ? await store.listSessions({ agentIds: agents.map((agent) => agent.agentId), limit: 8 })
     : [];
 
-  const items = catalog();
+  const items = await catalogue();
   const launchable = mandates
-    .filter((mandate) => mandate.role === "buyer")
+
     .map((mandate) => {
       const item = items.find((candidate) => candidate.itemSpec.itemId === mandate.itemId);
       const agent = agents.find((candidate) => candidate.agentId === mandate.agentId);

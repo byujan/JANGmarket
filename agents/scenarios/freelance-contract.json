@@ -1,0 +1,49 @@
+{
+  "scenarioId": "freelance-contract",
+  "title": "Freelance design contract, brand refresh",
+  "itemSpec": {
+    "itemId": "item-freelance-brand",
+    "title": "Freelance design contract, brand refresh",
+    "description": "A small company needs a brand refresh and a designer has capacity next quarter. Fee is only one of the terms: the deadline, how many rounds of revisions are included, and whether the designer keeps portfolio rights are all negotiable, and the two sides value them very differently.",
+    "dimensions": [
+      { "key": "fee", "label": "Fee", "unit": "USD", "min": 2000, "max": 20000, "step": 250, "buyerPrefers": "low" },
+      { "key": "deliveryWeeks", "label": "Delivery", "unit": "weeks", "min": 2, "max": 16, "step": 1, "buyerPrefers": "low" },
+      { "key": "revisions", "label": "Revision rounds", "min": 1, "max": 8, "step": 1, "buyerPrefers": "high" },
+      { "key": "portfolioRights", "label": "Designer may show the work", "min": 0, "max": 1, "step": 1, "buyerPrefers": "low" }
+    ]
+  },
+  "buyer": {
+    "agentId": "agent-buyer-client",
+    "ownerId": "owner-northwind",
+    "role": "buyer",
+    "persona": "You are buying a brand refresh for a company that has budgeted around 9,000 USD. The launch date is the thing you actually care about, far more than the fee: every week late costs you more than a few hundred dollars of fee would. You would rather not have the work shown publicly before launch, but it is not a dealbreaker.",
+    "constraints": { "fee": { "max": 11000 }, "deliveryWeeks": { "max": 10 } },
+    "preferences": {
+      "fee": { "weight": 2, "ideal": 6000, "worst": 11000 },
+      "deliveryWeeks": { "weight": 5, "ideal": 3, "worst": 10 },
+      "revisions": { "weight": 2, "ideal": 6, "worst": 1 },
+      "portfolioRights": { "weight": 1, "ideal": 0, "worst": 1 }
+    },
+    "reservationUtility": 0.3
+  },
+  "seller": {
+    "agentId": "agent-seller-designer",
+    "ownerId": "owner-studio-sora",
+    "role": "seller",
+    "persona": "You are a designer with one slot next quarter. Below about 5,500 USD the work is not worth taking. Showing the finished work in your portfolio matters a great deal to you, because it is how you win the next client, and you will trade real money for it. Tight deadlines are expensive for you; revisions are cheap.",
+    "constraints": { "fee": { "min": 5500 }, "revisions": { "max": 8 } },
+    "preferences": {
+      "fee": { "weight": 3, "ideal": 14000, "worst": 5500 },
+      "deliveryWeeks": { "weight": 3, "ideal": 12, "worst": 3 },
+      "revisions": { "weight": 1, "ideal": 1, "worst": 8 },
+      "portfolioRights": { "weight": 3, "ideal": 1, "worst": 0 }
+    },
+    "reservationUtility": 0.3
+  },
+  "fixedPriceBaseline": {
+    "label": "The designer's posted day rate, take it or leave it",
+    "terms": { "fee": 12000, "deliveryWeeks": 10, "revisions": 2, "portfolioRights": 1 }
+  },
+  "maxRounds": 12,
+  "mandateTtlSeconds": 3600
+}

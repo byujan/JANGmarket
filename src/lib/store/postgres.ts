@@ -3,6 +3,7 @@ import type { Agreement, ItemSpec, Mandate, Offer, Session } from "../jang/types
 import type {
   AgentRecord,
   EventRecord,
+  ItemRecord,
   OwnerRecord,
   MarketState,
   SessionCounts,
@@ -243,6 +244,34 @@ export class PostgresStore implements Store {
     return rows[0]?.body as Agreement | undefined;
   }
 
+  async putItem(item: ItemRecord): Promise<void> {
+    await this.sql`
+      insert into items (item_id, owner_id, title, description, listed_role, dimensions, created_at)
+      values (${item.itemId}, ${item.ownerId}, ${item.title}, ${item.description ?? null},
+              ${item.listedRole}, ${this.sql.json(item.dimensions)}, ${item.createdAt})
+      on conflict (item_id) do update set
+        title = excluded.title,
+        description = excluded.description,
+        listed_role = excluded.listed_role,
+        dimensions = excluded.dimensions
+    `;
+  }
+
+  async getItem(itemId: string): Promise<ItemRecord | undefined> {
+    const rows = await this.sql`select * from items where item_id = ${itemId}`;
+    return rows[0] ? toItem(rows[0]) : undefined;
+  }
+
+  async listItems(filter: { ownerId?: string; limit?: number } = {}): Promise<ItemRecord[]> {
+    const rows = await this.sql`
+      select * from items
+      where (${filter.ownerId ?? null}::text is null or owner_id = ${filter.ownerId ?? null})
+      order by created_at desc
+      limit ${filter.limit ?? 100}
+    `;
+    return rows.map(toItem);
+  }
+
   async recordEvent(event: EventRecord): Promise<void> {
     await this.sql`
       insert into events (session_id, agent_id, kind, code, message, detail, created_at)
@@ -295,8 +324,20 @@ export class PostgresStore implements Store {
           "reset() only runs against a database with \"test\" in its name",
       );
     }
-    await this.sql`truncate owners, agents, mandates, sessions, offers, agreements, events cascade`;
+    await this.sql`truncate owners, agents, mandates, sessions, offers, agreements, events, items cascade`;
   }
+}
+
+function toItem(row: Record<string, unknown>): ItemRecord {
+  return {
+    itemId: row.item_id as string,
+    ownerId: row.owner_id as string,
+    title: row.title as string,
+    description: (row.description as string) ?? undefined,
+    listedRole: row.listed_role as ItemRecord["listedRole"],
+    dimensions: row.dimensions as ItemRecord["dimensions"],
+    createdAt: new Date(row.created_at as string).toISOString(),
+  };
 }
 
 function toOwner(row: Record<string, unknown>): OwnerRecord {

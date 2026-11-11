@@ -1,4 +1,4 @@
-import type { Agreement, Mandate, Role, Session } from "../jang/types.ts";
+import type { Agreement, Dimension, Mandate, Role, Session } from "../jang/types.ts";
 
 /** A person who signs in and delegates authority to agents. */
 export type OwnerRecord = {
@@ -71,6 +71,22 @@ export type SessionCounts = { open: number; agreed: number; expired: number; fai
  */
 export type MarketState = { committed: number; openSessions: number };
 
+/**
+ * An item an owner listed, with the terms they are willing to negotiate over.
+ * The scenario files that ship with the project are the other source; these
+ * are the ones people create.
+ */
+export type ItemRecord = {
+  itemId: string;
+  ownerId: string;
+  title: string;
+  description?: string;
+  /** The side the person listing it takes; the other side is open to anyone. */
+  listedRole: Role;
+  dimensions: Dimension[];
+  createdAt: string;
+};
+
 export interface Store {
   upsertOwner(owner: OwnerRecord): Promise<void>;
   getOwner(ownerId: string): Promise<OwnerRecord | undefined>;
@@ -100,6 +116,10 @@ export interface Store {
 
   putAgreement(agreement: Agreement): Promise<void>;
   getAgreement(agreementId: string): Promise<Agreement | undefined>;
+
+  putItem(item: ItemRecord): Promise<void>;
+  getItem(itemId: string): Promise<ItemRecord | undefined>;
+  listItems(filter?: { ownerId?: string; limit?: number }): Promise<ItemRecord[]>;
 
   recordEvent(event: EventRecord): Promise<void>;
   listEvents(filter?: { sessionId?: string; limit?: number }): Promise<EventRecord[]>;

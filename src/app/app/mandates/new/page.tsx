@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { MandateBuilder } from "@/components/MandateBuilder.tsx";
-import { catalog } from "@/lib/server/marketplace.ts";
+import { catalogue } from "@/lib/server/marketplace.ts";
 import { currentOwner } from "@/lib/server/owner.ts";
 import { store } from "@/lib/store/index.ts";
 
@@ -11,7 +11,12 @@ export default async function NewMandate() {
   if (!owner) redirect("/sign-in");
 
   const agents = await store.listAgentsByOwner(owner.ownerId);
-  const items = catalog().map((scenario) => ({ itemSpec: scenario.itemSpec, title: scenario.title }));
+  const items = (await catalogue()).map((entry) => ({
+    itemSpec: entry.itemSpec,
+    title: entry.title,
+    openRole: entry.openRole,
+    source: entry.source,
+  }));
 
   return (
     <main className="page sheet">

@@ -97,3 +97,19 @@ create table if not exists events (
 );
 create index if not exists events_created_idx on events (created_at desc);
 create index if not exists events_session_idx on events (session_id, created_at desc);
+
+-- Items an owner listed themselves, as opposed to the scenario files that ship
+-- with the project. The terms are the owner's own: whatever they are willing
+-- to negotiate over, with the range each one may move across.
+create table if not exists items (
+  item_id      text primary key,
+  owner_id     text not null,
+  title        text not null,
+  description  text,
+  -- The role the person who listed it takes. The other side is open.
+  listed_role  text not null,
+  dimensions   jsonb not null,
+  created_at   timestamptz not null default now()
+);
+create index if not exists items_owner_idx on items (owner_id);
+create index if not exists items_created_idx on items (created_at desc);

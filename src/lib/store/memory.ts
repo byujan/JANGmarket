@@ -2,6 +2,7 @@ import type { Agreement, Mandate, Session } from "../jang/types.ts";
 import type {
   AgentRecord,
   EventRecord,
+  ItemRecord,
   OwnerRecord,
   MarketState,
   SessionCounts,
@@ -18,6 +19,7 @@ export class MemoryStore implements Store {
   private mandates = new Map<string, Mandate>();
   private sessions = new Map<string, Session>();
   private agreements = new Map<string, Agreement>();
+  private items = new Map<string, ItemRecord>();
   private events: EventRecord[] = [];
 
   async upsertOwner(owner: OwnerRecord): Promise<void> {
@@ -130,6 +132,21 @@ export class MemoryStore implements Store {
     return this.agreements.get(agreementId);
   }
 
+  async putItem(item: ItemRecord): Promise<void> {
+    this.items.set(item.itemId, item);
+  }
+
+  async getItem(itemId: string): Promise<ItemRecord | undefined> {
+    return this.items.get(itemId);
+  }
+
+  async listItems(filter: { ownerId?: string; limit?: number } = {}): Promise<ItemRecord[]> {
+    return [...this.items.values()]
+      .filter((item) => !filter.ownerId || item.ownerId === filter.ownerId)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .slice(0, filter.limit ?? 100);
+  }
+
   async recordEvent(event: EventRecord): Promise<void> {
     this.events.push({ ...event, id: String(this.events.length + 1) });
   }
@@ -152,6 +169,7 @@ export class MemoryStore implements Store {
     this.mandates.clear();
     this.sessions.clear();
     this.agreements.clear();
+    this.items.clear();
     this.events = [];
   }
 }
