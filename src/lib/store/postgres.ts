@@ -1,4 +1,5 @@
 import postgres, { type Sql } from "postgres";
+import { isPosture } from "../posture.ts";
 import type { Agreement, ItemSpec, Mandate, Offer, Session } from "../jang/types.ts";
 import type {
   AgentRecord,
@@ -70,8 +71,9 @@ export class PostgresStore implements Store {
 
   async createAgent(record: AgentRecord): Promise<void> {
     await this.sql`
-      insert into agents (agent_id, owner_id, label, api_key_hash, created_at)
+      insert into agents (agent_id, owner_id, label, posture, brief, api_key_hash, created_at)
       values (${record.agentId}, ${record.ownerId}, ${record.label ?? null},
+              ${record.posture ?? null}, ${record.brief ?? null},
               ${record.apiKeyHash}, ${record.createdAt})
     `;
   }
@@ -356,6 +358,8 @@ function toAgent(row: Record<string, unknown>): AgentRecord {
     agentId: row.agent_id as string,
     ownerId: row.owner_id as string,
     label: (row.label as string) ?? undefined,
+    posture: isPosture(row.posture) ? row.posture : undefined,
+    brief: (row.brief as string) ?? undefined,
     apiKeyHash: row.api_key_hash as string,
     createdAt: new Date(row.created_at as string).toISOString(),
   };

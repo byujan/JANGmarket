@@ -1,4 +1,5 @@
 import { createHash, randomUUID } from "node:crypto";
+import type { Posture } from "../posture.ts";
 import { buildAgreementBody, signAgreement } from "../jang/agreement.ts";
 import type { DilemmaPoint } from "../jang/analysis.ts";
 import type { Market } from "../jang/types.ts";
@@ -38,7 +39,13 @@ export class JangService {
     return jangKeys.publicKeyPem;
   }
 
-  async registerAgent(input: { agentId: string; ownerId: string; label?: string }): Promise<{ agent: AgentRecord; apiKey: string }> {
+  async registerAgent(input: {
+    agentId: string;
+    ownerId: string;
+    label?: string;
+    posture?: Posture;
+    brief?: string;
+  }): Promise<{ agent: AgentRecord; apiKey: string }> {
     if (await this.store.getAgent(input.agentId)) {
       throw new JangError("UNAUTHORIZED", `agent ${input.agentId} is already registered`);
     }
@@ -47,6 +54,8 @@ export class JangService {
       agentId: input.agentId,
       ownerId: input.ownerId,
       label: input.label,
+      ...(input.posture ? { posture: input.posture } : {}),
+      ...(input.brief ? { brief: input.brief } : {}),
       apiKeyHash: hashApiKey(apiKey),
       createdAt: new Date().toISOString(),
     };

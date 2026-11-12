@@ -1,4 +1,5 @@
 import type { Agreement, Dimension, Mandate, Role, Session } from "../jang/types.ts";
+import type { Posture } from "../posture.ts";
 
 /** A person who signs in and delegates authority to agents. */
 export type OwnerRecord = {
@@ -15,6 +16,10 @@ export type AgentRecord = {
   agentId: string;
   ownerId: string;
   label?: string;
+  /** How hard this agent bargains inside its mandate. See lib/posture.ts. */
+  posture?: Posture;
+  /** Free text the owner wrote for agents that read prose rather than numbers. */
+  brief?: string;
   apiKeyHash: string;
   createdAt: string;
 };

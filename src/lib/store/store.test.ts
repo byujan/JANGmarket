@@ -110,6 +110,29 @@ for (const candidate of candidates) {
       expect((await store.listAgentsByOwner("own_1")).map((a) => a.agentId).sort()).toEqual(["a1", "a2"]);
     });
 
+    it("keeps an agent's posture and brief, and leaves them unset when they were", async () => {
+      const base = { ownerId: "own_posture", createdAt: new Date().toISOString() };
+      await store.createAgent({
+        ...base,
+        agentId: "a-pushy",
+        apiKeyHash: "hash-pushy",
+        label: "buys electronics",
+        posture: "aggressive",
+        brief: "Push hard on price. Never tie us in beyond a year.",
+      });
+      await store.createAgent({ ...base, agentId: "a-plain", apiKeyHash: "hash-plain" });
+
+      const pushy = await store.getAgent("a-pushy");
+      expect(pushy?.posture).toBe("aggressive");
+      expect(pushy?.brief).toBe("Push hard on price. Never tie us in beyond a year.");
+
+      // An agent registered before the dial existed reads back without one,
+      // rather than silently acquiring the default at the storage layer.
+      const plain = await store.getAgent("a-plain");
+      expect(plain?.posture).toBeUndefined();
+      expect(plain?.brief).toBeUndefined();
+    });
+
     it("keeps one mandate per agent and item, replacing on re-lodge", async () => {
       const first = buyerMandate();
       await store.putMandate(first);

@@ -8,6 +8,7 @@ import Link from "next/link";
  */
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { DEFAULT_POSTURE, POSTURES, POSTURE_COPY, type Posture } from "@/lib/posture.ts";
 
 export function RegisterAgentForm({
   refreshOnSuccess = true,
@@ -25,6 +26,8 @@ export function RegisterAgentForm({
   const apiUrl = typeof window === "undefined" ? "http://localhost:3939" : window.location.origin;
   const [agentId, setAgentId] = useState("");
   const [label, setLabel] = useState("");
+  const [posture, setPosture] = useState<Posture>(DEFAULT_POSTURE);
+  const [brief, setBrief] = useState("");
   const [issued, setIssued] = useState<{ agentId: string; apiKey: string }>();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string>();
@@ -37,13 +40,15 @@ export function RegisterAgentForm({
       const response = await fetch("/api/owner/agents", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ agentId, label }),
+        body: JSON.stringify({ agentId, label, posture, brief }),
       });
       const payload = await response.json();
       if (!response.ok) throw new Error(payload?.error?.message ?? "Could not register that agent.");
       setIssued(payload);
       setAgentId("");
       setLabel("");
+      setPosture(DEFAULT_POSTURE);
+      setBrief("");
       if (refreshOnSuccess) router.refresh();
     } catch (problem) {
       setError(problem instanceof Error ? problem.message : String(problem));
@@ -136,6 +141,44 @@ export function RegisterAgentForm({
           </p>
         </div>
       </div>
+      <div style={{ marginTop: "1rem" }}>
+        <label htmlFor="posture">How hard it bargains</label>
+        <select
+          id="posture"
+          value={posture}
+          onChange={(event) => setPosture(event.target.value as Posture)}
+          aria-describedby="posture-hint"
+        >
+          {POSTURES.map((option) => (
+            <option key={option} value={option}>
+              {POSTURE_COPY[option].label}
+            </option>
+          ))}
+        </select>
+        <p className="hint" id="posture-hint">
+          {POSTURE_COPY[posture].blurb} This changes how quickly the agent gives ground, never what it is allowed to
+          agree to: that is the mandate, and JANG enforces it either way.
+        </p>
+      </div>
+
+      <div style={{ marginTop: "1rem" }}>
+        <label htmlFor="brief">Anything else it should know</label>
+        <textarea
+          id="brief"
+          value={brief}
+          onChange={(event) => setBrief(event.target.value)}
+          rows={3}
+          maxLength={600}
+          placeholder="Push hard on price but be generous on delivery dates. Never agree to anything that ties us in beyond a year."
+          aria-describedby="brief-hint"
+        />
+        <p className="hint" id="brief-hint">
+          Optional, and in your own words. It reaches agents that read prose, which is JANG&apos;s model-driven
+          negotiator and any agent of your own you point at JANG. The built-in negotiator the console runs reads the
+          dial above rather than this, so say the important things there too.
+        </p>
+      </div>
+
       {error ? (
         <div className="notice notice-warn" style={{ marginTop: "1rem" }}>
           {error}

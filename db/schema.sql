@@ -113,3 +113,9 @@ create table if not exists items (
 );
 create index if not exists items_owner_idx on items (owner_id);
 create index if not exists items_created_idx on items (created_at desc);
+
+-- How hard an owner's own agent bargains, and any prose they wrote for agents
+-- that read it. Added after the first agents existed, so both are nullable and
+-- an agent without them behaves exactly as it did before.
+alter table agents add column if not exists posture text;
+alter table agents add column if not exists brief   text;

@@ -33,6 +33,12 @@ export type LlmRunResult = { label: string; turns: number; toolCalls: number; us
 export async function runLlmAgent(input: {
   role: Role;
   persona: string;
+  /**
+   * What the owner wrote for this agent when they registered it. It shapes how
+   * the agent bargains; it cannot widen what the mandate allows, because JANG
+   * checks every offer against the mandate regardless of what the prompt says.
+   */
+  brief?: string;
   apiUrl: string;
   apiKey: string;
   sessionId: string;
@@ -50,7 +56,12 @@ export async function runLlmAgent(input: {
   const env = { ...process.env, ...input.env };
   const guide = env.JANG_MESO !== "off" && env.JANG_MESO_GUIDE === "on";
   const meso = !guide ? "" : readFileSync(fileURLToPath(new URL("./prompts/meso.md", import.meta.url)), "utf8");
-  const systemPrompt = readFileSync(promptPath, "utf8").replace("{{PERSONA}}", input.persona).replace("{{MESO}}", meso);
+  const brief = input.brief?.trim()
+    ? `\n\n## What your owner told you\n\nYour owner wrote this when they registered you. Follow it in how you ` +
+      `bargain, within your mandate; it never licenses an offer your mandate forbids.\n\n> ${input.brief.trim().replace(/\n/g, "\n> ")}\n`
+    : "";
+  const systemPrompt =
+    readFileSync(promptPath, "utf8").replace("{{PERSONA}}", input.persona).replace("{{MESO}}", meso) + brief;
 
   let turns = 0;
   let toolCalls = 0;

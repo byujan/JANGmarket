@@ -1260,6 +1260,18 @@ input[type="checkbox"] {
   padding-top: 0.2rem;
 }
 
+/* The owner's own words about an agent, shown under what it does. */
+.brief {
+  display: block;
+  margin-top: 0.3rem;
+  max-width: 48ch;
+  font-size: var(--step--1);
+  color: var(--faint);
+  line-height: 1.5;
+  border-left: 2px solid var(--line);
+  padding-left: 0.6rem;
+}
+
 /* ---------- one orchestrated entrance ---------- */
 
 @keyframes rise {

@@ -3,6 +3,7 @@
  * counterparty is, and how a negotiation gets started from a web page.
  */
 import { readFileSync, readdirSync } from "node:fs";
+import { toughnessOf, type Posture } from "../posture.ts";
 import { join } from "node:path";
 import { runRuleAgent } from "../../../agents/runner.ts";
 import { ServicePort } from "../../../agents/service-port.ts";
@@ -206,7 +207,10 @@ export async function launchNegotiation(input: {
     ttlSeconds: 900,
   });
 
-  void autoplay(view.sessionId, input.agentId, houseAgentId);
+  void autoplay(view.sessionId, input.agentId, houseAgentId, {
+    agentId: input.agentId,
+    posture: agent.posture,
+  });
   return { sessionId: view.sessionId };
 }
 
@@ -214,21 +218,33 @@ export async function launchNegotiation(input: {
  * Drive both agents to a conclusion in the background, slowly enough that a
  * person watching the live view can follow the bargaining.
  */
-export async function autoplay(sessionId: string, buyerAgentId: string, sellerAgentId: string): Promise<void> {
+export async function autoplay(
+  sessionId: string,
+  buyerAgentId: string,
+  sellerAgentId: string,
+  /**
+   * The posture the owner gave their own agent. The house keeps its own
+   * settled stance: posture is the owner's dial on their side of the table,
+   * not a way to make the counterparty soft.
+   */
+  yours?: { agentId: string; posture?: Posture },
+): Promise<void> {
   const thinkMs = Number(process.env.JANG_AUTOPLAY_DELAY_MS ?? 1200);
+  const toughnessFor = (agentId: string, fallback: number) =>
+    yours && yours.agentId === agentId ? toughnessOf(yours.posture) : fallback;
   try {
     await Promise.all([
       runRuleAgent({
         label: "seller",
         agent: new ServicePort(jang, sellerAgentId, sessionId),
-        options: { toughness: 1.6 },
+        options: { toughness: toughnessFor(sellerAgentId, 1.6) },
         thinkMs,
         pollMs: 200,
       }),
       runRuleAgent({
         label: "buyer",
         agent: new ServicePort(jang, buyerAgentId, sessionId),
-        options: { toughness: 1.5 },
+        options: { toughness: toughnessFor(buyerAgentId, 1.5) },
         thinkMs,
         pollMs: 200,
       }),
