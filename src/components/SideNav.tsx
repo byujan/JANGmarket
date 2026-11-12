@@ -2,18 +2,27 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  AgentsIcon,
+  ConsoleIcon,
+  LimitsIcon,
+  ListIcon,
+  MarketIcon,
+  NegotiationsIcon,
+  OperationsIcon,
+} from "./NavIcons.tsx";
 
 /**
  * The console's navigation. Client-side so the current page can be marked,
  * and so moving between pages keeps the shell mounted instead of reloading it.
  */
 const primary = [
-  { href: "/app", label: "Console", exact: true },
-  { href: "/app/agents", label: "Agents" },
-  { href: "/app/items", label: "Market", exact: true },
-  { href: "/app/items/new", label: "List an item" },
-  { href: "/app/mandates/new", label: "Your limits" },
-  { href: "/app/negotiations", label: "Negotiations" },
+  { href: "/app", label: "Console", exact: true, Icon: ConsoleIcon },
+  { href: "/app/agents", label: "Agents", Icon: AgentsIcon },
+  { href: "/app/items", label: "Market", exact: true, Icon: MarketIcon },
+  { href: "/app/items/new", label: "List an item", Icon: ListIcon },
+  { href: "/app/mandates/new", label: "Your limits", Icon: LimitsIcon },
+  { href: "/app/negotiations", label: "Negotiations", Icon: NegotiationsIcon },
 ];
 
 export function SideNav({ isAdmin }: { isAdmin: boolean }) {
@@ -31,6 +40,7 @@ export function SideNav({ isAdmin }: { isAdmin: boolean }) {
               className={isCurrent(item.href, item.exact) ? "here" : undefined}
               aria-current={isCurrent(item.href, item.exact) ? "page" : undefined}
             >
+              <item.Icon />
               {item.label}
             </Link>
           </li>
@@ -47,6 +57,7 @@ export function SideNav({ isAdmin }: { isAdmin: boolean }) {
                 className={isCurrent("/admin") ? "here" : undefined}
                 aria-current={isCurrent("/admin") ? "page" : undefined}
               >
+                <OperationsIcon />
                 Operations
               </Link>
             </li>

@@ -253,13 +253,27 @@ code,
 }
 
 .siderail a {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
   padding: 0.4rem 0.7rem;
   border-radius: var(--radius);
   color: var(--mute);
   text-decoration: none;
   /* A left edge that fills in, so the marker is the same shape as the nav. */
   border-left: 2px solid transparent;
+}
+
+/* The icon is quieter than its label until the link is hovered or current,
+   so a column of them reads as one list rather than seven competing marks. */
+.siderail a svg {
+  flex: none;
+  color: var(--faint);
+}
+
+.siderail a:hover svg,
+.siderail a.here svg {
+  color: var(--buyer);
 }
 
 .siderail a:hover {
