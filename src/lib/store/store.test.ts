@@ -133,6 +133,33 @@ for (const candidate of candidates) {
       expect(plain?.brief).toBeUndefined();
     });
 
+    it("closes sessions whose time has run out, and leaves live ones alone", async () => {
+      const live = freshSession();
+      const stale = {
+        ...freshSession(),
+        sessionId: "sess_stale",
+        expiresAt: new Date(Date.now() - 60_000).toISOString(),
+      };
+      const done = {
+        ...freshSession(),
+        sessionId: "sess_done",
+        status: "agreed" as const,
+        expiresAt: new Date(Date.now() - 60_000).toISOString(),
+      };
+      await store.putSession(live);
+      await store.putSession(stale);
+      await store.putSession(done);
+
+      expect(await store.expireStaleSessions()).toBe(1);
+      expect((await store.getSession("sess_stale"))?.status).toBe("expired");
+      expect((await store.getSession(live.sessionId))?.status).toBe("open");
+      // An agreement that ran past its session's clock is still an agreement.
+      expect((await store.getSession("sess_done"))?.status).toBe("agreed");
+
+      // Sweeping again finds nothing left to do.
+      expect(await store.expireStaleSessions()).toBe(0);
+    });
+
     it("stores a settlement, replaces it on a later mark, and reads several back", async () => {
       const base = {
         sessionId: "sess_settle",

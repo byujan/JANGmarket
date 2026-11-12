@@ -234,6 +234,15 @@ export class PostgresStore implements Store {
     return { committed, openSessions };
   }
 
+  async expireStaleSessions(now = new Date()): Promise<number> {
+    const rows = await this.sql`
+      update sessions set status = 'expired', updated_at = now()
+      where status = 'open' and expires_at <= ${now}
+      returning session_id
+    `;
+    return rows.length;
+  }
+
   async putSettlement(settlement: Settlement): Promise<void> {
     await this.sql`
       insert into settlements (agreement_id, session_id, buyer_owner_id, seller_owner_id,

@@ -123,6 +123,13 @@ export interface Store {
   putAgreement(agreement: Agreement): Promise<void>;
   getAgreement(agreementId: string): Promise<Agreement | undefined>;
 
+  /**
+   * Close every open session whose time has run out, returning how many.
+   * Nothing else ever moves a session off `open`, so without this they
+   * accumulate and the instance reports negotiations that stopped days ago.
+   */
+  expireStaleSessions(now?: Date): Promise<number>;
+
   /** What the two owners say became of an agreement. See jang/settlement.ts. */
   putSettlement(settlement: Settlement): Promise<void>;
   getSettlement(agreementId: string): Promise<Settlement | undefined>;

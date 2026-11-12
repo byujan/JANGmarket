@@ -126,6 +126,17 @@ export class MemoryStore implements Store {
     return { committed, openSessions };
   }
 
+  async expireStaleSessions(now = new Date()): Promise<number> {
+    let closed = 0;
+    for (const session of this.sessions.values()) {
+      if (session.status === "open" && new Date(session.expiresAt).getTime() <= now.getTime()) {
+        this.sessions.set(session.sessionId, { ...session, status: "expired" });
+        closed += 1;
+      }
+    }
+    return closed;
+  }
+
   async putSettlement(settlement: Settlement): Promise<void> {
     this.settlements.set(settlement.agreementId, settlement);
   }

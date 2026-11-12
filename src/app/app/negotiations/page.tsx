@@ -1,11 +1,13 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { currentOwner } from "@/lib/server/owner.ts";
+import { sweepInBackground } from "@/lib/server/sweep.ts";
 import { store } from "@/lib/store/index.ts";
 
 export const dynamic = "force-dynamic";
 
 export default async function Negotiations() {
+  sweepInBackground();
   const owner = await currentOwner();
   if (!owner) redirect("/sign-in");
 
