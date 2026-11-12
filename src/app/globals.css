@@ -130,9 +130,20 @@ code,
   justify-self: start;
 }
 
+/* The same tile as the favicon: the dark glyph on amber, rounded off. The
+   whole thing is sized in em, so it tracks the wordmark at every breakpoint. */
 .wordmark .mark {
-  margin-left: 0.12em;
+  display: inline-block;
+  margin-left: 0.24em;
+  padding: 0.12em;
+  border-radius: 0.22em;
+  background: var(--buyer);
+  color: var(--base);
+  line-height: 1;
   letter-spacing: 0;
+  /* Centres the tile on the cap height of JANG rather than hanging it from
+     the baseline, which leaves it looking high. */
+  vertical-align: -0.26em;
 }
 
 /*
