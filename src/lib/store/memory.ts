@@ -1,4 +1,5 @@
 import type { Agreement, Mandate, Session } from "../jang/types.ts";
+import type { Settlement } from "../jang/settlement.ts";
 import type {
   AgentRecord,
   EventRecord,
@@ -20,6 +21,7 @@ export class MemoryStore implements Store {
   private sessions = new Map<string, Session>();
   private agreements = new Map<string, Agreement>();
   private items = new Map<string, ItemRecord>();
+  private settlements = new Map<string, Settlement>();
   private events: EventRecord[] = [];
 
   async upsertOwner(owner: OwnerRecord): Promise<void> {
@@ -122,6 +124,18 @@ export class MemoryStore implements Store {
       else if (session.status === "open") openSessions += 1;
     }
     return { committed, openSessions };
+  }
+
+  async putSettlement(settlement: Settlement): Promise<void> {
+    this.settlements.set(settlement.agreementId, settlement);
+  }
+
+  async getSettlement(agreementId: string): Promise<Settlement | undefined> {
+    return this.settlements.get(agreementId);
+  }
+
+  async getSettlements(agreementIds: string[]): Promise<Settlement[]> {
+    return agreementIds.map((id) => this.settlements.get(id)).filter((s): s is Settlement => Boolean(s));
   }
 
   async putAgreement(agreement: Agreement): Promise<void> {

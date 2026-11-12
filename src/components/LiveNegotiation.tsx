@@ -9,6 +9,7 @@
  * correct rather than mid-replay.
  */
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import type { SessionView } from "@/lib/jang/session.ts";
 import type { Agreement } from "@/lib/jang/types.ts";
 import { utility } from "@/lib/jang/utility.ts";
@@ -155,8 +156,15 @@ function AgreementPanel({ agreement, view }: { agreement: Agreement; view: Sessi
         </tbody>
       </table>
 
+      <p style={{ marginTop: "1rem", marginBottom: 0 }}>
+        <Link className="button button-quiet" href={`/app/agreements/${agreement.agreementId}`}>
+          Open the agreement
+        </Link>
+      </p>
+
       <p className="small mute" style={{ marginTop: "0.75rem", marginBottom: 0 }}>
-        Check this yourself: <code>GET /api/agreements/{agreement.agreementId}</code> returns the signed document, and{" "}
+        Signing off on it, keeping a copy and checking the signature all live there. Or check it yourself:{" "}
+        <code>GET /api/agreements/{agreement.agreementId}</code> returns the signed document, and{" "}
         <code>/api/health</code> publishes the key it was signed with.
       </p>
         </div>

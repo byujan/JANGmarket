@@ -88,3 +88,14 @@ export function OperationsIcon() {
     </svg>
   );
 }
+
+/** Agreements: a signed document. */
+export function AgreementsIcon() {
+  return (
+    <svg {...common}>
+      <path d="M3.5 2.5h6L12.5 5.5v8h-9v-11Z" />
+      <path d="M9.25 2.75V5.75h3" />
+      <path d="M5.75 10.5c1.2-2.4 1.9-2.4 2.6 0 .5 1.5 1.1 1.1 1.9-.4" />
+    </svg>
+  );
+}

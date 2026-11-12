@@ -1,5 +1,6 @@
 import postgres, { type Sql } from "postgres";
 import { isPosture } from "../posture.ts";
+import type { Settlement } from "../jang/settlement.ts";
 import type { Agreement, ItemSpec, Mandate, Offer, Session } from "../jang/types.ts";
 import type {
   AgentRecord,
@@ -233,6 +234,31 @@ export class PostgresStore implements Store {
     return { committed, openSessions };
   }
 
+  async putSettlement(settlement: Settlement): Promise<void> {
+    await this.sql`
+      insert into settlements (agreement_id, session_id, buyer_owner_id, seller_owner_id,
+                               outcome, marks, updated_at)
+      values (${settlement.agreementId}, ${settlement.sessionId}, ${settlement.buyerOwnerId},
+              ${settlement.sellerOwnerId}, ${settlement.outcome},
+              ${this.sql.json(settlement.marks)}, ${settlement.updatedAt})
+      on conflict (agreement_id) do update set
+        outcome = excluded.outcome,
+        marks = excluded.marks,
+        updated_at = excluded.updated_at
+    `;
+  }
+
+  async getSettlement(agreementId: string): Promise<Settlement | undefined> {
+    const rows = await this.sql`select * from settlements where agreement_id = ${agreementId}`;
+    return rows[0] ? toSettlement(rows[0]) : undefined;
+  }
+
+  async getSettlements(agreementIds: string[]): Promise<Settlement[]> {
+    if (agreementIds.length === 0) return [];
+    const rows = await this.sql`select * from settlements where agreement_id in ${this.sql(agreementIds)}`;
+    return rows.map(toSettlement);
+  }
+
   async putAgreement(agreement: Agreement): Promise<void> {
     await this.sql`
       insert into agreements (agreement_id, session_id, body)
@@ -362,6 +388,18 @@ function toAgent(row: Record<string, unknown>): AgentRecord {
     brief: (row.brief as string) ?? undefined,
     apiKeyHash: row.api_key_hash as string,
     createdAt: new Date(row.created_at as string).toISOString(),
+  };
+}
+
+function toSettlement(row: Record<string, unknown>): Settlement {
+  return {
+    agreementId: row.agreement_id as string,
+    sessionId: row.session_id as string,
+    buyerOwnerId: row.buyer_owner_id as string,
+    sellerOwnerId: row.seller_owner_id as string,
+    outcome: row.outcome as Settlement["outcome"],
+    marks: (row.marks as Settlement["marks"]) ?? [],
+    updatedAt: new Date(row.updated_at as string).toISOString(),
   };
 }
 

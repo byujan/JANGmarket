@@ -119,3 +119,22 @@ create index if not exists items_created_idx on items (created_at desc);
 -- an agent without them behaves exactly as it did before.
 alter table agents add column if not exists posture text;
 alter table agents add column if not exists brief   text;
+
+-- What happened after the deal.
+--
+-- Kept apart from the agreement rather than added to it: an agreement is
+-- signed, so its row must never change. Settlement is the mutable part, and
+-- putting it in its own table means nothing can quietly edit a signed body
+-- while recording an outcome.
+create table if not exists settlements (
+  agreement_id    text primary key,
+  session_id      text not null,
+  buyer_owner_id  text not null,
+  seller_owner_id text not null,
+  outcome         text not null default 'open',
+  marks           jsonb not null default '[]'::jsonb,
+  updated_at      timestamptz not null default now()
+);
+
+create index if not exists settlements_buyer_idx  on settlements (buyer_owner_id);
+create index if not exists settlements_seller_idx on settlements (seller_owner_id);

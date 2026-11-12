@@ -1286,6 +1286,38 @@ input[type="checkbox"] {
   padding-left: 0.6rem;
 }
 
+/* Who said what about a closed deal, side by side. */
+.marks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.9rem;
+  margin: 0;
+}
+
+.marks > div {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--raise);
+}
+
+.marks dt {
+  font-size: var(--step--1);
+  color: var(--mute);
+  margin: 0 0 0.3rem;
+}
+
+.marks dd {
+  margin: 0;
+  font-size: var(--step--1);
+  line-height: 1.5;
+}
+
+/* A signature is one long unbroken token; let it wrap rather than scroll. */
+.break {
+  word-break: break-all;
+}
+
 /* ---------- one orchestrated entrance ---------- */
 
 @keyframes rise {

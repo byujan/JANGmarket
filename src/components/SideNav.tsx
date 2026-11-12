@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   AgentsIcon,
+  AgreementsIcon,
   ConsoleIcon,
   LimitsIcon,
   ListIcon,
@@ -23,6 +24,7 @@ const primary = [
   { href: "/app/items/new", label: "List an item", Icon: ListIcon },
   { href: "/app/mandates/new", label: "Your limits", Icon: LimitsIcon },
   { href: "/app/negotiations", label: "Negotiations", Icon: NegotiationsIcon },
+  { href: "/app/agreements", label: "Agreements", Icon: AgreementsIcon },
 ];
 
 export function SideNav({ isAdmin }: { isAdmin: boolean }) {

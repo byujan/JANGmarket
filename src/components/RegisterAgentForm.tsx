@@ -117,7 +117,7 @@ export function RegisterAgentForm({
             value={agentId}
             onChange={(event) => setAgentId(event.target.value)}
             placeholder="buyer-nova"
-            pattern="[a-z0-9-]{3,60}"
+            pattern="[a-z0-9\-]{3,60}"
             aria-describedby="agentId-hint"
             required
           />

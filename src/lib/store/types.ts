@@ -1,5 +1,6 @@
 import type { Agreement, Dimension, Mandate, Role, Session } from "../jang/types.ts";
 import type { Posture } from "../posture.ts";
+import type { Settlement } from "../jang/settlement.ts";
 
 /** A person who signs in and delegates authority to agents. */
 export type OwnerRecord = {
@@ -121,6 +122,11 @@ export interface Store {
 
   putAgreement(agreement: Agreement): Promise<void>;
   getAgreement(agreementId: string): Promise<Agreement | undefined>;
+
+  /** What the two owners say became of an agreement. See jang/settlement.ts. */
+  putSettlement(settlement: Settlement): Promise<void>;
+  getSettlement(agreementId: string): Promise<Settlement | undefined>;
+  getSettlements(agreementIds: string[]): Promise<Settlement[]>;
 
   putItem(item: ItemRecord): Promise<void>;
   getItem(itemId: string): Promise<ItemRecord | undefined>;

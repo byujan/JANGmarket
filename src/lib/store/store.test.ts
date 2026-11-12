@@ -133,6 +133,39 @@ for (const candidate of candidates) {
       expect(plain?.brief).toBeUndefined();
     });
 
+    it("stores a settlement, replaces it on a later mark, and reads several back", async () => {
+      const base = {
+        sessionId: "sess_settle",
+        buyerOwnerId: "own_buyer",
+        sellerOwnerId: "own_seller",
+        marks: [],
+        updatedAt: new Date().toISOString(),
+      };
+      await store.putSettlement({ ...base, agreementId: "agr_1", outcome: "open" });
+      await store.putSettlement({ ...base, agreementId: "agr_2", outcome: "open" });
+
+      await store.putSettlement({
+        ...base,
+        agreementId: "agr_1",
+        outcome: "settled",
+        marks: [{ ownerId: "own_buyer", mark: "settled", note: "paid", at: new Date().toISOString() }],
+      });
+
+      const one = await store.getSettlement("agr_1");
+      expect(one?.outcome).toBe("settled");
+      expect(one?.marks).toHaveLength(1);
+      expect(one?.marks[0]?.note).toBe("paid");
+
+      expect((await store.getSettlements(["agr_1", "agr_2"])).map((s) => s.agreementId).sort()).toEqual([
+        "agr_1",
+        "agr_2",
+      ]);
+      // An agreement nobody has said anything about has no row at all, rather
+      // than an empty one the caller has to tell apart from a real record.
+      expect(await store.getSettlement("agr_missing")).toBeUndefined();
+      expect(await store.getSettlements([])).toEqual([]);
+    });
+
     it("keeps one mandate per agent and item, replacing on re-lodge", async () => {
       const first = buyerMandate();
       await store.putMandate(first);
