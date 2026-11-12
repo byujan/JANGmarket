@@ -121,29 +121,35 @@ code,
 }
 
 .wordmark {
+  display: inline-flex;
+  /* Centres the letters on the tile. Doing it with flex rather than
+     vertical-align keeps it off the font's baseline metrics, which put the
+     tile well below the letters however the number was tuned. */
+  align-items: center;
+  gap: 0.24em;
   font-size: var(--step-2);
   font-weight: 600;
   letter-spacing: -0.03em;
   text-decoration: none;
   white-space: nowrap;
-  /* The tighter tracking suits the Latin letters; 場 needs its room back. */
   justify-self: start;
 }
 
-/* The same tile as the favicon: the dark glyph on amber, rounded off. The
-   whole thing is sized in em, so it tracks the wordmark at every breakpoint. */
+/* The same tile as the favicon: the dark glyph on amber, rounded off. A
+   square sized in em, so it tracks the wordmark at every breakpoint, with the
+   glyph centred inside it rather than sitting on its own baseline. */
 .wordmark .mark {
-  display: inline-block;
-  margin-left: 0.24em;
-  padding: 0.12em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.24em;
+  height: 1.24em;
   border-radius: 0.22em;
   background: var(--buyer);
   color: var(--base);
   line-height: 1;
+  /* The tighter tracking suits the Latin letters; 場 needs its room back. */
   letter-spacing: 0;
-  /* Centres the tile on the cap height of JANG rather than hanging it from
-     the baseline, which leaves it looking high. */
-  vertical-align: -0.26em;
 }
 
 /*
