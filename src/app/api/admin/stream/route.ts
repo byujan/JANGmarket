@@ -17,6 +17,9 @@ export async function GET() {
         // one page, and counting them would under-report everything older.
         counts: await store.countSessions(),
         refusals: await store.countEvents({ kind: "refusal" }),
+        // The board is replaced wholesale on every update, so anything the
+        // page rendered server-side has to be sent again or the tile empties.
+        listed: (await store.listItems({ limit: 200 })).length,
         at: new Date().toISOString(),
       }),
       intervalMs: 700,
