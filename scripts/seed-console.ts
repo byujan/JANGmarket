@@ -31,22 +31,28 @@ const arg = (name: string): string | undefined =>
 
 const ownerId = arg("owner");
 if (!ownerId) {
-  console.error("usage: npm run seed -- --owner=own_user_xxx [--llm=2]");
+  console.error("usage: npm run seed -- --owner=own_user_xxx [--llm=<how many Claude negotiates>]");
   process.exit(1);
 }
-const llmBudget = Number(arg("llm") ?? 2);
-
 /**
  * Which side the owner takes in each market. Mixing the roles matters: the
  * console draws buying and selling differently, and an owner who only ever
  * buys never sees half of it.
  */
-const MARKETS: { file: string; owner: Role; byClaude: boolean }[] = [
-  { file: "agents/scenarios/tv-clearance.json", owner: "buyer", byClaude: true },
-  { file: "agents/scenarios/freelance-contract.json", owner: "seller", byClaude: true },
-  { file: "agents/scenarios/cambridge-rental.json", owner: "buyer", byClaude: false },
-  { file: "agents/scenarios/datacentre-power.json", owner: "buyer", byClaude: false },
+const MARKETS: { file: string; owner: Role }[] = [
+  { file: "agents/scenarios/tv-clearance.json", owner: "buyer" },
+  { file: "agents/scenarios/freelance-contract.json", owner: "seller" },
+  { file: "agents/scenarios/cambridge-rental.json", owner: "buyer" },
+  { file: "agents/scenarios/datacentre-power.json", owner: "buyer" },
 ];
+
+/**
+ * How many markets Claude negotiates, taken from the top of the list. The
+ * rule-based agent writes its notes from a template, so a console seeded with
+ * it reads as machinery rather than bargaining: Claude does all of them unless
+ * you ask for fewer.
+ */
+const llmBudget = Number(arg("llm") ?? MARKETS.length);
 
 const opposite = (role: Role): Role => (role === "buyer" ? "seller" : "buyer");
 const stamp = Date.now().toString(36);
@@ -100,7 +106,7 @@ try {
   for (const market of MARKETS) {
     const scenario = loadScenario(market.file);
     const { buyer, seller, sessionId } = await setUp(scenario, market.owner);
-    const byClaude = market.byClaude && llmLeft > 0;
+    const byClaude = llmLeft > 0;
     if (byClaude) llmLeft -= 1;
 
     const you = market.owner === "buyer" ? buyer : seller;

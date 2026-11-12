@@ -183,7 +183,7 @@ export default async function Console() {
             </thead>
             <tbody>
               {mandates.map((mandate) => (
-                <tr key={mandate.mandateId}>
+                <tr key={`${mandate.agentId}:${mandate.itemId}`}>
                   <td>{items.find((item) => item.itemSpec.itemId === mandate.itemId)?.title ?? mandate.itemId}</td>
                   <td className={mandate.role}>{mandate.role}</td>
                   <td className="mono small">{mandate.agentId}</td>

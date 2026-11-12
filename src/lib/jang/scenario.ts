@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import { generateKeyPair } from "./crypto.ts";
 import { signMandate } from "./mandate.ts";
@@ -84,7 +85,10 @@ export function issueMandate(scenario: Scenario, role: Role, now = new Date()): 
   const owner = generateKeyPair();
   return signMandate(
     {
-      mandateId: `mdt_${scenario.scenarioId}_${role}`,
+      // Unique per issue, not per scenario: the same market is set up many
+      // times over on one instance, and a mandate id that repeats makes two
+      // distinct grants of authority indistinguishable.
+      mandateId: `mdt_${scenario.scenarioId}_${role}_${randomUUID().slice(0, 8)}`,
       agentId: party.agentId,
       ownerId: party.ownerId,
       role,
