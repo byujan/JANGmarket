@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { RegisterAgentForm } from "@/components/RegisterAgentForm.tsx";
 import { DEFAULT_POSTURE, POSTURE_COPY } from "@/lib/posture.ts";
+import { mcpEntry } from "@/lib/server/mcp.ts";
 import { currentOwner } from "@/lib/server/owner.ts";
 import { store } from "@/lib/store/index.ts";
 
@@ -42,7 +43,7 @@ export default async function Agents() {
           Pick any short name. One agent per job is a good rule: an agent that buys electronics and an agent that
           sells concert tickets should be separate, because each carries its own limits.
         </p>
-        <RegisterAgentForm />
+        <RegisterAgentForm mcp={mcpEntry()} />
       </section>
 
       <section className="section enter" style={{ "--i": 1 } as React.CSSProperties}>

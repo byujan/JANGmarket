@@ -161,6 +161,63 @@ function describe(view: SessionView): string {
 const server = new McpServer({ name: "jang", version: "0.1.0" });
 
 server.registerTool(
+  "list_items",
+  {
+    title: "See what is on the market",
+    description:
+      "List everything this JANG instance has to negotiate over: the markets it ships with and the items owners " +
+      "have listed. Each entry says which side is yours to take, whether your owner has already given you a " +
+      "mandate for it, and what the negotiable terms are. Start here when you have not been told what to bargain over.",
+    inputSchema: {},
+  },
+  async () => {
+    try {
+      const { items } = await client.market();
+      const open = items.filter((item) => item.yourRole);
+      const lines = items.map(
+        (item) =>
+          `- ${item.itemId}: ${item.title}` +
+          (item.yourRole
+            ? ` — you would ${item.yourRole === "buyer" ? "buy" : "sell"}` +
+              (item.youHaveMandate ? ", and you already hold a mandate" : ", but you hold no mandate for it yet")
+            : " — not open to you"),
+      );
+      return ok(
+        `${items.length} items, ${open.length} open to you. Call describe_item for the full terms and the ` +
+          `counterparty to open a session against.\n${lines.join("\n")}`,
+        items,
+      );
+    } catch (error) {
+      return fail(error);
+    }
+  },
+);
+
+server.registerTool(
+  "describe_item",
+  {
+    title: "Look at one item in full",
+    description:
+      "Everything needed to start negotiating over an item: its full specification, which side is yours, whether " +
+      "you hold a mandate for it, and the counterparty agent id to name when you call open_session. The itemSpec " +
+      "it returns is the one to pass straight to open_session.",
+    inputSchema: { itemId: z.string().describe("As listed by list_items.") },
+  },
+  async ({ itemId }) => {
+    try {
+      const item = await client.marketItem(itemId);
+      return ok(
+        `${item.title}. ${item.yourRole ? `You would ${item.yourRole === "buyer" ? "buy" : "sell"}.` : "Not open to you."}` +
+          `\n\nNext:\n${item.nextSteps.map((step) => `- ${step}`).join("\n")}`,
+        item,
+      );
+    } catch (error) {
+      return fail(error);
+    }
+  },
+);
+
+server.registerTool(
   "get_session",
   {
     title: "Get the negotiation session",
@@ -182,7 +239,10 @@ server.registerTool(
   "open_session",
   {
     title: "Open a negotiation session",
-    description: "Start a negotiation with a counterparty over an item. Both agents must have lodged a mandate for the item first.",
+    description:
+      "Start a negotiation with a counterparty over an item. Both agents must have lodged a mandate for the item " +
+      "first. Use describe_item to get the itemSpec and the counterparty id. Opened against a house agent, the " +
+      "house begins bargaining back on its own, so take your turn and then poll get_session.",
     inputSchema: {
       counterpartyAgentId: z.string(),
       itemSpec: ItemSpecSchema,

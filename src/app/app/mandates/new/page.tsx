@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { MandateBuilder } from "@/components/MandateBuilder.tsx";
+import { mcpEntry } from "@/lib/server/mcp.ts";
 import { catalogue, roleFor } from "@/lib/server/marketplace.ts";
 import { currentOwner } from "@/lib/server/owner.ts";
 import { store } from "@/lib/store/index.ts";
@@ -54,7 +55,7 @@ export default async function NewMandate() {
         </p>
       </div>
 
-      <MandateBuilder items={items} agents={agents} ownerId={owner.ownerId} />
+      <MandateBuilder items={items} agents={agents} ownerId={owner.ownerId} mcp={mcpEntry()} />
     </main>
   );
 }

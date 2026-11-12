@@ -82,10 +82,13 @@ export function MandateBuilder({
   items,
   agents,
   ownerId,
+  mcp,
 }: {
   items: BuilderItem[];
   agents: { agentId: string; label?: string }[];
   ownerId: string;
+  /** Passed through to the agent form this page can fall back to. */
+  mcp: { path: string; onThisMachine: boolean };
 }) {
   const router = useRouter();
   const [itemId, setItemId] = useState(items[0]?.itemSpec.itemId ?? "");
@@ -294,7 +297,7 @@ export function MandateBuilder({
           Limits are granted to a particular agent, so name one first. It takes a moment, and then you can set what it
           is allowed to agree to.
         </div>
-        <RegisterAgentForm refreshOnSuccess={false} continueLabel="Continue to your limits" />
+        <RegisterAgentForm refreshOnSuccess={false} continueLabel="Continue to your limits" mcp={mcp} />
       </>
     );
   }

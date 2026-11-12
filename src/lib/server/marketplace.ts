@@ -4,6 +4,9 @@
  */
 import { readFileSync, readdirSync } from "node:fs";
 import { toughnessOf, type Posture } from "../posture.ts";
+// One definition: settlement treats the house as always-confirmed by the same
+// owner id that marketplace creates its agents under, so they must not drift.
+import { HOUSE_OWNER } from "../jang/settlement.ts";
 import { join } from "node:path";
 import { runRuleAgent } from "../../../agents/runner.ts";
 import { ServicePort } from "../../../agents/service-port.ts";
@@ -100,7 +103,7 @@ export function itemSpecOf(itemId: string): ItemSpec {
   return catalogItem(itemId).itemSpec;
 }
 
-const HOUSE_OWNER = "jang-house";
+
 
 /**
  * The counterparty an owner negotiates against.
@@ -218,6 +221,40 @@ export async function launchNegotiation(input: {
  * Drive both agents to a conclusion in the background, slowly enough that a
  * person watching the live view can follow the bargaining.
  */
+/**
+ * Play the house side of a session somebody else opened.
+ *
+ * The console opens both sides itself and drives both. An agent connecting
+ * from outside opens only its own, and the house exists precisely to be the
+ * counterparty that always answers, so without this a discovered item leads to
+ * a session that sits there forever waiting on an agent with nobody behind it.
+ */
+export async function playHouseSide(sessionId: string, counterpartyAgentId: string): Promise<boolean> {
+  const counterparty = await store.getAgent(counterpartyAgentId);
+  if (counterparty?.ownerId !== HOUSE_OWNER) return false;
+
+  void (async () => {
+    try {
+      await runRuleAgent({
+        label: "house",
+        agent: new ServicePort(jang, counterpartyAgentId, sessionId),
+        options: { toughness: 1.6, respectBounds: true },
+        thinkMs: Number(process.env.JANG_AUTOPLAY_DELAY_MS ?? 1200),
+        pollMs: 200,
+      });
+    } catch (error) {
+      await store.recordEvent({
+        kind: "refusal",
+        sessionId,
+        code: "AUTOPLAY_FAILED",
+        message: error instanceof Error ? error.message : String(error),
+        createdAt: new Date().toISOString(),
+      });
+    }
+  })();
+  return true;
+}
+
 export async function autoplay(
   sessionId: string,
   buyerAgentId: string,

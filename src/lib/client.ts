@@ -1,3 +1,4 @@
+import type { MarketItem, MarketItemDetail } from "./server/discovery.ts";
 import type { SessionView } from "./jang/session.ts";
 import type { Agreement, ItemSpec, Mandate, Terms, Violation } from "./jang/types.ts";
 
@@ -32,6 +33,15 @@ export class JangClient {
     const { apiKey } = await this.request<{ apiKey: string }>("POST", "/api/agents", input, { auth: false });
     this.apiKey = apiKey;
     return apiKey;
+  }
+
+  /** What this agent could negotiate over. */
+  async market(): Promise<{ items: MarketItem[] }> {
+    return this.request("GET", "/api/market");
+  }
+
+  async marketItem(itemId: string): Promise<MarketItemDetail> {
+    return this.request("GET", `/api/market/${encodeURIComponent(itemId)}`);
   }
 
   async lodgeMandate(mandate: Mandate): Promise<{ mandateId: string }> {

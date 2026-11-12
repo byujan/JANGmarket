@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { mcpEntry } from "@/lib/server/mcp.ts";
 import { ConcessionChart } from "@/components/ConcessionChart.tsx";
 import { ListItemForm } from "@/components/ListItemForm.tsx";
 import { ConvergenceLadder } from "@/components/ConvergenceLadder.tsx";
@@ -148,8 +149,7 @@ export default function Preview() {
           <MandateBuilder
             items={[{ itemSpec: { itemId: "item-tv-65oled", title: "Clearance 65-inch OLED television", dimensions }, title: "Clearance 65-inch OLED television" }]}
             agents={[{ agentId: "buyer-nova", label: "Buys household electronics" }]}
-            ownerId="own_preview"
-          />
+            ownerId="own_preview" mcp={mcpEntry()} />
         </div>
       </section>
 

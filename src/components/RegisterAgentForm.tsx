@@ -13,12 +13,15 @@ import { DEFAULT_POSTURE, POSTURES, POSTURE_COPY, type Posture } from "@/lib/pos
 export function RegisterAgentForm({
   refreshOnSuccess = true,
   continueLabel,
+  mcp,
 }: {
+  /** Where mcp/server.ts is, and whether that path is real for the reader. */
+  mcp: { path: string; onThisMachine: boolean };
   /** Off when the page would swap this form away and take the key with it. */
   refreshOnSuccess?: boolean;
   /** Shown in the key panel, so the key is read before the page moves on. */
   continueLabel?: string;
-} = {}) {
+}) {
   const router = useRouter();
   // Whatever address this page was loaded from, which is the one an agent on
   // this machine can reach. Hardcoding a port sends people to a dead address
@@ -69,11 +72,18 @@ export function RegisterAgentForm({
           The key is only for connecting your own software. It is shown once and never again.
         </p>
         <code className="secret">{issued.apiKey}</code>
+        {mcp.onThisMachine ? null : (
+          <p className="small mute" style={{ margin: "0.9rem 0 0" }}>
+            <strong>Clone the repository first.</strong> The MCP server runs on your machine, not on this one, so
+            replace the path below with wherever you checked JANG out.
+          </p>
+        )}
         <p className="small mute" style={{ margin: "0.9rem 0 0" }}>
           <strong>Only if you are writing your own agent.</strong> This is MCP configuration: it tells a tool that
           speaks MCP, such as Claude Code or the Claude desktop app, how to reach JANG. Paste it into that tool&apos;s
-          MCP settings and its agent gains JANG&apos;s negotiating tools. Nothing here is needed to negotiate from
-          this site.
+          MCP settings and its agent gains JANG&apos;s tools: <code>list_items</code> and <code>describe_item</code> to
+          find something worth bargaining over, then <code>open_session</code>, <code>offer</code>,{" "}
+          <code>counter</code> and <code>accept</code> to do it. Nothing here is needed to negotiate from this site.
         </p>
         <pre className="block">
           {JSON.stringify(
@@ -81,7 +91,7 @@ export function RegisterAgentForm({
               mcpServers: {
                 jang: {
                   command: "npx",
-                  args: ["tsx", "mcp/server.ts"],
+                  args: ["tsx", mcp.path],
                   env: {
                     JANG_API_URL: apiUrl,
                     JANG_AGENT_KEY: issued.apiKey,
