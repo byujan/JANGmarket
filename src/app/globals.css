@@ -1248,12 +1248,20 @@ input[type="checkbox"] {
    layer of markup around it. */
 
 .sheet .section {
+  /* Wide enough for the controls, narrow enough to read. Left-aligned inside
+     the full-width container so this page starts where every other one does. */
+  max-width: 860px;
   margin-top: 1.25rem;
   padding: 0 1.1rem 1.15rem;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: var(--raise);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.sheet .explain,
+.sheet .page-head {
+  max-width: 860px;
 }
 
 .sheet .section > h2 {

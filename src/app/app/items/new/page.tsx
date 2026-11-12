@@ -9,7 +9,7 @@ export default async function NewItem() {
   if (!owner) redirect("/sign-in");
 
   return (
-    <main className="page sheet">
+    <main className="page page-wide sheet">
       <div className="page-head">
         <h1>List something to negotiate over</h1>
         <p>

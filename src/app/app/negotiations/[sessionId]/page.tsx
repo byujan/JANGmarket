@@ -30,7 +30,7 @@ export default async function Negotiation({ params }: { params: Promise<{ sessio
   const agreement = session.agreementId ? await store.getAgreement(session.agreementId) : undefined;
 
   return (
-    <main className="page">
+    <main className="page page-wide">
       <p className="small mute" style={{ marginBottom: "0.75rem" }}>
         <Link href="/app/negotiations">Negotiations</Link> <span className="faint">/</span>{" "}
         <span className="mono">{session.sessionId}</span>

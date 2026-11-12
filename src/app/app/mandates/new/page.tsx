@@ -19,7 +19,7 @@ export default async function NewMandate() {
   }));
 
   return (
-    <main className="page sheet">
+    <main className="page page-wide sheet">
       <div className="page-head">
         <h1>Your limits</h1>
         <p>
