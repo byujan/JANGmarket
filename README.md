@@ -188,6 +188,10 @@ The negotiation core is done and tested. The console runs locally against Postgr
 Deploying to `jangmarketplace.com`, owner-to-owner negotiation and real listings come next.
 Money is simulated throughout; JANG stops at a signed agreement.
 
+**[docs/agent-interface.md](docs/agent-interface.md) is the interface document**: what JANG
+offers an agent, how it connects, every tool and endpoint with its inputs, outputs and
+limits, and a worked example. Read that one if you are pointing an agent at JANG.
+
 **[docs/limitations.md](docs/limitations.md) is the honest account** of what this does not
 yet do, and is worth reading before trusting any of the above. The headline: JANG holds
 both mandates in plaintext in order to validate offers against them, so mandate privacy is
