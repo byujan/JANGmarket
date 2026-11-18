@@ -25,7 +25,8 @@
     "smoke:ui": "tsx scripts/ui-smoke.ts",
     "hw7:pdf": "bash scripts/hw7/build-pdf.sh",
     "market": "tsx scripts/market.ts",
-    "seed": "tsx scripts/seed-console.ts"
+    "seed": "tsx scripts/seed-console.ts",
+    "probe:off-step": "tsx scripts/hw9/off-step.ts"
   },
   "dependencies": {
     "@anthropic-ai/claude-agent-sdk": "^0.3.312",

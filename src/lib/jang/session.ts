@@ -93,8 +93,28 @@ function assertLive(session: Session, now: Date): void {
   }
 }
 
-/** Terms must name every dimension of the item and stay inside its declared range. */
+/**
+ * A value is on the grid when it is a whole number of steps above the minimum.
+ * The tolerance absorbs float noise (0.1 + 0.2), not a deliberate fraction.
+ */
+function onStep(value: number, dimension: { min: number; step: number }): boolean {
+  const steps = (value - dimension.min) / dimension.step;
+  return Math.abs(steps - Math.round(steps)) < 1e-9;
+}
+
+function tidy(value: number): number {
+  return Number(value.toPrecision(12));
+}
+
+/**
+ * Terms must name every dimension of the item, stay inside its declared range
+ * and land on its step grid, so that a signed agreement never says
+ * "half a soundbar" or a price in cents on a $10 grid.
+ */
 export function validateTermsShape(terms: Terms, spec: ItemSpec): void {
+  // Off-grid terms are collected, not thrown one by one, so an agent can fix
+  // every term in a single retry instead of discovering them a round at a time.
+  const offGrid: string[] = [];
   for (const dimension of spec.dimensions) {
     const value = terms[dimension.key];
     if (typeof value !== "number" || !Number.isFinite(value)) {
@@ -106,7 +126,16 @@ export function validateTermsShape(terms: Terms, spec: ItemSpec): void {
         `term "${dimension.key}" = ${value} is outside the item's range ${dimension.min}..${dimension.max}`,
       );
     }
+    if (!onStep(value, dimension)) {
+      const below = dimension.min + Math.floor((value - dimension.min) / dimension.step) * dimension.step;
+      const above = Math.min(dimension.max, below + dimension.step);
+      offGrid.push(
+        `term "${dimension.key}" = ${value} is not on the item's grid: values run ${dimension.min}..${dimension.max} ` +
+          `in steps of ${dimension.step} (nearest valid: ${tidy(below)} or ${tidy(above)})`,
+      );
+    }
   }
+  if (offGrid.length > 0) throw new JangError("INVALID_TERMS", offGrid.join("; "));
   for (const key of Object.keys(terms)) {
     if (!spec.dimensions.some((d) => d.key === key)) {
       throw new JangError("INVALID_TERMS", `term "${key}" is not a dimension of this item`);

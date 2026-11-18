@@ -1,0 +1,66 @@
+{
+  "at": "2026-11-18T22:09:07.862Z",
+  "baseUrl": "http://localhost:3939",
+  "grid": {
+    "price": {
+      "min": 500,
+      "max": 3000,
+      "step": 10
+    },
+    "deliveryDays": {
+      "min": 1,
+      "max": 45,
+      "step": 1
+    },
+    "warrantyMonths": {
+      "min": 12,
+      "max": 48,
+      "step": 6
+    },
+    "bundle": {
+      "min": 0,
+      "max": 1,
+      "step": 1
+    }
+  },
+  "outcome": "REFUSED off-step offer with INVALID_TERMS; corrected offer accepted and signed",
+  "transcript": [
+    {
+      "actor": "seller",
+      "tool": "offer",
+      "args": {
+        "terms": {
+          "price": 1225.5,
+          "deliveryDays": 10.5,
+          "warrantyMonths": 13,
+          "bundle": 0.5
+        },
+        "note": "Half a soundbar, and a price in cents."
+      },
+      "isError": true,
+      "text": "INVALID_TERMS: term \"price\" = 1225.5 is not on the item's grid: values run 500..3000 in steps of 10 (nearest valid: 1220 or 1230); term \"deliveryDays\" = 10.5 is not on the item's grid: values run 1..45 in steps of 1 (nearest valid: 10 or 11); term \"warrantyMonths\" = 13 is not on the item's grid: values run 12..48 in steps of 6 (nearest valid: 12 or 18); term \"bundle\" = 0.5 is not on the item's grid: values run 0..1 in steps of 1 (nearest valid: 0 or 1)"
+    },
+    {
+      "actor": "seller",
+      "tool": "offer",
+      "args": {
+        "terms": {
+          "price": 1220,
+          "deliveryDays": 10,
+          "warrantyMonths": 18,
+          "bundle": 1
+        },
+        "note": "Corrected to the item's grid."
+      },
+      "isError": false,
+      "text": "Session sess_7447ca22-73d2-491b-abe5-4792d012e7f7 is open. You are the seller; the buyer is agent-buyer-nova-offstep-mwmobh61.\nRound 1 of at most 12.\nTerms: price 500..3000 in steps of 10 USD; deliveryDays 1..45 in steps of 1 days; warrantyMonths 12..48 in steps of 6 months; bundle 0..1 in steps of 1. Offers off this grid are refused.\nYour standing offer (round 1): price=1220, deliveryDays=10, warrantyMonths=18, bundle=1 (\"Corrected to the item's grid.\")\nIt is worth 0.431 to you (your reservation is 0.3).\nIt is the counterparty's turn; wait for them.\n\n{\n  \"sessionId\": \"sess_7447ca22-73d2-491b-abe5-4792d012e7f7\",\n  \"status\": \"open\",\n  \"itemSpec\": {\n    \"itemId\": \"item-tv-65oled\",\n    \"title\": \"65-inch OLED television (clearance)\",\n    \"description\": \"A retailer is clearing last season's 65-inch OLED panels ahead of Black Friday, after the new models launched in spring. Street prices for this class sit around 1,100 to 1,350 USD. Price is not the only lever: delivery speed, total warranty length (12 months from the manufacturer, extendable by the retailer) and a bundled soundbar are all on the table.\",\n    \"dimensions\": [\n      {\n        \"key\": \"price\",\n        \"label\": \"Price\",\n        \"unit\": \"USD\",\n        \"min\": 500,\n        \"max\": 3000,\n        \"step\": 10,\n        \"buyerPrefers\": \"low\"\n      },\n      {\n        \"key\": \"deliveryDays\",\n        \"label\": \"Delivery\",\n        \"unit\": \"days\",\n        \"min\": 1,\n        \"max\": 45,\n        \"step\": 1,\n        \"buyerPrefers\": \"low\"\n      },\n      {\n        \"key\": \"warrantyMonths\",\n        \"label\": \"Warranty\",\n        \"unit\": \"months\",\n        \"min\": 12,\n        \"max\": 48,\n        \"step\": 6,\n        \"buyerPrefers\": \"high\"\n      },\n      {\n        \"key\": \"bundle\",\n        \"label\": \"Soundbar bundled\",\n        \"min\": 0,\n        \"max\": 1,\n        \"step\": 1,\n        \"buyerPrefers\": \"high\"\n      }\n    ]\n  },\n  \"you\": {\n    \"agentId\": \"agent-seller-hanbit-offstep-mwmobh61\",\n    \"role\": \"seller\"\n  },\n  \"counterparty\": {\n    \"agentId\": \"agent-buyer-nova-offstep-mwmobh61\",\n    \"role\": \"buyer\"\n  },\n  \"yourMandate\": {\n    \"mandateId\": \"mdt_tv-clearance_seller_bb2916c2\",\n    \"agentId\": \"agent-seller-hanbit-offstep-mwmobh61\",\n    \"ownerId\": \"owner-hanbit-electronics\",\n    \"role\": \"seller\",\n    \"itemId\": \"item-tv-65oled\",\n    \"constraints\": {\n      \"price\": {\n        \"min\": 1050\n      },\n      \"warrantyMonths\": {\n        \"max\": 36\n      }\n    },\n    \"preferences\": {\n      \"price\": {\n        \"weight\": 5,\n        \"ideal\": 1349,\n        \"worst\": 1050\n      },\n      \"deliveryDays\": {\n        \"weight\": 0.7,\n        \"ideal\": 30,\n        \"worst\": 3\n      },\n      \"warrantyMonths\": {\n        \"weight\": 1.2,\n        \"ideal\": 12,\n        \"worst\": 36\n      },\n      \"bundle\": {\n        \"weight\": 2.2,\n        \"ideal\": 0,\n        \"worst\": 1\n      }\n    },\n    \"reservationUtility\": 0.3,\n    \"expiresAt\": \"2026-11-18T23:09:07.033Z\",\n    \"ownerPublicKey\": \"-----BEGIN PUBLIC KEY-----\\nMCowBQYDK2VwAyEAv3qxkrg6B6se+RgsKie5MLxpQitqLZIM+1MowwrcOt0=\\n-----END PUBLIC KEY-----\\n\",\n    \"signature\": \"SOTr39a2CrlSAW+2vQdZ0BmbFBraFwxM/X4N0KeaZ4uo0+PAnRO/9phTMRYM4Aj4k6jViYWV8M2hXFEt6q70Cg==\"\n  },\n  \"offers\": [\n    {\n      \"offerId\": \"offer_d1f89e1b-e423-4c5a-88ca-b7a03ee6a9f1\",\n      \"sessionId\": \"sess_7447ca22-73d2-491b-abe5-4792d012e7f7\",\n      \"fromAgentId\": \"agent-seller-hanbit-offstep-mwmobh61\",\n      \"round\": 1,\n      \"terms\": {\n        \"price\": 1220,\n        \"deliveryDays\": 10,\n        \"warrantyMonths\": 18,\n        \"bundle\": 1\n      },\n      \"note\": \"Corrected to the item's grid.\",\n      \"createdAt\": \"2026-11-18T22:09:07.783Z\"\n    }\n  ],\n  \"standingOffer\": {\n    \"offerId\": \"offer_d1f89e1b-e423-4c5a-88ca-b7a03ee6a9f1\",\n    \"sessionId\": \"sess_7447ca22-73d2-491b-abe5-4792d012e7f7\",\n    \"fromAgentId\": \"agent-seller-hanbit-offstep-mwmobh61\",\n    \"round\": 1,\n    \"terms\": {\n      \"price\": 1220,\n      \"deliveryDays\": 10,\n      \"warrantyMonths\": 18,\n      \"bundle\": 1\n    },\n    \"note\": \"Corrected to the item's grid.\",\n    \"createdAt\": \"2026-11-18T22:09:07.783Z\"\n  },\n  \"whoseTurn\": \"agent-buyer-nova-offstep-mwmobh61\",\n  \"roundsUsed\": 1,\n  \"maxRounds\": 12,\n  \"expiresAt\": \"2026-11-18T22:24:07.053Z\"\n}"
+    },
+    {
+      "actor": "buyer",
+      "tool": "accept",
+      "args": {},
+      "isError": false,
+      "text": "Deal closed in 1 rounds. JANG signed agreement agr_9b5bc77f-f886-4b47-8695-7f346d85861b. Verify the signature against JANG's public key and re-check the terms against your own mandate before you pay.\n\n{\n  \"agreement\": {\n    \"agreementId\": \"agr_9b5bc77f-f886-4b47-8695-7f346d85861b\",\n    \"sessionId\": \"sess_7447ca22-73d2-491b-abe5-4792d012e7f7\",\n    \"itemId\": \"item-tv-65oled\",\n    \"buyerAgentId\": \"agent-buyer-nova-offstep-mwmobh61\",\n    \"sellerAgentId\": \"agent-seller-hanbit-offstep-mwmobh61\",\n    \"terms\": {\n      \"price\": 1220,\n      \"deliveryDays\": 10,\n      \"warrantyMonths\": 18,\n      \"bundle\": 1\n    },\n    \"buyerMandateId\": \"mdt_tv-clearance_buyer_0ac0ff0e\",\n    \"sellerMandateId\": \"mdt_tv-clearance_seller_bb2916c2\",\n    \"offerId\": \"offer_d1f89e1b-e423-4c5a-88ca-b7a03ee6a9f1\",\n    \"acceptedByAgentId\": \"agent-buyer-nova-offstep-mwmobh61\",\n    \"rounds\": 1,\n    \"agreedAt\": \"2026-11-18T22:09:07.832Z\",\n    \"algorithm\": \"ed25519\",\n    \"jangPublicKey\": \"-----BEGIN PUBLIC KEY-----\\nMCowBQYDK2VwAyEACL1BmuhjselpTvAzNil0LOmVNtCnr8Yp+DAGqLoaO4s=\\n-----END PUBLIC KEY-----\\n\",\n    \"signature\": \"291/j7Iq6SyRI/ISO+v76NfUTpWvHggxY41/ftD/R4HjKcKO/6/pyIFbao6L2YjjAajwWR2ADnVVZt9SaINLAw==\"\n  },\n  \"session\": {\n    \"sessionId\": \"sess_7447ca22-73d2-491b-abe5-4792d012e7f7\",\n    \"status\": \"agreed\",\n    \"itemSpec\": {\n      \"itemId\": \"item-tv-65oled\",\n      \"title\": \"65-inch OLED television (clearance)\",\n      \"description\": \"A retailer is clearing last season's 65-inch OLED panels ahead of Black Friday, after the new models launched in spring. Street prices for this class sit around 1,100 to 1,350 USD. Price is not the only lever: delivery speed, total warranty length (12 months from the manufacturer, extendable by the retailer) and a bundled soundbar are all on the table.\",\n      \"dimensions\": [\n        {\n          \"key\": \"price\",\n          \"label\": \"Price\",\n          \"unit\": \"USD\",\n          \"min\": 500,\n          \"max\": 3000,\n          \"step\": 10,\n          \"buyerPrefers\": \"low\"\n        },\n        {\n          \"key\": \"deliveryDays\",\n          \"label\": \"Delivery\",\n          \"unit\": \"days\",\n          \"min\": 1,\n          \"max\": 45,\n          \"step\": 1,\n          \"buyerPrefers\": \"low\"\n        },\n        {\n          \"key\": \"warrantyMonths\",\n          \"label\": \"Warranty\",\n          \"unit\": \"months\",\n          \"min\": 12,\n          \"max\": 48,\n          \"step\": 6,\n          \"buyerPrefers\": \"high\"\n        },\n        {\n          \"key\": \"bundle\",\n          \"label\": \"Soundbar bundled\",\n          \"min\": 0,\n          \"max\": 1,\n          \"step\": 1,\n          \"buyerPrefers\": \"high\"\n        }\n      ]\n    },\n    \"you\": {\n      \"agentId\": \"agent-buyer-nova-offstep-mwmobh61\",\n      \"role\": \"buyer\"\n    },\n    \"counterparty\": {\n      \"agentId\": \"agent-seller-hanbit-offstep-mwmobh61\",\n      \"role\": \"seller\"\n    },\n    \"yourMandate\": {\n      \"mandateId\": \"mdt_tv-clearance_buyer_0ac0ff0e\",\n      \"agentId\": \"agent-buyer-nova-offstep-mwmobh61\",\n      \"ownerId\": \"owner-dana\",\n      \"role\": \"buyer\",\n      \"itemId\": \"item-tv-65oled\",\n      \"constraints\": {\n        \"price\": {\n          \"max\": 1300\n        },\n        \"deliveryDays\": {\n          \"max\": 30\n        }\n      },\n      \"preferences\": {\n        \"price\": {\n          \"weight\": 5,\n          \"ideal\": 999,\n          \"worst\": 1300\n        },\n        \"deliveryDays\": {\n          \"weight\": 1,\n          \"ideal\": 3,\n          \"worst\": 30\n        },\n        \"warrantyMonths\": {\n          \"weight\": 3,\n          \"ideal\": 36,\n          \"worst\": 12\n        },\n        \"bundle\": {\n          \"weight\": 1.5,\n          \"ideal\": 1,\n          \"worst\": 0\n        }\n      },\n      \"reservationUtility\": 0.2,\n      \"expiresAt\": \"2026-11-18T23:09:07.009Z\",\n      \"ownerPublicKey\": \"-----BEGIN PUBLIC KEY-----\\nMCowBQYDK2VwAyEAIpPcZulbvEFju7nsZ/Pxd37EQS3cybbWRjRiqYE+/Qg=\\n-----END PUBLIC KEY-----\\n\",\n      \"signature\": \"Gb/ER895I72tGxM/4L9TgTqP5KG34I4wy8RK031yFEPbwxU5GJxYgGb9BmMOWhtF4ot6zYqJiJFzKnTMSrtSDg==\"\n    },\n    \"offers\": [\n      {\n        \"offerId\": \"offer_d1f89e1b-e423-4c5a-88ca-b7a03ee6a9f1\",\n        \"sessionId\": \"sess_7447ca22-73d2-491b-abe5-4792d012e7f7\",\n        \"fromAgentId\": \"agent-seller-hanbit-offstep-mwmobh61\",\n        \"round\": 1,\n        \"terms\": {\n          \"price\": 1220,\n          \"deliveryDays\": 10,\n          \"warrantyMonths\": 18,\n          \"bundle\": 1\n        },\n        \"note\": \"Corrected to the item's grid.\",\n        \"createdAt\": \"2026-11-18T22:09:07.783Z\"\n      }\n    ],\n    \"standingOffer\": {\n      \"offerId\": \"offer_d1f89e1b-e423-4c5a-88ca-b7a03ee6a9f1\",\n      \"sessionId\": \"sess_7447ca22-73d2-491b-abe5-4792d012e7f7\",\n      \"fromAgentId\": \"agent-seller-hanbit-offstep-mwmobh61\",\n      \"round\": 1,\n      \"terms\": {\n        \"price\": 1220,\n        \"deliveryDays\": 10,\n        \"warrantyMonths\": 18,\n        \"bundle\": 1\n      },\n      \"note\": \"Corrected to the item's grid.\",\n      \"createdAt\": \"2026-11-18T22:09:07.783Z\"\n    },\n    \"whoseTurn\": \"agent-buyer-nova-offstep-mwmobh61\",\n    \"roundsUsed\": 1,\n    \"maxRounds\": 12,\n    \"expiresAt\": \"2026-11-18T22:24:07.053Z\",\n    \"agreementId\": \"agr_9b5bc77f-f886-4b47-8695-7f346d85861b\"\n  }\n}"
+    }
+  ]
+}
