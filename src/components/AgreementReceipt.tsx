@@ -15,6 +15,11 @@ import { verifyAgreementHere, type Verification } from "@/lib/browser/verify.ts"
 import { HOUSE_OWNER, OUTCOME_COPY, type Mark, type Settlement } from "@/lib/jang/settlement.ts";
 import type { Agreement, Dimension } from "@/lib/jang/types.ts";
 
+/** The way a document dates itself, rather than the way a log line does. */
+function longDate(iso: string): string {
+  return new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "long", year: "numeric" });
+}
+
 function show(dimension: Dimension, value: number): string {
   if (dimension.min === 0 && dimension.max === 1) return value ? "yes" : "no";
   if (dimension.unit === "USD") return `$${value.toLocaleString("en-US")}`;
@@ -27,12 +32,15 @@ export function AgreementReceipt({
   dimensions,
   jangPublicKey,
   you,
+  title,
 }: {
   agreement: Agreement;
   settlement: Settlement;
   dimensions: Dimension[];
   jangPublicKey: string;
   you: { ownerId: string; role: "buyer" | "seller" };
+  /** What the item is called, so the document names itself. */
+  title: string;
 }) {
   const router = useRouter();
   const [checked, setChecked] = useState<Verification>();
@@ -90,23 +98,114 @@ export function AgreementReceipt({
   return (
     <>
       <section className="section enter">
-        <div className="panel">
-          <div className="panel-head">
-            <h2>Terms</h2>
-            <span className="panel-meta">
-              closed in {agreement.rounds} rounds, {new Date(agreement.agreedAt).toLocaleString()}
-            </span>
-          </div>
-          <table className="table">
-            <tbody>
-              {dimensions.map((dimension) => (
-                <tr key={dimension.key}>
-                  <td className="mute">{dimension.label}</td>
-                  <td className="mono">{show(dimension, agreement.terms[dimension.key]!)}</td>
+        {/* The agreement as a document rather than a readout: the thing two
+            owners would keep, print or hand to someone who has to act on it.
+            Everything on it is from the signed body, nothing is decoration. */}
+        <article className="deed">
+          <header className="deed-head">
+            <p className="deed-kicker">Agreement</p>
+            <h2>{title}</h2>
+            <p className="deed-sub">
+              issued and signed by JANG on {longDate(agreement.agreedAt)}
+            </p>
+          </header>
+
+          <dl className="deed-meta">
+            <div>
+              <dt>Reference</dt>
+              <dd className="mono">{agreement.agreementId}</dd>
+            </div>
+            <div>
+              <dt>Concluded</dt>
+              <dd>
+                {new Date(agreement.agreedAt).toLocaleString()} · {agreement.rounds} rounds
+              </dd>
+            </div>
+          </dl>
+
+          <section className="deed-part">
+            <h3>The parties</h3>
+            <table className="deed-table">
+              <tbody>
+                <tr>
+                  <td className="deed-label">Buyer</td>
+                  <td className="mono">{agreement.buyerAgentId}</td>
+                  <td className="deed-side">{you.role === "buyer" ? "you" : "the counterparty"}</td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+                <tr>
+                  <td className="deed-label">Seller</td>
+                  <td className="mono">{agreement.sellerAgentId}</td>
+                  <td className="deed-side">{you.role === "seller" ? "you" : "the counterparty"}</td>
+                </tr>
+              </tbody>
+            </table>
+            <p className="deed-note">
+              Each agent acted for its owner under a mandate lodged with JANG before the negotiation opened. Neither
+              owner saw the other&apos;s.
+            </p>
+          </section>
+
+          <section className="deed-part">
+            <h3>The terms agreed</h3>
+            <table className="deed-table">
+              <tbody>
+                {dimensions.map((dimension) => (
+                  <tr key={dimension.key}>
+                    <td className="deed-label">{dimension.label}</td>
+                    <td className="deed-value mono">{show(dimension, agreement.terms[dimension.key]!)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
+
+          <section className="deed-part">
+            <h3>Authority</h3>
+            <p className="deed-note">
+              JANG checked every offer against the mandate of the agent proposing it and refused any that exceeded
+              it, including offers from an owner&apos;s own agent. These terms were checked against both of the
+              mandates below and lie inside each.
+            </p>
+            <table className="deed-table">
+              <tbody>
+                <tr>
+                  <td className="deed-label">Buyer&apos;s mandate</td>
+                  <td className="mono small">{agreement.buyerMandateId}</td>
+                </tr>
+                <tr>
+                  <td className="deed-label">Seller&apos;s mandate</td>
+                  <td className="mono small">{agreement.sellerMandateId}</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section className="deed-part deed-signature">
+            <h3>Signature</h3>
+            <p className="deed-note">
+              Ed25519, by JANG, over the canonical form of everything above. Anyone holding the public key this
+              instance publishes at <code>/api/health</code> can check it without an account here.
+            </p>
+            <code className="deed-sig break">{agreement.signature}</code>
+            <p className={`deed-verdict ${checked?.ok ? "is-good" : checked ? "is-bad" : ""}`}>
+              {checked === undefined
+                ? "Checking the signature in this browser…"
+                : checked.ok
+                  ? "Verified in your browser against this instance's published key."
+                  : checked.otherKey
+                    ? "Signed with a key this instance no longer holds, so it cannot be checked here. An instance started without JANG_PRIVATE_KEY mints a new key on every restart."
+                    : `This signature did not verify: ${checked.reason}. The terms may have been altered.`}
+            </p>
+          </section>
+        </article>
+
+        <div className="deed-actions">
+          <button className="button button-quiet" onClick={() => window.print()}>
+            Print or save as PDF
+          </button>
+          <button className="button button-quiet" onClick={download}>
+            Download the signed JSON
+          </button>
         </div>
       </section>
 

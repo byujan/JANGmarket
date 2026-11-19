@@ -50,6 +50,7 @@ export default async function AgreementPage({ params }: { params: Promise<{ agre
         dimensions={itemSpec.dimensions}
         jangPublicKey={jangKeys.publicKeyPem}
         you={{ ownerId: owner.ownerId, role }}
+        title={itemSpec.title}
       />
     </main>
   );

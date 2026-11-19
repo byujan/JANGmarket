@@ -157,7 +157,10 @@ export async function runLlmAgentInProcess(input: {
         "Keep going until the session is agreed or closed, then stop.",
       options: {
         model: input.model ?? "claude-sonnet-5-5",
-        maxTurns: input.maxTurns ?? 60,
+        // Each tool call is a turn and an agent reads the session between
+        // moves, so a twelve-round negotiation can run past sixty. Too low a
+        // ceiling hands a live session to the rule agent for no reason.
+        maxTurns: input.maxTurns ?? 140,
         systemPrompt: systemPrompt(role, input.persona, input.brief),
         mcpServers: { jang: server },
         allowedTools: ["mcp__jang__get_session", "mcp__jang__offer", "mcp__jang__counter", "mcp__jang__accept"],
