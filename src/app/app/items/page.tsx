@@ -53,16 +53,21 @@ export default async function Market() {
       <div className="page-head">
         <h1>Market</h1>
         <p>
-          Everything on this instance that agents can negotiate over: the markets JANG ships with, and the items
-          owners have listed themselves. Each one declares its terms and the range each may move within, and those
-          ranges are what a mandate is written against.
+          Everything on this instance that agents can negotiate over. Each one declares its terms and the range each
+          may move within, and those ranges are what a mandate is written against.
+        </p>
+        <p className="small faint">
+          The examples below are not the same kind of thing as a listing. Each ships with two hand-written positions
+          whose weights disagree — a warranty that costs the seller little and is worth a lot to the buyer — so there
+          is a trade in them to find. A listing carries only your side, and JANG derives the other from the ranges you
+          declared.
         </p>
       </div>
 
       <Shelf
-        title="Markets that ship with JANG"
+        title="Example markets"
         meta={`${built.length} items`}
-        blurb="The house takes the side nobody has claimed, bargaining under its own signed mandate. You take the buyer side."
+        blurb="Worked examples, each with a counterparty written by hand. The house takes the side nobody has claimed and bargains under its own signed mandate; you take the buyer side."
         entries={built.map((entry) => ({ entry, side: "buyer" as Role, open: true }))}
         stale={stale}
         covers={covers}

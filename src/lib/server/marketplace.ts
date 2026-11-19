@@ -226,7 +226,8 @@ export async function launchNegotiation(input: {
   // owner's dial reaches whichever negotiator ends up running.
   const buyerAgentId = mine.role === "buyer" ? input.agentId : houseAgentId;
   const sellerAgentId = mine.role === "buyer" ? houseAgentId : input.agentId;
-  void autoplay(view.sessionId, buyerAgentId, sellerAgentId, itemSpec.title, listing?.termsNote);
+  void autoplay(view.sessionId, buyerAgentId, sellerAgentId, itemSpec.title,
+    listing ? { description: listing.description, termsNote: listing.termsNote } : undefined);
   return { sessionId: view.sessionId };
 }
 
@@ -255,7 +256,7 @@ export async function playHouseSide(sessionId: string, counterpartyAgentId: stri
       await playOneSide({
         sessionId,
         itemTitle: session?.itemSpec.title ?? "this item",
-        listingNote: listing?.termsNote,
+        listing: listing ? { description: listing.description, termsNote: listing.termsNote } : undefined,
         side: { agentId: counterpartyAgentId, role, isHouse: true },
       });
     } catch (error) {
@@ -282,14 +283,14 @@ export async function autoplay(
   buyerAgentId: string,
   sellerAgentId: string,
   itemTitle: string,
-  listingNote?: string,
+  listing?: { description?: string; termsNote?: string },
 ): Promise<void> {
   try {
     const [buyer, seller] = await Promise.all([store.getAgent(buyerAgentId), store.getAgent(sellerAgentId)]);
     await negotiate({
       sessionId,
       itemTitle,
-      listingNote,
+      listing,
       sides: [
         {
           agentId: buyerAgentId,

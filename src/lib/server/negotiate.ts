@@ -19,6 +19,9 @@ import { jang } from "./service.ts";
 import { store } from "../store/index.ts";
 import type { Role } from "../jang/types.ts";
 
+/** The advertisement behind a listing, when the item was listed by hand. */
+export type Listing = { description?: string; termsNote?: string };
+
 export type Side = {
   agentId: string;
   role: Role;
@@ -38,25 +41,32 @@ const llmEnabled = (): boolean => process.env.JANG_CONSOLE_LLM !== "off";
  * numbers and `get_session` hands it over, so this only has to establish a
  * voice and stop the model inventing facts about the item.
  */
-function personaFor(side: Side, itemTitle: string, listingNote?: string): string {
+function personaFor(side: Side, itemTitle: string, listing?: Listing): string {
   const base = side.isHouse
     ? `You are JANG's house agent, standing in as the ${side.role} for "${itemTitle}". ` +
       `You have no history with this item and no story beyond the mandate you were given. ` +
       `Bargain it sensibly and concede slowly. Never invent facts about the item's condition, ` +
-      `history or provenance: you do not know any.`
+      `history or provenance beyond what the advertisement below tells you.`
     : `You are negotiating as the ${side.role} for "${itemTitle}" on behalf of the owner who ` +
       `registered you. Your mandate is the whole of your authority. Do not invent facts about ` +
       `the item beyond what the session tells you.`;
 
-  if (!listingNote?.trim()) return base;
+  // The advertisement, where there is one. A worked example ships with a
+  // hand-written persona on both sides; a listing has only what its owner
+  // wrote, so this is the whole of the house's character.
+  const advert = [listing?.description, listing?.termsNote]
+    .map((part) => part?.trim())
+    .filter(Boolean)
+    .join("\n\n");
+  if (!advert) return base;
   // Both sides see this: it was written on a public listing, so treating it as
   // one side's secret would be a fiction. It is not a term, and saying so
   // keeps an agent from behaving as though JANG would enforce it.
   return (
-    `${base}\n\nThe listing says this about what else is open, in the lister's own words. ` +
+    `${base}\n\nThis is the advertisement, in the lister's own words. ` +
     `It is context, not a term: JANG enforces only the terms in the session, and nothing here ` +
     `is binding on either side. Use it to find trades and to sound like you have read the ad.\n\n` +
-    `> ${listingNote.trim().replace(/\n/g, "\n> ")}`
+    `> ${advert.replace(/\n/g, "\n> ")}`
   );
 }
 
@@ -90,11 +100,11 @@ async function noteFallback(sessionId: string, reason: string): Promise<void> {
 export async function negotiate(input: {
   sessionId: string;
   itemTitle: string;
-  /** The listing's prose about what else is open, if it was listed by hand. */
-  listingNote?: string;
+  /** The advertisement behind the item, if it was listed by hand. */
+  listing?: Listing;
   sides: [Side, Side];
 }): Promise<{ by: "claude" | "rule"; reason?: string }> {
-  const { sessionId, itemTitle, listingNote, sides } = input;
+  const { sessionId, itemTitle, listing, sides } = input;
 
   if (!llmEnabled()) {
     await Promise.all(sides.map((side) => runRule(sessionId, side)));
@@ -105,7 +115,7 @@ export async function negotiate(input: {
     sides.map((side) =>
       runLlmAgentInProcess({
         role: side.role,
-        persona: personaFor(side, itemTitle, listingNote),
+        persona: personaFor(side, itemTitle, listing),
         brief: side.brief,
         port: new ServicePort(jang, side.agentId, sessionId),
       }),
@@ -135,15 +145,15 @@ export async function negotiate(input: {
 export async function playOneSide(input: {
   sessionId: string;
   itemTitle: string;
-  listingNote?: string;
+  listing?: Listing;
   side: Side;
 }): Promise<{ by: "claude" | "rule"; reason?: string }> {
-  const { sessionId, itemTitle, listingNote, side } = input;
+  const { sessionId, itemTitle, listing, side } = input;
 
   if (llmEnabled()) {
     const result = await runLlmAgentInProcess({
       role: side.role,
-      persona: personaFor(side, itemTitle, listingNote),
+      persona: personaFor(side, itemTitle, listing),
       brief: side.brief,
       port: new ServicePort(jang, side.agentId, sessionId),
     });

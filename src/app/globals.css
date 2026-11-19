@@ -1428,6 +1428,15 @@ input[type="checkbox"] {
   border-bottom: 1px solid var(--line);
 }
 
+/* Terms read out of an advertisement, offered for the owner to keep. */
+.suggested {
+  margin-top: 0.75rem;
+  padding: 0.85rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--raise);
+}
+
 /* The one button that destroys something. */
 .button-danger {
   border-color: #4a2f2f;

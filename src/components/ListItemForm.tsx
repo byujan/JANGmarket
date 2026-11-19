@@ -18,7 +18,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { MAX_PHOTOS, prepare, type Photo } from "@/lib/browser/photos.ts";
-import type { Role } from "@/lib/jang/types.ts";
+import type { Dimension, Role } from "@/lib/jang/types.ts";
+
+type Suggested = Dimension & { because: string };
 
 export function ListItemForm() {
   const router = useRouter();
@@ -28,6 +30,35 @@ export function ListItemForm() {
   const [askingPrice, setAskingPrice] = useState("");
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [termsNote, setTermsNote] = useState("");
+  const [suggested, setSuggested] = useState<Suggested[]>([]);
+  const [chosen, setChosen] = useState<Set<string>>(new Set());
+  const [suggesting, setSuggesting] = useState(false);
+  const [suggestNote, setSuggestNote] = useState<string>();
+
+  async function suggest() {
+    setSuggesting(true);
+    setSuggestNote(undefined);
+    try {
+      const response = await fetch("/api/owner/items/suggest-terms", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ title, description, termsNote, listedRole }),
+      });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload?.error?.message ?? "Could not read that.");
+      setSuggested(payload.terms ?? []);
+      setChosen(new Set((payload.terms ?? []).map((term: Suggested) => term.key)));
+      if (payload.unavailable) {
+        setSuggestNote("Claude could not be reached, so nothing was read. You can still list it on price alone.");
+      } else if (!payload.terms?.length) {
+        setSuggestNote("Nothing in what you wrote reads as negotiable besides price.");
+      }
+    } catch (problem) {
+      setSuggestNote(problem instanceof Error ? problem.message : String(problem));
+    } finally {
+      setSuggesting(false);
+    }
+  }
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -57,6 +88,13 @@ export function ListItemForm() {
           listedRole,
           askingPrice: Number(askingPrice),
           ...(termsNote.trim() ? { termsNote } : {}),
+          ...(chosen.size
+            ? {
+                dimensions: suggested
+                  .filter((term) => chosen.has(term.key))
+                  .map(({ because: _because, ...dimension }) => dimension),
+              }
+            : {}),
           ...(photos.length ? { images: photos.map((photo) => photo.dataUrl) } : {}),
         }),
       });
@@ -194,6 +232,62 @@ export function ListItemForm() {
           This is context, not a term. JANG enforces the price and signs it into the agreement; anything here is
           something the agents can talk about and trade on, but nothing holds them to it.
         </p>
+
+        <div style={{ marginTop: "1rem" }}>
+          <button
+            type="button"
+            className="button button-quiet"
+            onClick={() => void suggest()}
+            disabled={suggesting || !title.trim()}
+          >
+            {suggesting ? "Reading what you wrote…" : "Read this and suggest terms"}
+          </button>
+          <p className="hint">
+            A deal about price alone is a tug of war: every pound one side gains, the other loses. A second term the
+            two of you value differently is what makes a trade possible. Claude reads your advertisement and proposes
+            what it offers; nothing is added unless you keep it.
+          </p>
+        </div>
+
+        {suggestNote ? (
+          <div className="notice" style={{ marginTop: "0.75rem" }}>
+            {suggestNote}
+          </div>
+        ) : null}
+
+        {suggested.length ? (
+          <div className="suggested">
+            {suggested.map((term) => (
+              <label className="choice" key={term.key}>
+                <input
+                  type="checkbox"
+                  checked={chosen.has(term.key)}
+                  onChange={(event) =>
+                    setChosen((current) => {
+                      const next = new Set(current);
+                      if (event.target.checked) next.add(term.key);
+                      else next.delete(term.key);
+                      return next;
+                    })
+                  }
+                />
+                <span>
+                  <strong>{term.label}</strong>{" "}
+                  <span className="mono small">
+                    {term.min === 0 && term.max === 1
+                      ? "yes or no"
+                      : `${term.min}–${term.max}${term.unit ? ` ${term.unit}` : ""}`}
+                  </span>
+                  <span className="brief">“{term.because}”</span>
+                </span>
+              </label>
+            ))}
+            <p className="hint">
+              Kept terms are enforced: JANG refuses offers outside their range and signs them into the agreement
+              alongside the price. Untick anything you did not mean.
+            </p>
+          </div>
+        ) : null}
       </section>
 
       {error ? (
