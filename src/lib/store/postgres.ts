@@ -109,6 +109,21 @@ export class PostgresStore implements Store {
     `;
   }
 
+  async deleteAgent(agentId: string): Promise<void> {
+    await this.sql.begin(async (tx) => {
+      await tx`delete from mandates where agent_id = ${agentId}`;
+      await tx`delete from agents where agent_id = ${agentId}`;
+    });
+  }
+
+  async countAgentSessions(agentId: string): Promise<number> {
+    const rows = await this.sql`
+      select count(*)::int as n from sessions
+      where buyer_agent_id = ${agentId} or seller_agent_id = ${agentId}
+    `;
+    return (rows[0]?.n as number) ?? 0;
+  }
+
   async listAgentsByOwner(ownerId: string): Promise<AgentRecord[]> {
     const rows = await this.sql`
       select * from agents where owner_id = ${ownerId} order by created_at desc

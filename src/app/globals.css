@@ -1428,6 +1428,19 @@ input[type="checkbox"] {
   border-bottom: 1px solid var(--line);
 }
 
+/* The one button that destroys something. */
+.button-danger {
+  border-color: #4a2f2f;
+  color: var(--deny);
+  background: transparent;
+}
+
+.button-danger:hover {
+  background: var(--deny);
+  color: #fff;
+  border-color: var(--deny);
+}
+
 /* The inline editor on an agent row. */
 .edit-agent {
   display: grid;

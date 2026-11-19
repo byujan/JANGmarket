@@ -163,6 +163,30 @@ for (const candidate of candidates) {
       expect(await store.getAgent("a-missing")).toBeUndefined();
     });
 
+    it("removes an agent and its mandates, and leaves the record alone", async () => {
+      const base = { ownerId: "own_del", createdAt: new Date().toISOString() };
+      await store.createAgent({ ...base, agentId: "a-del", apiKeyHash: "hash-del", label: "doomed" });
+      await store.putMandate({ ...buyerMandate(), agentId: "a-del", ownerId: "own_del" });
+      expect(await store.getMandate("a-del", buyerMandate().itemId)).toBeDefined();
+
+      await store.deleteAgent("a-del");
+      expect(await store.getAgent("a-del")).toBeUndefined();
+      // The key stops working with the agent, rather than outliving it.
+      expect(await store.getAgentByApiKeyHash("hash-del")).toBeUndefined();
+      // Authority granted to something that no longer exists is nothing.
+      expect(await store.getMandate("a-del", buyerMandate().itemId)).toBeUndefined();
+
+      await store.deleteAgent("a-never-existed");
+    });
+
+    it("counts the negotiations an agent took part in, on either side", async () => {
+      const opened = freshSession();
+      await store.putSession(opened);
+      expect(await store.countAgentSessions(opened.participants.buyer)).toBe(1);
+      expect(await store.countAgentSessions(opened.participants.seller)).toBe(1);
+      expect(await store.countAgentSessions("nobody")).toBe(0);
+    });
+
     it("keeps an agent's posture and brief, and leaves them unset when they were", async () => {
       const base = { ownerId: "own_posture", createdAt: new Date().toISOString() };
       await store.createAgent({

@@ -21,6 +21,8 @@ export function EditAgent({ agent }: { agent: AgentRecord }) {
   const [brief, setBrief] = useState(agent.brief ?? "");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string>();
+  /** Set once the server has told us what deleting this would cost. */
+  const [confirmDelete, setConfirmDelete] = useState<string>();
 
   async function save() {
     setBusy(true);
@@ -35,6 +37,29 @@ export function EditAgent({ agent }: { agent: AgentRecord }) {
         const payload = await response.json().catch(() => undefined);
         throw new Error(payload?.error?.message ?? "Could not save that.");
       }
+      setOpen(false);
+      router.refresh();
+    } catch (problem) {
+      setError(problem instanceof Error ? problem.message : String(problem));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function remove(confirmed: boolean) {
+    setBusy(true);
+    setError(undefined);
+    try {
+      const response = await fetch(
+        `/api/owner/agents/${encodeURIComponent(agent.agentId)}${confirmed ? "?confirm=true" : ""}`,
+        { method: "DELETE" },
+      );
+      const payload = await response.json().catch(() => undefined);
+      if (response.status === 409 && payload?.error?.code === "CONFIRM_REQUIRED") {
+        setConfirmDelete(payload.error.message);
+        return;
+      }
+      if (!response.ok) throw new Error(payload?.error?.message ?? "Could not delete that agent.");
       setOpen(false);
       router.refresh();
     } catch (problem) {
@@ -97,14 +122,39 @@ export function EditAgent({ agent }: { agent: AgentRecord }) {
 
       {error ? <div className="notice notice-warn">{error}</div> : null}
 
-      <div style={{ display: "flex", gap: "0.6rem" }}>
+      <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
         <button className="button" onClick={save} disabled={busy}>
           {busy ? "Saving…" : "Save"}
         </button>
         <button className="button button-quiet" onClick={() => setOpen(false)} disabled={busy}>
           Cancel
         </button>
+        <button
+          className="button button-danger"
+          style={{ marginLeft: "auto" }}
+          onClick={() => void remove(false)}
+          disabled={busy}
+        >
+          Delete
+        </button>
       </div>
+
+      {confirmDelete ? (
+        <div className="notice notice-warn">
+          <p style={{ margin: 0 }}>{confirmDelete}</p>
+          <p className="small" style={{ margin: "0.5rem 0 0.75rem" }}>
+            The agent, its key and its signed limits go. This cannot be undone.
+          </p>
+          <div style={{ display: "flex", gap: "0.6rem" }}>
+            <button className="button button-danger" onClick={() => void remove(true)} disabled={busy}>
+              {busy ? "Deleting…" : "Delete it anyway"}
+            </button>
+            <button className="button button-quiet" onClick={() => setConfirmDelete(undefined)} disabled={busy}>
+              Keep it
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

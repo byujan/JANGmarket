@@ -79,6 +79,24 @@ export class MemoryStore implements Store {
     this.agentsByKey.set(agent.apiKeyHash, agentId);
   }
 
+  async deleteAgent(agentId: string): Promise<void> {
+    const agent = this.agents.get(agentId);
+    if (!agent) return;
+    this.agents.delete(agentId);
+    this.agentsByKey.delete(agent.apiKeyHash);
+    for (const [key, mandate] of this.mandates) {
+      if (mandate.agentId === agentId) this.mandates.delete(key);
+    }
+  }
+
+  async countAgentSessions(agentId: string): Promise<number> {
+    let count = 0;
+    for (const session of this.sessions.values()) {
+      if (session.participants.buyer === agentId || session.participants.seller === agentId) count += 1;
+    }
+    return count;
+  }
+
   async listAgentsByOwner(ownerId: string): Promise<AgentRecord[]> {
     return [...this.agents.values()]
       .filter((agent) => agent.ownerId === ownerId)

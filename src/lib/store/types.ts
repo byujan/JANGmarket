@@ -153,6 +153,15 @@ export interface Store {
     agentId: string,
     patch: { label?: string; posture?: Posture; brief?: string },
   ): Promise<void>;
+  /**
+   * Remove an agent and the mandates it held. Its past sessions and the
+   * agreements they produced are left alone: those are the record, and a
+   * signed document naming an agent does not stop being true because the
+   * owner tidied up.
+   */
+  deleteAgent(agentId: string): Promise<void>;
+  /** How much history an agent has, so deleting it can say what that costs. */
+  countAgentSessions(agentId: string): Promise<number>;
 
   /** Mandates are keyed by the agent they empower and the item they cover. */
   putMandate(mandate: Mandate): Promise<void>;
