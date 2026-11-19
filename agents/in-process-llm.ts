@@ -53,6 +53,19 @@ const describe = (view: SessionView): string => {
       `They have shared what matters most to them, most important first: ${view.counterpartyPriorities.join(" > ")}.`,
     );
   }
+  // How contested the item is. The stdio server tells an outside agent this;
+  // leaving it out here would make the console's agents the only ones blind to
+  // a rival, and scarcity is half of what a market is.
+  if (view.market && (view.market.openSessions > 1 || view.market.remaining <= 1)) {
+    const rivals = Math.max(0, view.market.openSessions - 1);
+    lines.push(
+      `You may still commit to ${view.market.remaining} of the ${view.market.authorised} your owner authorised, ` +
+        `and ${rivals === 0 ? "no other negotiation is" : `${rivals} other negotiation${rivals === 1 ? " is" : "s are"}`} ` +
+        `open for this item right now. Nothing is said about who they are or what they would pay. ` +
+        `Being one of several bidding for something scarce weakens your position, as a poor alternative does.`,
+    );
+  }
+
   const standing = view.standingOffer;
   if (standing) {
     const who = standing.fromAgentId === view.you.agentId ? "your own" : "their";
