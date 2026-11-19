@@ -451,6 +451,22 @@ export function MandateBuilder({
         })}
       </section>
 
+      {dimensions.length < 2 ? (
+        <section className="section">
+          <h2>What matters most</h2>
+          {/* Weights decide what gets traded against what. With a single term
+              there is nothing to trade, so asking which of one thing matters
+              most would be a question with no answer. */}
+          <p className="small mute">
+            This item has one term, so there is nothing to weigh. Weights decide what your agent gives up to win
+            something else, and with a single term there is nothing to give up: every pound you save, the other side
+            loses. A second term the two of you value differently is what makes a trade possible.
+          </p>
+          <p className="hint">
+            You can add one when you list an item — write what else you are open to and have it read back as terms.
+          </p>
+        </section>
+      ) : (
       <section className="section">
         <h2>What matters most</h2>
         <p className="small mute">
@@ -490,8 +506,9 @@ export function MandateBuilder({
           </p>
         ) : null}
       </section>
+      )}
 
-      {money ? (
+      {money && dimensions.length > 1 ? (
         <section className="section">
           <h2>How much is each worth to you?</h2>
           <p className="small mute">
