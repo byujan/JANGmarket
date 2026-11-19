@@ -91,6 +91,11 @@ export type ItemRecord = {
   listedRole: Role;
   /** The headline figure, when the listing was written as a free-form ad. */
   askingPrice?: number;
+  /**
+   * What else the lister is open to, in prose. Read by the negotiating
+   * agents as context; never enforced, and never part of an agreement.
+   */
+  termsNote?: string;
   dimensions: Dimension[];
   createdAt: string;
 };

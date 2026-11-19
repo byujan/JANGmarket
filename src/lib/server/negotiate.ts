@@ -38,19 +38,25 @@ const llmEnabled = (): boolean => process.env.JANG_CONSOLE_LLM !== "off";
  * numbers and `get_session` hands it over, so this only has to establish a
  * voice and stop the model inventing facts about the item.
  */
-function personaFor(side: Side, itemTitle: string): string {
-  if (side.isHouse) {
-    return (
-      `You are JANG's house agent, standing in as the ${side.role} for "${itemTitle}". ` +
+function personaFor(side: Side, itemTitle: string, listingNote?: string): string {
+  const base = side.isHouse
+    ? `You are JANG's house agent, standing in as the ${side.role} for "${itemTitle}". ` +
       `You have no history with this item and no story beyond the mandate you were given. ` +
       `Bargain it sensibly and concede slowly. Never invent facts about the item's condition, ` +
       `history or provenance: you do not know any.`
-    );
-  }
+    : `You are negotiating as the ${side.role} for "${itemTitle}" on behalf of the owner who ` +
+      `registered you. Your mandate is the whole of your authority. Do not invent facts about ` +
+      `the item beyond what the session tells you.`;
+
+  if (!listingNote?.trim()) return base;
+  // Both sides see this: it was written on a public listing, so treating it as
+  // one side's secret would be a fiction. It is not a term, and saying so
+  // keeps an agent from behaving as though JANG would enforce it.
   return (
-    `You are negotiating as the ${side.role} for "${itemTitle}" on behalf of the owner who ` +
-    `registered you. Your mandate is the whole of your authority. Do not invent facts about ` +
-    `the item beyond what the session tells you.`
+    `${base}\n\nThe listing says this about what else is open, in the lister's own words. ` +
+    `It is context, not a term: JANG enforces only the terms in the session, and nothing here ` +
+    `is binding on either side. Use it to find trades and to sound like you have read the ad.\n\n` +
+    `> ${listingNote.trim().replace(/\n/g, "\n> ")}`
   );
 }
 
@@ -84,9 +90,11 @@ async function noteFallback(sessionId: string, reason: string): Promise<void> {
 export async function negotiate(input: {
   sessionId: string;
   itemTitle: string;
+  /** The listing's prose about what else is open, if it was listed by hand. */
+  listingNote?: string;
   sides: [Side, Side];
 }): Promise<{ by: "claude" | "rule"; reason?: string }> {
-  const { sessionId, itemTitle, sides } = input;
+  const { sessionId, itemTitle, listingNote, sides } = input;
 
   if (!llmEnabled()) {
     await Promise.all(sides.map((side) => runRule(sessionId, side)));
@@ -97,7 +105,7 @@ export async function negotiate(input: {
     sides.map((side) =>
       runLlmAgentInProcess({
         role: side.role,
-        persona: personaFor(side, itemTitle),
+        persona: personaFor(side, itemTitle, listingNote),
         brief: side.brief,
         port: new ServicePort(jang, side.agentId, sessionId),
       }),
@@ -127,14 +135,15 @@ export async function negotiate(input: {
 export async function playOneSide(input: {
   sessionId: string;
   itemTitle: string;
+  listingNote?: string;
   side: Side;
 }): Promise<{ by: "claude" | "rule"; reason?: string }> {
-  const { sessionId, itemTitle, side } = input;
+  const { sessionId, itemTitle, listingNote, side } = input;
 
   if (llmEnabled()) {
     const result = await runLlmAgentInProcess({
       role: side.role,
-      persona: personaFor(side, itemTitle),
+      persona: personaFor(side, itemTitle, listingNote),
       brief: side.brief,
       port: new ServicePort(jang, side.agentId, sessionId),
     });

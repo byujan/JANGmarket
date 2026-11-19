@@ -331,15 +331,16 @@ export class PostgresStore implements Store {
   async putItem(item: ItemRecord): Promise<void> {
     await this.sql`
       insert into items (item_id, owner_id, title, description, listed_role,
-                         asking_price, dimensions, created_at)
+                         asking_price, terms_note, dimensions, created_at)
       values (${item.itemId}, ${item.ownerId}, ${item.title}, ${item.description ?? null},
-              ${item.listedRole}, ${item.askingPrice ?? null},
+              ${item.listedRole}, ${item.askingPrice ?? null}, ${item.termsNote ?? null},
               ${this.sql.json(item.dimensions)}, ${item.createdAt})
       on conflict (item_id) do update set
         title = excluded.title,
         description = excluded.description,
         listed_role = excluded.listed_role,
         asking_price = excluded.asking_price,
+        terms_note = excluded.terms_note,
         dimensions = excluded.dimensions
     `;
   }
@@ -423,6 +424,7 @@ function toItem(row: Record<string, unknown>): ItemRecord {
     description: (row.description as string) ?? undefined,
     listedRole: row.listed_role as ItemRecord["listedRole"],
     askingPrice: row.asking_price === null ? undefined : Number(row.asking_price),
+    termsNote: (row.terms_note as string) ?? undefined,
     dimensions: row.dimensions as ItemRecord["dimensions"],
     createdAt: new Date(row.created_at as string).toISOString(),
   };

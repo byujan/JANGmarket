@@ -5,43 +5,20 @@
  *
  * Written the way a classified ad is: photographs, a paragraph and a price.
  * JANG builds the price term from that figure, so nobody has to describe a
- * lattice to sell a bicycle. Anything richer than price — delivery, warranty,
- * quantity — is still declared by hand, below and out of the way.
+ * lattice to sell a bicycle.
  *
- * Two different things are being described and the form keeps them apart.
- * What is *public*: the terms and the range each may move across, which a
- * counterparty must know to make an offer at all. What stays *private*: how
- * far you would actually go, which is signed separately in your browser.
+ * Anything else the lister is open to is prose, handed to the negotiating
+ * agents as context. That is a real trade: a declared term is enforced and
+ * signed into the agreement, while a sentence about the lock being included
+ * is only something the agents may talk about and trade on.
+ *
+ * What stays private either way is how far you would actually go, which is
+ * signed separately in your browser.
  */
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { MAX_PHOTOS, prepare, type Photo } from "@/lib/browser/photos.ts";
 import type { Role } from "@/lib/jang/types.ts";
-
-type Term = {
-  key: string;
-  label: string;
-  unit: string;
-  min: string;
-  max: string;
-  step: string;
-  buyerPrefers: "low" | "high";
-};
-
-const blank = (): Term => ({ key: "", label: "", unit: "", min: "", max: "", step: "1", buyerPrefers: "low" });
-
-/** Extra terms start empty: most listings are a price and nothing else. */
-const starter: Term[] = [];
-
-/** A key the engine can use, derived from what the person typed. */
-function keyFor(label: string, index: number): string {
-  const slug = label
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "")
-    .replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
-  return slug || `term${index + 1}`;
-}
 
 export function ListItemForm() {
   const router = useRouter();
@@ -50,7 +27,7 @@ export function ListItemForm() {
   const [listedRole, setListedRole] = useState<Role>("seller");
   const [askingPrice, setAskingPrice] = useState("");
   const [photos, setPhotos] = useState<Photo[]>([]);
-  const [terms, setTerms] = useState<Term[]>(starter);
+  const [termsNote, setTermsNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -66,24 +43,11 @@ export function ListItemForm() {
     }
   }
 
-  const update = (index: number, patch: Partial<Term>) =>
-    setTerms((current) => current.map((term, i) => (i === index ? { ...term, ...patch } : term)));
-
   async function submit(event: React.FormEvent) {
     event.preventDefault();
     setBusy(true);
     setError(undefined);
     try {
-      const dimensions = terms.map((term, index) => ({
-        key: keyFor(term.label, index),
-        label: term.label.trim(),
-        ...(term.unit.trim() ? { unit: term.unit.trim() } : {}),
-        min: Number(term.min),
-        max: Number(term.max),
-        step: Number(term.step) || 1,
-        buyerPrefers: term.buyerPrefers,
-      }));
-
       const response = await fetch("/api/owner/items", {
         method: "POST",
         headers: { "content-type": "application/json" },
@@ -91,8 +55,8 @@ export function ListItemForm() {
           title,
           description: description || undefined,
           listedRole,
-          ...(askingPrice ? { askingPrice: Number(askingPrice) } : {}),
-          ...(dimensions.length ? { dimensions } : {}),
+          askingPrice: Number(askingPrice),
+          ...(termsNote.trim() ? { termsNote } : {}),
           ...(photos.length ? { images: photos.map((photo) => photo.dataUrl) } : {}),
         }),
       });
@@ -143,7 +107,7 @@ export function ListItemForm() {
             value={askingPrice}
             onChange={(event) => setAskingPrice(event.target.value)}
             placeholder="500"
-            required={terms.length === 0}
+            required
             aria-describedby="asking-hint"
           />
           <p className="hint" id="asking-hint">
@@ -214,104 +178,22 @@ export function ListItemForm() {
       <section className="section">
         <h2>Anything besides price</h2>
         <p className="hint" style={{ marginTop: 0 }}>
-          Optional. Price alone is a tug of war: the only way to agree is for someone to give ground. Add a term the
-          two sides value differently — a delivery date, a warranty, who collects — and there is something to trade
-          instead. Each one is public, because a counterparty has to know what is on the table to make an offer.
+          Optional, and in your own words. Both agents read this before they start, so it is the place to say what
+          else you would move on — delivery, collection, what you would throw in, what you will not budge on.
         </p>
-
-        {terms.map((term, index) => (
-          <div className="band" key={index}>
-            <div className="band-head">
-              <span className="band-name">{term.label || `Term ${index + 1}`}</span>
-              {terms.length >= 1 ? (
-                <button
-                  type="button"
-                  className="button button-quiet"
-                  onClick={() => setTerms((current) => current.filter((_, i) => i !== index))}
-                >
-                  Remove
-                </button>
-              ) : null}
-            </div>
-
-            <div className="field-row">
-              <div>
-                <label htmlFor={`label-${index}`}>Term</label>
-                <input
-                  id={`label-${index}`}
-                  value={term.label}
-                  onChange={(event) => update(index, { label: event.target.value })}
-                  placeholder="Price"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor={`unit-${index}`}>Unit, if any</label>
-                <input
-                  id={`unit-${index}`}
-                  value={term.unit}
-                  onChange={(event) => update(index, { unit: event.target.value })}
-                  placeholder="USD, days, months"
-                />
-              </div>
-            </div>
-
-            <div className="band-controls" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))" }}>
-              <div>
-                <label htmlFor={`min-${index}`}>Least</label>
-                <input
-                  id={`min-${index}`}
-                  type="number"
-                  value={term.min}
-                  onChange={(event) => update(index, { min: event.target.value })}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor={`max-${index}`}>Most</label>
-                <input
-                  id={`max-${index}`}
-                  type="number"
-                  value={term.max}
-                  onChange={(event) => update(index, { max: event.target.value })}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor={`step-${index}`}>Moves in</label>
-                <input
-                  id={`step-${index}`}
-                  type="number"
-                  min="0.0001"
-                  value={term.step}
-                  onChange={(event) => update(index, { step: event.target.value })}
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor={`dir-${index}`}>A buyer wants it</label>
-                <select
-                  id={`dir-${index}`}
-                  value={term.buyerPrefers}
-                  onChange={(event) => update(index, { buyerPrefers: event.target.value as "low" | "high" })}
-                >
-                  <option value="low">as low as possible</option>
-                  <option value="high">as high as possible</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        ))}
-
-        <button
-          type="button"
-          className="button button-quiet"
-          style={{ marginTop: "1rem" }}
-          onClick={() => setTerms((current) => [...current, blank()])}
-          disabled={terms.length >= 7}
-        >
-          {terms.length ? "Add another term" : "Add a term"}
-        </button>
+        <textarea
+          id="termsNote"
+          value={termsNote}
+          onChange={(event) => setTermsNote(event.target.value)}
+          rows={4}
+          maxLength={2000}
+          placeholder={"Happy to include the lock and the spare tube if you collect this week.\nI can deliver within Cambridge for a bit more. The frame size is not negotiable."}
+          aria-describedby="terms-hint"
+        />
+        <p className="hint" id="terms-hint">
+          This is context, not a term. JANG enforces the price and signs it into the agreement; anything here is
+          something the agents can talk about and trade on, but nothing holds them to it.
+        </p>
       </section>
 
       {error ? (

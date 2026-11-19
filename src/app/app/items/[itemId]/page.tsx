@@ -95,7 +95,25 @@ export default async function Listing({ params }: { params: Promise<{ itemId: st
         </div>
       </section>
 
-      <section className="section enter" style={{ "--i": 2 } as React.CSSProperties}>
+      {item.termsNote ? (
+        <section className="section enter" style={{ "--i": 2 } as React.CSSProperties}>
+          <div className="panel">
+            <div className="panel-head">
+              <h2>What else is open</h2>
+              <span className="panel-meta">context, not a term</span>
+            </div>
+            <div className="panel-body">
+              <p className="prose">{item.termsNote}</p>
+              <p className="hint">
+                Both agents read this before they start. Nothing in it is enforced and none of it reaches the signed
+                agreement, which carries the terms below and nothing else.
+              </p>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      <section className="section enter" style={{ "--i": 3 } as React.CSSProperties}>
         <div className="panel">
           <div className="panel-head">
             <h2>What is negotiable</h2>

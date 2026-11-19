@@ -18,7 +18,12 @@ const BodySchema = z.object({
   listedRole: RoleSchema,
   /** The headline figure. JANG builds the price term from it. */
   askingPrice: z.number().positive().max(100_000_000).optional(),
-  /** Omitted on a free-form listing, which negotiates over price alone. */
+  /**
+   * What else the lister is open to, in prose. Context for the negotiating
+   * agents, never a term: nothing here is enforced or signed.
+   */
+  termsNote: z.string().max(2000).optional(),
+  /** Declared by hand, for a caller that wants terms JANG will enforce. */
   dimensions: z.array(DimensionSchema).max(8).optional(),
   /** base64 `data:` URLs, already resized by the browser. */
   images: z.array(z.string()).max(MAX_IMAGES).optional(),
@@ -92,6 +97,7 @@ export async function POST(request: Request) {
       description: body.description,
       listedRole: body.listedRole,
       ...(body.askingPrice === undefined ? {} : { askingPrice: body.askingPrice }),
+      ...(body.termsNote?.trim() ? { termsNote: body.termsNote.trim() } : {}),
       dimensions,
       createdAt: new Date().toISOString(),
     });

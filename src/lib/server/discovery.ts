@@ -26,6 +26,8 @@ export type MarketItem = {
   itemId: string;
   title: string;
   description?: string;
+  /** The lister's prose about what else is open. Context, never a term. */
+  termsNote?: string;
   /** Which side is yours to take, or undefined when none is. */
   yourRole?: Role;
   /** Whether this agent already holds authority to negotiate over it. */
@@ -48,6 +50,7 @@ const termsOf = (spec: ItemSpec): MarketItem["terms"] =>
 
 async function toMarketItem(entry: CatalogueEntry, agentId: string, ownerId: string): Promise<MarketItem> {
   const itemId = entry.itemSpec.itemId;
+  const listing = entry.source === "listed" ? await store.getItem(itemId) : undefined;
   const mine = entry.source !== "listed" || entry.listedBy === ownerId;
   // The house sells in a built-in market, so a visitor buys. On a listing the
   // lister keeps the side they listed.
@@ -57,6 +60,7 @@ async function toMarketItem(entry: CatalogueEntry, agentId: string, ownerId: str
     itemId,
     title: entry.title,
     ...(entry.description ? { description: entry.description } : {}),
+    ...(listing?.termsNote ? { termsNote: listing.termsNote } : {}),
     ...(yourRole ? { yourRole } : {}),
     youHaveMandate: Boolean(await store.getMandate(agentId, itemId)),
     source: entry.source,

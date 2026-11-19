@@ -156,3 +156,11 @@ create table if not exists item_images (
 -- The headline figure on a listing. The negotiable band is derived from it, so
 -- it is kept to show, and to rebuild that band the same way twice.
 alter table items add column if not exists asking_price double precision;
+
+-- What else the lister is open to, in their own words.
+--
+-- Not a term: nothing here is enforced or signed into an agreement, which
+-- carries only the declared lattice. It is context the negotiating agents
+-- read, so a listing can say "happy to include the lock" without its owner
+-- having to describe a dimension.
+alter table items add column if not exists terms_note text;
