@@ -1,0 +1,19 @@
+
+Off-step terms probe  grid {"price":{"min":500,"max":3000,"step":10},"deliveryDays":{"min":1,"max":45,"step":1},"warrantyMonths":{"min":12,"max":48,"step":6},"bundle":{"min":0,"max":1,"step":1}}
+
+REFUSED  seller offer {"price":1225.5,"deliveryDays":10.5,"warrantyMonths":13,"bundle":0.5}
+         INVALID_TERMS: term "price" = 1225.5 is not on the item's grid: values run 500..3000 in steps of 10 (nearest valid: 1220 or 1230); term "deliveryDays" = 10.5 is not on the item's grid: values run 1..45 in steps of 1 (nearest valid: 10 or 11); term "warrantyMonths" = 13 is not on the item's grid: values run 12..48 in steps of 6 (nearest valid: 12 or 18); term "bundle" = 0.5 is not on the item's grid: values run 0..1 in steps of 1 (nearest valid: 0 or 1)
+
+OK       seller offer {"price":1220,"deliveryDays":10,"warrantyMonths":18,"bundle":1}
+         Session sess_7447ca22-73d2-491b-abe5-4792d012e7f7 is open. You are the seller; the buyer is agent-buyer-nova-offstep-mwmobh61.
+Round 1 of at most 12.
+Terms: price 500..3000 in steps of 10 USD; deliveryDays 1..45 in steps of 1 days; warrantyMonths 12..48 in steps of 6 months; bundle 0..1 in steps of 1. Offers off this grid are refused.
+Your standing offer (round 1): price=1220, deliveryDays=10, warrantyMonths=18, bundle=1 ("Corrected to the item's grid.")
+It is worth 0.431 to you (your reservation is 0.3).
+It is the counterparty's turn; wait for them.
+
+OK       buyer accept {}
+         Deal closed in 1 rounds. JANG signed agreement agr_9b5bc77f-f886-4b47-8695-7f346d85861b. Verify the signature against JANG's public key and re-check the terms against your own mandate before you pay.
+
+Outcome: REFUSED off-step offer with INVALID_TERMS; corrected offer accepted and signed
+

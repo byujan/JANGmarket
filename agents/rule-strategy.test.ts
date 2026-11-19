@@ -6,7 +6,8 @@
  * limits are involved.
  */
 import { describe, expect, it } from "vitest";
-import { MAX_COMPETITIVE_PRESSURE, competitivePressure } from "./rule-strategy.ts";
+import { MAX_COMPETITIVE_PRESSURE, candidates, competitivePressure } from "./rule-strategy.ts";
+import { sellerMandate, testItemSpec } from "../src/lib/jang/testing.ts";
 import type { SessionView } from "../src/lib/jang/session.ts";
 import type { Market } from "../src/lib/jang/types.ts";
 
@@ -50,5 +51,24 @@ describe("competitive pressure", () => {
 
   it("is nothing once an agent has nothing left to commit", () => {
     expect(competitivePressure(view({ remaining: 0, authorised: 1, openSessions: 6 }))).toBe(0);
+  });
+});
+
+describe("candidate values", () => {
+  // HW9: JANG now refuses off-grid terms, so an owner's bound between grid
+  // points must not leak into an offer.
+  it("stay on the item's grid even when the owner's bound is between grid points", () => {
+    const price = testItemSpec.dimensions.find((d) => d.key === "price")!;
+    const mandate = sellerMandate({
+      constraints: { price: { min: 1185, max: 1497 } },
+      preferences: { price: { weight: 5, ideal: 1349, worst: 1185 } },
+    });
+    const values = candidates(price, mandate, 7, 1263);
+    expect(values.length).toBeGreaterThan(0);
+    for (const value of values) {
+      expect((value - price.min) % price.step).toBe(0);
+      expect(value).toBeGreaterThanOrEqual(1190);
+      expect(value).toBeLessThanOrEqual(1490);
+    }
   });
 });

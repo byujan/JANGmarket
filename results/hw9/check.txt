@@ -1,0 +1,164 @@
+
+> jang@0.1.0 check
+> npm run typecheck && npm test && npm run demo && npm run verify && npm run misuse
+
+
+> jang@0.1.0 typecheck
+> tsc --noEmit
+
+
+> jang@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 <repo>
+
+
+ Test Files  18 passed (18)
+      Tests  177 passed (177)
+   Start at  17:11:07
+   Duration  954ms (tests 48%, import 46%, transform 5%, worker 2%)
+
+
+> jang@0.1.0 demo
+> tsx scripts/demo.ts
+
+
+1. The market
+─────────────────────────────────────
+Clearance 65-inch OLED television, last season's model (late 2026)
+A retailer is clearing last season's 65-inch OLED panels ahead of Black Friday, after the new models launched in spring. Street prices for this class sit around 1,100 to 1,350 USD. Price is not the only lever: delivery speed, total warranty length (12 months from the manufacturer, extendable by the retailer) and a bundled soundbar are all on the table.
+
+Negotiable terms: Price, Delivery, Warranty, Soundbar bundled
+
+Private to the buyer's owner: You shop for a household that has watched this TV's price for months and knows it has sold for around 1,100 to 1,250 USD on sale. You will not pay more than 1,300 USD and would love to get it under 1,000. You care most about price, then about a longer warranty, because a repair on a 65-inch OLED is expensive. A soundbar is a nice extra but not worth much to you, and you can wait a few weeks for delivery.
+Private to the seller's owner: You clear inventory for an electronics retailer. After vendor support, each panel cost you about 1,050 USD and you may not sell below that. The new models are already on the floor, so you want these gone before Black Friday. Extending the warranty is cheap for you, because few panels fail in their second or third year, so you would much rather add warranty than cut the price. Bundling a soundbar costs you real money, and expedited delivery costs a little more than standard delivery.
+
+Neither agent is shown the other's paragraph, limits or preferences.
+
+2. Owners lodge signed mandates with JANG
+─────────────────────────────────────────────────────────────────
+buyer  agent-buyer-nova-mwmoe3ly  mandate mdt_tv-clearance_buyer_4f4822a6 signed by owner-dana
+seller agent-seller-hanbit-mwmoe3ly  mandate mdt_tv-clearance_seller_794ca49d signed by owner-hanbit-electronics
+session sess_12421d36-c1fc-49c8-8ef1-8db5a323d3c5
+
+3. Agents connect over MCP
+──────────────────────────────────────────────────
+tools offered by the JANG MCP server: list_items, describe_item, get_session, open_session, offer, counter, accept
+
+4. The negotiation
+──────────────────────────────────────────
+
+SELLER round 1  Price $1,350  |  Delivery 30 days  |  Warranty 12 months  |  Soundbar bundled no
+       "Opening proposal. Tell me which of these terms matters most to you and I will trade against it."
+       value to buyer 0.00 · to seller 1.00
+
+BUYER  round 2  Price $1,000  |  Delivery 8 days  |  Warranty 36 months  |  Soundbar bundled yes
+       "I cannot take that package as it stands. We are still apart on price and delivery and warranty and soundbar bundled."
+       value to buyer 0.98 · to seller 0.01
+
+SELLER round 3  Price $1,350  |  Delivery 18 days  |  Warranty 12 months  |  Soundbar bundled no
+       "I have moved toward you on delivery. We are still apart on price and delivery and warranty and soundbar bundled."
+       value to buyer 0.04 · to seller 0.97
+
+BUYER  round 4  Price $1,000  |  Delivery 12 days  |  Warranty 30 months  |  Soundbar bundled yes
+       "I have moved toward you on delivery and warranty. We are still apart on price and delivery and warranty and soundbar bundled."
+       value to buyer 0.90 · to seller 0.06
+
+SELLER round 5  Price $1,350  |  Delivery 18 days  |  Warranty 30 months  |  Soundbar bundled no
+       "I have moved toward you on warranty. We are still apart on price and delivery and soundbar bundled."
+       value to buyer 0.26 · to seller 0.87
+
+BUYER  round 6  Price $1,000  |  Delivery 18 days  |  Warranty 36 months  |  Soundbar bundled no
+       "I have moved toward you on delivery and soundbar bundled. We are still apart on price and warranty."
+       value to buyer 0.80 · to seller 0.28
+
+SELLER round 7  Price $1,350  |  Delivery 18 days  |  Warranty 36 months  |  Soundbar bundled no
+       "I have moved toward you on warranty. We are still apart on price."
+       value to buyer 0.33 · to seller 0.83
+
+BUYER  round 8  Price $1,100  |  Delivery 18 days  |  Warranty 36 months  |  Soundbar bundled no
+       "I have moved toward you on price. We are still apart on price."
+       value to buyer 0.64 · to seller 0.38
+
+SELLER round 9  Price $1,290  |  Delivery 18 days  |  Warranty 36 months  |  Soundbar bundled no
+       "I have moved toward you on price. We are still apart on price."
+       value to buyer 0.34 · to seller 0.73
+
+BUYER  round 10  Price $1,200  |  Delivery 18 days  |  Warranty 36 months  |  Soundbar bundled no
+       "I have moved toward you on price. We are still apart on price."
+       value to buyer 0.49 · to seller 0.56
+
+SELLER accepts. JANG signed agreement agr_e5786806-dfd6-4687-98d0-ebf5dda6f6fe
+
+5. Verifying the result
+───────────────────────────────────────────────
+PASS  JANG's Ed25519 signature verifies against the published public key
+PASS  every term is inside the buyer owner's mandate
+PASS  every term is inside the seller owner's mandate
+
+6. Against the posted price
+───────────────────────────────────────────────────
+Posted shelf price, take it or leave it: Price $1,349  |  Delivery 14 days  |  Warranty 12 months  |  Soundbar bundled no
+  buyer's value 0.06 against a reservation of 0.2 → the buyer walks away, no sale
+
+Negotiated: Price $1,200  |  Delivery 18 days  |  Warranty 36 months  |  Soundbar bundled no
+  buyer's value 0.49 · seller's value 0.56 → both owners are above their reservation
+
+10 rounds, 690 ms, 33 MCP tool calls.
+Saved to .tmp/last-run.json. Run `npm run verify` to check it independently.
+
+> jang@0.1.0 verify
+> tsx scripts/verify.ts
+
+
+Independent verification of agr_e5786806-dfd6-4687-98d0-ebf5dda6f6fe
+Price $1,200  |  Delivery 18 days  |  Warranty 36 months  |  Soundbar bundled no
+
+PASS  JANG's signature over the agreed terms verifies
+      ed25519, agreement agr_e5786806-dfd6-4687-98d0-ebf5dda6f6fe
+PASS  the buyer owner's signature on their own mandate verifies
+      mdt_tv-clearance_buyer_4f4822a6
+PASS  the seller owner's signature on their own mandate verifies
+      mdt_tv-clearance_seller_794ca49d
+PASS  every agreed term is inside the buyer's authority
+      no violations
+PASS  every agreed term is inside the seller's authority
+      no violations
+PASS  both owners ended above their reservation value
+      buyer 0.486 ≥ 0.2, seller 0.560 ≥ 0.3
+PASS  altering a term after signing breaks the signature
+      re-checked with the price reduced by $100
+
+All 7 checks passed. Zero constraint violations.
+
+
+> jang@0.1.0 misuse
+> tsx scripts/misuse.ts
+
+
+Probing the limits of delegated authority
+seller floor $1,050 · buyer ceiling $1,300 · neither agent is told the other's figure
+
+BLOCKED  the seller's agent offers $970, below its owner's $1,050 floor
+         expected: MANDATE_VIOLATION naming the price limit
+         observed: MANDATE_VIOLATION: this package is outside the authority your owner granted you as seller · Why: · - price: below the minimum allowed (limit 1050, offered 970)
+
+BLOCKED  the session stays open and usable after the refusal
+         expected: the next, lawful offer is accepted
+         observed: offer accepted, negotiation continues
+
+BLOCKED  the buyer's agent accepts a $1,600 package over its owner's $1,300 ceiling
+         expected: MANDATE_VIOLATION naming the price limit
+         observed: MANDATE_VIOLATION: accepting this package would exceed the authority your owner granted you · Why: · - price: above the maximum allowed (limit 1300, offered 1600)
+
+BLOCKED  an unrelated registered agent reads someone else's session
+         expected: NOT_A_PARTICIPANT, and no terms disclosed
+         observed: NOT_A_PARTICIPANT: agent agent-intruder-misuse-mwmoe5bt is not in session sess_78fb8820-786b-4c0d-9981-7724e7457728
+
+BLOCKED  the buyer's view of the session carries the seller's mandate
+         expected: no mandate id, signature or floor price anywhere in the payload
+         observed: nothing from the seller's mandate appears in the buyer's view
+
+All 5 probes were refused or contained as intended.
+

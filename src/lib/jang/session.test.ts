@@ -73,6 +73,51 @@ describe("negotiation session", () => {
     );
   });
 
+  // HW9 boundary: before this rule JANG signed "half a soundbar" and cents on a $10 grid.
+  it.each([
+    ["a fractional boolean", { bundle: 0.5 }, /"bundle" = 0.5 is not on the item's grid.*steps of 1.*0 or 1/],
+    ["a price off the $10 grid", { price: 1225.5 }, /"price" = 1225.5 .*steps of 10.*1220 or 1230/],
+    ["a warranty off the 6-month grid", { warrantyMonths: 13 }, /"warrantyMonths" = 13 .*steps of 6.*12 or 18/],
+    ["fractional days", { deliveryDays: 10.5 }, /"deliveryDays" = 10.5 .*10 or 11/],
+  ])("refuses an offer with %s and names the nearest valid values", (_label, patch, message) => {
+    const session = freshSession();
+    expectJangError(() => submitOffer(session, "agent-seller", { ...agreeable, ...patch }, { offerId: "o1" }), "INVALID_TERMS");
+    expect(() => submitOffer(session, "agent-seller", { ...agreeable, ...patch }, { offerId: "o1" })).toThrow(message);
+  });
+
+  it("names every off-grid term in one refusal, so one retry can fix them all", () => {
+    const session = freshSession();
+    const offGrid = { ...agreeable, price: 1225.5, warrantyMonths: 13, bundle: 0.5 };
+    let message = "";
+    try {
+      submitOffer(session, "agent-seller", offGrid, { offerId: "o1" });
+    } catch (error) {
+      message = (error as JangError).message;
+    }
+    for (const key of ["price", "warrantyMonths", "bundle"]) expect(message).toContain(`"${key}"`);
+    expect(message).not.toContain('"deliveryDays"');
+  });
+
+  it("refuses an off-grid MESO alternative, not just the main package", () => {
+    const session = freshSession();
+    expectJangError(
+      () =>
+        submitOffer(session, "agent-seller", agreeable, {
+          offerId: "o1",
+          alternatives: [{ offerId: "o1-b", terms: { ...agreeable, bundle: 0.5 } }],
+        }),
+      "INVALID_TERMS",
+    );
+  });
+
+  it("still accepts on-grid values, including the range ends and float-noise sums", () => {
+    const session = freshSession();
+    // 0.1 * 3 * 5000 is 1500.0000000000002 in floating point: still on the $10 grid.
+    const onGrid = { price: 0.1 * 3 * 5000, deliveryDays: 45, warrantyMonths: 0, bundle: 0 };
+    const afterOffer = submitOffer(session, "agent-seller", onGrid, { offerId: "o1" }).session;
+    expect(afterOffer.offers).toHaveLength(1);
+  });
+
   it("refuses to let a stranger act in the session", () => {
     expectJangError(() => submitOffer(freshSession(), "agent-intruder", agreeable, { offerId: "o1" }), "NOT_A_PARTICIPANT");
   });

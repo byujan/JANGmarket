@@ -75,16 +75,19 @@ export function competitivePressure(view: SessionView): number {
 }
 
 /** Candidate values for one dimension, inside both the item's range and the mandate's bounds. */
-function candidates(dimension: Dimension, mandate: Mandate, grid: number, anchor?: number): number[] {
+export function candidates(dimension: Dimension, mandate: Mandate, grid: number, anchor?: number): number[] {
   const constraint = mandate.constraints[dimension.key] ?? {};
-  const low = Math.max(dimension.min, constraint.min ?? dimension.min);
-  const high = Math.min(dimension.max, constraint.max ?? dimension.max);
+  const boundLow = Math.max(dimension.min, constraint.min ?? dimension.min);
+  const boundHigh = Math.min(dimension.max, constraint.max ?? dimension.max);
+  // JANG refuses values off the item's grid (min + k·step), so an owner's bound
+  // that falls between grid points is tightened inward to the nearest grid value.
+  const onGrid = (k: number) => Number((dimension.min + k * dimension.step).toFixed(6));
+  const low = onGrid(Math.ceil((boundLow - dimension.min) / dimension.step - 1e-9));
+  const high = onGrid(Math.floor((boundHigh - dimension.min) / dimension.step + 1e-9));
   if (high < low) return [];
 
-  const snap = (value: number) => {
-    const stepped = Math.round((value - low) / dimension.step) * dimension.step + low;
-    return Math.min(high, Math.max(low, Number(stepped.toFixed(6))));
-  };
+  const snap = (value: number) =>
+    Math.min(high, Math.max(low, onGrid(Math.round((value - dimension.min) / dimension.step))));
 
   const values = new Set<number>([snap(low), snap(high)]);
   for (let i = 1; i < grid - 1; i += 1) values.add(snap(low + ((high - low) * i) / (grid - 1)));

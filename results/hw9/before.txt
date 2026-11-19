@@ -1,0 +1,15 @@
+
+Off-step terms probe  grid {"price":{"min":500,"max":3000,"step":10},"deliveryDays":{"min":1,"max":45,"step":1},"warrantyMonths":{"min":12,"max":48,"step":6},"bundle":{"min":0,"max":1,"step":1}}
+
+OK       seller offer {"price":1225.5,"deliveryDays":10.5,"warrantyMonths":13,"bundle":0.5}
+         Session sess_4d607b20-b20b-4481-9d8c-9d5334199f66 is open. You are the seller; the buyer is agent-buyer-nova-offstep-mwmockgd.
+Round 1 of at most 12.
+Your standing offer (round 1): price=1225.5, deliveryDays=10.5, warrantyMonths=13, bundle=0.5 ("Half a soundbar, and a price in cents.")
+It is worth 0.591 to you (your reservation is 0.3).
+It is the counterparty's turn; wait for them.
+
+OK       buyer accept {}
+         Deal closed in 1 rounds. JANG signed agreement agr_a4aedce0-13e0-41fd-895b-fd68ff0a2bb1. Verify the signature against JANG's public key and re-check the terms against your own mandate before you pay.
+
+Outcome: ACCEPTED off-step offer; JANG signed an agreement with terms {"price":1225.5,"deliveryDays":10.5,"warrantyMonths":13,"bundle":0.5}
+
