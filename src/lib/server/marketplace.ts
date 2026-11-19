@@ -3,16 +3,14 @@
  * counterparty is, and how a negotiation gets started from a web page.
  */
 import { readFileSync, readdirSync } from "node:fs";
-import { toughnessOf, type Posture } from "../posture.ts";
+import { negotiate, playOneSide } from "./negotiate.ts";
 // One definition: settlement treats the house as always-confirmed by the same
 // owner id that marketplace creates its agents under, so they must not drift.
 import { HOUSE_OWNER } from "../jang/settlement.ts";
 import { join } from "node:path";
-import { runRuleAgent } from "../../../agents/runner.ts";
-import { ServicePort } from "../../../agents/service-port.ts";
 import { issueMandate, parseScenario, type Scenario } from "../jang/scenario.ts";
 import { houseMandateBody, opposite } from "../jang/listing.ts";
-import { signMandate } from "../jang/mandate.ts";
+import { isExpired, signMandate } from "../jang/mandate.ts";
 import { generateKeyPair } from "../jang/crypto.ts";
 import type { ItemRecord } from "../store/types.ts";
 import { JangError, type ItemSpec, type Role } from "../jang/types.ts";
@@ -117,13 +115,27 @@ export function itemSpecOf(itemId: string): ItemSpec {
  * item's ranges, never from the lister's mandate, so it is a real counterparty
  * rather than an echo.
  */
+/**
+ * The house's own mandate, re-issued once it goes stale.
+ *
+ * A mandate carries an expiry and the house's was written once, when its agent
+ * was created. After that it quietly aged out and every launch against that
+ * market failed with INVALID_MANDATE — a market that worked on Monday and was
+ * closed by Friday, for a reason nothing on screen explained. The house is a
+ * standing counterparty, so its authority is renewed on demand.
+ */
+async function houseMandateIsLive(agentId: string, itemId: string): Promise<boolean> {
+  const mandate = await store.getMandate(agentId, itemId);
+  return Boolean(mandate) && !isExpired(mandate!);
+}
+
 export async function ensureHouseForListing(item: ItemRecord): Promise<string> {
   const agentId = `house-${item.itemId}`;
   if (!(await store.getAgent(agentId))) {
     await jang.registerAgent({ agentId, ownerId: HOUSE_OWNER, label: `House side of ${item.title}` });
   }
 
-  if (!(await store.getMandate(agentId, item.itemId))) {
+  if (!(await houseMandateIsLive(agentId, item.itemId))) {
     const keys = generateKeyPair();
     const body = houseMandateBody({
       itemSpec: itemSpecOfListing(item),
@@ -148,7 +160,7 @@ export async function ensureHouseAgent(scenario: Scenario): Promise<string> {
     void apiKey; // The house is driven in-process; its key is never handed out.
   }
 
-  if (!(await store.getMandate(agentId, scenario.itemSpec.itemId))) {
+  if (!(await houseMandateIsLive(agentId, scenario.itemSpec.itemId))) {
     // The house is a stand-in so that one person can negotiate alone, not a
     // real warehouse. It is authorised generously on purpose: a supply of one,
     // which is what an absent supply means, would let it sell once and then
@@ -210,10 +222,11 @@ export async function launchNegotiation(input: {
     ttlSeconds: 900,
   });
 
-  void autoplay(view.sessionId, input.agentId, houseAgentId, {
-    agentId: input.agentId,
-    posture: agent.posture,
-  });
+  // Posture and brief are read from the agent records inside autoplay, so the
+  // owner's dial reaches whichever negotiator ends up running.
+  const buyerAgentId = mine.role === "buyer" ? input.agentId : houseAgentId;
+  const sellerAgentId = mine.role === "buyer" ? houseAgentId : input.agentId;
+  void autoplay(view.sessionId, buyerAgentId, sellerAgentId, itemSpec.title);
   return { sessionId: view.sessionId };
 }
 
@@ -233,14 +246,15 @@ export async function playHouseSide(sessionId: string, counterpartyAgentId: stri
   const counterparty = await store.getAgent(counterpartyAgentId);
   if (counterparty?.ownerId !== HOUSE_OWNER) return false;
 
+  const session = await store.getSession(sessionId);
+  const role: Role = session?.participants.buyer === counterpartyAgentId ? "buyer" : "seller";
+
   void (async () => {
     try {
-      await runRuleAgent({
-        label: "house",
-        agent: new ServicePort(jang, counterpartyAgentId, sessionId),
-        options: { toughness: 1.6, respectBounds: true },
-        thinkMs: Number(process.env.JANG_AUTOPLAY_DELAY_MS ?? 1200),
-        pollMs: 200,
+      await playOneSide({
+        sessionId,
+        itemTitle: session?.itemSpec.title ?? "this item",
+        side: { agentId: counterpartyAgentId, role, isHouse: true },
       });
     } catch (error) {
       await store.recordEvent({
@@ -255,37 +269,40 @@ export async function playHouseSide(sessionId: string, counterpartyAgentId: stri
   return true;
 }
 
+/**
+ * Drive both sides of a session the console opened, to a conclusion.
+ *
+ * Claude bargains by default so the transcript reads as two parties talking;
+ * see negotiate.ts for what happens when it cannot.
+ */
 export async function autoplay(
   sessionId: string,
   buyerAgentId: string,
   sellerAgentId: string,
-  /**
-   * The posture the owner gave their own agent. The house keeps its own
-   * settled stance: posture is the owner's dial on their side of the table,
-   * not a way to make the counterparty soft.
-   */
-  yours?: { agentId: string; posture?: Posture },
+  itemTitle: string,
 ): Promise<void> {
-  const thinkMs = Number(process.env.JANG_AUTOPLAY_DELAY_MS ?? 1200);
-  const toughnessFor = (agentId: string, fallback: number) =>
-    yours && yours.agentId === agentId ? toughnessOf(yours.posture) : fallback;
   try {
-    await Promise.all([
-      runRuleAgent({
-        label: "seller",
-        agent: new ServicePort(jang, sellerAgentId, sessionId),
-        options: { toughness: toughnessFor(sellerAgentId, 1.6) },
-        thinkMs,
-        pollMs: 200,
-      }),
-      runRuleAgent({
-        label: "buyer",
-        agent: new ServicePort(jang, buyerAgentId, sessionId),
-        options: { toughness: toughnessFor(buyerAgentId, 1.5) },
-        thinkMs,
-        pollMs: 200,
-      }),
-    ]);
+    const [buyer, seller] = await Promise.all([store.getAgent(buyerAgentId), store.getAgent(sellerAgentId)]);
+    await negotiate({
+      sessionId,
+      itemTitle,
+      sides: [
+        {
+          agentId: buyerAgentId,
+          role: "buyer",
+          posture: buyer?.posture,
+          brief: buyer?.brief,
+          isHouse: buyer?.ownerId === HOUSE_OWNER,
+        },
+        {
+          agentId: sellerAgentId,
+          role: "seller",
+          posture: seller?.posture,
+          brief: seller?.brief,
+          isHouse: seller?.ownerId === HOUSE_OWNER,
+        },
+      ],
+    });
   } catch (error) {
     await store.recordEvent({
       kind: "refusal",

@@ -56,7 +56,9 @@ export default async function Console() {
         </div>
         <p className="hint" style={{ marginBottom: "1rem" }}>
           Your agent takes the buyer side and JANG&apos;s house agent takes the seller side. Both bargain under signed
-          limits, and neither can see the other&apos;s. It runs on its own and takes about fifteen seconds.
+          limits, and neither can see the other&apos;s. Both sides are negotiated by Claude, so the transcript is two
+          parties talking rather than a machine conceding; that takes about a minute. If Claude cannot be
+          reached the deterministic agent finishes instead, and the negotiation says so.
         </p>
         <LaunchNegotiation options={launchable} />
       </section>

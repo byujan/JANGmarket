@@ -171,6 +171,7 @@ function describe(event: EventRecord): string {
   if (event.kind === "session_opened") return "session opened";
   // NO_POSSIBLE_DEAL sessions carry their own message; agents are never told.
   if (event.kind === "agreed") return "agreement signed";
+  if (event.kind === "fallback") return "finished by the deterministic agent";
   return event.kind;
 }
 

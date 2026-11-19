@@ -47,7 +47,7 @@ export type EventRecord = {
   id?: string;
   sessionId?: string;
   agentId?: string;
-  kind: "refusal" | "session_opened" | "offer" | "agreed";
+  kind: "refusal" | "session_opened" | "offer" | "agreed" | "fallback";
   code?: string;
   message?: string;
   detail?: unknown;
