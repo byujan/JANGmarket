@@ -22,7 +22,7 @@ const primary = [
   { href: "/app/agents", label: "Agents", Icon: AgentsIcon },
   { href: "/app/items", label: "Market", exact: true, Icon: MarketIcon },
   { href: "/app/items/new", label: "List an item", Icon: ListIcon },
-  { href: "/app/mandates/new", label: "Your limits", Icon: LimitsIcon },
+  { href: "/app/limits", label: "Your limits", Icon: LimitsIcon },
   { href: "/app/negotiations", label: "Negotiations", Icon: NegotiationsIcon },
   { href: "/app/agreements", label: "Agreements", Icon: AgreementsIcon },
 ];

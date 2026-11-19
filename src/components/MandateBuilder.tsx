@@ -38,6 +38,7 @@ import {
   type Refit,
 } from "@/lib/jang/elicit.ts";
 import type { Dimension, ItemSpec, MandateBody, Role } from "@/lib/jang/types.ts";
+import type { OwnerDefaults } from "@/lib/store/types.ts";
 
 export type BuilderItem = {
   itemSpec: ItemSpec;
@@ -83,19 +84,33 @@ export function MandateBuilder({
   agents,
   ownerId,
   mcp,
+  defaults,
+  startItemId,
 }: {
   items: BuilderItem[];
   agents: { agentId: string; label?: string }[];
   ownerId: string;
   /** Passed through to the agent form this page can fall back to. */
   mcp: { path: string; onThisMachine: boolean };
+  /** Where this owner's limits start, before they say anything about this item. */
+  defaults?: OwnerDefaults;
+  /** The item to open on, when the list sent them here for a particular one. */
+  startItemId?: string;
 }) {
   const router = useRouter();
-  const [itemId, setItemId] = useState(items[0]?.itemSpec.itemId ?? "");
-  const [agentId, setAgentId] = useState(agents[0]?.agentId ?? "");
+  const startsOn =
+    (startItemId && items.some((i) => i.itemSpec.itemId === startItemId) ? startItemId : undefined) ??
+    items[0]?.itemSpec.itemId ??
+    "";
+  const [itemId, setItemId] = useState(startsOn);
+  const [agentId, setAgentId] = useState(
+    defaults?.agentId && agents.some((a) => a.agentId === defaults.agentId)
+      ? defaults.agentId
+      : (agents[0]?.agentId ?? ""),
+  );
   const [chosenRole, setRole] = useState<Role>("buyer");
-  const [days, setDays] = useState(7);
-  const [disclose, setDisclose] = useState(false);
+  const [days, setDays] = useState(defaults?.expiryDays ?? 7);
+  const [disclose, setDisclose] = useState(defaults?.disclosePriorities ?? false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -123,7 +138,16 @@ export function MandateBuilder({
   // Importance, by choice rather than by slider.
   const scope = `${itemId}:${role}`;
   const [rankings, setRankings] = useState<Record<string, Ranking>>({});
-  const ranking = rankings[scope] ?? startRanking(dimensions.map((d) => d.key));
+  // Money first only decides which term the comparisons start from. It never
+  // fills in an ordering the owner has not given: a ranking they did not make
+  // is not a preference, and the weights are derived from it.
+  const rankKeys = (() => {
+    const keys = dimensions.map((d) => d.key);
+    if (!defaults?.moneyFirst) return keys;
+    const money = dimensions.find((d) => d.unit === "USD")?.key;
+    return money ? [money, ...keys.filter((key) => key !== money)] : keys;
+  })();
+  const ranking = rankings[scope] ?? startRanking(rankKeys);
   const question = nextComparison(ranking);
   const answer = (candidateMatters: boolean) =>
     setRankings((current) => ({ ...current, [scope]: answerComparison(ranking, candidateMatters) }));
@@ -158,7 +182,9 @@ export function MandateBuilder({
   const [alternatives, setAlternatives] = useState<Record<string, Record<string, number>>>({});
   const [noAlternatives, setNoAlternatives] = useState<Record<string, boolean>>({});
   const alternative = alternatives[scope] ?? {};
-  const noAlternative = noAlternatives[scope] ?? false;
+  // The owner's general stance decides where this starts; ticking or
+  // unticking it for this item overrides it from then on.
+  const noAlternative = noAlternatives[scope] ?? defaults?.usuallyNoFallback ?? false;
   const alternativeValue = (dimension: Dimension) => alternative[dimension.key] ?? settingFor(dimension).limit;
   const setAlternative = (dimension: Dimension, value: number) =>
     setAlternatives((current) => ({ ...current, [scope]: { ...alternative, [dimension.key]: value } }));

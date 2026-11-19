@@ -1,7 +1,7 @@
 import postgres, { type Sql } from "postgres";
 import { isPosture } from "../posture.ts";
 import type { Settlement } from "../jang/settlement.ts";
-import type { ItemImage } from "./types.ts";
+import type { ItemImage, OwnerDefaults } from "./types.ts";
 import type { Agreement, ItemSpec, Mandate, Offer, Session } from "../jang/types.ts";
 import type {
   AgentRecord,
@@ -64,6 +64,12 @@ export class PostgresStore implements Store {
   async getOwner(ownerId: string): Promise<OwnerRecord | undefined> {
     const rows = await this.sql`select * from owners where owner_id = ${ownerId}`;
     return rows[0] ? toOwner(rows[0]) : undefined;
+  }
+
+  async putOwnerDefaults(ownerId: string, defaults: OwnerDefaults): Promise<void> {
+    await this.sql`
+      update owners set defaults = ${this.sql.json(defaults)} where owner_id = ${ownerId}
+    `;
   }
 
   async getOwnerByClerkId(clerkUserId: string): Promise<OwnerRecord | undefined> {
@@ -437,6 +443,7 @@ function toOwner(row: Record<string, unknown>): OwnerRecord {
     email: (row.email as string) ?? undefined,
     displayName: (row.display_name as string) ?? undefined,
     publicKey: (row.public_key as string) ?? undefined,
+    defaults: (row.defaults as OwnerRecord["defaults"]) ?? undefined,
     createdAt: new Date(row.created_at as string).toISOString(),
   };
 }

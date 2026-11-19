@@ -164,3 +164,10 @@ alter table items add column if not exists asking_price double precision;
 -- read, so a listing can say "happy to include the lock" without its owner
 -- having to describe a dimension.
 alter table items add column if not exists terms_note text;
+
+-- An owner's general stance, used to pre-fill the limits they set per item.
+--
+-- Never authority in itself: JANG checks offers against the signed mandate
+-- for that item and nothing else. This only decides what the form starts at,
+-- so setting limits for the twentieth item is not the same work as the first.
+alter table owners add column if not exists defaults jsonb;

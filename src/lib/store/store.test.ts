@@ -99,6 +99,25 @@ for (const candidate of candidates) {
       expect((await store.getOwner("own_key"))?.publicKey).toBe("PEM-A");
     });
 
+    it("keeps an owner's defaults, and a later sign-in does not wipe them", async () => {
+      const owner = {
+        ownerId: "own_defaults",
+        clerkUserId: "clerk_defaults",
+        email: "d@example.com",
+        createdAt: new Date().toISOString(),
+      };
+      await store.upsertOwner(owner);
+      await store.putOwnerDefaults("own_defaults", { expiryDays: 14, moneyFirst: true });
+      expect((await store.getOwner("own_defaults"))?.defaults).toEqual({ expiryDays: 14, moneyFirst: true });
+
+      // upsertOwner runs on every sign-in knowing only what Clerk tells it, so
+      // it must not carry away what it was never given.
+      await store.upsertOwner({ ...owner, displayName: "Signed in again" });
+      const after = await store.getOwner("own_defaults");
+      expect(after?.displayName).toBe("Signed in again");
+      expect(after?.defaults).toEqual({ expiryDays: 14, moneyFirst: true });
+    });
+
     it("finds an agent by its hashed key and lists an owner's agents", async () => {
       const base = { ownerId: "own_1", createdAt: new Date().toISOString() };
       await store.createAgent({ ...base, agentId: "a1", apiKeyHash: "hash-1", label: "buyer bot" });

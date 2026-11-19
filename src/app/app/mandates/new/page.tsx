@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { MandateBuilder } from "@/components/MandateBuilder.tsx";
 import { mcpEntry } from "@/lib/server/mcp.ts";
@@ -7,10 +8,15 @@ import { store } from "@/lib/store/index.ts";
 
 export const dynamic = "force-dynamic";
 
-export default async function NewMandate() {
+export default async function NewMandate({
+  searchParams,
+}: {
+  searchParams: Promise<{ item?: string }>;
+}) {
   const owner = await currentOwner();
   if (!owner) redirect("/sign-in");
 
+  const { item: startItemId } = await searchParams;
   const agents = await store.listAgentsByOwner(owner.ownerId);
   const items = (await catalogue(owner.ownerId)).map((entry) => ({
     itemSpec: entry.itemSpec,
@@ -21,8 +27,12 @@ export default async function NewMandate() {
 
   return (
     <main className="page page-wide sheet">
+      <p className="small mute" style={{ marginBottom: "0.75rem" }}>
+        <Link href="/app/limits">Your limits</Link> <span className="faint">/</span> setting them for one item
+      </p>
+
       <div className="page-head">
-        <h1>Your limits</h1>
+        <h1>Set your limits</h1>
         <p>
           This is where you say what you are actually willing to accept: your budget, how long you will wait, what
           matters most, and the point where you would rather walk away. It is private. The other side never sees any
@@ -55,7 +65,14 @@ export default async function NewMandate() {
         </p>
       </div>
 
-      <MandateBuilder items={items} agents={agents} ownerId={owner.ownerId} mcp={mcpEntry()} />
+      <MandateBuilder
+        items={items}
+        agents={agents}
+        ownerId={owner.ownerId}
+        mcp={mcpEntry()}
+        defaults={owner.defaults}
+        startItemId={startItemId}
+      />
     </main>
   );
 }

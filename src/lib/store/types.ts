@@ -3,6 +3,26 @@ import type { Posture } from "../posture.ts";
 import type { Settlement } from "../jang/settlement.ts";
 
 /** A person who signs in and delegates authority to agents. */
+/**
+ * Where an owner's limits start, before they say anything about a given item.
+ *
+ * Not authority. JANG checks an offer against the signed mandate for that item
+ * and nothing else; this only decides what the form is pre-filled with, so the
+ * twentieth item is not the same work as the first.
+ */
+export type OwnerDefaults = {
+  /** How long a mandate should last, in days. */
+  expiryDays?: number;
+  /** Whether to tell counterparties which terms matter most, by default. */
+  disclosePriorities?: boolean;
+  /** The agent to act through unless another is chosen. */
+  agentId?: string;
+  /** Whether money is usually the term that matters most. */
+  moneyFirst?: boolean;
+  /** Whether there is usually no fallback if a deal falls through. */
+  usuallyNoFallback?: boolean;
+};
+
 export type OwnerRecord = {
   ownerId: string;
   clerkUserId: string;
@@ -10,6 +30,8 @@ export type OwnerRecord = {
   displayName?: string;
   /** Ed25519 SPKI PEM. The private half is generated in the browser. */
   publicKey?: string;
+  /** Where this owner's limits start. See OwnerDefaults. */
+  defaults?: OwnerDefaults;
   createdAt: string;
 };
 
@@ -112,6 +134,11 @@ export interface Store {
   upsertOwner(owner: OwnerRecord): Promise<void>;
   getOwner(ownerId: string): Promise<OwnerRecord | undefined>;
   getOwnerByClerkId(clerkUserId: string): Promise<OwnerRecord | undefined>;
+  /**
+   * Saved on its own, never through upsertOwner: that runs on every sign-in
+   * with only what Clerk knows, and would wipe anything it was not told.
+   */
+  putOwnerDefaults(ownerId: string, defaults: OwnerDefaults): Promise<void>;
 
   createAgent(record: AgentRecord): Promise<void>;
   getAgent(agentId: string): Promise<AgentRecord | undefined>;

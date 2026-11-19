@@ -1,6 +1,6 @@
 import type { Agreement, Mandate, Session } from "../jang/types.ts";
 import type { Settlement } from "../jang/settlement.ts";
-import type { ItemImage } from "./types.ts";
+import type { ItemImage, OwnerDefaults } from "./types.ts";
 import type {
   AgentRecord,
   EventRecord,
@@ -40,6 +40,11 @@ export class MemoryStore implements Store {
 
   async getOwner(ownerId: string): Promise<OwnerRecord | undefined> {
     return this.owners.get(ownerId);
+  }
+
+  async putOwnerDefaults(ownerId: string, defaults: OwnerDefaults): Promise<void> {
+    const owner = this.owners.get(ownerId);
+    if (owner) this.owners.set(ownerId, { ...owner, defaults });
   }
 
   async getOwnerByClerkId(clerkUserId: string): Promise<OwnerRecord | undefined> {
