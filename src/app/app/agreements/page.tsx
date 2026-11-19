@@ -1,12 +1,30 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { OUTCOME_COPY } from "@/lib/jang/settlement.ts";
-import { agreementsForOwner } from "@/lib/server/settlement.ts";
+import { agreementsForOwner, type AgreementRow } from "@/lib/server/settlement.ts";
 import { currentOwner } from "@/lib/server/owner.ts";
 
 export const dynamic = "force-dynamic";
 
 const OUTCOME_TAG = { open: "tag-open", settled: "tag-agreed", "fell-through": "tag-failed" } as const;
+
+/**
+ * The headline figure of a closed deal.
+ *
+ * A list of agreements carrying no number is one you have to open row by row
+ * to read, which is the opposite of what a list is for. Money first, because
+ * that is what anyone scans for; failing that, whatever the item leads with.
+ */
+function headline(row: AgreementRow): string {
+  const money = row.dimensions.find((dimension) => dimension.unit === "USD");
+  const value = money ? row.agreement.terms[money.key] : undefined;
+  if (money && value !== undefined) return `$${value.toLocaleString("en-US")}`;
+
+  const first = row.dimensions[0];
+  const other = first ? row.agreement.terms[first.key] : undefined;
+  if (!first || other === undefined) return "—";
+  return `${other}${first.unit ? ` ${first.unit}` : ""}`;
+}
 
 export default async function Agreements() {
   const owner = await currentOwner();
@@ -50,6 +68,7 @@ export default async function Agreements() {
                   <th>Item</th>
                   <th>Your side</th>
                   <th>Counterparty</th>
+                  <th className="num">Agreed at</th>
                   <th>Agreed</th>
                   <th>Outcome</th>
                 </tr>
@@ -64,6 +83,7 @@ export default async function Agreements() {
                     <td className="mono small">
                       {row.counterpartyIsHouse ? "JANG house agent" : row.counterpartyAgentId}
                     </td>
+                    <td className="num mono">{headline(row)}</td>
                     <td className="small faint">{new Date(row.agreement.agreedAt).toLocaleDateString()}</td>
                     <td>
                       <span className={`tag ${OUTCOME_TAG[row.settlement.outcome]}`}>

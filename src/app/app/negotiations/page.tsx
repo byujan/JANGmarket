@@ -12,9 +12,21 @@ export default async function Negotiations() {
   if (!owner) redirect("/sign-in");
 
   const agents = await store.listAgentsByOwner(owner.ownerId);
+  const mine = new Set(agents.map((agent) => agent.agentId));
   const sessions = agents.length
-    ? await store.listSessions({ agentIds: agents.map((agent) => agent.agentId), limit: 50 })
+    ? await store.listSessions({ agentIds: [...mine], limit: 50 })
     : [];
+
+  // Which side each session was ours, and who was across the table. Without
+  // it a page of the same item is fifteen identical rows.
+  const rows = sessions.map((session) => {
+    const youBought = mine.has(session.buyerAgentId);
+    return {
+      ...session,
+      youBought,
+      counterparty: youBought ? session.sellerAgentId : session.buyerAgentId,
+    };
+  });
 
   return (
     <main className="page page-wide">
@@ -33,23 +45,29 @@ export default async function Negotiations() {
         <div className="panel enter">
           <div className="panel-head">
             <h2>All sessions</h2>
-            <span className="panel-meta">{sessions.length} shown</span>
+            <span className="panel-meta">{rows.length} shown</span>
           </div>
           <table className="table">
           <thead>
             <tr>
               <th>Item</th>
+              <th>Your side</th>
+              <th>Counterparty</th>
               <th className="num">Rounds</th>
               <th>Status</th>
               <th>Last move</th>
             </tr>
           </thead>
           <tbody>
-            {sessions.map((session) => (
+            {rows.map((session) => (
               <tr key={session.sessionId}>
                 <td>
                   <Link href={`/app/negotiations/${session.sessionId}`}>{session.itemTitle}</Link>
                 </td>
+                <td className={session.youBought ? "buyer" : "seller"}>
+                  {session.youBought ? "buying" : "selling"}
+                </td>
+                <td className="mono small">{session.counterparty}</td>
                 <td className="num mono">{session.rounds}</td>
                 <td>
                   <span className={`tag tag-${session.status}`}>{session.status}</span>

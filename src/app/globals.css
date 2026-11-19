@@ -1407,6 +1407,17 @@ input[type="checkbox"] {
   color: var(--text);
 }
 
+/* The slot a card keeps for its cover, photograph or not. */
+.listing-cover-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sunk);
+  color: var(--faint);
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+}
+
 /* A listing's cover photograph, on a market card. */
 .listing-cover {
   display: block;

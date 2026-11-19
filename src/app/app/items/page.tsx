@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { catalogue, type CatalogueEntry } from "@/lib/server/marketplace.ts";
+import { isExpired } from "@/lib/jang/mandate.ts";
 import { currentOwner } from "@/lib/server/owner.ts";
 import { store } from "@/lib/store/index.ts";
 import type { Dimension, Role } from "@/lib/jang/types.ts";
@@ -31,7 +32,16 @@ export default async function Market() {
       .filter((image) => image.position === 0)
       .map((image) => image.itemId),
   );
-  const signed = new Set(mandates.map((mandate) => mandate.itemId));
+  // Expiry counts. A card saying limits are signed when the mandate ran out
+  // sends you to a launch that fails, and the limits page already calls the
+  // same mandate expired.
+  const now = new Date();
+  const signed = new Set(
+    mandates.filter((mandate) => !isExpired(mandate, now)).map((mandate) => mandate.itemId),
+  );
+  const stale = new Set(
+    mandates.filter((mandate) => isExpired(mandate, now)).map((mandate) => mandate.itemId),
+  );
 
   const built = entries.filter((entry) => entry.source === "built-in");
   const listed = entries.filter((entry) => entry.source === "listed");
@@ -54,6 +64,7 @@ export default async function Market() {
         meta={`${built.length} items`}
         blurb="The house takes the side nobody has claimed, bargaining under its own signed mandate. You take the buyer side."
         entries={built.map((entry) => ({ entry, side: "buyer" as Role, open: true }))}
+        stale={stale}
         covers={covers}
         signed={signed}
         index={0}
@@ -70,6 +81,7 @@ export default async function Market() {
           </>
         }
         entries={yours.map((entry) => ({ entry, side: entry.listedRole!, open: true }))}
+        stale={stale}
         covers={covers}
         signed={signed}
         index={1}
@@ -81,6 +93,7 @@ export default async function Market() {
         blurb="Visible so you can see what the instance holds. Taking the other side of someone else's listing needs the lister themselves as counterparty, and that is not wired up yet, so these are not open to negotiate."
         empty={<strong>Nobody else has listed anything yet</strong>}
         entries={others.map((entry) => ({ entry, side: opposite(entry.listedRole!), open: false }))}
+        stale={stale}
         covers={covers}
         signed={signed}
         index={2}
@@ -106,6 +119,7 @@ function Shelf({
   blurb,
   entries,
   signed,
+  stale,
   covers,
   empty,
   index,
@@ -115,6 +129,7 @@ function Shelf({
   blurb: string;
   entries: Shown[];
   signed: Set<string>;
+  stale: Set<string>;
   covers: Set<string>;
   empty?: React.ReactNode;
   index: number;
@@ -136,13 +151,21 @@ function Shelf({
             <div className="listings">
               {entries.map(({ entry, side, open }) => (
                 <article className="listing" key={entry.itemSpec.itemId}>
-                  {covers.has(entry.itemSpec.itemId) ? (
-                    /* eslint-disable-next-line @next/next/no-img-element */
-                    <img
-                      className="listing-cover"
-                      src={`/api/items/${entry.itemSpec.itemId}/image/0`}
-                      alt={`${entry.title}, as listed`}
-                    />
+                  {/* Every card gets the same slot whether or not it has a
+                      photograph, so a row of them does not come out ragged. */}
+                  {entry.source === "listed" ? (
+                    covers.has(entry.itemSpec.itemId) ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        className="listing-cover"
+                        src={`/api/items/${entry.itemSpec.itemId}/image/0`}
+                        alt={`${entry.title}, as listed`}
+                      />
+                    ) : (
+                      <div className="listing-cover listing-cover-empty" aria-hidden>
+                        no photograph
+                      </div>
+                    )
                   ) : null}
                   <header>
                     <h3>
@@ -172,6 +195,10 @@ function Shelf({
                     ) : signed.has(entry.itemSpec.itemId) ? (
                       <Link className="small" href="/app">
                         Limits signed · start a negotiation
+                      </Link>
+                    ) : stale.has(entry.itemSpec.itemId) ? (
+                      <Link className="small" href={`/app/mandates/new?item=${entry.itemSpec.itemId}`}>
+                        Your limits expired · set them again
                       </Link>
                     ) : (
                       <Link className="small" href="/app/mandates/new">

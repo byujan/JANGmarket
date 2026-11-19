@@ -6,7 +6,8 @@
  * the counterparty's behalf. The agreement itself is never touched, because it
  * is signed.
  */
-import { JangError, type Agreement, type Role } from "../jang/types.ts";
+import { JangError, type Agreement, type Dimension, type Role } from "../jang/types.ts";
+import { specFor } from "./marketplace.ts";
 import {
   HOUSE_OWNER,
   outcomeOf,
@@ -82,6 +83,8 @@ export type AgreementRow = {
   agreement: Agreement;
   settlement: Settlement;
   itemTitle: string;
+  /** The item's terms, so a list can show what was agreed without opening it. */
+  dimensions: Dimension[];
   /** The side this owner was on, and who they were across the table from. */
   yourRole: Role;
   counterpartyAgentId: string;
@@ -119,6 +122,7 @@ export async function agreementsForOwner(ownerId: string, limit = 50): Promise<A
         agreement,
         settlement: byId.get(agreement.agreementId) ?? (await sidesOf(agreement.agreementId)).settlement,
         itemTitle: session.itemTitle,
+        dimensions: (await specFor(agreement.itemId).catch(() => undefined))?.dimensions ?? [],
         yourRole,
         counterpartyAgentId,
         counterpartyIsHouse: counterparty?.ownerId === HOUSE_OWNER,
