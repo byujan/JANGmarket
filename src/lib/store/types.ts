@@ -180,6 +180,21 @@ export interface Store {
   /** Deals closed and negotiations running, for one agent on one item. */
   marketState(agentId: string, itemId: string): Promise<MarketState>;
 
+  /**
+   * Take one unit of an agent's authorised supply for this session, or report
+   * that there was none left. Atomic: the check and the claim are one act, so
+   * concurrent acceptances cannot all pass a count none of them has written to
+   * yet. Claiming twice for the same session is a no-op, not a second unit.
+   */
+  reserveSupply(input: {
+    agentId: string;
+    itemId: string;
+    sessionId: string;
+    allowed: number;
+  }): Promise<boolean>;
+  /** Give a reservation back when the acceptance it was taken for did not stand. */
+  releaseSupply(agentId: string, itemId: string, sessionId: string): Promise<void>;
+
   putAgreement(agreement: Agreement): Promise<void>;
   getAgreement(agreementId: string): Promise<Agreement | undefined>;
 

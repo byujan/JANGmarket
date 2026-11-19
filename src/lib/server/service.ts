@@ -2,7 +2,7 @@ import { createHash, randomUUID } from "node:crypto";
 import type { Posture } from "../posture.ts";
 import { buildAgreementBody, signAgreement } from "../jang/agreement.ts";
 import type { DilemmaPoint } from "../jang/analysis.ts";
-import type { Market } from "../jang/types.ts";
+import type { Market, Offer } from "../jang/types.ts";
 import { bestImprovement, quality, sessionFrontier } from "../jang/frontier.ts";
 import { verifyMandate } from "../jang/mandate.ts";
 import {
@@ -182,17 +182,38 @@ export class JangService {
   }): Promise<{ view: SessionView; agreement: Agreement }> {
     const session = await this.loadSession(input.sessionId);
 
-    // A mandate authorises a quantity as well as a package. Checked at the
-    // moment of acceptance for both sides, because nothing is spent before
-    // then: an agent may hold many negotiations open and close only what its
-    // owner allowed it to.
-    for (const participant of [session.participants.buyer, session.participants.seller]) {
-      await this.assertSupplyRemains(session, participant);
+    // A mandate authorises a quantity as well as a package. Both sides' units
+    // are claimed here, at the moment of acceptance, because nothing is spent
+    // before then: an agent may hold many negotiations open and close only
+    // what its owner allowed.
+    //
+    // Claimed, not counted. Reading a count and writing an agreement several
+    // awaits later let six buyers racing for one television all read nought,
+    // and four of them closed.
+    const reserved: string[] = [];
+    try {
+      for (const participant of [session.participants.buyer, session.participants.seller]) {
+        await this.claimSupply(session, participant);
+        reserved.push(participant);
+      }
+    } catch (error) {
+      await this.releaseAll(session, reserved);
+      throw error;
     }
 
-    const { session: accepted, offer } = await this.recording(input, () =>
-      acceptStandingOffer(session, input.agentId, { offerId: input.offerId }),
-    );
+    let accepted: Session;
+    let offer: Offer;
+    try {
+      ({ session: accepted, offer } = await this.recording(input, () =>
+        acceptStandingOffer(session, input.agentId, { offerId: input.offerId }),
+      ));
+    } catch (error) {
+      // The acceptance did not stand — wrong turn, expired, outside a mandate.
+      // Holding a unit for a deal that never happened would starve the next
+      // buyer for no reason.
+      await this.releaseAll(session, reserved);
+      throw error;
+    }
 
     const agreement = signAgreement(
       buildAgreementBody({
@@ -355,14 +376,28 @@ export class JangService {
    * mandate allows. Absent a supply the allowance is one, which is what a
    * single clearance television means.
    */
-  private async assertSupplyRemains(session: Session, agentId: string): Promise<void> {
+  /** Give back units taken for an acceptance that did not stand. */
+  private async releaseAll(session: Session, agentIds: string[]): Promise<void> {
+    await Promise.all(
+      agentIds.map((agentId) =>
+        this.store.releaseSupply(agentId, session.itemSpec.itemId, session.sessionId),
+      ),
+    );
+  }
+
+  private async claimSupply(session: Session, agentId: string): Promise<void> {
     const mandate = session.mandates[agentId];
     if (!mandate) return;
     const allowed = mandate.supply ?? 1;
-    // This session is still open, so it is not among the committed.
-    const { committed } = await this.store.marketState(agentId, session.itemSpec.itemId);
+    const got = await this.store.reserveSupply({
+      agentId,
+      itemId: session.itemSpec.itemId,
+      sessionId: session.sessionId,
+      allowed,
+    });
 
-    if (committed >= allowed) {
+    if (!got) {
+      const committed = allowed;
       const verb = mandate.role === "seller" ? "sell" : "buy";
       const error = new JangError(
         "SUPPLY_EXHAUSTED",

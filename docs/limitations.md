@@ -58,10 +58,13 @@ the item, and the rule strategy concedes faster as rivals outnumber the units.
 
 What it does not do:
 
-- **Supply is counted, not reserved.** Two acceptances arriving in the same
-  instant both read the count before either writes, so both could pass. The
-  window is milliseconds and the fix is a transaction or a unique constraint,
-  neither of which is written.
+- **Supply is reserved, not counted.** It was counted once, and the window was
+  not the millisecond this paragraph used to claim: six buyers going for one
+  television had four of them close. A unit is now claimed in the same act that
+  checks it, against a `commitments` table whose primary key makes the database
+  pick the winner rather than the interleaving. Six for one closes one; eight
+  for three closes three. A unit taken for an acceptance that then fails is
+  given back, so a deal that never happened starves nobody.
 - **Nobody is told who the rivals are**, only how many. That is deliberate, but
   it also means an agent cannot tell one serious rival from five idle ones.
 - **The seller runs one mandate across every buyer.** It cannot ask more of a

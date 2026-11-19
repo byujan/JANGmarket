@@ -24,6 +24,8 @@ export class MemoryStore implements Store {
   private agreements = new Map<string, Agreement>();
   private items = new Map<string, ItemRecord>();
   private settlements = new Map<string, Settlement>();
+  /** `agentId:itemId` to the sessions holding a unit. */
+  private commitments = new Map<string, Set<string>>();
   private images = new Map<string, ItemImage[]>();
   private events: EventRecord[] = [];
 
@@ -203,6 +205,27 @@ export class MemoryStore implements Store {
 
   async getSettlements(agreementIds: string[]): Promise<Settlement[]> {
     return agreementIds.map((id) => this.settlements.get(id)).filter((s): s is Settlement => Boolean(s));
+  }
+
+  async reserveSupply(input: {
+    agentId: string;
+    itemId: string;
+    sessionId: string;
+    allowed: number;
+  }): Promise<boolean> {
+    const key = `${input.agentId}:${input.itemId}`;
+    const held = this.commitments.get(key) ?? new Set<string>();
+    // Already holding one for this session: the same claim, not another unit.
+    if (held.has(input.sessionId)) return true;
+    // No await between counting and claiming, so nothing can interleave.
+    if (held.size >= input.allowed) return false;
+    held.add(input.sessionId);
+    this.commitments.set(key, held);
+    return true;
+  }
+
+  async releaseSupply(agentId: string, itemId: string, sessionId: string): Promise<void> {
+    this.commitments.get(`${agentId}:${itemId}`)?.delete(sessionId);
   }
 
   async putAgreement(agreement: Agreement): Promise<void> {

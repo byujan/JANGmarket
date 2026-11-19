@@ -171,3 +171,24 @@ alter table items add column if not exists terms_note text;
 -- for that item and nothing else. This only decides what the form starts at,
 -- so setting limits for the twentieth item is not the same work as the first.
 alter table owners add column if not exists defaults jsonb;
+
+-- One row per unit an agent has actually committed.
+--
+-- Supply used to be counted: the accept path read how many agreements existed
+-- and then, several awaits later, wrote another. Six buyers racing for one
+-- television all read nought and four of them closed. Counting is not
+-- reserving.
+--
+-- The slot is what makes it a reservation. Two racers both compute slot 1 and
+-- the primary key rejects one of them, so the database decides the winner
+-- rather than the interleaving. The unique session makes a retry idempotent
+-- instead of spending a second unit.
+create table if not exists commitments (
+  agent_id   text not null,
+  item_id    text not null,
+  session_id text not null,
+  slot       integer not null,
+  created_at timestamptz not null default now(),
+  primary key (agent_id, item_id, slot),
+  unique (agent_id, item_id, session_id)
+);

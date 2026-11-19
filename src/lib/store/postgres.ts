@@ -349,6 +349,55 @@ export class PostgresStore implements Store {
     return rows.map(toSettlement);
   }
 
+  async reserveSupply(input: {
+    agentId: string;
+    itemId: string;
+    sessionId: string;
+    allowed: number;
+  }): Promise<boolean> {
+    const { agentId, itemId, sessionId, allowed } = input;
+
+    // Holding one already for this session is the same claim, not another unit:
+    // an accept retried after a hiccup must not spend a second television.
+    const held = await this.sql`
+      select 1 from commitments
+      where agent_id = ${agentId} and item_id = ${itemId} and session_id = ${sessionId}
+    `;
+    if (held.length > 0) return true;
+
+    // Claim the next free slot. Two racers compute the same number and the
+    // primary key rejects one, so the database picks the winner rather than
+    // whichever happened to be scheduled first. On losing, count again: the
+    // slot it wanted is taken but a later one may be free when allowed > 1.
+    for (let attempt = 0; attempt < allowed; attempt += 1) {
+      const rows = await this.sql`
+        select count(*)::int as n from commitments
+        where agent_id = ${agentId} and item_id = ${itemId}
+      `;
+      const slot = ((rows[0]?.n as number) ?? 0) + 1;
+      if (slot > allowed) return false;
+
+      try {
+        await this.sql`
+          insert into commitments (agent_id, item_id, session_id, slot)
+          values (${agentId}, ${itemId}, ${sessionId}, ${slot})
+        `;
+        return true;
+      } catch (error) {
+        // 23505 is a unique violation: somebody took this slot first.
+        if ((error as { code?: string }).code !== "23505") throw error;
+      }
+    }
+    return false;
+  }
+
+  async releaseSupply(agentId: string, itemId: string, sessionId: string): Promise<void> {
+    await this.sql`
+      delete from commitments
+      where agent_id = ${agentId} and item_id = ${itemId} and session_id = ${sessionId}
+    `;
+  }
+
   async putAgreement(agreement: Agreement): Promise<void> {
     await this.sql`
       insert into agreements (agreement_id, session_id, body)
