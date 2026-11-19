@@ -226,8 +226,14 @@ export async function launchNegotiation(input: {
   // owner's dial reaches whichever negotiator ends up running.
   const buyerAgentId = mine.role === "buyer" ? input.agentId : houseAgentId;
   const sellerAgentId = mine.role === "buyer" ? houseAgentId : input.agentId;
-  void autoplay(view.sessionId, buyerAgentId, sellerAgentId, itemSpec.title,
-    listing ? { description: listing.description, termsNote: listing.termsNote } : undefined);
+  void autoplay(
+    view.sessionId,
+    buyerAgentId,
+    sellerAgentId,
+    itemSpec.title,
+    listing ? { description: listing.description, termsNote: listing.termsNote } : undefined,
+    itemSpec.itemId,
+  );
   return { sessionId: view.sessionId };
 }
 
@@ -243,6 +249,21 @@ export async function launchNegotiation(input: {
  * counterparty that always answers, so without this a discovered item leads to
  * a session that sits there forever waiting on an agent with nobody behind it.
  */
+/**
+ * The hand-written persona for a side of a worked example, if the item is one.
+ *
+ * Built-in markets ship with both parties written out. The house standing in
+ * for one of them should use that rather than bargaining from nothing.
+ */
+function scenarioPersona(itemId: string, role: Role): string | undefined {
+  try {
+    const scenario = catalogItem(itemId);
+    return role === "buyer" ? scenario.buyer.persona : scenario.seller.persona;
+  } catch {
+    return undefined; // A listing, which has an advertisement instead.
+  }
+}
+
 export async function playHouseSide(sessionId: string, counterpartyAgentId: string): Promise<boolean> {
   const counterparty = await store.getAgent(counterpartyAgentId);
   if (counterparty?.ownerId !== HOUSE_OWNER) return false;
@@ -257,7 +278,12 @@ export async function playHouseSide(sessionId: string, counterpartyAgentId: stri
         sessionId,
         itemTitle: session?.itemSpec.title ?? "this item",
         listing: listing ? { description: listing.description, termsNote: listing.termsNote } : undefined,
-        side: { agentId: counterpartyAgentId, role, isHouse: true },
+        side: {
+          agentId: counterpartyAgentId,
+          role,
+          isHouse: true,
+          persona: scenarioPersona(session?.itemSpec.itemId ?? "", role),
+        },
       });
     } catch (error) {
       await store.recordEvent({
@@ -284,6 +310,8 @@ export async function autoplay(
   sellerAgentId: string,
   itemTitle: string,
   listing?: { description?: string; termsNote?: string },
+  /** The item, so the house can borrow a worked example's own persona. */
+  itemId?: string,
 ): Promise<void> {
   try {
     const [buyer, seller] = await Promise.all([store.getAgent(buyerAgentId), store.getAgent(sellerAgentId)]);
@@ -298,6 +326,11 @@ export async function autoplay(
           posture: buyer?.posture,
           brief: buyer?.brief,
           isHouse: buyer?.ownerId === HOUSE_OWNER,
+          // Only the house borrows the example's persona; an owner's own agent
+          // bargains from the brief its owner wrote.
+          ...(buyer?.ownerId === HOUSE_OWNER
+            ? { persona: scenarioPersona(itemId ?? "", "buyer") }
+            : {}),
         },
         {
           agentId: sellerAgentId,
@@ -305,6 +338,9 @@ export async function autoplay(
           posture: seller?.posture,
           brief: seller?.brief,
           isHouse: seller?.ownerId === HOUSE_OWNER,
+          ...(seller?.ownerId === HOUSE_OWNER
+            ? { persona: scenarioPersona(itemId ?? "", "seller") }
+            : {}),
         },
       ],
     });

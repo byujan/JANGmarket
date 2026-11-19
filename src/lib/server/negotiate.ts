@@ -31,6 +31,12 @@ export type Side = {
   brief?: string;
   /** JANG's own stand-in, which has no story of its own. */
   isHouse: boolean;
+  /**
+   * A hand-written persona, where the item has one. A worked example ships
+   * with both sides' positions written out; the house standing in for one of
+   * them should bargain with that in hand rather than from first principles.
+   */
+  persona?: string;
 };
 
 /** Switched off with JANG_CONSOLE_LLM=off, which leaves the rule agent in charge. */
@@ -42,6 +48,18 @@ const llmEnabled = (): boolean => process.env.JANG_CONSOLE_LLM !== "off";
  * voice and stop the model inventing facts about the item.
  */
 function personaFor(side: Side, itemTitle: string, listing?: Listing): string {
+  // A worked example's own words beat anything derived. Without them the house
+  // was told only that it had no story, and it showed: on the television it
+  // opened at 2,400 against its own ideal of 1,349 and never reached the
+  // 1,050 it would have taken, which left a cold-start buyer unable to close.
+  if (side.persona?.trim()) {
+    return (
+      `You are negotiating as the ${side.role} for "${itemTitle}". ${side.persona.trim()}\n\n` +
+      `Your mandate is the whole of your authority, and JANG refuses anything beyond it. ` +
+      `Do not invent facts about the item beyond what you have been told here.`
+    );
+  }
+
   const base = side.isHouse
     ? `You are JANG's house agent, standing in as the ${side.role} for "${itemTitle}". ` +
       `You have no history with this item and no story beyond the mandate you were given. ` +

@@ -246,35 +246,62 @@ the reason and, for mandate violations, a per-term breakdown.
 
 ## 6. A small example
 
-An agent with a key and a mandate already lodged, buying a television. Four calls.
+An agent with a key and a mandate already lodged, buying a television. Traced
+from a real run, so the shape is what actually happens rather than the shape it
+ought to have.
 
 ```
-list_items  →  5 items, 4 open to you
-               - item-tv-65oled: Clearance 65-inch OLED television
-                 — you would buy, and you already hold a mandate
+GET /api/market
+  → 200  5 items. item-tv-65oled: "Clearance 65-inch OLED television",
+         yourRole "buyer", youHaveMandate true
 
-describe_item { itemId: "item-tv-65oled" }
-            →  counterpartyAgentId: "house-item-tv-65oled"
-               itemSpec: { price 500–3000 step 10, deliveryDays 1–45,
-                           warrantyMonths 12–48 step 6, bundle 0–1 }
-               nextSteps: ["Call open_session with counterpartyAgentId
-                            \"house-item-tv-65oled\" and this itemSpec.", ...]
+GET /api/market/item-tv-65oled
+  → 200  counterpartyAgentId "house-item-tv-65oled"
+         itemSpec { price 500–3000 step 10, deliveryDays 1–45 step 1,
+                    warrantyMonths 12–48 step 6, bundle 0–1 step 1 }
+         nextSteps ["Call open_session with counterpartyAgentId … "]
 
-open_session { counterpartyAgentId: "house-item-tv-65oled",
-               itemSpec: <as returned>, maxRounds: 12 }
-            →  sessionId sess_7d03..., houseIsPlaying: true
-               standingOffer from the seller: price 1350
+POST /api/sessions
+     { counterpartyAgentId: "house-item-tv-65oled",
+       itemSpec: <exactly as returned>, maxRounds: 12 }
+  → 201  sessionId sess_…, houseIsPlaying true, whoseTurn "either",
+         NO standing offer — nobody has opened yet, and it may be you
+         yourMandate { price: { max: 1300 }, deliveryDays: { max: 30 },
+                       reservationUtility: 0.2 }      ← your own limits
 
-counter     { terms: { price: 1230, deliveryDays: 30,
-                       warrantyMonths: 36, bundle: 0 },
-              note: "Meeting you part way on price." }
-            →  ...the seller counters, you counter, until:
+POST /api/sessions/{id}/offers
+     { terms: { price: 1150, deliveryDays: 7, warrantyMonths: 36, bundle: 0 },
+       note: "Quick delivery and a long warranty matter more to me than the
+              last fifty pounds." }
+  → 201  session view. The house has NOT answered yet.
 
-accept      →  Deal closed in 11 rounds.
-               JANG signed agreement agr_8dce0aba-...
+GET /api/sessions/{id}                       ← wait ~3–5s, then poll
+  → 200  standingOffer from the house, their counter
+
+   …counter and poll until one of you accepts…
+
+POST /api/sessions/{id}/accept   {}
+  → 200  { session, agreement }   agreement.agreementId agr_…
 ```
 
-Two refusals are normal on the way and are the system working:
+### Three things that surprise a first client
+
+**Opening.** `open_session` returns no standing offer and `whoseTurn: "either"`.
+Either side may go first, and if you wait for the counterparty you may simply
+burn the clock. Open the bidding.
+
+**The counterparty answers asynchronously.** `POST …/offers` returns as soon as
+*your* offer is recorded; the house's reply lands about three to five seconds
+later. Poll `GET /api/sessions/{id}` until `standingOffer.fromAgentId` is not
+you. Do not treat the response to your own offer as their answer.
+
+**`maxRounds` counts offers from both sides.** `maxRounds: 12` is six each, not
+twelve each. Past it no new offers are accepted, though the standing offer can
+still be accepted until the session expires. If your mandate cannot reach the
+counterparty's last price, the session ends without a deal — open a new one
+rather than waiting, as a fresh session starts the concessions over.
+
+### Refusals are normal, and are the system working
 
 ```
 MANDATE_VIOLATION: this package is outside the authority your owner granted you as buyer
@@ -290,7 +317,10 @@ The second is the one that catches new clients: every individual bound held, but
 package as a whole was worth less to the buyer than walking away. Build packages from
 terms you actually want, not by clamping the other side's package to your bounds.
 
----
+**`accept` can fail the same way.** It re-checks the standing offer against your
+mandate before signing, and the standing offer may have changed since you last
+read it. An accept that returns `MANDATE_VIOLATION` means the package on the
+table is outside your authority, not that your accept was malformed.
 
 ## 7. What this interface does not do
 
