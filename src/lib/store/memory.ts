@@ -1,5 +1,6 @@
 import type { Agreement, Mandate, Session } from "../jang/types.ts";
 import type { Settlement } from "../jang/settlement.ts";
+import type { ItemImage } from "./types.ts";
 import type {
   AgentRecord,
   EventRecord,
@@ -22,6 +23,7 @@ export class MemoryStore implements Store {
   private agreements = new Map<string, Agreement>();
   private items = new Map<string, ItemRecord>();
   private settlements = new Map<string, Settlement>();
+  private images = new Map<string, ItemImage[]>();
   private events: EventRecord[] = [];
 
   async upsertOwner(owner: OwnerRecord): Promise<void> {
@@ -135,6 +137,23 @@ export class MemoryStore implements Store {
       }
     }
     return closed;
+  }
+
+  async putItemImages(itemId: string, images: { mime: string; bytes: Buffer }[]): Promise<void> {
+    this.images.set(
+      itemId,
+      images.map((image, position) => ({ itemId, position, mime: image.mime, bytes: image.bytes })),
+    );
+  }
+
+  async listItemImages(itemIds: string[]): Promise<ItemImage[]> {
+    return itemIds.flatMap((id) =>
+      (this.images.get(id) ?? []).map(({ bytes: _bytes, ...rest }) => rest),
+    );
+  }
+
+  async getItemImage(itemId: string, position: number): Promise<ItemImage | undefined> {
+    return this.images.get(itemId)?.find((image) => image.position === position);
   }
 
   async putSettlement(settlement: Settlement): Promise<void> {

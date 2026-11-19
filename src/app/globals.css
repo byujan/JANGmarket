@@ -1318,6 +1318,105 @@ input[type="checkbox"] {
   word-break: break-all;
 }
 
+/* Photographs on the listing form, and the gallery on a listing itself. */
+.photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.photo {
+  position: relative;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--sunk);
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: 92px;
+  object-fit: cover;
+}
+
+.photo figcaption {
+  padding: 0.25rem 0.45rem;
+  font-size: var(--step--1);
+  color: var(--faint);
+}
+
+.photo-cover {
+  position: absolute;
+  top: 0.3rem;
+  left: 0.3rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  background: var(--buyer);
+  color: var(--base);
+  font-size: var(--step--1);
+  font-weight: 600;
+}
+
+.photo-remove {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.3rem;
+  width: 1.3rem;
+  height: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(10, 14, 20, 0.78);
+  color: #fff;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.photo-remove:hover {
+  background: var(--deny);
+}
+
+/* The gallery on a listing: bigger than the form's thumbnails. */
+.photos-gallery {
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  margin-top: 0;
+}
+
+.photo-full {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--sunk);
+}
+
+/* Someone's own words, with their line breaks left where they put them. */
+.prose {
+  margin: 0;
+  white-space: pre-wrap;
+  max-width: 68ch;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+/* A listing's cover photograph, on a market card. */
+.listing-cover {
+  display: block;
+  width: calc(100% + 2.2rem);
+  margin: -0.95rem -1.1rem 0;
+  height: 150px;
+  object-fit: cover;
+  border-bottom: 1px solid var(--line);
+}
+
 /* ---------- one orchestrated entrance ---------- */
 
 @keyframes rise {

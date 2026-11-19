@@ -89,8 +89,18 @@ export type ItemRecord = {
   description?: string;
   /** The side the person listing it takes; the other side is open to anyone. */
   listedRole: Role;
+  /** The headline figure, when the listing was written as a free-form ad. */
+  askingPrice?: number;
   dimensions: Dimension[];
   createdAt: string;
+};
+
+/** A photograph on a listing. `bytes` is left out when only the list is wanted. */
+export type ItemImage = {
+  itemId: string;
+  position: number;
+  mime: string;
+  bytes?: Buffer;
 };
 
 export interface Store {
@@ -138,6 +148,12 @@ export interface Store {
   putItem(item: ItemRecord): Promise<void>;
   getItem(itemId: string): Promise<ItemRecord | undefined>;
   listItems(filter?: { ownerId?: string; limit?: number }): Promise<ItemRecord[]>;
+
+  /** Photographs, kept in the store so they survive a deploy. */
+  putItemImages(itemId: string, images: { mime: string; bytes: Buffer }[]): Promise<void>;
+  /** Positions and types only, for rendering the gallery's <img> tags. */
+  listItemImages(itemIds: string[]): Promise<ItemImage[]>;
+  getItemImage(itemId: string, position: number): Promise<ItemImage | undefined>;
 
   recordEvent(event: EventRecord): Promise<void>;
   listEvents(filter?: { sessionId?: string; limit?: number }): Promise<EventRecord[]>;

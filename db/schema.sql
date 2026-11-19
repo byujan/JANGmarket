@@ -138,3 +138,21 @@ create table if not exists settlements (
 
 create index if not exists settlements_buyer_idx  on settlements (buyer_owner_id);
 create index if not exists settlements_seller_idx on settlements (seller_owner_id);
+
+-- Photographs on a listing, kept in the database rather than on disk.
+--
+-- A filesystem would be simpler but does not survive a deploy, and object
+-- storage is another account to hold. These are capped and resized before they
+-- arrive, so the rows stay small enough that Postgres is the honest choice.
+create table if not exists item_images (
+  item_id    text not null,
+  position   integer not null,
+  mime       text not null,
+  bytes      bytea not null,
+  created_at timestamptz not null default now(),
+  primary key (item_id, position)
+);
+
+-- The headline figure on a listing. The negotiable band is derived from it, so
+-- it is kept to show, and to rebuild that band the same way twice.
+alter table items add column if not exists asking_price double precision;

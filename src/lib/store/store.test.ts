@@ -133,6 +133,42 @@ for (const candidate of candidates) {
       expect(plain?.brief).toBeUndefined();
     });
 
+    it("keeps a listing's photographs, replacing the set on a re-upload", async () => {
+      const itemId = "item_photos";
+      await store.putItem({
+        itemId,
+        ownerId: "own_photos",
+        title: "Road bike, barely used",
+        description: "Serviced last month.",
+        listedRole: "seller",
+        askingPrice: 500,
+        dimensions: [{ key: "price", label: "Price", unit: "USD", min: 250, max: 600, step: 5, buyerPrefers: "low" }],
+        createdAt: new Date().toISOString(),
+      });
+      expect((await store.getItem(itemId))?.askingPrice).toBe(500);
+
+      await store.putItemImages(itemId, [
+        { mime: "image/jpeg", bytes: Buffer.from("first") },
+        { mime: "image/jpeg", bytes: Buffer.from("second") },
+      ]);
+
+      const listed = await store.listItemImages([itemId]);
+      expect(listed.map((i) => i.position)).toEqual([0, 1]);
+      // The listing never carries the bytes; that would be megabytes to draw
+      // an <img> tag.
+      expect(listed.every((i) => i.bytes === undefined)).toBe(true);
+      expect((await store.getItemImage(itemId, 1))?.bytes?.toString()).toBe("second");
+
+      // A gallery is edited as a whole, so a shorter set leaves nothing behind.
+      await store.putItemImages(itemId, [{ mime: "image/png", bytes: Buffer.from("only") }]);
+      expect(await store.listItemImages([itemId])).toHaveLength(1);
+      expect(await store.getItemImage(itemId, 1)).toBeUndefined();
+      expect((await store.getItemImage(itemId, 0))?.mime).toBe("image/png");
+
+      expect(await store.listItemImages([])).toEqual([]);
+      expect(await store.getItemImage("item_missing", 0)).toBeUndefined();
+    });
+
     it("closes sessions whose time has run out, and leaves live ones alone", async () => {
       const live = freshSession();
       const stale = {

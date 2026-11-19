@@ -24,6 +24,13 @@ export default async function Market() {
   // you. What you may negotiate over is a separate question, answered per card.
   const entries = await catalogue();
   const mandates = await store.listMandatesByOwner(owner.ownerId);
+  // Positions only, never the bytes: a cover is an <img> tag, not megabytes
+  // pulled through the page.
+  const covers = new Set(
+    (await store.listItemImages(entries.map((entry) => entry.itemSpec.itemId)))
+      .filter((image) => image.position === 0)
+      .map((image) => image.itemId),
+  );
   const signed = new Set(mandates.map((mandate) => mandate.itemId));
 
   const built = entries.filter((entry) => entry.source === "built-in");
@@ -47,6 +54,7 @@ export default async function Market() {
         meta={`${built.length} items`}
         blurb="The house takes the side nobody has claimed, bargaining under its own signed mandate. You take the buyer side."
         entries={built.map((entry) => ({ entry, side: "buyer" as Role, open: true }))}
+        covers={covers}
         signed={signed}
         index={0}
       />
@@ -62,6 +70,7 @@ export default async function Market() {
           </>
         }
         entries={yours.map((entry) => ({ entry, side: entry.listedRole!, open: true }))}
+        covers={covers}
         signed={signed}
         index={1}
       />
@@ -72,6 +81,7 @@ export default async function Market() {
         blurb="Visible so you can see what the instance holds. Taking the other side of someone else's listing needs the lister themselves as counterparty, and that is not wired up yet, so these are not open to negotiate."
         empty={<strong>Nobody else has listed anything yet</strong>}
         entries={others.map((entry) => ({ entry, side: opposite(entry.listedRole!), open: false }))}
+        covers={covers}
         signed={signed}
         index={2}
       />
@@ -81,12 +91,22 @@ export default async function Market() {
 
 type Shown = { entry: CatalogueEntry; side: Role; open: boolean };
 
+/** A card holds a glance, not an essay; the listing itself holds the rest. */
+function blurbOf(description: string): string {
+  const limit = 170;
+  if (description.length <= limit) return description;
+  const cut = description.slice(0, limit);
+  const lastSpace = cut.lastIndexOf(" ");
+  return `${cut.slice(0, lastSpace > 100 ? lastSpace : limit).trimEnd()}…`;
+}
+
 function Shelf({
   title,
   meta,
   blurb,
   entries,
   signed,
+  covers,
   empty,
   index,
 }: {
@@ -95,6 +115,7 @@ function Shelf({
   blurb: string;
   entries: Shown[];
   signed: Set<string>;
+  covers: Set<string>;
   empty?: React.ReactNode;
   index: number;
 }) {
@@ -115,8 +136,22 @@ function Shelf({
             <div className="listings">
               {entries.map(({ entry, side, open }) => (
                 <article className="listing" key={entry.itemSpec.itemId}>
+                  {covers.has(entry.itemSpec.itemId) ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      className="listing-cover"
+                      src={`/api/items/${entry.itemSpec.itemId}/image/0`}
+                      alt={`${entry.title}, as listed`}
+                    />
+                  ) : null}
                   <header>
-                    <h3>{entry.title}</h3>
+                    <h3>
+                      {entry.source === "listed" ? (
+                        <Link href={`/app/items/${entry.itemSpec.itemId}`}>{entry.title}</Link>
+                      ) : (
+                        entry.title
+                      )}
+                    </h3>
                     {/* Naming your side only makes sense if the side is
                         yours to take; otherwise say whose it is. */}
                     <span className={`tag ${open ? side : opposite(side)}`}>
@@ -125,7 +160,7 @@ function Shelf({
                         : `owner ${side === "buyer" ? "sells" : "buys"}`}
                     </span>
                   </header>
-                  {entry.description ? <p className="listing-blurb">{entry.description}</p> : null}
+                  {entry.description ? <p className="listing-blurb">{blurbOf(entry.description)}</p> : null}
                   <ul className="listing-terms">
                     {entry.itemSpec.dimensions.map((dimension) => (
                       <li key={dimension.key}>{term(dimension)}</li>

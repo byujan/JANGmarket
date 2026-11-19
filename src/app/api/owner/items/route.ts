@@ -1,7 +1,9 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { priceDimension } from "@/lib/jang/asking.ts";
 import { DimensionSchema, JangError, RoleSchema } from "@/lib/jang/types.ts";
+import { decodeAll, MAX_IMAGES } from "@/lib/server/images.ts";
 import { errorResponse } from "@/lib/server/http.ts";
 import { requireOwner } from "@/lib/server/owner.ts";
 import { store } from "@/lib/store/index.ts";
@@ -10,10 +12,16 @@ export const dynamic = "force-dynamic";
 
 const BodySchema = z.object({
   title: z.string().min(3).max(120),
-  description: z.string().max(600).optional(),
+  /** Free text, the way a classified ad is written. */
+  description: z.string().max(4000).optional(),
   /** The side the person listing it takes; the other is open to a counterparty. */
   listedRole: RoleSchema,
-  dimensions: z.array(DimensionSchema).min(1).max(8),
+  /** The headline figure. JANG builds the price term from it. */
+  askingPrice: z.number().positive().max(100_000_000).optional(),
+  /** Omitted on a free-form listing, which negotiates over price alone. */
+  dimensions: z.array(DimensionSchema).max(8).optional(),
+  /** base64 `data:` URLs, already resized by the browser. */
+  images: z.array(z.string()).max(MAX_IMAGES).optional(),
 });
 
 /**
@@ -29,7 +37,34 @@ export async function POST(request: Request) {
     const owner = await requireOwner();
     const body = BodySchema.parse(await request.json());
 
-    for (const dimension of body.dimensions) {
+    // A free-form listing names a price and nothing else, so the price term is
+    // built from it. Anyone who wants delivery dates and warranties still
+    // declares them by hand, and a listing with neither has nothing to haggle
+    // over at all.
+    const declared = body.dimensions ?? [];
+    if (body.askingPrice !== undefined && declared.some((d) => d.key === "price")) {
+      throw new JangError(
+        "INVALID_TERMS",
+        "this listing names an asking price and also declares a price term; keep one of them",
+      );
+    }
+    const dimensions =
+      body.askingPrice === undefined
+        ? declared
+        : // The derived price term comes first, and anything declared is in
+          // addition to it. Dropping it because an extra term was added would
+          // quietly leave the listing haggling over delivery and not money.
+          [priceDimension(body.askingPrice), ...declared];
+    if (dimensions.length === 0) {
+      throw new JangError(
+        "INVALID_TERMS",
+        "a listing needs either an asking price or at least one term to negotiate over",
+      );
+    }
+
+    const images = decodeAll(body.images);
+
+    for (const dimension of dimensions) {
       if (dimension.max <= dimension.min) {
         throw new JangError(
           "INVALID_TERMS",
@@ -44,7 +79,7 @@ export async function POST(request: Request) {
       }
     }
 
-    const keys = body.dimensions.map((d) => d.key);
+    const keys = dimensions.map((d) => d.key);
     if (new Set(keys).size !== keys.length) {
       throw new JangError("INVALID_TERMS", "two terms share a name; each needs its own");
     }
@@ -56,11 +91,13 @@ export async function POST(request: Request) {
       title: body.title,
       description: body.description,
       listedRole: body.listedRole,
-      dimensions: body.dimensions,
+      ...(body.askingPrice === undefined ? {} : { askingPrice: body.askingPrice }),
+      dimensions,
       createdAt: new Date().toISOString(),
     });
+    if (images.length > 0) await store.putItemImages(itemId, images);
 
-    return NextResponse.json({ itemId, title: body.title }, { status: 201 });
+    return NextResponse.json({ itemId, title: body.title, images: images.length }, { status: 201 });
   } catch (error) {
     return errorResponse(error);
   }

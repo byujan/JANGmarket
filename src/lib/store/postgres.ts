@@ -1,6 +1,7 @@
 import postgres, { type Sql } from "postgres";
 import { isPosture } from "../posture.ts";
 import type { Settlement } from "../jang/settlement.ts";
+import type { ItemImage } from "./types.ts";
 import type { Agreement, ItemSpec, Mandate, Offer, Session } from "../jang/types.ts";
 import type {
   AgentRecord,
@@ -243,6 +244,52 @@ export class PostgresStore implements Store {
     return rows.length;
   }
 
+  async putItemImages(itemId: string, images: { mime: string; bytes: Buffer }[]): Promise<void> {
+    // The set replaces whatever was there: a listing's photographs are edited
+    // as a gallery, not one row at a time.
+    await this.sql.begin(async (tx) => {
+      await tx`delete from item_images where item_id = ${itemId}`;
+      for (const [position, image] of images.entries()) {
+        await tx`
+          insert into item_images (item_id, position, mime, bytes)
+          values (${itemId}, ${position}, ${image.mime}, ${image.bytes})
+        `;
+      }
+    });
+  }
+
+  async listItemImages(itemIds: string[]): Promise<ItemImage[]> {
+    if (itemIds.length === 0) return [];
+    // Never selects `bytes`: this answers "which photographs exist", and
+    // pulling megabytes to render an <img> tag would be a waste.
+    const rows = await this.sql`
+      select item_id, position, mime from item_images
+      where item_id in ${this.sql(itemIds)}
+      order by item_id, position
+    `;
+    return rows.map((row) => ({
+      itemId: row.item_id as string,
+      position: row.position as number,
+      mime: row.mime as string,
+    }));
+  }
+
+  async getItemImage(itemId: string, position: number): Promise<ItemImage | undefined> {
+    const rows = await this.sql`
+      select item_id, position, mime, bytes from item_images
+      where item_id = ${itemId} and position = ${position}
+    `;
+    const row = rows[0];
+    return row
+      ? {
+          itemId: row.item_id as string,
+          position: row.position as number,
+          mime: row.mime as string,
+          bytes: row.bytes as Buffer,
+        }
+      : undefined;
+  }
+
   async putSettlement(settlement: Settlement): Promise<void> {
     await this.sql`
       insert into settlements (agreement_id, session_id, buyer_owner_id, seller_owner_id,
@@ -283,13 +330,16 @@ export class PostgresStore implements Store {
 
   async putItem(item: ItemRecord): Promise<void> {
     await this.sql`
-      insert into items (item_id, owner_id, title, description, listed_role, dimensions, created_at)
+      insert into items (item_id, owner_id, title, description, listed_role,
+                         asking_price, dimensions, created_at)
       values (${item.itemId}, ${item.ownerId}, ${item.title}, ${item.description ?? null},
-              ${item.listedRole}, ${this.sql.json(item.dimensions)}, ${item.createdAt})
+              ${item.listedRole}, ${item.askingPrice ?? null},
+              ${this.sql.json(item.dimensions)}, ${item.createdAt})
       on conflict (item_id) do update set
         title = excluded.title,
         description = excluded.description,
         listed_role = excluded.listed_role,
+        asking_price = excluded.asking_price,
         dimensions = excluded.dimensions
     `;
   }
@@ -372,6 +422,7 @@ function toItem(row: Record<string, unknown>): ItemRecord {
     title: row.title as string,
     description: (row.description as string) ?? undefined,
     listedRole: row.listed_role as ItemRecord["listedRole"],
+    askingPrice: row.asking_price === null ? undefined : Number(row.asking_price),
     dimensions: row.dimensions as ItemRecord["dimensions"],
     createdAt: new Date(row.created_at as string).toISOString(),
   };
