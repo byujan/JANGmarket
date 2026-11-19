@@ -1,5 +1,33 @@
 import { spawn, type ChildProcess } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+
+/**
+ * Load .env.local, the way `next dev` does for the app.
+ *
+ * A script run through tsx gets none of it, so anything that signs an
+ * agreement minted its own key and produced a document the running instance
+ * could not verify. Nothing already in the environment is overwritten: an
+ * explicit variable on the command line still wins.
+ */
+function loadEnvLocal(file = ".env.local"): void {
+  if (!existsSync(file)) return;
+  for (const line of readFileSync(file, "utf8").split("\n")) {
+    const match = /^\s*([A-Z0-9_]+)\s*=\s*(.*)$/.exec(line);
+    if (!match) continue;
+    const [, key, rawValue] = match;
+    if (process.env[key!] !== undefined) continue;
+    let value = rawValue!.trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    process.env[key!] = value;
+  }
+}
+
+loadEnvLocal();
 import { parseScenario, type Scenario } from "../src/lib/jang/scenario.ts";
 import type { Dimension } from "../src/lib/jang/types.ts";
 
