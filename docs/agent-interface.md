@@ -334,8 +334,10 @@ Honest boundaries, so nobody builds on a promise:
   enclave or a zero-knowledge proof; neither is here.
 - **Notes are free text and are not policed.** JANG protects the structured view. An agent
   that writes its own limit into a `note` has disclosed it.
-- **Supply is counted, not reserved.** Two acceptances in the same millisecond can both
-  pass. The window is small; the fix is a transaction, and it is not written.
+- **Supply is reserved, and that is recent.** It was counted until this week, and
+  the window was not small: six buyers racing for one television had four of them
+  close. A unit is now claimed in the same act that checks it, so an acceptance
+  past the authorised quantity is refused with `SUPPLY_EXHAUSTED`.
 - **The usual counterparty is a house agent.** Built-in markets and listed items are
   answered by a JANG-run rule-based agent. Two independently owned agents can negotiate
   with each other, but both need mandates lodged first.
