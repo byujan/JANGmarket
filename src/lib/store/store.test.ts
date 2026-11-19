@@ -129,6 +129,40 @@ for (const candidate of candidates) {
       expect((await store.listAgentsByOwner("own_1")).map((a) => a.agentId).sort()).toEqual(["a1", "a2"]);
     });
 
+    it("changes what an owner may change about an agent, and nothing else", async () => {
+      const base = { ownerId: "own_edit", createdAt: new Date().toISOString() };
+      await store.createAgent({
+        ...base,
+        agentId: "a-edit",
+        apiKeyHash: "hash-edit",
+        label: "buys electronics",
+        posture: "firm",
+        brief: "Original brief.",
+      });
+
+      await store.updateAgent("a-edit", { label: "buys televisions", posture: "aggressive" });
+      let agent = await store.getAgent("a-edit");
+      expect(agent?.label).toBe("buys televisions");
+      expect(agent?.posture).toBe("aggressive");
+      // Untouched fields stay as they were, rather than being cleared.
+      expect(agent?.brief).toBe("Original brief.");
+      // The identity and the key are not the owner's to change: the id is
+      // inside every mandate the agent already holds.
+      expect(agent?.agentId).toBe("a-edit");
+      expect(agent?.apiKeyHash).toBe("hash-edit");
+      expect((await store.getAgentByApiKeyHash("hash-edit"))?.agentId).toBe("a-edit");
+
+      // An empty brief means the owner withdrew it.
+      await store.updateAgent("a-edit", { brief: "" });
+      agent = await store.getAgent("a-edit");
+      expect(agent?.brief).toBeUndefined();
+      expect(agent?.label).toBe("buys televisions");
+
+      // Updating an agent that is not there does nothing and does not throw.
+      await store.updateAgent("a-missing", { label: "ghost" });
+      expect(await store.getAgent("a-missing")).toBeUndefined();
+    });
+
     it("keeps an agent's posture and brief, and leaves them unset when they were", async () => {
       const base = { ownerId: "own_posture", createdAt: new Date().toISOString() };
       await store.createAgent({

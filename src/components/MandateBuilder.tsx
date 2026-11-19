@@ -358,7 +358,11 @@ export function MandateBuilder({
           <label htmlFor="role">Side</label>
           {fixedRole ? (
             <>
-              <input id="role" value={fixedRole === "buyer" ? "Buying" : "Selling"} readOnly />
+              {/* Shown as a fact rather than a dead input: a box you cannot
+                  type in reads as a broken field, not as a settled one. */}
+              <p className="settled" id="role">
+                <span className={fixedRole}>{fixedRole === "buyer" ? "Buying" : "Selling"}</span>
+              </p>
               <p className="hint">
                 {item?.source === "listed"
                   ? "You listed this, so this is your side of it."
@@ -374,11 +378,21 @@ export function MandateBuilder({
         </div>
         <div>
           <label htmlFor="days">Expires in</label>
-          <select id="days" value={days} onChange={(event) => setDays(Number(event.target.value))}>
-            <option value={1}>1 day</option>
-            <option value={7}>7 days</option>
-            <option value={30}>30 days</option>
-          </select>
+          {/* A number, not a short list of them: the general stance lets you
+              say any figure, and a select that cannot show 14 days would
+              display "1 day" while signing something else. */}
+          <input
+            id="days"
+            type="number"
+            min={1}
+            max={365}
+            value={days}
+            onChange={(event) => setDays(Math.min(365, Math.max(1, Number(event.target.value) || 1)))}
+            aria-describedby="days-hint"
+          />
+          <p className="hint" id="days-hint">
+            Days. After that the mandate stops being usable and your agent can open nothing new with it.
+          </p>
         </div>
       </div>
 

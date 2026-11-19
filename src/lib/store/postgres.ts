@@ -1,5 +1,5 @@
 import postgres, { type Sql } from "postgres";
-import { isPosture } from "../posture.ts";
+import { isPosture, type Posture } from "../posture.ts";
 import type { Settlement } from "../jang/settlement.ts";
 import type { ItemImage, OwnerDefaults } from "./types.ts";
 import type { Agreement, ItemSpec, Mandate, Offer, Session } from "../jang/types.ts";
@@ -94,6 +94,19 @@ export class PostgresStore implements Store {
   async getAgentByApiKeyHash(hash: string): Promise<AgentRecord | undefined> {
     const rows = await this.sql`select * from agents where api_key_hash = ${hash}`;
     return rows[0] ? toAgent(rows[0]) : undefined;
+  }
+
+  async updateAgent(
+    agentId: string,
+    patch: { label?: string; posture?: Posture; brief?: string },
+  ): Promise<void> {
+    await this.sql`
+      update agents set
+        label   = coalesce(${patch.label ?? null}, label),
+        posture = coalesce(${patch.posture ?? null}, posture),
+        brief   = ${patch.brief === undefined ? this.sql`brief` : (patch.brief || null)}
+      where agent_id = ${agentId}
+    `;
   }
 
   async listAgentsByOwner(ownerId: string): Promise<AgentRecord[]> {

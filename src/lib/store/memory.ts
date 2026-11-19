@@ -1,6 +1,7 @@
 import type { Agreement, Mandate, Session } from "../jang/types.ts";
 import type { Settlement } from "../jang/settlement.ts";
 import type { ItemImage, OwnerDefaults } from "./types.ts";
+import type { Posture } from "../posture.ts";
 import type {
   AgentRecord,
   EventRecord,
@@ -63,6 +64,19 @@ export class MemoryStore implements Store {
   async getAgentByApiKeyHash(hash: string): Promise<AgentRecord | undefined> {
     const agentId = this.agentsByKey.get(hash);
     return agentId ? this.agents.get(agentId) : undefined;
+  }
+
+  async updateAgent(
+    agentId: string,
+    patch: { label?: string; posture?: Posture; brief?: string },
+  ): Promise<void> {
+    const agent = this.agents.get(agentId);
+    if (!agent) return;
+    const next = { ...agent, ...patch };
+    // An empty brief means "I no longer have one", not "leave it as it was".
+    if (patch.brief !== undefined && !patch.brief) delete next.brief;
+    this.agents.set(agentId, next);
+    this.agentsByKey.set(agent.apiKeyHash, agentId);
   }
 
   async listAgentsByOwner(ownerId: string): Promise<AgentRecord[]> {

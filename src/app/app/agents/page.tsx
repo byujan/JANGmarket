@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { EditAgent } from "@/components/EditAgent.tsx";
 import { RegisterAgentForm } from "@/components/RegisterAgentForm.tsx";
 import { DEFAULT_POSTURE, POSTURE_COPY } from "@/lib/posture.ts";
 import { mcpEntry } from "@/lib/server/mcp.ts";
@@ -66,6 +67,7 @@ export default async function Agents() {
                 <th>What it does</th>
                 <th>Bargains</th>
                 <th>Registered</th>
+                <th />
               </tr>
             </thead>
             <tbody>
@@ -80,6 +82,9 @@ export default async function Agents() {
                     <span className="tag">{POSTURE_COPY[agent.posture ?? DEFAULT_POSTURE].label}</span>
                   </td>
                   <td className="small faint">{new Date(agent.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    <EditAgent agent={agent} />
+                  </td>
                 </tr>
               ))}
               </tbody>

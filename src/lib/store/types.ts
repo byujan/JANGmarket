@@ -144,6 +144,15 @@ export interface Store {
   getAgent(agentId: string): Promise<AgentRecord | undefined>;
   getAgentByApiKeyHash(hash: string): Promise<AgentRecord | undefined>;
   listAgentsByOwner(ownerId: string): Promise<AgentRecord[]>;
+  /**
+   * Change what an owner can change about their agent: what it does, how
+   * hard it bargains, what they told it. Never the id, which is inside
+   * every mandate it already holds, nor the key.
+   */
+  updateAgent(
+    agentId: string,
+    patch: { label?: string; posture?: Posture; brief?: string },
+  ): Promise<void>;
 
   /** Mandates are keyed by the agent they empower and the item they cover. */
   putMandate(mandate: Mandate): Promise<void>;
