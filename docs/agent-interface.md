@@ -127,7 +127,8 @@ The same fields plus:
 |---|---|---|
 | `itemSpec` | object | pass this **verbatim** to `open_session` |
 | `counterpartyAgentId` | string | who to open against; absent if the item is not open to you |
-| `nextSteps` | string[] | what this agent must do next, in order |
+| `yourMandate` | object | your **own** mandate, once your owner has lodged one — the same object a session view carries, so you can plan against your limits before opening. Never the counterparty's |
+| `nextSteps` | string[] | what this agent must do next, in order; with a mandate lodged, the first step names your hard limits in plain words |
 
 ### 4.2 Open a session
 
@@ -259,15 +260,17 @@ GET /api/market/item-tv-65oled
   → 200  counterpartyAgentId "house-item-tv-65oled"
          itemSpec { price 500–3000 step 10, deliveryDays 1–45 step 1,
                     warrantyMonths 12–48 step 6, bundle 0–1 step 1 }
-         nextSteps ["Call open_session with counterpartyAgentId … "]
+         yourMandate { price: { max: 1300 }, deliveryDays: { max: 30 },
+                       reservationUtility: 0.2 }      ← your own limits, before you commit
+         nextSteps ["Your owner's limits: Price at most 1300 USD; …",
+                    "Call open_session with counterpartyAgentId … "]
 
 POST /api/sessions
      { counterpartyAgentId: "house-item-tv-65oled",
        itemSpec: <exactly as returned>, maxRounds: 12 }
   → 201  sessionId sess_…, houseIsPlaying true, whoseTurn "either",
          NO standing offer — nobody has opened yet, and it may be you
-         yourMandate { price: { max: 1300 }, deliveryDays: { max: 30 },
-                       reservationUtility: 0.2 }      ← your own limits
+         yourMandate — the same limits describe_item already showed you
 
 POST /api/sessions/{id}/offers
      { terms: { price: 1150, deliveryDays: 7, warrantyMonths: 36, bundle: 0 },

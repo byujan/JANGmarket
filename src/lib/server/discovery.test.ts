@@ -9,6 +9,9 @@
  */
 import { describe, expect, it } from "vitest";
 import { HOUSE_OWNER } from "../jang/settlement.ts";
+import { buyerMandate } from "../jang/testing.ts";
+import { store } from "../store/index.ts";
+import { marketItemFor } from "./discovery.ts";
 import { playHouseSide } from "./marketplace.ts";
 import { jang } from "./service.ts";
 
@@ -37,5 +40,48 @@ describe("playHouseSide", () => {
     // A real house agent is accepted; it then finds no such session and
     // records the failure rather than throwing here.
     expect(await playHouseSide(unique("sess"), real)).toBe(true);
+  });
+});
+
+/**
+ * An agent planning a negotiation needs its own limits before it opens one.
+ * HW9's cold start found it could only see them from inside a session.
+ */
+describe("marketItemFor and the agent's own mandate", () => {
+  const itemId = "item-tv-65oled";
+
+  it("returns the caller's own mandate and names its bounds", async () => {
+    const agentId = unique("planner");
+    await jang.registerAgent({ agentId, ownerId: unique("own") });
+    const mandate = buyerMandate({ agentId, itemId, constraints: { price: { max: 1300 } } });
+    await store.putMandate(mandate);
+
+    const item = await marketItemFor(itemId, agentId, mandate.ownerId);
+    expect(item.youHaveMandate).toBe(true);
+    expect(item.yourMandate?.mandateId).toBe(mandate.mandateId);
+    expect(item.yourMandate?.constraints.price).toEqual({ max: 1300 });
+    expect(item.nextSteps[0]).toContain("at most 1300 USD");
+  });
+
+  it("never carries the counterparty's mandate", async () => {
+    const agentId = unique("snoop");
+    await jang.registerAgent({ agentId, ownerId: unique("own") });
+    await store.putMandate(buyerMandate({ agentId, itemId }));
+
+    const item = await marketItemFor(itemId, agentId, "own_snoop");
+    const house = await store.getMandate(item.counterpartyAgentId!, itemId);
+    expect(house).toBeDefined();
+    const wire = JSON.stringify(item);
+    expect(wire).not.toContain(house!.mandateId);
+    expect(wire).not.toContain(house!.signature);
+  });
+
+  it("has no mandate to show before the owner lodges one", async () => {
+    const agentId = unique("fresh");
+    await jang.registerAgent({ agentId, ownerId: unique("own") });
+
+    const item = await marketItemFor(itemId, agentId, "own_fresh");
+    expect(item.youHaveMandate).toBe(false);
+    expect(item.yourMandate).toBeUndefined();
   });
 });

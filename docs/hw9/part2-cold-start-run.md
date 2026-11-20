@@ -145,3 +145,12 @@ planning handicap and is **not yet fixed**.
 **Honest about the sample.** Two runs, one market, one model. Run 1 failed and
 run 2 passed, but the fix between them was substantial and we did not re-run
 run 1's client against the old code to isolate it further.
+
+---
+
+*Added after submission, 2026-11-21.* The planning handicap above is fixed:
+`describe_item` (`GET /api/market/{itemId}`) now returns the calling agent's own
+`yourMandate` and names its hard limits in the first of its `nextSteps`, so an
+agent can plan against its budget before opening a session. It never returns
+the counterparty's mandate; `src/lib/server/discovery.test.ts` checks both. No
+cold-start client has been re-run against the change yet.
