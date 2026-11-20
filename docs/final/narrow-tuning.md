@@ -48,6 +48,30 @@ default; the harness variant is `refine`.
    both judged with `scripts/final/significance.ts` against `fix+meso+disclose`.
    Otherwise it stays off and this is reported as a negative result.
 
-## Results
+## Results — negative, not adopted
 
-*(filled in after the runs)*
+Paired on identical markets against `fix+meso+disclose`. Closing is an exact
+McNemar test; realised efficiency counts a failed negotiation as 0, with a
+bootstrap 95% CI (10,000 resamples).
+
+| | narrow close | arm-only / base-only, p | realised eff. diff, 95% CI | ordinary close | ordinary realised eff. diff |
+|---|---|---|---|---|---|
+| Tuning 20261028 | 3/12 vs **6/12** | 0 / 3, p=0.250 | −0.217 [−0.460, +0.003] | 30/33 vs 29/33 | +0.018 [−0.029, +0.071] |
+| **Fresh 20261101+02** | 11/22 vs **14/22** | 0 / 3, p=0.250 | −0.121 [−0.271, +0.006] | 55/58 vs 55/58 | +0.001 [−0.027, +0.032] |
+
+`refine` closed **no** market the baseline missed and lost three it had closed,
+on both the tuning and the fresh seeds. Ordinary and asymmetric markets are
+unchanged within noise. It fails criterion 3 and **stays off**. The option is
+kept in the code, off by default, so the result can be reproduced:
+`npx tsx scripts/hw7/run.ts --seed=20261101 --variant=fix+meso+disclose+refine --out=results/final`.
+The baseline arm re-ran byte-for-byte identical to the committed file before
+the comparison.
+
+**What this says about the diagnosis.** Coarse spacing was real but was not the
+binding cause: given finer moves, the agents spend the same twelve rounds
+making smaller concessions and still meet at the round limit. Every failure, in
+both arms, stops at `ROUND_LIMIT` with the buyer unable to answer the seller's
+last offer. That points at the round budget and who moves last, not the search.
+HW7 already showed doubling the rounds (`option2`) lifted narrow from 4/22 to
+9/22 under `fix`; `fix+meso+disclose+option2` has not been run. That would be
+the next experiment, registered the same way before it is run.
