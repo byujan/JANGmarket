@@ -138,6 +138,8 @@ export type StrategyKnobs = {
   deadlineAware?: boolean;
   respectBounds?: boolean;
   meso?: boolean;
+  /** Candidates near the counterparty's ask (rule-strategy `refine`). */
+  refine?: boolean;
   /** Which owners share their priority order with the other side. */
   disclose?: { buyer?: boolean; seller?: boolean };
 };
@@ -195,7 +197,13 @@ export async function negotiate(market: Scenario, knobs: StrategyKnobs, maxRound
     runRuleAgent({
       label,
       agent: guard(port),
-      options: { toughness, deadlineAware: knobs.deadlineAware, respectBounds: knobs.respectBounds, meso: knobs.meso },
+      options: {
+        toughness,
+        deadlineAware: knobs.deadlineAware,
+        respectBounds: knobs.respectBounds,
+        meso: knobs.meso,
+        refine: knobs.refine,
+      },
       pollMs: 0,
       maxTurns: 1_000_000,
     }).then((result) => {

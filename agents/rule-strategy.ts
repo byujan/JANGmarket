@@ -47,7 +47,19 @@ export type RuleOptions = {
    * counterparty pick. Off by default.
    */
   meso?: boolean;
+  /**
+   * Look closely near the counterparty's ask. The plain grid splits our own
+   * range into `grid` points, which on a wide range is coarser than a narrow
+   * zone of agreement: a seller whose range is 1,200 to 3,000 considers prices
+   * about 225 apart, and steps straight over a zone 30 wide. With this on, the
+   * ask itself (pulled inside our own bounds) and a few points just behind it
+   * are candidates too. Off by default.
+   */
+  refine?: boolean;
 };
+
+/** How far behind the counterparty's ask, toward our own ideal, refine looks. */
+const REFINE_STEPS = [1 / 32, 1 / 16, 1 / 8, 1 / 4];
 
 /** MESO alternatives must be worth no more than this above the main package to us. */
 const MESO_BAND = 0.03;
@@ -75,7 +87,13 @@ export function competitivePressure(view: SessionView): number {
 }
 
 /** Candidate values for one dimension, inside both the item's range and the mandate's bounds. */
-export function candidates(dimension: Dimension, mandate: Mandate, grid: number, anchor?: number): number[] {
+export function candidates(
+  dimension: Dimension,
+  mandate: Mandate,
+  grid: number,
+  anchor?: number,
+  refine = false,
+): number[] {
   const constraint = mandate.constraints[dimension.key] ?? {};
   const boundLow = Math.max(dimension.min, constraint.min ?? dimension.min);
   const boundHigh = Math.min(dimension.max, constraint.max ?? dimension.max);
@@ -101,6 +119,14 @@ export function candidates(dimension: Dimension, mandate: Mandate, grid: number,
   // Always consider standing exactly where the counterparty stood: that is the
   // package most likely to be acceptable to them at equal cost to us.
   if (anchor !== undefined && anchor >= low && anchor <= high) values.add(snap(anchor));
+  // Refine: the nearest we may go to their ask, and a few steps back from it
+  // toward what we want, so a small concession is available as a small move.
+  if (refine && anchor !== undefined) {
+    const near = snap(anchor);
+    values.add(near);
+    const ideal = preference ? snap(preference.ideal) : near;
+    for (const fraction of REFINE_STEPS) values.add(snap(near + (ideal - near) * fraction));
+  }
   return [...values].sort((a, b) => a - b);
 }
 
@@ -198,7 +224,7 @@ export function decide(view: SessionView, options: RuleOptions = {}): Decision {
     return { action: "accept", ...pick, reason: `their package is worth ${onTheTable.toFixed(3)} to me, at or above my target ${target.toFixed(3)}` };
   }
 
-  const counters = bestCounters(view, target, grid, theirs?.terms, options.meso ? 3 : 1);
+  const counters = bestCounters(view, target, grid, theirs?.terms, options.meso ? 3 : 1, options.refine);
   const counter = counters[0];
   if (!counter) {
     if (theirs && onTheTable >= floor) {
@@ -248,8 +274,23 @@ function mesoNote(view: SessionView, theirAsk: Terms | undefined, count: number)
  * worth about the same to us, each as far as possible from those already
  * chosen. Searched over a coarse grid per dimension.
  */
-function bestCounters(view: SessionView, target: number, grid: number, theirAsk: Terms | undefined, count: number): Terms[] {
-  const primary = bestCounter(view, target, grid, theirAsk, count > 1, weightsFromOrder(view.counterpartyPriorities, view.itemSpec.dimensions));
+function bestCounters(
+  view: SessionView,
+  target: number,
+  grid: number,
+  theirAsk: Terms | undefined,
+  count: number,
+  refine = false,
+): Terms[] {
+  const primary = bestCounter(
+    view,
+    target,
+    grid,
+    theirAsk,
+    count > 1,
+    weightsFromOrder(view.counterpartyPriorities, view.itemSpec.dimensions),
+    refine,
+  );
   if (!primary) return [];
   if (count <= 1) return [primary.terms];
 
@@ -279,12 +320,13 @@ function bestCounter(
   theirAsk: Terms | undefined,
   collect = false,
   weights?: Record<string, number>,
+  refine = false,
 ): { terms: Terms; score: number; pool: { terms: Terms; score: number }[] } | undefined {
   const mandate = view.yourMandate;
   const dimensions = view.itemSpec.dimensions;
   const axes = dimensions.map((dimension) => ({
     dimension,
-    values: candidates(dimension, mandate, grid, theirAsk?.[dimension.key]),
+    values: candidates(dimension, mandate, grid, theirAsk?.[dimension.key], refine),
   }));
   if (axes.some((axis) => axis.values.length === 0)) return undefined;
 
