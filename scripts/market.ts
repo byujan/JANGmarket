@@ -13,6 +13,7 @@ import { runRuleAgent } from "../agents/runner.ts";
 import { ServicePort } from "../agents/service-port.ts";
 import { JangClient } from "../src/lib/client.ts";
 import { issueMandate } from "../src/lib/jang/scenario.ts";
+import { utility } from "../src/lib/jang/utility.ts";
 import { jang } from "../src/lib/server/service.ts";
 import { store } from "../src/lib/store/index.ts";
 import { BASE_URL, colour, ensureServer, loadScenario, termsLine } from "./common.ts";
@@ -39,9 +40,8 @@ try {
   await jang.registerAgent({ agentId: sellerId, ownerId: scenario.seller.ownerId });
   // Supply lives inside the signed body, so it goes in before signing: adding
   // it afterwards invalidates the owner's signature, as it should.
-  await store.putMandate(
-    issueMandate({ ...scenario, seller: { ...scenario.seller, agentId: sellerId, supply } }, "seller"),
-  );
+  const sellerMandate = issueMandate({ ...scenario, seller: { ...scenario.seller, agentId: sellerId, supply } }, "seller");
+  await store.putMandate(sellerMandate);
 
   // Each buyer gets its own agent, mandate and session.
   const buyers = await Promise.all(
@@ -92,7 +92,8 @@ try {
     if (agreement) {
       won += 1;
       console.log(
-        `  ${c.green}${buyer.label} closed${c.reset}  ${termsLine(agreement.terms, scenario.itemSpec.dimensions)}`,
+        `  ${c.green}${buyer.label} closed${c.reset}  ${termsLine(agreement.terms, scenario.itemSpec.dimensions)}` +
+          `  ${c.dim}worth ${utility(agreement.terms, sellerMandate).toFixed(3)} to the seller${c.reset}`,
       );
     } else if (refusals.length > 0) {
       console.log(

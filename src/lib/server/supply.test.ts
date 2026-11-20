@@ -114,6 +114,20 @@ describe("supply", () => {
       expect(before).toMatchObject({ authorised: 2, remaining: 2, openSessions: 3 });
     });
 
+    it("tells each side the contest in the direction it cuts", async () => {
+      const { jang, openWith } = await market(1);
+      const first = await openWith("b1");
+      await openWith("b2");
+      await openWith("b3");
+
+      // The seller has three buyers for one unit: alternatives, not rivals.
+      const seller = await jang.viewSession("seller", first);
+      expect(seller.market).toMatchObject({ openSessions: 3, remaining: 1, rivals: 0 });
+      // Each buyer has two rivals for the seller's attention.
+      const buyer = await jang.viewSession("b1", first);
+      expect(buyer.market).toMatchObject({ openSessions: 1, rivals: 2 });
+    });
+
     it("counts down as deals close", async () => {
       const { jang, openWith } = await market(2);
       const first = await openWith("b1");

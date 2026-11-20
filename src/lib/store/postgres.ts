@@ -269,6 +269,17 @@ export class PostgresStore implements Store {
     return { committed, openSessions };
   }
 
+  async rivalSessions(agentId: string, counterpartyId: string, itemId: string): Promise<number> {
+    const rows = await this.sql<{ n: string }[]>`
+      select count(*)::text as n from sessions
+      where status = 'open'
+        and item_spec->>'itemId' = ${itemId}
+        and (buyer_agent_id = ${counterpartyId} or seller_agent_id = ${counterpartyId})
+        and buyer_agent_id <> ${agentId} and seller_agent_id <> ${agentId}
+    `;
+    return Number(rows[0]?.n ?? 0);
+  }
+
   async expireStaleSessions(now = new Date()): Promise<number> {
     const rows = await this.sql`
       update sessions set status = 'expired', updated_at = now()

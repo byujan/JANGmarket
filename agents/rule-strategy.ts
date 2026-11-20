@@ -64,14 +64,36 @@ export const MAX_COMPETITIVE_PRESSURE = 0.5;
 export function competitivePressure(view: SessionView): number {
   const market = view.market;
   if (!market || market.remaining <= 0) return 0;
-  // Everyone in an open session is a rival except us.
-  const rivals = Math.max(0, market.openSessions - 1);
+  // Rivals are the others our counterparty is negotiating with for the same
+  // item. Our own other sessions are not rivals: they are our alternatives,
+  // and they are counted as leverage below, not here.
+  const rivals = market.rivals ?? 0;
   if (rivals <= 0) return 0;
-  // Rivals per unit still available, with diminishing returns: one rival for
-  // one unit is uncomfortable, four is worse, and the fortieth adds almost
-  // nothing that the fourth did not.
-  const perUnit = rivals / market.remaining;
-  return Math.min(MAX_COMPETITIVE_PRESSURE, MAX_COMPETITIVE_PRESSURE * (perUnit / (perUnit + 2)));
+  // With diminishing returns: one rival is uncomfortable, four is worse, and
+  // the fortieth adds almost nothing that the fourth did not. How many units
+  // the counterparty has is its own business, so it does not enter.
+  return Math.min(MAX_COMPETITIVE_PRESSURE, MAX_COMPETITIVE_PRESSURE * (rivals / (rivals + 2)));
+}
+
+/**
+ * How much having several counterparties for fewer units strengthens our hand,
+ * from 0 to a cap.
+ *
+ * A seller running six negotiations for one television can afford to hold out
+ * on each of them; until this existed, the same count was read as six rivals
+ * and made that seller concede faster. Leverage slows the concession schedule
+ * rather than raising the floor, so by the last round an agent is still at its
+ * reservation value and a deal that was there is still taken.
+ */
+export const MAX_LEVERAGE = 0.5;
+
+export function marketLeverage(view: SessionView): number {
+  const market = view.market;
+  if (!market || market.remaining <= 0) return 0;
+  const surplus = market.openSessions - market.remaining;
+  if (surplus <= 0) return 0;
+  const perUnit = surplus / market.remaining;
+  return Math.min(MAX_LEVERAGE, MAX_LEVERAGE * (perUnit / (perUnit + 2)));
 }
 
 /** Candidate values for one dimension, inside both the item's range and the mandate's bounds. */
@@ -178,7 +200,11 @@ export function decide(view: SessionView, options: RuleOptions = {}): Decision {
   const floor = mandate.reservationUtility;
   // How far through the negotiation we are; at the end we are down to our floor.
   const elapsed = Math.min(1, view.roundsUsed / Math.max(1, view.maxRounds - 1));
-  let target = Math.max(floor, ceiling - (ceiling - floor) * Math.pow(elapsed, toughness));
+  // Leverage: with more counterparties than units, concede later. Toughness
+  // bends the curve without moving its end, so the floor is still reached.
+  const leverage = marketLeverage(view);
+  const bent = toughness * (1 + 2 * leverage);
+  let target = Math.max(floor, ceiling - (ceiling - floor) * Math.pow(elapsed, bent));
   // Deadline-aware (HW7 Option 1): with fewer than two offers left in the
   // session, no deal is worth nothing, so drop straight to the reservation value.
   if (options.deadlineAware && view.roundsUsed >= view.maxRounds - 2) target = floor;

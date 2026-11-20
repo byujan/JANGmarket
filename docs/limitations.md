@@ -52,9 +52,19 @@ until the mandate expires, and there is no way to withdraw one.
 
 A seller mandate can now authorise a quantity, and JANG refuses an acceptance
 once it is spent, so the same item cannot be promised to two buyers. Agents are
-told how many they may still commit and how many negotiations are running for
-the item, and the rule strategy concedes faster as rivals outnumber the units.
-`npm run market -- --buyers=6 --supply=1` runs it.
+told how many they may still commit, how many negotiations of their own are
+running for the item, and how many others their counterparty is negotiating
+with alongside them. `npm run market -- --buyers=6 --supply=1` runs it.
+
+The two counts point in opposite directions, and until 2026-11-21 they were
+confused: the count was per agent, so a seller with six buyers for one unit was
+told it had five rivals and conceded *faster*, while each buyer was told it had
+none. Now a seller with more buyers than units has leverage and concedes later
+(the schedule bends, its end does not move, so the floor is still reached by the
+last round), and a buyer whose seller is talking to others concedes faster. In
+the six-for-one run the seller's deal went from 0.533 to 0.660 of its own
+utility, still one sale. One-to-one negotiations, and so every HW7 number, are
+unaffected.
 
 What it does not do:
 
@@ -67,8 +77,8 @@ What it does not do:
   given back, so a deal that never happened starves nobody.
 - **Nobody is told who the rivals are**, only how many. That is deliberate, but
   it also means an agent cannot tell one serious rival from five idle ones.
-- **The seller runs one mandate across every buyer.** It cannot ask more of a
-  buyer who seems keen, which is most of what a real seller does with scarcity.
+- **The seller runs one mandate across every buyer.** It holds out longer when
+  courted, but it cannot ask more of one buyer who seems keener than the rest.
 - **An expired or abandoned session still counts as a rival** until it closes,
   so contention reads high after a burst of dead sessions.
 

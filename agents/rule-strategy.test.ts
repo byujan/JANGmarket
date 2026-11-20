@@ -6,7 +6,7 @@
  * limits are involved.
  */
 import { describe, expect, it } from "vitest";
-import { MAX_COMPETITIVE_PRESSURE, candidates, competitivePressure } from "./rule-strategy.ts";
+import { MAX_COMPETITIVE_PRESSURE, MAX_LEVERAGE, candidates, competitivePressure, decide, marketLeverage } from "./rule-strategy.ts";
 import { sellerMandate, testItemSpec } from "../src/lib/jang/testing.ts";
 import type { SessionView } from "../src/lib/jang/session.ts";
 import type { Market } from "../src/lib/jang/types.ts";
@@ -15,42 +15,102 @@ const view = (market?: Market): SessionView =>
   ({ market }) as unknown as SessionView;
 
 describe("competitive pressure", () => {
-  it("is nothing when an agent is the only one negotiating", () => {
-    expect(competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 1 }))).toBe(0);
+  // Rivals are the counterparty's other negotiations for the item. An agent's
+  // own other negotiations are its alternatives, and count as leverage instead.
+  it("is nothing when the counterparty is negotiating with nobody else", () => {
+    expect(competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 1, rivals: 0 }))).toBe(0);
   });
 
   it("is nothing when the market is not reported at all", () => {
     expect(competitivePressure(view())).toBe(0);
   });
 
-  it("rises with the number of rivals for a single unit", () => {
-    const two = competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 2 }));
-    const five = competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 5 }));
-    expect(two).toBeGreaterThan(0);
-    expect(five).toBeGreaterThan(two);
-  });
-
-  it("falls as more units become available to go round", () => {
-    const scarce = competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 4 }));
-    const plenty = competitivePressure(view({ remaining: 8, authorised: 8, openSessions: 4 }));
-    expect(plenty).toBeLessThan(scarce);
+  it("rises with the number of rivals", () => {
+    const one = competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 1, rivals: 1 }));
+    const five = competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 1, rivals: 5 }));
+    expect(one).toBeGreaterThan(0);
+    expect(five).toBeGreaterThan(one);
   });
 
   it("never exceeds the cap, however many rivals arrive", () => {
-    const crowded = competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 500 }));
+    const crowded = competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 1, rivals: 500 }));
     expect(crowded).toBeLessThanOrEqual(MAX_COMPETITIVE_PRESSURE);
     expect(crowded).toBeGreaterThan(0.4);
   });
 
   it("leaves a single rival uncomfortable rather than desperate", () => {
-    // One other bidder for one unit should hurry an agent, not fold it.
-    const one = competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 2 }));
+    const one = competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 1, rivals: 1 }));
     expect(one).toBeGreaterThan(0.1);
     expect(one).toBeLessThan(0.25);
   });
 
   it("is nothing once an agent has nothing left to commit", () => {
-    expect(competitivePressure(view({ remaining: 0, authorised: 1, openSessions: 6 }))).toBe(0);
+    expect(competitivePressure(view({ remaining: 0, authorised: 1, openSessions: 1, rivals: 6 }))).toBe(0);
+  });
+
+  it("does not read an agent's own other negotiations as rivals", () => {
+    // The bug this replaced: a seller with six buyers for one unit was told it
+    // had five rivals, and conceded faster than a seller with one buyer.
+    expect(competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 6, rivals: 0 }))).toBe(0);
+  });
+});
+
+describe("market leverage", () => {
+  it("is nothing with no more counterparties than units", () => {
+    expect(marketLeverage(view({ remaining: 1, authorised: 1, openSessions: 1 }))).toBe(0);
+    expect(marketLeverage(view({ remaining: 4, authorised: 4, openSessions: 3 }))).toBe(0);
+  });
+
+  it("rises with counterparties per unit, up to a cap", () => {
+    const two = marketLeverage(view({ remaining: 1, authorised: 1, openSessions: 2 }));
+    const six = marketLeverage(view({ remaining: 1, authorised: 1, openSessions: 6 }));
+    const many = marketLeverage(view({ remaining: 1, authorised: 1, openSessions: 500 }));
+    expect(two).toBeGreaterThan(0);
+    expect(six).toBeGreaterThan(two);
+    expect(many).toBeLessThanOrEqual(MAX_LEVERAGE);
+  });
+
+  it("falls as more units go round", () => {
+    const scarce = marketLeverage(view({ remaining: 1, authorised: 1, openSessions: 4 }));
+    const plenty = marketLeverage(view({ remaining: 3, authorised: 3, openSessions: 4 }));
+    expect(plenty).toBeLessThan(scarce);
+  });
+});
+
+describe("decide under contest", () => {
+  const seller = sellerMandate();
+  const session = (market: Market | undefined, roundsUsed: number) =>
+    ({
+      status: "open",
+      you: { agentId: seller.agentId, role: "seller" },
+      itemSpec: testItemSpec,
+      yourMandate: seller,
+      offers: [],
+      roundsUsed,
+      maxRounds: 12,
+      market,
+    }) as unknown as SessionView;
+  const targetOf = (market: Market | undefined, roundsUsed: number) => {
+    const decision = decide(session(market, roundsUsed));
+    if (decision.action !== "offer") throw new Error(`expected an offer, got ${decision.action}`);
+    return decision.targetUtility;
+  };
+
+  it("holds out longer with more buyers than units", () => {
+    const alone = targetOf({ remaining: 1, authorised: 1, openSessions: 1, rivals: 0 }, 6);
+    const courted = targetOf({ remaining: 1, authorised: 1, openSessions: 6, rivals: 0 }, 6);
+    expect(courted).toBeGreaterThan(alone);
+  });
+
+  it("still comes down to its floor by the last round", () => {
+    const courted = targetOf({ remaining: 1, authorised: 1, openSessions: 6, rivals: 0 }, 11);
+    expect(courted).toBeCloseTo(seller.reservationUtility, 6);
+  });
+
+  it("concedes faster when its counterparty has rivals for it", () => {
+    const alone = targetOf({ remaining: 1, authorised: 1, openSessions: 1, rivals: 0 }, 6);
+    const contested = targetOf({ remaining: 1, authorised: 1, openSessions: 1, rivals: 5 }, 6);
+    expect(contested).toBeLessThan(alone);
   });
 });
 

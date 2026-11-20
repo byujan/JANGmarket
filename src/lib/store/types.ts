@@ -179,6 +179,11 @@ export interface Store {
   countSessions(filter?: { agentIds?: string[] }): Promise<SessionCounts>;
   /** Deals closed and negotiations running, for one agent on one item. */
   marketState(agentId: string, itemId: string): Promise<MarketState>;
+  /**
+   * Open sessions on an item that involve `counterpartyId` but not `agentId`:
+   * the other parties the counterparty is negotiating with alongside you.
+   */
+  rivalSessions(agentId: string, counterpartyId: string, itemId: string): Promise<number>;
 
   /**
    * Take one unit of an agent's authorised supply for this session, or report

@@ -134,7 +134,9 @@ export class JangService {
   private async withMarket(agentId: string, session: Session): Promise<SessionView> {
     const view = redactSessionFor(agentId, session);
     try {
-      return { ...view, market: await this.marketFor(agentId, session.itemSpec.itemId) };
+      const counterparty =
+        session.participants.buyer === agentId ? session.participants.seller : session.participants.buyer;
+      return { ...view, market: await this.marketFor(agentId, session.itemSpec.itemId, counterparty) };
     } catch {
       return view;
     }
@@ -415,16 +417,18 @@ export class JangService {
   }
 
   /** What an agent may be told about how contested its item is. */
-  async marketFor(agentId: string, itemId: string): Promise<Market> {
-    const [state, mandate] = await Promise.all([
+  async marketFor(agentId: string, itemId: string, counterpartyId?: string): Promise<Market> {
+    const [state, mandate, rivals] = await Promise.all([
       this.store.marketState(agentId, itemId),
       this.store.getMandate(agentId, itemId),
+      counterpartyId ? this.store.rivalSessions(agentId, counterpartyId, itemId) : Promise.resolve(undefined),
     ]);
     const authorised = mandate?.supply ?? 1;
     return {
       remaining: Math.max(0, authorised - state.committed),
       authorised,
       openSessions: state.openSessions,
+      ...(rivals !== undefined ? { rivals } : {}),
     };
   }
 

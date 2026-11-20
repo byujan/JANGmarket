@@ -177,9 +177,24 @@ export type Agreement = z.infer<typeof AgreementSchema>;
 /**
  * What an agent is told about how contested its item is. None of it comes from
  * anyone's mandate but its own, so it leaks nothing: how many it may still
- * commit, and how many negotiations are running for the same thing.
+ * commit, how many negotiations it is running for the item itself, and how many
+ * others its counterparty is running alongside this one.
+ *
+ * The last two point in opposite directions. Several negotiations of your own
+ * for fewer units than that is leverage: you have alternatives. Your
+ * counterparty juggling several of you is competition: it has alternatives.
  */
-export type Market = { remaining: number; authorised: number; openSessions: number };
+export type Market = {
+  remaining: number;
+  authorised: number;
+  /** Negotiations this agent itself has open for the item, this one included. */
+  openSessions: number;
+  /**
+   * Other negotiations the counterparty has open for the same item, not
+   * counting this one. A count only: never who they are or what they offer.
+   */
+  rivals?: number;
+};
 
 export type Violation = {
   dimension: string;
