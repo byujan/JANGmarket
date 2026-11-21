@@ -142,6 +142,7 @@ export type StrategyKnobs = {
   refine?: boolean;
   /** Last-offer choice by what it gives the counterparty (rule-strategy `endgame`). */
   endgame?: boolean;
+  endgameDirections?: "asks" | "opposed";
   /** Which owners share their priority order with the other side. */
   disclose?: { buyer?: boolean; seller?: boolean };
 };
@@ -206,6 +207,7 @@ export async function negotiate(market: Scenario, knobs: StrategyKnobs, maxRound
         meso: knobs.meso,
         refine: knobs.refine,
         endgame: knobs.endgame,
+        endgameDirections: knobs.endgameDirections,
       },
       pollMs: 0,
       maxTurns: 1_000_000,

@@ -216,3 +216,34 @@ stable prior that a concession cannot flip. The item's declared `buyerPrefers`
 would still override it. The fresh seeds 20261101–02 have now been used for
 three arms, so a fourth attempt should be confirmed on a seed none of them has
 seen.
+
+---
+
+## Fourth attempt: endgame with directions that a concession cannot flip
+
+*Written and committed before any benchmark run of this arm, 2026-11-21.*
+
+**Change: `endgame2`** (`endgame: true, endgameDirections: "opposed"`). It is
+identical to the third attempt except where directions come from: the opposite
+of the agent's own preference on each term (`sign(worst − ideal)` of its own
+mandate), and the item's declared `buyerPrefers` wherever there is one. The
+crossed-over case that broke the third attempt is now a unit test: "is not
+fooled when the buyer has already conceded past the seller on a term". The
+third attempt's arm re-ran identically after this change.
+
+**Seeds.** 20261101 and 20261102 have served three arms, and this change was
+designed from a trace on one of them. So the decision is made on **two new
+seeds, 20261121 and 20261122**, never run before by any arm. The baseline
+`fix+meso+disclose` is run on them too, for the pairing.
+
+**Rule.**
+1. Tuning seed 20261028, a sanity check only.
+2. New seeds 20261121 and 20261122, once, both arms. For comparison only,
+   also the already-used fresh seeds, labelled as such.
+3. Passes if, **on the new seeds**, narrow closes more than the baseline
+   **and** ordinary realised efficiency (failure = 0) has a paired 95% CI whose
+   lower end is above −0.02.
+4. If it passes, turn it on for the product's rule agent
+   (`src/lib/server/negotiate.ts`) and `scripts/market.ts`. It changes only the
+   last offer, so negotiation length is unaffected. If it fails, it stays off
+   and is recorded below.

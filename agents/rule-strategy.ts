@@ -69,6 +69,16 @@ export type RuleOptions = {
    * unchanged. Off by default.
    */
   endgame?: boolean;
+  /**
+   * How endgame reads which way the counterparty wants each term.
+   * - "asks" (the first version): from the gap between their last ask and
+   *   ours. A concession across the asks flips it.
+   * - "opposed": the opposite of our own preference on that term, which no
+   *   concession can flip. Right whenever the two sides want opposite things
+   *   on every term, as buyers and sellers do on price, delivery and the like.
+   * Either way, an item's declared buyer preference wins where there is one.
+   */
+  endgameDirections?: "asks" | "opposed";
 };
 
 /** Which way the counterparty wants each term to move, +1 up, -1 down, 0 unknown. */
@@ -79,11 +89,21 @@ type Directions = Record<string, number>;
  * whatever they want more of. Where the two asks agree, the item's declared
  * buyer preference decides, if it has one.
  */
-function counterpartyDirections(view: SessionView, theirAsk: Terms): Directions {
+function counterpartyDirections(view: SessionView, theirAsk: Terms, source: "asks" | "opposed" = "asks"): Directions {
   const mine = [...view.offers].reverse().find((offer) => offer.fromAgentId === view.you.agentId);
   const theyAreBuyer = view.you.role === "seller";
   const directions: Directions = {};
   for (const dimension of view.itemSpec.dimensions) {
+    if (source === "opposed") {
+      if (dimension.buyerPrefers) {
+        const buyerWantsUp = dimension.buyerPrefers === "high" ? 1 : -1;
+        directions[dimension.key] = theyAreBuyer ? buyerWantsUp : -buyerWantsUp;
+        continue;
+      }
+      const own = view.yourMandate.preferences[dimension.key];
+      directions[dimension.key] = own ? -Math.sign(own.ideal - own.worst) : 0;
+      continue;
+    }
     const gap = mine ? (theirAsk[dimension.key] ?? 0) - (mine.terms[dimension.key] ?? 0) : 0;
     if (gap !== 0) {
       directions[dimension.key] = Math.sign(gap);
@@ -284,7 +304,7 @@ export function decide(view: SessionView, options: RuleOptions = {}): Decision {
   // Endgame: this is our last offer of the session (offers alternate, so the
   // last two slots are one each), and after it they can only take it or leave.
   const lastMove = view.roundsUsed >= view.maxRounds - 2;
-  const directions = options.endgame && lastMove && theirs ? counterpartyDirections(view, theirs.terms) : undefined;
+  const directions = options.endgame && lastMove && theirs ? counterpartyDirections(view, theirs.terms, options.endgameDirections) : undefined;
   const counters = bestCounters(view, target, grid, theirs?.terms, options.meso ? 3 : 1, options.refine, directions);
   const counter = counters[0];
   if (!counter) {

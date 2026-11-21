@@ -126,4 +126,35 @@ describe("endgame", () => {
   it("changes nothing before the last offer", () => {
     expect(terms(at(6), true)).toEqual(terms(at(6), false));
   });
+
+  it("is not fooled when the buyer has already conceded past the seller on a term", () => {
+    // The seller last offered 6 days; the buyer, conceding, now asks for 11.
+    // Reading the gap, the seller would conclude the buyer wants delivery
+    // later, and "give" it a later one. The buyer wants it sooner.
+    const crossed = {
+      ...at(11),
+      offers: [
+        offer(seller.agentId, { price: 1500, deliveryDays: 6, warrantyMonths: 6, bundle: 0 }, 9),
+        offer(buyer.agentId, { price: 1300, deliveryDays: 11, warrantyMonths: 12, bundle: 1 }, 10),
+      ],
+      standingOffer: offer(buyer.agentId, { price: 1300, deliveryDays: 11, warrantyMonths: 12, bundle: 1 }, 10),
+    } as unknown as SessionView;
+    const pick = (endgameDirections?: "asks" | "opposed") => {
+      const decision = decide(crossed, { toughness: 1.6, respectBounds: true, endgame: true, endgameDirections });
+      if (decision.action !== "offer") throw new Error(`expected an offer, got ${decision.action}`);
+      return decision.terms;
+    };
+    const nearest = (() => {
+      const decision = decide(crossed, { toughness: 1.6, respectBounds: true });
+      if (decision.action !== "offer") throw new Error(`expected an offer, got ${decision.action}`);
+      return decision.terms;
+    })();
+
+    // The first version moves delivery the wrong way, and the buyer loses by it.
+    expect(pick("asks").deliveryDays).toBeGreaterThan(nearest.deliveryDays);
+    // Opposed directions never lengthen it, and leave the buyer better off.
+    expect(pick("opposed").deliveryDays).toBeLessThanOrEqual(nearest.deliveryDays);
+    expect(utility(pick("opposed"), buyer)).toBeGreaterThanOrEqual(utility(nearest, buyer));
+    expect(utility(pick("opposed"), seller)).toBeGreaterThanOrEqual(seller.reservationUtility);
+  });
 });
