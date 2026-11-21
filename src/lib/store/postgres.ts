@@ -3,6 +3,7 @@ import { isPosture, type Posture } from "../posture.ts";
 import type { Settlement } from "../jang/settlement.ts";
 import type { ItemImage, OwnerDefaults } from "./types.ts";
 import type { Agreement, ItemSpec, Mandate, Offer, Session } from "../jang/types.ts";
+import { idleAfterMs } from "./liveness.ts";
 import type {
   AgentRecord,
   EventRecord,
@@ -254,27 +255,38 @@ export class PostgresStore implements Store {
   }
 
   async marketState(agentId: string, itemId: string): Promise<MarketState> {
-    // A session stays 'open' until the sweep closes it, so one past its expiry
-    // is not counted as running.
+    // Running means open, unexpired and active within the idle window, as in
+    // liveness.ts: a session stays 'open' until the sweep closes it.
+    const activeSince = new Date(Date.now() - idleAfterMs());
     const [row] = await this.sql<{ committed: string; open: string }[]>`
       select
-        count(*) filter (where status = 'agreed')::text as committed,
-        count(*) filter (where status = 'open' and expires_at > now())::text as open
-      from sessions
-      where (buyer_agent_id = ${agentId} or seller_agent_id = ${agentId})
-        and item_spec->>'itemId' = ${itemId}
+        count(*) filter (where s.status = 'agreed')::text as committed,
+        count(*) filter (
+          where s.status = 'open' and s.expires_at > now()
+            and coalesce(
+              (select max(o.created_at) from offers o where o.session_id = s.session_id),
+              s.created_at
+            ) > ${activeSince}
+        )::text as open
+      from sessions s
+      where (s.buyer_agent_id = ${agentId} or s.seller_agent_id = ${agentId})
+        and s.item_spec->>'itemId' = ${itemId}
     `;
     return { committed: Number(row?.committed ?? 0), openSessions: Number(row?.open ?? 0) };
   }
 
   async rivalSessions(agentId: string, counterpartyId: string, itemId: string): Promise<number> {
     const rows = await this.sql<{ n: string }[]>`
-      select count(*)::text as n from sessions
-      where status = 'open'
-        and expires_at > now()
-        and item_spec->>'itemId' = ${itemId}
-        and (buyer_agent_id = ${counterpartyId} or seller_agent_id = ${counterpartyId})
-        and buyer_agent_id <> ${agentId} and seller_agent_id <> ${agentId}
+      select count(*)::text as n from sessions s
+      where s.status = 'open'
+        and s.expires_at > now()
+        and coalesce(
+          (select max(o.created_at) from offers o where o.session_id = s.session_id),
+          s.created_at
+        ) > ${new Date(Date.now() - idleAfterMs())}
+        and s.item_spec->>'itemId' = ${itemId}
+        and (s.buyer_agent_id = ${counterpartyId} or s.seller_agent_id = ${counterpartyId})
+        and s.buyer_agent_id <> ${agentId} and s.seller_agent_id <> ${agentId}
     `;
     return Number(rows[0]?.n ?? 0);
   }

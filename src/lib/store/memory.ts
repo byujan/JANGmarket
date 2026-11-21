@@ -1,4 +1,5 @@
 import type { Agreement, Mandate, Session } from "../jang/types.ts";
+import { isContending } from "./liveness.ts";
 import type { Settlement } from "../jang/settlement.ts";
 import type { ItemImage, OwnerDefaults } from "./types.ts";
 import type { Posture } from "../posture.ts";
@@ -15,14 +16,6 @@ import type {
 } from "./types.ts";
 
 /** Process-local storage. Correct for a single-process demo, wrong for anything else. */
-/**
- * Open and not yet past its expiry. A session stays "open" until the sweep
- * closes it, so status alone would count negotiations that have already run
- * out of time as live ones, and inflate the contest in both directions.
- */
-const isLive = (session: Session, now: number) =>
-  session.status === "open" && new Date(session.expiresAt).getTime() > now;
-
 export class MemoryStore implements Store {
   private owners = new Map<string, OwnerRecord>();
   private agents = new Map<string, AgentRecord>();
@@ -171,7 +164,7 @@ export class MemoryStore implements Store {
       const involved = session.participants.buyer === agentId || session.participants.seller === agentId;
       if (!involved || session.itemSpec.itemId !== itemId) continue;
       if (session.status === "agreed") committed += 1;
-      else if (isLive(session, now)) openSessions += 1;
+      else if (isContending(session, now)) openSessions += 1;
     }
     return { committed, openSessions };
   }
@@ -180,7 +173,7 @@ export class MemoryStore implements Store {
     let rivals = 0;
     const now = Date.now();
     for (const session of this.sessions.values()) {
-      if (!isLive(session, now) || session.itemSpec.itemId !== itemId) continue;
+      if (!isContending(session, now) || session.itemSpec.itemId !== itemId) continue;
       const { buyer, seller } = session.participants;
       if (buyer === agentId || seller === agentId) continue;
       if (buyer === counterpartyId || seller === counterpartyId) rivals += 1;

@@ -492,6 +492,33 @@ for (const candidate of candidates) {
       expect(await store.rivalSessions("here", "agent-seller", testItemSpec.itemId)).toBe(0);
     });
 
+    it("does not count a session nobody has moved in lately, though it is still open", async () => {
+      // Each opened ten minutes ago with a fifteen-minute life: unexpired, so
+      // the sweep leaves them open. Two went quiet at once; one is still
+      // trading, with an offer a moment ago.
+      const tenMinutesAgo = new Date(Date.now() - 10 * 60_000);
+      const opened = (sessionId: string, buyer: string) =>
+        createSession({
+          sessionId,
+          itemSpec: testItemSpec,
+          buyerAgentId: buyer,
+          sellerAgentId: "agent-seller",
+          mandates: [buyerMandate({ agentId: buyer }), sellerMandate()],
+          now: tenMinutesAgo,
+        });
+      await store.putSession(opened("sess-i-quiet1", "quiet1"));
+      await store.putSession(opened("sess-i-quiet2", "quiet2"));
+      const busy = submitOffer(opened("sess-i-busy", "busy"), "busy", agreeable, { offerId: "oi-busy" }).session;
+      await store.putSession(busy);
+      expect((await store.getSession("sess-i-quiet1"))?.status).toBe("open");
+
+      // The seller is in one live negotiation, and the busy buyer has no rival.
+      expect(await store.marketState("agent-seller", testItemSpec.itemId)).toEqual({ committed: 0, openSessions: 1 });
+      expect(await store.rivalSessions("busy", "agent-seller", testItemSpec.itemId)).toBe(0);
+      // A quiet buyer still sees the busy one as its rival.
+      expect(await store.rivalSessions("quiet1", "agent-seller", testItemSpec.itemId)).toBe(1);
+    });
+
     it("counts events by kind across all of them", async () => {
       const at = new Date().toISOString();
       for (let i = 0; i < 4; i += 1) {
