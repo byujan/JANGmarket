@@ -14,7 +14,7 @@ import Link from "next/link";
  *
  * The mandate is signed in this browser. The private key never leaves it.
  */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { RegisterAgentForm } from "./RegisterAgentForm.tsx";
 import { loadOrCreateOwnerKey, isSupported, signMandateBody } from "@/lib/browser/signing.ts";
@@ -113,6 +113,12 @@ export function MandateBuilder({
   const [disclose, setDisclose] = useState(defaults?.disclosePriorities ?? false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string>();
+  const errorRef = useRef<HTMLDivElement>(null);
+  // The form is long and the error sits by the submit button, so bring it into
+  // view rather than leave it below the fold.
+  useEffect(() => {
+    if (error) errorRef.current?.focus();
+  }, [error]);
 
   const item = items.find((candidate) => candidate.itemSpec.itemId === itemId);
   // A listing leaves exactly one side open, so there is nothing to choose and
@@ -370,10 +376,18 @@ export function MandateBuilder({
               </p>
             </>
           ) : (
+            <>
             <select id="role" value={chosenRole} onChange={(event) => setRole(event.target.value as Role)}>
               <option value="buyer">Buying</option>
               <option value="seller">Selling</option>
             </select>
+            {chosenRole === "seller" ? (
+              <p className="hint">
+                Selling limits are used when you list this item, or by an agent of your own connected to JANG. The
+                console&apos;s Start a negotiation always buys from JANG&apos;s house seller.
+              </p>
+            ) : null}
+            </>
           )}
         </div>
         <div>
@@ -442,6 +456,7 @@ export function MandateBuilder({
                     max={dimension.max}
                     step={dimension.step}
                     value={setting.limit}
+                    aria-valuetext={formatValue(dimension, setting.limit)}
                     onChange={(event) => update(dimension, { limit: Number(event.target.value) })}
                   />
                 </div>
@@ -459,7 +474,7 @@ export function MandateBuilder({
               most would be a question with no answer. */}
           <p className="small mute">
             This item has one term, so there is nothing to weigh. Weights decide what your agent gives up to win
-            something else, and with a single term there is nothing to give up: every pound you save, the other side
+            something else, and with a single term there is nothing to give up: every dollar you save, the other side
             loses. A second term the two of you value differently is what makes a trade possible.
           </p>
           <p className="hint">
@@ -530,7 +545,8 @@ export function MandateBuilder({
                     inputMode="decimal"
                     min={0}
                     step={10}
-                    placeholder="$"
+                    placeholder="$ amount"
+                    aria-label={`What going from ${formatValue(dimension, anchors[dimension.key].limit)} to ${formatValue(dimension, anchors[dimension.key].ideal)} on ${dimension.label} is worth to you, in dollars`}
                     value={swingInput[dimension.key] ?? ""}
                     onChange={(event) => setSwing(dimension, event.target.value)}
                   />
@@ -657,14 +673,14 @@ export function MandateBuilder({
       </section>
 
       {error ? (
-        <div className="notice notice-warn" style={{ marginTop: "1.5rem" }}>
+        <div className="notice notice-warn" role="alert" ref={errorRef} tabIndex={-1} style={{ marginTop: "1.5rem" }}>
           {error}
         </div>
       ) : null}
 
       <div style={{ marginTop: "1.75rem", display: "flex", gap: "0.75rem", alignItems: "center" }}>
         <button className="button" onClick={submit} disabled={busy || !item}>
-          {busy ? "Signing in your browser…" : "Sign and lodge mandate"}
+          {busy ? "Signing in your browser…" : "Sign and save my limits"}
         </button>
         <span className="small faint">Signed here; JANG only ever receives your public key.</span>
       </div>

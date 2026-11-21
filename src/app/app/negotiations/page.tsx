@@ -1,3 +1,4 @@
+import { statusWords } from "@/lib/ui/words.ts";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { currentOwner } from "@/lib/server/owner.ts";
@@ -70,7 +71,7 @@ export default async function Negotiations() {
                 <td className="mono small">{session.counterparty}</td>
                 <td className="num mono">{session.rounds}</td>
                 <td>
-                  <span className={`tag tag-${session.status}`}>{session.status}</span>
+                  <span className={`tag tag-${session.status}`}>{statusWords(session.status)}</span>
                 </td>
                 <td className="small faint">{new Date(session.updatedAt).toLocaleString()}</td>
               </tr>

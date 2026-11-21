@@ -29,7 +29,7 @@ const steps = [
   },
   {
     title: "Start negotiating",
-    href: "/app",
+    href: "/app#start",
     action: "Start a negotiation",
     done: (p: Progress) => p.negotiations > 0,
     blurb:

@@ -68,8 +68,8 @@ export default async function Agreements() {
                   <th>Item</th>
                   <th>Your side</th>
                   <th>Counterparty</th>
-                  <th className="num">Agreed at</th>
-                  <th>Agreed</th>
+                  <th className="num">Price</th>
+                  <th>Date</th>
                   <th>Outcome</th>
                 </tr>
               </thead>

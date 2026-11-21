@@ -125,9 +125,10 @@ export function RegisterAgentForm({
           <input
             id="agentId"
             value={agentId}
-            onChange={(event) => setAgentId(event.target.value)}
+            onChange={(event) => setAgentId(event.target.value.toLowerCase().replace(/[\s_]+/g, "-"))}
             placeholder="buyer-nova"
             pattern="[a-z0-9\-]{3,60}"
+            title="3 to 60 characters: lowercase letters, numbers and hyphens, e.g. buyer-nova"
             aria-describedby="agentId-hint"
             required
           />

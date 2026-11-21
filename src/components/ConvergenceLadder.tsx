@@ -87,6 +87,10 @@ export function ConvergenceLadder({ dimensions, offers, buyerAgentId, agreedOffe
               className={`rung ${isBuyer ? "rung-buyer" : "rung-seller"}${alternative ? " rung-alt" : ""}${agreed ? " rung-agreed" : ""}`}
             >
               <span className="rung-round mono small faint">{alternative ? "or" : offer.round}</span>
+              <span className="sr-only">
+                {isBuyer ? "Buyer" : "Seller"} {alternative ? "also offered" : "offered"}
+                {agreed ? ", and this is the package both sides agreed" : ""}:
+              </span>
 
               <span className="rung-track">
                 <span

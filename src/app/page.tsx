@@ -51,8 +51,8 @@ export default function Home() {
         <Suspense fallback={null}>
           <Entry />
         </Suspense>
-        <a className="button button-quiet" href="/api/health">
-          Check the service
+        <a className="button button-quiet" href="#how-it-works">
+          How it works
         </a>
       </div>
        </div>
@@ -104,7 +104,7 @@ export default function Home() {
        </div>
       </div>
 
-      <section className="section hero-prose">
+      <section className="section hero-prose" id="how-it-works">
         <h2>How authority works</h2>
         <p>
           You sign a mandate in your browser saying how far your agent may go: the lines it may not cross, what
