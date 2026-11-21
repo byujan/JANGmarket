@@ -6,11 +6,16 @@
  * limits are involved.
  */
 import { describe, expect, it } from "vitest";
-import { MAX_COMPETITIVE_PRESSURE, candidates, competitivePressure, decide } from "./rule-strategy.ts";
-import { buyerMandate, sellerMandate, testItemSpec } from "../src/lib/jang/testing.ts";
-import { utility } from "../src/lib/jang/utility.ts";
+import { MAX_COMPETITIVE_PRESSURE, candidates, competitivePressure } from "./rule-strategy.ts";
+import { sellerMandate, testItemSpec } from "../src/lib/jang/testing.ts";
 import type { SessionView } from "../src/lib/jang/session.ts";
 import type { Market } from "../src/lib/jang/types.ts";
+
+// Kept apart from the imports above so this file merges cleanly with
+// hendrick/scarcity-side, which edits the first rule-strategy import.
+import * as strategy from "./rule-strategy.ts";
+import { buyerMandate } from "../src/lib/jang/testing.ts";
+import { utility } from "../src/lib/jang/utility.ts";
 
 const view = (market?: Market): SessionView =>
   ({ market }) as unknown as SessionView;
@@ -101,7 +106,7 @@ describe("endgame", () => {
       standingOffer: offer(buyer.agentId, ask, roundsUsed - 1),
     }) as unknown as SessionView;
   const terms = (view: SessionView, endgame: boolean) => {
-    const decision = decide(view, { toughness: 1.6, respectBounds: true, endgame });
+    const decision = strategy.decide(view, { toughness: 1.6, respectBounds: true, endgame });
     if (decision.action !== "offer") throw new Error(`expected an offer, got ${decision.action}`);
     return decision.terms;
   };
@@ -140,12 +145,12 @@ describe("endgame", () => {
       standingOffer: offer(buyer.agentId, { price: 1300, deliveryDays: 11, warrantyMonths: 12, bundle: 1 }, 10),
     } as unknown as SessionView;
     const pick = (endgameDirections?: "asks" | "opposed") => {
-      const decision = decide(crossed, { toughness: 1.6, respectBounds: true, endgame: true, endgameDirections });
+      const decision = strategy.decide(crossed, { toughness: 1.6, respectBounds: true, endgame: true, endgameDirections });
       if (decision.action !== "offer") throw new Error(`expected an offer, got ${decision.action}`);
       return decision.terms;
     };
     const nearest = (() => {
-      const decision = decide(crossed, { toughness: 1.6, respectBounds: true });
+      const decision = strategy.decide(crossed, { toughness: 1.6, respectBounds: true });
       if (decision.action !== "offer") throw new Error(`expected an offer, got ${decision.action}`);
       return decision.terms;
     })();
