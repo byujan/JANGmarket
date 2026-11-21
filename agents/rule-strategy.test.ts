@@ -6,8 +6,9 @@
  * limits are involved.
  */
 import { describe, expect, it } from "vitest";
-import { MAX_COMPETITIVE_PRESSURE, candidates, competitivePressure } from "./rule-strategy.ts";
-import { sellerMandate, testItemSpec } from "../src/lib/jang/testing.ts";
+import { MAX_COMPETITIVE_PRESSURE, candidates, competitivePressure, decide } from "./rule-strategy.ts";
+import { buyerMandate, sellerMandate, testItemSpec } from "../src/lib/jang/testing.ts";
+import { utility } from "../src/lib/jang/utility.ts";
 import type { SessionView } from "../src/lib/jang/session.ts";
 import type { Market } from "../src/lib/jang/types.ts";
 
@@ -70,5 +71,59 @@ describe("candidate values", () => {
       expect(value).toBeGreaterThanOrEqual(1190);
       expect(value).toBeLessThanOrEqual(1490);
     }
+  });
+});
+
+describe("endgame", () => {
+  // A seller on its last offer, answering a buyer who asked for a short
+  // delivery, a long warranty and the soundbar at 1,300.
+  const seller = sellerMandate();
+  const buyer = buyerMandate();
+  const ask = { price: 1300, deliveryDays: 10, warrantyMonths: 12, bundle: 1 };
+  const offer = (fromAgentId: string, terms: Record<string, number>, round: number) => ({
+    offerId: `o${round}`,
+    sessionId: "s",
+    fromAgentId,
+    round,
+    terms,
+    createdAt: new Date().toISOString(),
+  });
+  const at = (roundsUsed: number) =>
+    ({
+      status: "open",
+      you: { agentId: seller.agentId, role: "seller" },
+      counterparty: { agentId: buyer.agentId, role: "buyer" },
+      itemSpec: testItemSpec,
+      yourMandate: seller,
+      maxRounds: 12,
+      roundsUsed,
+      offers: [offer(seller.agentId, { price: 1500, deliveryDays: 30, warrantyMonths: 6, bundle: 0 }, roundsUsed - 2), offer(buyer.agentId, ask, roundsUsed - 1)],
+      standingOffer: offer(buyer.agentId, ask, roundsUsed - 1),
+    }) as unknown as SessionView;
+  const terms = (view: SessionView, endgame: boolean) => {
+    const decision = decide(view, { toughness: 1.6, respectBounds: true, endgame });
+    if (decision.action !== "offer") throw new Error(`expected an offer, got ${decision.action}`);
+    return decision.terms;
+  };
+
+  it("on the last offer, gives the counterparty more without going below its own floor", () => {
+    const nearest = terms(at(11), false);
+    const last = terms(at(11), true);
+    expect(utility(last, buyer)).toBeGreaterThan(utility(nearest, buyer));
+    expect(utility(last, seller)).toBeGreaterThanOrEqual(seller.reservationUtility);
+  });
+
+  it("is never worse for them on any term than the nearest package", () => {
+    const nearest = terms(at(11), false);
+    const last = terms(at(11), true);
+    // The buyer wants price and delivery down, warranty and the soundbar up.
+    expect(last.price).toBeLessThanOrEqual(nearest.price);
+    expect(last.deliveryDays).toBeLessThanOrEqual(nearest.deliveryDays);
+    expect(last.warrantyMonths).toBeGreaterThanOrEqual(nearest.warrantyMonths);
+    expect(last.bundle).toBeGreaterThanOrEqual(nearest.bundle);
+  });
+
+  it("changes nothing before the last offer", () => {
+    expect(terms(at(6), true)).toEqual(terms(at(6), false));
   });
 });

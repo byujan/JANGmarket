@@ -142,3 +142,44 @@ reply left. Plausible next steps, none run here:
   only that a package acceptable to both exists. This uses the frontier code
   already in `src/lib/jang/frontier.ts`, but leaks one bit about each side's
   limits, so it is a design decision, not a tuning change.
+
+---
+
+## Third attempt: choose the last offer for the other side
+
+*Written and committed before any benchmark run of this arm, 2026-11-21.*
+
+**Hypothesis.** Both negative results above say the narrow failures are an
+endgame problem: the last offer clears its maker's floor but not the other
+side's, and the other side has no reply left. The last offer is chosen as the
+package *nearest* the other side's last ask, and nearness is symmetric: a
+package better for them than what they asked (a shorter delivery than they
+requested) is marked down for the gap. On tuning-seed index 5 the seller's last
+offer was {1210, 16 days, 24 months}; the same price with 11 days cleared both
+floors, and the seller never chose it because 11 is "further" from 16.
+
+**Change: `endgame`.** Only on an agent's last offer of the session
+(`roundsUsed ≥ maxRounds − 2`). Start from the nearest package as before; then
+consider only packages that are, on **every** term, no worse for the other side
+than that one (direction per term read from the gap between the two last asks,
+or the item's declared buyer preference); among those that still clear our own
+target, take the one that gives them most, weighted by their disclosed
+priorities when there are any. Our own floor and hard bounds are untouched, and
+a last offer the other side would have accepted is never made worse for them.
+Unit tests: `agents/rule-strategy.test.ts`, "endgame".
+
+**Arm.** `fix+meso+disclose+endgame` against `fix+meso+disclose`. Nothing else
+is tried.
+
+**Rule.**
+1. Tuning seed 20261028 first, as a sanity check. One arm, so nothing is
+   selected there.
+2. Fresh seeds 20261101 and 20261102, **once**.
+3. It passes if, on the fresh seeds, narrow closes more than the baseline
+   **and** ordinary realised efficiency (failure = 0) has a paired 95% CI whose
+   lower end is above −0.02.
+4. If it passes, turn it on for the product's rule agent (`endgame: true` in
+   `src/lib/server/negotiate.ts`, the console's fallback when no model is
+   available) and in `scripts/market.ts`. It changes only the last offer, so
+   negotiation length and the demo are unaffected. If it fails, it stays off and
+   is recorded here like the two above.
