@@ -54,9 +54,9 @@ const describe = (view: SessionView): string => {
       `They have shared what matters most to them, most important first: ${view.counterpartyPriorities.join(" > ")}.`,
     );
   }
-  // How contested the item is. The stdio server tells an outside agent this;
-  // leaving it out here would make the console's agents the only ones blind to
-  // a rival, and scarcity is half of what a market is.
+  // How contested the item is, from this agent's own side. The stdio server
+  // tells an outside agent the same, so the console's agents are not the only
+  // ones blind to their own alternatives.
   if (view.market) lines.push(...contestLines(view.market));
 
   const standing = view.standingOffer;

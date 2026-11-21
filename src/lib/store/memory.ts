@@ -169,17 +169,6 @@ export class MemoryStore implements Store {
     return { committed, openSessions };
   }
 
-  async rivalSessions(agentId: string, counterpartyId: string, itemId: string): Promise<number> {
-    let rivals = 0;
-    const now = Date.now();
-    for (const session of this.sessions.values()) {
-      if (!isContending(session, now) || session.itemSpec.itemId !== itemId) continue;
-      const { buyer, seller } = session.participants;
-      if (buyer === agentId || seller === agentId) continue;
-      if (buyer === counterpartyId || seller === counterpartyId) rivals += 1;
-    }
-    return rivals;
-  }
 
   async expireStaleSessions(now = new Date()): Promise<number> {
     let closed = 0;

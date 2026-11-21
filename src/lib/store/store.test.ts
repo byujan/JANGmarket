@@ -440,27 +440,6 @@ for (const candidate of candidates) {
       });
     });
 
-    it("counts the counterparty's other negotiations as rivals, never your own", async () => {
-      const withBuyer = (sessionId: string, buyer: string) =>
-        createSession({
-          sessionId,
-          itemSpec: testItemSpec,
-          buyerAgentId: buyer,
-          sellerAgentId: "agent-seller",
-          mandates: [buyerMandate({ agentId: buyer }), sellerMandate()],
-        });
-      for (const buyer of ["b1", "b2", "b3"]) await store.putSession(withBuyer(`sess-r-${buyer}`, buyer));
-      let closed = withBuyer("sess-r-closed", "b4");
-      closed = submitOffer(closed, "agent-seller", agreeable, { offerId: "or" }).session;
-      await store.putSession(acceptStandingOffer(closed, "b4").session);
-
-      // b1 sees the seller's two other open negotiations; a closed one is no rival.
-      expect(await store.rivalSessions("b1", "agent-seller", testItemSpec.itemId)).toBe(2);
-      // The seller's counterparty b1 negotiates with nobody else.
-      expect(await store.rivalSessions("agent-seller", "b1", testItemSpec.itemId)).toBe(0);
-      expect(await store.rivalSessions("b1", "agent-seller", "item-that-does-not-exist")).toBe(0);
-    });
-
     it("does not count a session past its expiry as running, before the sweep closes it", async () => {
       // Opened two hours ago with a one-minute life: still "open" in the store,
       // because nothing has swept it, but no longer a live negotiation.
@@ -488,8 +467,6 @@ for (const candidate of candidates) {
 
       // The seller is running one live negotiation, not four.
       expect(await store.marketState("agent-seller", testItemSpec.itemId)).toEqual({ committed: 0, openSessions: 1 });
-      // The live buyer has no rivals: the other three ran out of time.
-      expect(await store.rivalSessions("here", "agent-seller", testItemSpec.itemId)).toBe(0);
     });
 
     it("does not count a session nobody has moved in lately, though it is still open", async () => {
@@ -512,11 +489,11 @@ for (const candidate of candidates) {
       await store.putSession(busy);
       expect((await store.getSession("sess-i-quiet1"))?.status).toBe("open");
 
-      // The seller is in one live negotiation, and the busy buyer has no rival.
+      // The seller is in one live negotiation, not three.
       expect(await store.marketState("agent-seller", testItemSpec.itemId)).toEqual({ committed: 0, openSessions: 1 });
-      expect(await store.rivalSessions("busy", "agent-seller", testItemSpec.itemId)).toBe(0);
-      // A quiet buyer still sees the busy one as its rival.
-      expect(await store.rivalSessions("quiet1", "agent-seller", testItemSpec.itemId)).toBe(1);
+      // A quiet buyer's own session no longer counts as running either.
+      expect(await store.marketState("quiet1", testItemSpec.itemId)).toEqual({ committed: 0, openSessions: 0 });
+      expect(await store.marketState("busy", testItemSpec.itemId)).toEqual({ committed: 0, openSessions: 1 });
     });
 
     it("counts events by kind across all of them", async () => {

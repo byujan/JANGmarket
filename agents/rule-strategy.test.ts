@@ -1,59 +1,16 @@
 /**
- * Competition should hurry an agent, not panic it.
- *
- * The pressure comes only from how many rivals there are against how many
- * units remain, both of which the market view already carries. No rival's
- * limits are involved.
+ * Scarcity strengthens the side that has it, from what that side knows about
+ * itself. An agent is never told how many others its counterparty is
+ * negotiating with, so nothing here makes a buyer concede faster.
  */
 import { describe, expect, it } from "vitest";
-import { MAX_COMPETITIVE_PRESSURE, MAX_LEVERAGE, candidates, competitivePressure, decide, marketLeverage } from "./rule-strategy.ts";
+import { MAX_LEVERAGE, candidates, decide, marketLeverage } from "./rule-strategy.ts";
 import { sellerMandate, testItemSpec } from "../src/lib/jang/testing.ts";
 import type { SessionView } from "../src/lib/jang/session.ts";
 import type { Market } from "../src/lib/jang/types.ts";
 
 const view = (market?: Market): SessionView =>
   ({ market }) as unknown as SessionView;
-
-describe("competitive pressure", () => {
-  // Rivals are the counterparty's other negotiations for the item. An agent's
-  // own other negotiations are its alternatives, and count as leverage instead.
-  it("is nothing when the counterparty is negotiating with nobody else", () => {
-    expect(competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 1, rivals: 0 }))).toBe(0);
-  });
-
-  it("is nothing when the market is not reported at all", () => {
-    expect(competitivePressure(view())).toBe(0);
-  });
-
-  it("rises with the number of rivals", () => {
-    const one = competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 1, rivals: 1 }));
-    const five = competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 1, rivals: 5 }));
-    expect(one).toBeGreaterThan(0);
-    expect(five).toBeGreaterThan(one);
-  });
-
-  it("never exceeds the cap, however many rivals arrive", () => {
-    const crowded = competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 1, rivals: 500 }));
-    expect(crowded).toBeLessThanOrEqual(MAX_COMPETITIVE_PRESSURE);
-    expect(crowded).toBeGreaterThan(0.4);
-  });
-
-  it("leaves a single rival uncomfortable rather than desperate", () => {
-    const one = competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 1, rivals: 1 }));
-    expect(one).toBeGreaterThan(0.1);
-    expect(one).toBeLessThan(0.25);
-  });
-
-  it("is nothing once an agent has nothing left to commit", () => {
-    expect(competitivePressure(view({ remaining: 0, authorised: 1, openSessions: 1, rivals: 6 }))).toBe(0);
-  });
-
-  it("does not read an agent's own other negotiations as rivals", () => {
-    // The bug this replaced: a seller with six buyers for one unit was told it
-    // had five rivals, and conceded faster than a seller with one buyer.
-    expect(competitivePressure(view({ remaining: 1, authorised: 1, openSessions: 6, rivals: 0 }))).toBe(0);
-  });
-});
 
 describe("market leverage", () => {
   it("is nothing with no more counterparties than units", () => {
@@ -97,20 +54,21 @@ describe("decide under contest", () => {
   };
 
   it("holds out longer with more buyers than units", () => {
-    const alone = targetOf({ remaining: 1, authorised: 1, openSessions: 1, rivals: 0 }, 6);
-    const courted = targetOf({ remaining: 1, authorised: 1, openSessions: 6, rivals: 0 }, 6);
+    const alone = targetOf({ remaining: 1, authorised: 1, openSessions: 1 }, 6);
+    const courted = targetOf({ remaining: 1, authorised: 1, openSessions: 6 }, 6);
     expect(courted).toBeGreaterThan(alone);
   });
 
   it("still comes down to its floor by the last round", () => {
-    const courted = targetOf({ remaining: 1, authorised: 1, openSessions: 6, rivals: 0 }, 11);
+    const courted = targetOf({ remaining: 1, authorised: 1, openSessions: 6 }, 11);
     expect(courted).toBeCloseTo(seller.reservationUtility, 6);
   });
 
-  it("concedes faster when its counterparty has rivals for it", () => {
-    const alone = targetOf({ remaining: 1, authorised: 1, openSessions: 1, rivals: 0 }, 6);
-    const contested = targetOf({ remaining: 1, authorised: 1, openSessions: 1, rivals: 5 }, 6);
-    expect(contested).toBeLessThan(alone);
+  it("concedes on the usual schedule in a negotiation of one", () => {
+    // The bug this replaced read an agent's own sessions as rivals. One session
+    // for one unit is neither leverage nor pressure.
+    const alone = targetOf({ remaining: 1, authorised: 1, openSessions: 1 }, 6);
+    expect(alone).toBeCloseTo(targetOf(undefined, 6), 12);
   });
 });
 

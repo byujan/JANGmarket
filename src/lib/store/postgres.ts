@@ -275,21 +275,6 @@ export class PostgresStore implements Store {
     return { committed: Number(row?.committed ?? 0), openSessions: Number(row?.open ?? 0) };
   }
 
-  async rivalSessions(agentId: string, counterpartyId: string, itemId: string): Promise<number> {
-    const rows = await this.sql<{ n: string }[]>`
-      select count(*)::text as n from sessions s
-      where s.status = 'open'
-        and s.expires_at > now()
-        and coalesce(
-          (select max(o.created_at) from offers o where o.session_id = s.session_id),
-          s.created_at
-        ) > ${new Date(Date.now() - idleAfterMs())}
-        and s.item_spec->>'itemId' = ${itemId}
-        and (s.buyer_agent_id = ${counterpartyId} or s.seller_agent_id = ${counterpartyId})
-        and s.buyer_agent_id <> ${agentId} and s.seller_agent_id <> ${agentId}
-    `;
-    return Number(rows[0]?.n ?? 0);
-  }
 
   async expireStaleSessions(now = new Date()): Promise<number> {
     const rows = await this.sql`

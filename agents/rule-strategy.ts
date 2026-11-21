@@ -53,35 +53,14 @@ export type RuleOptions = {
 const MESO_BAND = 0.03;
 
 /**
- * How much the contest for this item weakens our hand, from 0 to a cap.
- *
- * One rival for one unit is no pressure at all; several rivals for a single
- * unit is a weak position. Capped so competition hurries an agent rather than
- * collapsing it straight to its walk-away.
- */
-export const MAX_COMPETITIVE_PRESSURE = 0.5;
-
-export function competitivePressure(view: SessionView): number {
-  const market = view.market;
-  if (!market || market.remaining <= 0) return 0;
-  // Rivals are the others our counterparty is negotiating with for the same
-  // item. Our own other sessions are not rivals: they are our alternatives,
-  // and they are counted as leverage below, not here.
-  const rivals = market.rivals ?? 0;
-  if (rivals <= 0) return 0;
-  // With diminishing returns: one rival is uncomfortable, four is worse, and
-  // the fortieth adds almost nothing that the fourth did not. How many units
-  // the counterparty has is its own business, so it does not enter.
-  return Math.min(MAX_COMPETITIVE_PRESSURE, MAX_COMPETITIVE_PRESSURE * (rivals / (rivals + 2)));
-}
-
-/**
  * How much having several counterparties for fewer units strengthens our hand,
  * from 0 to a cap.
  *
  * A seller running six negotiations for one television can afford to hold out
  * on each of them; until this existed, the same count was read as six rivals
- * and made that seller concede faster. Leverage slows the concession schedule
+ * and made that seller concede faster. There is no opposite term for being one
+ * of several: JANG does not tell an agent how many others its counterparty is
+ * negotiating with (limitations §5b). Leverage slows the concession schedule
  * rather than raising the floor, so by the last round an agent is still at its
  * reservation value and a deal that was there is still taken.
  */
@@ -208,14 +187,6 @@ export function decide(view: SessionView, options: RuleOptions = {}): Decision {
   // Deadline-aware (HW7 Option 1): with fewer than two offers left in the
   // session, no deal is worth nothing, so drop straight to the reservation value.
   if (options.deadlineAware && view.roundsUsed >= view.maxRounds - 2) target = floor;
-
-  // Competition. Being one of several bidding for a scarce thing weakens your
-  // position in the same way a poor alternative does, so the schedule runs
-  // faster: with rivals outnumbering what is left, part of the distance to the
-  // reservation value is given up at once. No rival's limits are involved;
-  // only how many of them there are, which the market view already says.
-  const pressure = competitivePressure(view);
-  if (pressure > 0) target = Math.max(floor, target - (target - floor) * pressure);
 
   // With respectBounds, a package outside our own hard limits is worth nothing to us.
   const acceptable = !theirs || !options.respectBounds || checkTermsAgainstMandate(theirs.terms, mandate).ok;

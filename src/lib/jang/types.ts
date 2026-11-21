@@ -175,25 +175,21 @@ export const AgreementSchema = AgreementBodySchema.extend({
 export type Agreement = z.infer<typeof AgreementSchema>;
 
 /**
- * What an agent is told about how contested its item is. None of it comes from
- * anyone's mandate but its own, so it leaks nothing: how many it may still
- * commit, how many negotiations it is running for the item itself, and how many
- * others its counterparty is running alongside this one.
+ * What an agent is told about how contested its item is. All of it is about the
+ * agent itself, so it leaks nothing: how many it may still commit and how many
+ * negotiations it is running for the item. Several negotiations of your own for
+ * fewer units than that is leverage: you have alternatives.
  *
- * The last two point in opposite directions. Several negotiations of your own
- * for fewer units than that is leverage: you have alternatives. Your
- * counterparty juggling several of you is competition: it has alternatives.
+ * Deliberately absent: how many others your counterparty is negotiating with.
+ * That would be JANG telling one side about the other's business without its
+ * consent, and a count a party can inflate with sessions of its own making.
+ * See limitations §5b.
  */
 export type Market = {
   remaining: number;
   authorised: number;
   /** Negotiations this agent itself has open for the item, this one included. */
   openSessions: number;
-  /**
-   * Other negotiations the counterparty has open for the same item, not
-   * counting this one. A count only: never who they are or what they offer.
-   */
-  rivals?: number;
 };
 
 export type Violation = {

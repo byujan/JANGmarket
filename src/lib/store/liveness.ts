@@ -4,8 +4,7 @@
  *
  * Open and unexpired is not enough. A party that walks away leaves its session
  * open until `expiresAt` (fifteen minutes by default, up to a day), and until
- * then it would still read as a rival to every buyer and as an alternative to
- * the seller. So a session also has to have moved recently: an offer, or its
+ * then it would still read as an alternative to the seller that opened it. So a session also has to have moved recently: an offer, or its
  * opening, within the idle window.
  *
  * This only changes what is counted. An idle session is not closed: its
