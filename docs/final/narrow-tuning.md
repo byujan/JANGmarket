@@ -336,3 +336,25 @@ Two things to state plainly:
 The buyer's share on narrow markets rose by +0.065, as in the fourth attempt:
 the last offer gives the receiving side more. No change to the product: the
 rule was already on, and stays on.
+
+### Result — holds without disclosure
+
+`fix+meso+endgame2` paired against `fix+meso`, same method. **Decision seeds
+20261123 and 20261124,** run for the first time here.
+
+| Seeds | narrow close | arm-only / base-only, p | ordinary close | ordinary realised eff. diff, 95% CI | asymmetric close |
+|---|---|---|---|---|---|
+| **New 20261123+24 (decision)** | **19/27** vs 8/27 | **12 / 1, p=0.003** | **55/63** vs 50/63 | +0.052 [**+0.002**, +0.115] | **58/63** vs 51/63 |
+| Used 20261121+22 (comparison) | **16/20** vs 10/20 | 6 / 0, p=0.031 | **59/62** vs 57/62 | +0.016 [−0.016, +0.057] | **61/62** vs 55/62 |
+| Tuning 20261028 (sanity) | **7/12** vs 4/12 | 3 / 0 | **30/33** vs 26/33 | +0.076 [−0.006, +0.182] | **31/33** vs 22/33 |
+
+Both halves of rule 1 hold: narrow closes 12 more markets on the decision seeds,
+and the ordinary CI's lower end (+0.002) is above −0.02, so ordinary improves
+too. Per rule 2, the claim for owners who do not disclose is **narrow 8/27 →
+19/27** on these seeds. One narrow market the baseline closed was lost, so
+"never lost a market the baseline closed" holds only with disclosure.
+
+For reference, not part of the rule: with disclosure on top
+(`fix+meso+disclose+endgame2` against the same `fix+meso`) the decision seeds
+give narrow 24/27, ordinary 61/63. Disclosure still adds; the endgame rule does
+most of the narrow gain without it.
