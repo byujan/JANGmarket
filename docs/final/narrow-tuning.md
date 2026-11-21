@@ -307,3 +307,32 @@ and the tuning seed 20261028.
 3. If narrow does not improve but ordinary passes, the rule stays on (it did
    no harm), and the claim is limited to owners who disclose.
 4. If ordinary fails, the rule is turned off for the product, and recorded here.
+
+### Result — holds without disclosure
+
+`fix+meso+endgame2` paired against `fix+meso`, same method. **Decision seeds
+20261123 and 20261124,** run for the first time here.
+
+| Seeds | narrow close | arm-only / base-only, p | ordinary close | ordinary realised eff. diff, 95% CI | asymmetric close |
+|---|---|---|---|---|---|
+| **New 20261123+24 (decision)** | **19/27** vs 8/27 | **12 / 1, p=0.003** | 55/63 vs 50/63 | **+0.052 [+0.002, +0.115]** | 58/63 vs 51/63 |
+| Used 20261121+22 (comparison) | 16/20 vs 10/20 | 6 / 0, p=0.031 | 59/62 vs 57/62 | +0.016 [−0.016, +0.057] | 61/62 vs 55/62 |
+| Tuning 20261028 (comparison) | 7/12 vs 4/12 | 3 / 0 | 30/33 vs 26/33 | +0.076 [−0.006, +0.182] | 31/33 vs 22/33 |
+
+Both halves of rule 1 hold on the decision seeds: narrow closes 11 more markets
+net, and the ordinary CI's lower end (+0.002) is above −0.02. So, per rule 2,
+the claim for owners who do not disclose is **narrow 8/27 → 19/27** on seeds
+fixed beforehand. **0 constraint violations** in every arm run here.
+
+Two things to state plainly:
+- **It is no longer "never lost one".** On the decision seeds the baseline
+  closed one narrow market that `endgame2` did not (12 gained, 1 lost).
+- **Disclosure still adds on top.** For reference only (not part of the rule),
+  `fix+meso+disclose+endgame2` on the same decision seeds, against the same
+  `fix+meso`: narrow 24/27, ordinary 61/63, ordinary realised efficiency
+  +0.168 [+0.092, +0.253]. So the rule does most of the narrow-market work on
+  its own, and owners who choose to disclose close more again.
+
+The buyer's share on narrow markets rose by +0.065, as in the fourth attempt:
+the last offer gives the receiving side more. No change to the product: the
+rule was already on, and stays on.
