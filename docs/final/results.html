@@ -1,0 +1,304 @@
+<title>JANG Negotiation Results</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: the proposal's single reading column, so the two documents read as a pair.
+   Evidence (chart, tables) breaks into its own blocks; verdicts carry a state chip. */
+:root{
+  --bg:#fbfbfc; --surface:#f2f4f7; --sunk:#eaedf2;
+  --ink:#14171c; --ink2:#4b525c; --ink3:#848b96; --line:#e1e4ea;
+  --buyer:#1c6e8c; --seller:#b06236; --good:#2e7d55; --bad:#b03f2d; --warn:#9a6b12;
+  --cloud:#ccd4de;
+  --sans:"IBM Plex Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111419; --surface:#191d23; --sunk:#14181d;
+  --ink:#e8eaef; --ink2:#a6adb7; --ink3:#747b86; --line:#262b33;
+  --buyer:#59afc9; --seller:#d8925f; --good:#5bb989; --bad:#df7a66; --warn:#d6a74a;
+  --cloud:#323944; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111419; --surface:#191d23; --sunk:#14181d;
+  --ink:#e8eaef; --ink2:#a6adb7; --ink3:#747b86; --line:#262b33;
+  --buyer:#59afc9; --seller:#d8925f; --good:#5bb989; --bad:#df7a66; --warn:#d6a74a;
+  --cloud:#323944; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.72;margin:0}
+.wrap{max-width:860px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 72px}
+
+/* language */
+:root:not([data-lang="ko"]) .ko{display:none}
+:root[data-lang="ko"] .en{display:none}
+
+.top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:40px 8px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.07em;color:var(--ink3);text-transform:uppercase;margin:0 0 6px}
+h1{font-size:clamp(28px,5vw,40px);font-weight:700;line-height:1.2;letter-spacing:-.02em;margin:0;text-wrap:balance;max-width:18ch}
+.tgl{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;flex:none;font-family:var(--mono);font-size:12px}
+.tgl button{background:none;border:0;color:var(--ink3);padding:7px 13px;cursor:pointer;font:inherit;letter-spacing:.06em}
+.tgl button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.tgl button:focus-visible{outline:2px solid var(--buyer);outline-offset:-2px}
+
+.lede{border-left:3px solid var(--buyer);padding:2px 0 2px 20px;margin-block:28px 40px;font-size:17px;color:var(--ink2)}
+.lede b{color:var(--ink);font-weight:600}
+
+section{margin-block:56px}
+h2{font-size:21px;font-weight:600;letter-spacing:-.01em;margin:0 0 6px;text-wrap:balance}
+h3{font-size:16px;font-weight:600;margin:28px 0 8px}
+p{margin:0 0 14px;max-width:68ch}
+.sub{color:var(--ink3);font-size:14px;margin-bottom:18px;max-width:68ch}
+b,strong{font-weight:600}
+code{font-family:var(--mono);font-size:.875em;background:var(--sunk);padding:1px 5px;border-radius:2px;color:var(--ink2);word-break:break-word}
+a{color:var(--buyer)}
+a:focus-visible{outline:2px solid var(--buyer);outline-offset:2px}
+
+/* verdicts */
+.verdicts{border-top:1px solid var(--ink)}
+.verdict{display:grid;grid-template-columns:7.5rem minmax(0,1fr);gap:4px 20px;padding:15px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.verdict p{margin:0}
+.verdict .ev{grid-column:2;font-family:var(--mono);font-size:12.5px;color:var(--ink2)}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:2px;justify-self:start;border:1px solid currentColor;white-space:nowrap}
+.chip.shown{color:var(--good)}
+.chip.tie{color:var(--ink2)}
+.chip.hint{color:var(--warn)}
+.chip.null{color:var(--bad)}
+@media(max-width:560px){.verdict{grid-template-columns:1fr}.verdict .ev{grid-column:1}}
+
+/* chart */
+.chart{margin-block:18px 6px;overflow-x:auto}
+.chart svg{display:block;width:100%;min-width:520px;height:auto}
+.legend{font-size:13px;color:var(--ink3);max-width:68ch}
+
+/* tables */
+.tw{overflow-x:auto;margin-block:18px}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:520px}
+th,td{text-align:left;padding:10px 14px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;font-family:var(--mono);font-weight:500;letter-spacing:.07em;color:var(--ink3);text-transform:uppercase;padding-bottom:7px}
+td:last-child,th:last-child{padding-right:0}
+.num{font-variant-numeric:tabular-nums;font-family:var(--mono);font-size:13.5px;white-space:nowrap}
+tr.hl td{background:var(--surface)}
+tr.ref td{color:var(--ink3)}
+.up{color:var(--good)} .down{color:var(--bad)}
+
+/* PR list */
+.prs{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.pr{background:var(--bg);padding:16px 18px;display:grid;grid-template-columns:4.5rem minmax(0,1fr);gap:2px 16px}
+.pr .n{font-family:var(--mono);font-size:13px;color:var(--ink3)}
+.pr .t{font-weight:600}
+.pr .w{grid-column:2;font-size:14.5px;color:var(--ink2)}
+.pr .w p{margin:4px 0 0}
+@media(max-width:560px){.pr{grid-template-columns:1fr}.pr .w{grid-column:1}}
+
+ul.plain{padding-left:1.1em;margin:0 0 14px;max-width:68ch}
+ul.plain li{margin-bottom:6px}
+pre{font-family:var(--mono);font-size:13px;background:var(--sunk);padding:14px 16px;border-radius:2px;overflow-x:auto;line-height:1.6;color:var(--ink2)}
+.foot{font-size:13px;color:var(--ink3);border-top:1px solid var(--line);padding-top:16px;margin-top:56px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">MAS.665 · JANG · <span class="en">results of the negotiation proposal</span><span class="ko">협상 제안서 결과</span></p>
+      <h1><span class="en">What the four changes did</span><span class="ko">네 가지 변경이 한 일</span></h1>
+    </div>
+    <div class="tgl" role="group" aria-label="Language">
+      <button type="button" id="lang-en" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" id="lang-ko" data-lang="ko" aria-pressed="false">한국어</button>
+    </div>
+  </header>
+
+  <div class="lede">
+    <p class="en">All four stages from the proposal are built, as opt-in changes that leave <code>demo</code>, <code>verify</code>, <code>misuse</code> and the HW7 numbers exactly as they were. <b>One change worked: when both owners disclose the order of their priorities, deals close more often and capture more of the available surplus.</b> It closes the efficiency gap to price-only negotiation but does not beat it, and the gain leans toward the tougher side. MESO did nothing measurable.</p>
+    <p class="ko">제안서의 네 단계를 모두 구현했어. 전부 opt-in이라 <code>demo</code>, <code>verify</code>, <code>misuse</code>, HW7 숫자는 그대로야. <b>효과가 있었던 건 하나: 양쪽 주인이 우선순위 순서를 공개하면 성사율이 오르고, 가능한 잉여를 더 많이 가져간다.</b> 가격만 협상한 경우와의 효율 격차는 메웠지만 넘어서지는 못했고, 늘어난 몫은 더 강경한 쪽으로 기운다. MESO는 측정 가능한 효과가 없었어.</p>
+  </div>
+
+  <section aria-labelledby="h-bottom">
+    <h2 id="h-bottom"><span class="en">The bottom line</span><span class="ko">결론</span></h2>
+    <p class="sub"><span class="en">Fresh seeds 20261101 + 20261102, 58 feasible markets per case, rule agents. Every comparison is paired on identical markets. The chip says how far each claim can be pushed in the report.</span><span class="ko">새 시드 20261101 + 20261102, 케이스당 성사 가능한 시장 58개, 규칙 기반 에이전트. 모든 비교는 같은 시장끼리 짝지었어. 칩은 리포트에서 그 주장을 어디까지 할 수 있는지를 뜻해.</span></p>
+    <div class="verdicts">
+      <div class="verdict">
+        <span class="chip shown"><span class="en">Shown</span><span class="ko">확인됨</span></span>
+        <p><span class="en">Two-sided priority disclosure raises efficiency over the HW7 baseline, in both market types.</span><span class="ko">양쪽 우선순위 공개는 두 시장 유형 모두에서 HW7 기준선보다 효율을 올린다.</span></p>
+        <span class="ev"><span class="en">realised efficiency</span><span class="ko">실현 효율</span> +0.142 [+0.076, +0.216] ordinary · +0.130 [+0.061, +0.207] asymmetric</span>
+      </div>
+      <div class="verdict">
+        <span class="chip tie"><span class="en">Tie</span><span class="ko">동률</span></span>
+        <p><span class="en">Against price-only negotiation, disclosure closes the efficiency gap HW7 found. It does not beat price-only.</span><span class="ko">가격만 협상과 비교하면, 공개는 HW7에서 발견된 효율 격차를 메운다. 넘어서지는 못한다.</span></p>
+        <span class="ev">fix −0.030 (21 of 30 worse, p=0.043) → disclose +0.012 [−0.073, +0.106]</span>
+      </div>
+      <div class="verdict">
+        <span class="chip hint"><span class="en">Suggestive</span><span class="ko">시사적</span></span>
+        <p><span class="en">Disclosure shifts surplus toward the tougher side. A buyer who discloses alone, facing a tough seller, keeps less.</span><span class="ko">공개는 잉여를 더 강경한 쪽으로 옮긴다. 강경한 판매자 앞에서 혼자 공개한 구매자는 덜 가져간다.</span></p>
+        <span class="ev"><span class="en">buyer share, asymmetric, buyer-only disclosure</span><span class="ko">구매자 몫, asymmetric, 구매자만 공개</span> −0.061 [−0.101, −0.028], p=0.002</span>
+      </div>
+      <div class="verdict">
+        <span class="chip null"><span class="en">No effect</span><span class="ko">효과 없음</span></span>
+        <p><span class="en">MESO (three equally good packages per turn) does not improve efficiency, alone or with disclosure.</span><span class="ko">MESO(턴당 동등한 패키지 세 개)는 단독으로도, 공개와 함께여도 효율을 올리지 못한다.</span></p>
+        <span class="ev"><span class="en">realised efficiency</span><span class="ko">실현 효율</span> +0.021 [−0.006, +0.057] ordinary · −0.006 [−0.039, +0.032] asymmetric</span>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-chart">
+    <h2 id="h-chart"><span class="en">Gain in realised efficiency over the HW7 baseline</span><span class="ko">HW7 기준선 대비 실현 효율 증가</span></h2>
+    <p class="sub"><span class="en">Realised efficiency counts a failed negotiation as 0, so an arm cannot look better by closing only the easy markets. Dot = mean paired difference against <code>fix</code>; bar = bootstrap 95% CI.</span><span class="ko">실현 효율은 실패한 협상을 0으로 세서, 쉬운 시장만 성사시켜 좋아 보이는 일을 막는다. 점은 <code>fix</code> 대비 짝지은 평균 차이, 막대는 부트스트랩 95% 신뢰구간이야.</span></p>
+    <div class="chart" id="forest" role="img" aria-label="Forest plot of realised efficiency gain over the fix arm for each arm, ordinary and asymmetric markets"></div>
+    <p class="legend"><span class="en">Filled dots: the interval clears zero. Both disclosure arms clear it in both market types; nothing with MESO alone or one-sided disclosure does. Doubling the round budget (<code>option2</code>, a reference arm from HW7) is shown for scale.</span><span class="ko">채운 점은 구간이 0을 넘지 않는 경우야. 양쪽 공개가 들어간 두 arm은 두 시장 유형 모두에서 0을 넘지 않고, MESO 단독이나 일방 공개는 그렇지 못해. 라운드 예산 2배(<code>option2</code>, HW7 참고 arm)는 크기 비교용이야.</span></p>
+  </section>
+
+  <section aria-labelledby="h-table">
+    <h2 id="h-table"><span class="en">Every arm, raw</span><span class="ko">arm별 원자료</span></h2>
+    <p class="sub"><span class="en">Closing rate is over feasible markets; efficiency is over closed deals (surplus captured ÷ best available, 1 = best joint outcome).</span><span class="ko">성사율은 성사 가능한 시장 기준, 효율은 성사된 거래 기준이야(가져간 잉여 ÷ 가능한 최대, 1이면 최선).</span></p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>arm</th><th><span class="en">close · ordinary</span><span class="ko">성사 · ordinary</span></th><th><span class="en">eff · ordinary</span><span class="ko">효율 · ordinary</span></th><th><span class="en">close · asymmetric</span><span class="ko">성사 · asymmetric</span></th><th><span class="en">eff · asymmetric</span><span class="ko">효율 · asymmetric</span></th></tr></thead>
+        <tbody>
+          <tr><td><code>fix</code> <span class="en">(HW7 headline)</span><span class="ko">(HW7 대표)</span></td><td class="num">47/58 · 81%</td><td class="num">0.80</td><td class="num">42/58 · 72%</td><td class="num">0.77</td></tr>
+          <tr><td><code>+meso</code></td><td class="num">48/58 · 83%</td><td class="num">0.80</td><td class="num">43/58 · 74%</td><td class="num">0.74</td></tr>
+          <tr class="hl"><td><code>+disclose</code></td><td class="num">54/58 · 93%</td><td class="num">0.84</td><td class="num">47/58 · 81%</td><td class="num">0.85</td></tr>
+          <tr><td><code>+disclose1</code> <span class="en">(buyer only)</span><span class="ko">(구매자만)</span></td><td class="num">49/58 · 84%</td><td class="num">0.81</td><td class="num">43/58 · 74%</td><td class="num">0.77</td></tr>
+          <tr class="hl"><td><code>+meso+disclose</code></td><td class="num">55/58 · 95%</td><td class="num">0.85</td><td class="num">47/58 · 81%</td><td class="num">0.83</td></tr>
+          <tr><td><code>+meso+disclose1</code></td><td class="num">51/58 · 88%</td><td class="num">0.80</td><td class="num">44/58 · 76%</td><td class="num">0.73</td></tr>
+          <tr class="ref"><td><span class="en">price-only (reference)</span><span class="ko">가격만 협상 (참고)</span></td><td class="num">31/58 · 53%</td><td class="num">0.84</td><td class="num">31/58 · 53%</td><td class="num">0.82</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3><span class="en">The question HW7 left open: is a JANG deal better than a price-only deal?</span><span class="ko">HW7이 남긴 질문: JANG 거래가 가격만 협상한 거래보다 나은가?</span></h3>
+    <p><span class="en">On the markets both closed, efficiency difference JANG minus price-only:</span><span class="ko">둘 다 성사시킨 시장에서, JANG 효율 − 가격만 협상 효율:</span></p>
+    <div class="tw">
+      <table>
+        <thead><tr><th>arm</th><th>ordinary</th><th>asymmetric</th></tr></thead>
+        <tbody>
+          <tr><td><code>fix</code></td><td class="num"><span class="down">−0.030</span> [−0.119, +0.066] · <span class="en">worse in 21 of 30</span><span class="ko">30개 중 21개 열세</span>, p=0.043</td><td class="num">−0.003 [−0.046, +0.044]</td></tr>
+          <tr class="hl"><td><code>+disclose</code></td><td class="num">+0.012 [−0.073, +0.106] · 13/18, p=0.47</td><td class="num">+0.049 [−0.004, +0.110]</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><span class="en">So the honest claim is "disclosure removes the efficiency penalty of negotiating on four terms," not "JANG beats price-only on quality." Counting failures as 0, JANG is far ahead in both arms (with disclosure, +0.34 ordinary and +0.25 asymmetric), but that is Claim A, reach, again.</span><span class="ko">그래서 정직한 주장은 "공개가 네 항목 협상의 효율 손해를 없앤다"이지 "JANG이 품질에서 가격만 협상을 이긴다"가 아니야. 실패를 0으로 세면 두 arm 모두 JANG이 크게 앞서지만(공개 시 ordinary +0.34, asymmetric +0.25), 그건 다시 Claim A, 즉 도달 범위 이야기야.</span></p>
+  </section>
+
+  <section aria-labelledby="h-limits">
+    <h2 id="h-limits"><span class="en">How far these numbers go</span><span class="ko">이 숫자들의 한계</span></h2>
+    <ul class="plain">
+      <li class="en"><b>Rule agents only.</b> No Claude agent has run with MESO or disclosure. The MCP tools describe both, but whether an LLM uses a disclosed order well is untested.</li>
+      <li class="ko"><b>규칙 기반 에이전트만.</b> Claude 에이전트로는 MESO나 공개를 돌려본 적이 없어. MCP 도구 설명에는 들어가 있지만, LLM이 공개된 순서를 잘 쓰는지는 미검증이야.</li>
+      <li class="en"><b>Multiple comparisons.</b> The analysis runs 56 tests; none survives a Bonferroni threshold (p &lt; 0.0009) on its own. Disclosure versus <code>fix</code> was the effect the proposal set out to find, its intervals clear zero in both market types and on all three seeds, and it is the one to report as primary. Treat the rest as exploratory.</li>
+      <li class="ko"><b>다중 비교.</b> 검정이 56개라 Bonferroni 기준(p &lt; 0.0009)을 단독으로 넘는 건 없어. 공개 대 <code>fix</code>는 제안서가 찾으려던 효과이고, 두 시장 유형과 시드 3개 모두에서 구간이 0을 넘지 않으니 이걸 주 결과로 보고하고, 나머지는 탐색적이라고 적는 게 맞아.</li>
+      <li class="en"><b>Untested in the product.</b> The Postgres store against a live database, and signing a mandate end to end from the new builder (needs Clerk sign-in). Everything else is covered by 72 tests and <code>next build</code>.</li>
+      <li class="ko"><b>제품에서 미검증.</b> 실제 Postgres DB, 그리고 새 위임장 화면에서 서명까지의 전체 흐름(Clerk 로그인 필요). 나머지는 테스트 72개와 <code>next build</code>로 확인했어.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="h-review">
+    <h2 id="h-review"><span class="en">What to review, in order</span><span class="ko">리뷰 순서</span></h2>
+    <p class="sub"><span class="en">Four stacked PRs; each diff contains only its own stage. Every behaviour change is off by default.</span><span class="ko">PR 네 개가 사슬로 쌓여 있고, 각 diff에는 자기 단계만 들어 있어. 모든 동작 변경은 기본값이 꺼짐이야.</span></p>
+    <div class="prs">
+      <div class="pr">
+        <a class="n" href="https://github.com/byujan/JANGmarket/pull/5">#5</a>
+        <span class="t">MESO</span>
+        <div class="w">
+          <p class="en"><b>Look at the accept path.</b> Each alternative gets its own JANG-minted <code>offerId</code>; accepting a multi-package offer must name one (<code>AMBIGUOUS_ACCEPT</code> otherwise). The agreement carries that <code>offerId</code> and its terms, so <code>AgreementBodySchema</code> and signing are unchanged. Alternatives sit inside the offer rather than as separate rows, so one turn stays one round everywhere.</p>
+          <p class="ko"><b>수락 경로를 봐줘.</b> 대안마다 JANG이 <code>offerId</code>를 발급하고, 패키지가 여럿인 제안을 수락할 땐 하나를 지정해야 해(아니면 <code>AMBIGUOUS_ACCEPT</code>). 합의서에는 그 <code>offerId</code>와 terms가 들어가서 <code>AgreementBodySchema</code>와 서명은 그대로야. 대안은 별도 행이 아니라 offer 안에 넣어서, 한 턴이 어디서나 한 라운드로 유지돼.</p>
+        </div>
+      </div>
+      <div class="pr">
+        <a class="n" href="https://github.com/byujan/JANGmarket/pull/6">#6</a>
+        <span class="t"><span class="en">Priority disclosure</span><span class="ko">우선순위 공개</span></span>
+        <div class="w">
+          <p class="en"><b>Look at what owners sign.</b> <code>MandateBody.disclosePriorities</code> is optional with no default, so old mandates keep the same body and signature. <code>redactSessionFor</code> adds keys in order and nothing else; leak tests were written first.</p>
+          <p class="ko"><b>주인이 서명하는 대상을 봐줘.</b> <code>MandateBody.disclosePriorities</code>는 기본값 없는 optional이라 기존 위임장의 본문과 서명이 그대로야. <code>redactSessionFor</code>는 순서대로 나열한 키만 추가하고, 유출 테스트를 먼저 썼어.</p>
+        </div>
+      </div>
+      <div class="pr">
+        <a class="n" href="https://github.com/byujan/JANGmarket/pull/7">#7</a>
+        <span class="t"><span class="en">Pareto frontier</span><span class="ko">Pareto 프론티어</span></span>
+        <div class="w">
+          <p class="en"><b>Look at the one departure from the proposal.</b> "No deal is possible" and "here is a better package for both" go to the operator only, never to agents. Telling agents would let one re-lodge its own mandate, reopen, and binary-search the other side's limit. Also: the HW7 search now lives in <code>src/lib/jang/frontier.ts</code> (rows identical), items are capped at five terms, and the cache sits outside <code>Session</code>.</p>
+          <p class="ko"><b>제안서와 달라진 한 가지를 봐줘.</b> "합의 불가능"과 "양쪽 다 더 나은 패키지"는 운영자에게만 가고 에이전트에게는 안 가. 에이전트에게 알리면 자기 위임장을 바꿔 재등록하고 세션을 다시 여는 식으로 상대 한계를 이진 탐색할 수 있어서야. 그 밖에: HW7 탐색 코드를 <code>src/lib/jang/frontier.ts</code>로 옮겼고(행 단위 동일), 항목은 5개로 제한, 캐시는 <code>Session</code> 밖에 있어.</p>
+        </div>
+      </div>
+      <div class="pr">
+        <a class="n" href="https://github.com/byujan/JANGmarket/pull/8">#8</a>
+        <span class="t"><span class="en">Alternative, not a number</span><span class="ko">숫자 대신 대안</span></span>
+        <div class="w">
+          <p class="en">The builder asks "which would you rather have" (at most five questions for four terms) and "what would you do instead," and derives weights and the reservation value. <code>utility()</code> scoring is unchanged. This PR also carries the significance script.</p>
+          <p class="ko">위임장 화면이 "어느 쪽이 낫나요"(항목 4개면 최대 5문항)와 "안 되면 어떻게 하실 건가요"를 묻고, 가중치와 유보값을 유도해. <code>utility()</code> 점수 계산은 그대로야. 유의성 분석 스크립트도 이 PR에 있어.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-repro">
+    <h2 id="h-repro"><span class="en">Reproduce</span><span class="ko">재현</span></h2>
+    <p class="sub"><span class="en">On <code>hendrick/batna</code>, the top of the stack. Each arm takes a few seconds per seed.</span><span class="ko">스택 맨 위인 <code>hendrick/batna</code>에서. arm 하나가 시드당 몇 초야.</span></p>
+<pre>for s in 20261028 20261101 20261102; do
+  for v in fix fix+meso fix+disclose fix+disclose1 fix+meso+disclose fix+meso+disclose1 fix+option2; do
+    npx tsx scripts/hw7/run.ts --seed=$s --variant=$v --out=results/final
+  done
+done
+npx tsx scripts/final/significance.ts          # results/final/SIGNIFICANCE.md
+npx tsx scripts/final/significance.ts --all    # all three seeds</pre>
+  </section>
+
+  <p class="foot"><span class="en">Hendrick, 8 November 2026. Numbers from <code>results/final/SUMMARY.md</code> and <code>SIGNIFICANCE.md</code>. Built with Claude Code.</span><span class="ko">Hendrick, 2026년 11월 8일. 숫자 출처는 <code>results/final/SUMMARY.md</code>와 <code>SIGNIFICANCE.md</code>. Claude Code로 작성.</span></p>
+</div>
+
+<script>
+(function () {
+  // Language toggle, remembered per viewer when storage allows.
+  var root = document.documentElement;
+  function setLang(lang) {
+    root.setAttribute("data-lang", lang);
+    root.setAttribute("lang", lang);
+    document.querySelectorAll(".tgl button").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.lang === lang));
+    });
+    try { localStorage.setItem("jang-results-lang", lang); } catch (e) {}
+  }
+  var saved = null;
+  try { saved = localStorage.getItem("jang-results-lang"); } catch (e) {}
+  setLang(saved === "ko" ? "ko" : "en");
+  document.querySelectorAll(".tgl button").forEach(function (b) {
+    b.addEventListener("click", function () { setLang(b.dataset.lang); });
+  });
+
+  // Forest plot: realised-efficiency gain over fix, fresh seeds (results/final/SIGNIFICANCE.md).
+  var arms = [
+    { k: "+meso",            o: [0.021, -0.006, 0.057], a: [-0.006, -0.039, 0.032] },
+    { k: "+disclose",        o: [0.142, 0.076, 0.216],  a: [0.130, 0.061, 0.207] },
+    { k: "+disclose1",       o: [0.036, -0.028, 0.100], a: [0.018, -0.015, 0.057] },
+    { k: "+meso+disclose",   o: [0.157, 0.086, 0.236],  a: [0.113, 0.040, 0.195] },
+    { k: "+meso+disclose1",  o: [0.057, -0.011, 0.129], a: [-0.006, -0.052, 0.044] },
+    { k: "+option2",         o: [0.077, 0.010, 0.147],  a: [0.039, -0.017, 0.100] }
+  ];
+  var W = 740, labelW = 150, gap = 56, panelW = (W - labelW - gap) / 2, rowH = 30, top = 34, bottom = 34;
+  var H = top + arms.length * rowH + bottom;
+  var lo = -0.1, hi = 0.25, ticks = [-0.1, 0, 0.1, 0.2];
+  function sx(panel, v) { return labelW + panel * (panelW + gap) + ((v - lo) / (hi - lo)) * panelW; }
+  var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Mono, ui-monospace, monospace">';
+  ["ordinary", "asymmetric"].forEach(function (name, p) {
+    var x0 = sx(p, lo), x1 = sx(p, hi);
+    s += '<text x="' + (x0 + x1) / 2 + '" y="16" text-anchor="middle" font-size="12" fill="var(--ink2)">' + name + '</text>';
+    ticks.forEach(function (t) {
+      var x = sx(p, t);
+      s += '<line x1="' + x + '" x2="' + x + '" y1="' + (top - 6) + '" y2="' + (H - bottom + 4) + '" stroke="' + (t === 0 ? "var(--ink3)" : "var(--line)") + '" stroke-width="1"' + (t === 0 ? '' : ' stroke-dasharray="2 3"') + '/>';
+      s += '<text x="' + x + '" y="' + (H - bottom + 20) + '" text-anchor="middle" font-size="11" fill="var(--ink3)">' + (t > 0 ? "+" : "") + t.toFixed(1) + '</text>';
+    });
+  });
+  arms.forEach(function (arm, i) {
+    var y = top + i * rowH + rowH / 2;
+    var strong = arm.k.indexOf("disclose") >= 0 && arm.k.indexOf("disclose1") < 0;
+    s += '<text x="' + (labelW - 12) + '" y="' + (y + 4) + '" text-anchor="end" font-size="12" fill="' + (strong ? "var(--ink)" : "var(--ink2)") + '"' + (strong ? ' font-weight="600"' : '') + '>' + arm.k + '</text>';
+    [arm.o, arm.a].forEach(function (d, p) {
+      var clears = d[1] > 0 || d[2] < 0;
+      var color = arm.k === "+option2" ? "var(--ink3)" : clears ? "var(--buyer)" : "var(--ink3)";
+      s += '<line x1="' + sx(p, d[1]) + '" x2="' + sx(p, d[2]) + '" y1="' + y + '" y2="' + y + '" stroke="' + color + '" stroke-width="2" stroke-linecap="round"/>';
+      s += '<circle cx="' + sx(p, d[0]) + '" cy="' + y + '" r="4.5" fill="' + (clears ? color : "var(--bg)") + '" stroke="' + color + '" stroke-width="1.5"/>';
+    });
+  });
+  s += '</svg>';
+  document.getElementById("forest").innerHTML = s;
+})();
+</script>
