@@ -16,6 +16,7 @@ import { createSdkMcpServer, query, tool } from "@anthropic-ai/claude-agent-sdk"
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
+import { contestLines } from "./contest.ts";
 import { ToolRefusal, type NegotiationPort } from "./port.ts";
 import type { SessionView } from "../src/lib/jang/session.ts";
 import type { Role, Terms } from "../src/lib/jang/types.ts";
@@ -53,18 +54,10 @@ const describe = (view: SessionView): string => {
       `They have shared what matters most to them, most important first: ${view.counterpartyPriorities.join(" > ")}.`,
     );
   }
-  // How contested the item is. The stdio server tells an outside agent this;
-  // leaving it out here would make the console's agents the only ones blind to
-  // a rival, and scarcity is half of what a market is.
-  if (view.market && (view.market.openSessions > 1 || view.market.remaining <= 1)) {
-    const rivals = Math.max(0, view.market.openSessions - 1);
-    lines.push(
-      `You may still commit to ${view.market.remaining} of the ${view.market.authorised} your owner authorised, ` +
-        `and ${rivals === 0 ? "no other negotiation is" : `${rivals} other negotiation${rivals === 1 ? " is" : "s are"}`} ` +
-        `open for this item right now. Nothing is said about who they are or what they would pay. ` +
-        `Being one of several bidding for something scarce weakens your position, as a poor alternative does.`,
-    );
-  }
+  // How contested the item is, from this agent's own side. The stdio server
+  // tells an outside agent the same, so the console's agents are not the only
+  // ones blind to their own alternatives.
+  if (view.market) lines.push(...contestLines(view.market));
 
   const standing = view.standingOffer;
   if (standing) {

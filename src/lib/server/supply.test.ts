@@ -104,7 +104,7 @@ describe("supply", () => {
   });
 
   describe("what an agent is told about the contest", () => {
-    it("counts what is left and how many rivals are negotiating", async () => {
+    it("counts what is left and how many negotiations are running", async () => {
       const { jang, openWith } = await market(2);
       await openWith("b1");
       await openWith("b2");
@@ -112,6 +112,21 @@ describe("supply", () => {
 
       const before = await jang.marketFor("seller", testItemSpec.itemId);
       expect(before).toMatchObject({ authorised: 2, remaining: 2, openSessions: 3 });
+    });
+
+    it("tells each side only about its own negotiations", async () => {
+      const { jang, openWith } = await market(1);
+      const first = await openWith("b1");
+      await openWith("b2");
+      await openWith("b3");
+
+      // The seller has three buyers for one unit: its own alternatives.
+      const seller = await jang.viewSession("seller", first);
+      expect(seller.market).toMatchObject({ openSessions: 3, remaining: 1 });
+      // A buyer is not told that the seller is talking to two others.
+      const buyer = await jang.viewSession("b1", first);
+      expect(buyer.market).toMatchObject({ openSessions: 1 });
+      expect(JSON.stringify(buyer.market)).not.toMatch(/rival|other/i);
     });
 
     it("counts down as deals close", async () => {

@@ -440,6 +440,62 @@ for (const candidate of candidates) {
       });
     });
 
+    it("does not count a session past its expiry as running, before the sweep closes it", async () => {
+      // Opened two hours ago with a one-minute life: still "open" in the store,
+      // because nothing has swept it, but no longer a live negotiation.
+      const stale = (sessionId: string, buyer: string) =>
+        createSession({
+          sessionId,
+          itemSpec: testItemSpec,
+          buyerAgentId: buyer,
+          sellerAgentId: "agent-seller",
+          mandates: [buyerMandate({ agentId: buyer }), sellerMandate()],
+          ttlSeconds: 60,
+          now: new Date(Date.now() - 2 * 3600_000),
+        });
+      const live = (sessionId: string, buyer: string) =>
+        createSession({
+          sessionId,
+          itemSpec: testItemSpec,
+          buyerAgentId: buyer,
+          sellerAgentId: "agent-seller",
+          mandates: [buyerMandate({ agentId: buyer }), sellerMandate()],
+        });
+      for (const buyer of ["gone1", "gone2", "gone3"]) await store.putSession(stale(`sess-x-${buyer}`, buyer));
+      await store.putSession(live("sess-x-here", "here"));
+      expect((await store.getSession("sess-x-gone1"))?.status).toBe("open");
+
+      // The seller is running one live negotiation, not four.
+      expect(await store.marketState("agent-seller", testItemSpec.itemId)).toEqual({ committed: 0, openSessions: 1 });
+    });
+
+    it("does not count a session nobody has moved in lately, though it is still open", async () => {
+      // Each opened ten minutes ago with a fifteen-minute life: unexpired, so
+      // the sweep leaves them open. Two went quiet at once; one is still
+      // trading, with an offer a moment ago.
+      const tenMinutesAgo = new Date(Date.now() - 10 * 60_000);
+      const opened = (sessionId: string, buyer: string) =>
+        createSession({
+          sessionId,
+          itemSpec: testItemSpec,
+          buyerAgentId: buyer,
+          sellerAgentId: "agent-seller",
+          mandates: [buyerMandate({ agentId: buyer }), sellerMandate()],
+          now: tenMinutesAgo,
+        });
+      await store.putSession(opened("sess-i-quiet1", "quiet1"));
+      await store.putSession(opened("sess-i-quiet2", "quiet2"));
+      const busy = submitOffer(opened("sess-i-busy", "busy"), "busy", agreeable, { offerId: "oi-busy" }).session;
+      await store.putSession(busy);
+      expect((await store.getSession("sess-i-quiet1"))?.status).toBe("open");
+
+      // The seller is in one live negotiation, not three.
+      expect(await store.marketState("agent-seller", testItemSpec.itemId)).toEqual({ committed: 0, openSessions: 1 });
+      // A quiet buyer's own session no longer counts as running either.
+      expect(await store.marketState("quiet1", testItemSpec.itemId)).toEqual({ committed: 0, openSessions: 0 });
+      expect(await store.marketState("busy", testItemSpec.itemId)).toEqual({ committed: 0, openSessions: 1 });
+    });
+
     it("counts events by kind across all of them", async () => {
       const at = new Date().toISOString();
       for (let i = 0; i < 4; i += 1) {

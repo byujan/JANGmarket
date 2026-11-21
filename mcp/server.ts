@@ -10,6 +10,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { contestLines } from "../agents/contest.ts";
 import { JangApiError, JangClient } from "../src/lib/client.ts";
 import type { SessionView } from "../src/lib/jang/session.ts";
 import type { Terms } from "../src/lib/jang/types.ts";
@@ -137,15 +138,7 @@ function describe(view: SessionView): string {
         .join(", ")}). That is a hint about what they value.`,
     );
   }
-  if (view.market && (view.market.openSessions > 1 || view.market.remaining <= 1)) {
-    const rivals = Math.max(0, view.market.openSessions - 1);
-    lines.push(
-      `You may still commit to ${view.market.remaining} of the ${view.market.authorised} your owner authorised` +
-        (rivals > 0
-          ? `, and ${rivals} other ${rivals === 1 ? "negotiation is" : "negotiations are"} running for the same item.`
-          : "."),
-    );
-  }
+  if (view.market) lines.push(...contestLines(view.market));
 
   lines.push(
     view.status !== "open"

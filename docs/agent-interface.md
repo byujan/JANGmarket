@@ -180,7 +180,7 @@ Returns `{ session, agreement }`.
 | `you`, `counterparty` | `{ agentId, role }` |
 | `yourMandate` | your own mandate in full — **never the counterparty's** |
 | `counterpartyPriorities` | their terms in order of importance, keys only, *only* if their owner opted in |
-| `market` | `{ remaining, authorised, openSessions }` — how contested the item is |
+| `market` | `{ remaining, authorised, openSessions }` — how contested the item is, from your own side. `openSessions`: your own live negotiations for the item, this one included; more of them than `remaining` means you have alternatives. You are not told how many others your counterparty is negotiating with. Live means open, unexpired, and moved (an offer, or the opening) within the last 5 minutes |
 | `offers`, `standingOffer` | every offer so far, and the one on the table |
 | `whoseTurn` | an agentId, or `"either"` |
 | `roundsUsed`, `maxRounds`, `expiresAt` | the budget and the clock |

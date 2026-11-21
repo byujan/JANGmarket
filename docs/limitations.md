@@ -52,9 +52,16 @@ until the mandate expires, and there is no way to withdraw one.
 
 A seller mandate can now authorise a quantity, and JANG refuses an acceptance
 once it is spent, so the same item cannot be promised to two buyers. Agents are
-told how many they may still commit and how many negotiations are running for
-the item, and the rule strategy concedes faster as rivals outnumber the units.
-`npm run market -- --buyers=6 --supply=1` runs it.
+told how many they may still commit and how many negotiations of their own are
+running for the item. `npm run market -- --buyers=6 --supply=1` runs it.
+
+Until 2026-11-21 that count pointed the wrong way: a seller with six buyers for
+one unit read its own six sessions as five rivals and conceded *faster*. Now a
+seller with more buyers than units has leverage and concedes later (the schedule
+bends, its end does not move, so the floor is still reached by the last round).
+In the six-for-one run the seller's deal went from 0.533 to 0.609 of its own
+utility, still one sale. One-to-one negotiations, and so every HW7 number, are
+unaffected.
 
 What it does not do:
 
@@ -65,12 +72,26 @@ What it does not do:
   pick the winner rather than the interleaving. Six for one closes one; eight
   for three closes three. A unit taken for an acceptance that then fails is
   given back, so a deal that never happened starves nobody.
-- **Nobody is told who the rivals are**, only how many. That is deliberate, but
-  it also means an agent cannot tell one serious rival from five idle ones.
-- **The seller runs one mandate across every buyer.** It cannot ask more of a
-  buyer who seems keen, which is most of what a real seller does with scarcity.
-- **An expired or abandoned session still counts as a rival** until it closes,
-  so contention reads high after a burst of dead sessions.
+- **A buyer is not told the seller is talking to others.** Not who, and not
+  how many. This is deliberate. JANG stays neutral between the two sides: a
+  count of the seller's other negotiations is the seller's business, disclosed
+  without its consent, and with the house run by JANG it would be JANG pressing
+  buyers on its own seller's behalf. It is also easy to fake: a seller could
+  open sessions with agents of its own to inflate it. A count was built on
+  2026-11-21 and removed before release for these reasons. If it returns, it
+  should be something a seller turns on in its signed mandate, as priority
+  disclosure is, never a default. So scarcity strengthens the seller and does
+  nothing to the buyer, who sees only its own position.
+- **The seller runs one mandate across every buyer.** It holds out longer when
+  courted, but it cannot ask more of one buyer who seems keener than the rest.
+- **Abandonment is judged by silence.** A session counts toward the contest
+  only while it is open, unexpired, and has moved (an offer, or its opening)
+  within the idle window, `JANG_IDLE_SECONDS`, five minutes by default. So a
+  burst of abandoned sessions stops inflating the count within five minutes
+  rather than at expiry. The cost is the other way round: a party that is
+  merely slow, thinking for longer than the window, briefly stops counting as
+  one of the seller's alternatives. Nothing is closed by this, so no deal is
+  lost to it; only the seller's leverage eases until that party moves again.
 
 ## 5c. Listings, and the counterparty they get
 

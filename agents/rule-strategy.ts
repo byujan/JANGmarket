@@ -53,25 +53,26 @@ export type RuleOptions = {
 const MESO_BAND = 0.03;
 
 /**
- * How much the contest for this item weakens our hand, from 0 to a cap.
+ * How much having several counterparties for fewer units strengthens our hand,
+ * from 0 to a cap.
  *
- * One rival for one unit is no pressure at all; several rivals for a single
- * unit is a weak position. Capped so competition hurries an agent rather than
- * collapsing it straight to its walk-away.
+ * A seller running six negotiations for one television can afford to hold out
+ * on each of them; until this existed, the same count was read as six rivals
+ * and made that seller concede faster. There is no opposite term for being one
+ * of several: JANG does not tell an agent how many others its counterparty is
+ * negotiating with (limitations §5b). Leverage slows the concession schedule
+ * rather than raising the floor, so by the last round an agent is still at its
+ * reservation value and a deal that was there is still taken.
  */
-export const MAX_COMPETITIVE_PRESSURE = 0.5;
+export const MAX_LEVERAGE = 0.5;
 
-export function competitivePressure(view: SessionView): number {
+export function marketLeverage(view: SessionView): number {
   const market = view.market;
   if (!market || market.remaining <= 0) return 0;
-  // Everyone in an open session is a rival except us.
-  const rivals = Math.max(0, market.openSessions - 1);
-  if (rivals <= 0) return 0;
-  // Rivals per unit still available, with diminishing returns: one rival for
-  // one unit is uncomfortable, four is worse, and the fortieth adds almost
-  // nothing that the fourth did not.
-  const perUnit = rivals / market.remaining;
-  return Math.min(MAX_COMPETITIVE_PRESSURE, MAX_COMPETITIVE_PRESSURE * (perUnit / (perUnit + 2)));
+  const surplus = market.openSessions - market.remaining;
+  if (surplus <= 0) return 0;
+  const perUnit = surplus / market.remaining;
+  return Math.min(MAX_LEVERAGE, MAX_LEVERAGE * (perUnit / (perUnit + 2)));
 }
 
 /** Candidate values for one dimension, inside both the item's range and the mandate's bounds. */
@@ -178,18 +179,14 @@ export function decide(view: SessionView, options: RuleOptions = {}): Decision {
   const floor = mandate.reservationUtility;
   // How far through the negotiation we are; at the end we are down to our floor.
   const elapsed = Math.min(1, view.roundsUsed / Math.max(1, view.maxRounds - 1));
-  let target = Math.max(floor, ceiling - (ceiling - floor) * Math.pow(elapsed, toughness));
+  // Leverage: with more counterparties than units, concede later. Toughness
+  // bends the curve without moving its end, so the floor is still reached.
+  const leverage = marketLeverage(view);
+  const bent = toughness * (1 + 2 * leverage);
+  let target = Math.max(floor, ceiling - (ceiling - floor) * Math.pow(elapsed, bent));
   // Deadline-aware (HW7 Option 1): with fewer than two offers left in the
   // session, no deal is worth nothing, so drop straight to the reservation value.
   if (options.deadlineAware && view.roundsUsed >= view.maxRounds - 2) target = floor;
-
-  // Competition. Being one of several bidding for a scarce thing weakens your
-  // position in the same way a poor alternative does, so the schedule runs
-  // faster: with rivals outnumbering what is left, part of the distance to the
-  // reservation value is given up at once. No rival's limits are involved;
-  // only how many of them there are, which the market view already says.
-  const pressure = competitivePressure(view);
-  if (pressure > 0) target = Math.max(floor, target - (target - floor) * pressure);
 
   // With respectBounds, a package outside our own hard limits is worth nothing to us.
   const acceptable = !theirs || !options.respectBounds || checkTermsAgainstMandate(theirs.terms, mandate).ok;

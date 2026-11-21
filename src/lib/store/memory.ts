@@ -1,4 +1,5 @@
 import type { Agreement, Mandate, Session } from "../jang/types.ts";
+import { isContending } from "./liveness.ts";
 import type { Settlement } from "../jang/settlement.ts";
 import type { ItemImage, OwnerDefaults } from "./types.ts";
 import type { Posture } from "../posture.ts";
@@ -158,14 +159,16 @@ export class MemoryStore implements Store {
   async marketState(agentId: string, itemId: string): Promise<MarketState> {
     let committed = 0;
     let openSessions = 0;
+    const now = Date.now();
     for (const session of this.sessions.values()) {
       const involved = session.participants.buyer === agentId || session.participants.seller === agentId;
       if (!involved || session.itemSpec.itemId !== itemId) continue;
       if (session.status === "agreed") committed += 1;
-      else if (session.status === "open") openSessions += 1;
+      else if (isContending(session, now)) openSessions += 1;
     }
     return { committed, openSessions };
   }
+
 
   async expireStaleSessions(now = new Date()): Promise<number> {
     let closed = 0;

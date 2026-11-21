@@ -3,6 +3,7 @@ import { isPosture, type Posture } from "../posture.ts";
 import type { Settlement } from "../jang/settlement.ts";
 import type { ItemImage, OwnerDefaults } from "./types.ts";
 import type { Agreement, ItemSpec, Mandate, Offer, Session } from "../jang/types.ts";
+import { idleAfterMs } from "./liveness.ts";
 import type {
   AgentRecord,
   EventRecord,
@@ -254,20 +255,26 @@ export class PostgresStore implements Store {
   }
 
   async marketState(agentId: string, itemId: string): Promise<MarketState> {
-    const rows = await this.sql<{ status: string; n: string }[]>`
-      select status, count(*)::text as n from sessions
-      where (buyer_agent_id = ${agentId} or seller_agent_id = ${agentId})
-        and item_spec->>'itemId' = ${itemId}
-      group by status
+    // Running means open, unexpired and active within the idle window, as in
+    // liveness.ts: a session stays 'open' until the sweep closes it.
+    const activeSince = new Date(Date.now() - idleAfterMs());
+    const [row] = await this.sql<{ committed: string; open: string }[]>`
+      select
+        count(*) filter (where s.status = 'agreed')::text as committed,
+        count(*) filter (
+          where s.status = 'open' and s.expires_at > now()
+            and coalesce(
+              (select max(o.created_at) from offers o where o.session_id = s.session_id),
+              s.created_at
+            ) > ${activeSince}
+        )::text as open
+      from sessions s
+      where (s.buyer_agent_id = ${agentId} or s.seller_agent_id = ${agentId})
+        and s.item_spec->>'itemId' = ${itemId}
     `;
-    let committed = 0;
-    let openSessions = 0;
-    for (const row of rows) {
-      if (row.status === "agreed") committed = Number(row.n);
-      else if (row.status === "open") openSessions = Number(row.n);
-    }
-    return { committed, openSessions };
+    return { committed: Number(row?.committed ?? 0), openSessions: Number(row?.open ?? 0) };
   }
+
 
   async expireStaleSessions(now = new Date()): Promise<number> {
     const rows = await this.sql`
