@@ -186,7 +186,7 @@ Returns `{ session, agreement }`.
 | `you`, `counterparty` | `{ agentId, role }` |
 | `yourMandate` | your own mandate in full — **never the counterparty's** |
 | `counterpartyPriorities` | their terms in order of importance, keys only, *only* if their owner opted in |
-| `market` | `{ remaining, authorised, openSessions }` — how contested the item is, from your side. Not in the `open_session` response; any later read has it |
+| `market` | `{ remaining, authorised, openSessions }` — how contested the item is |
 | `offers`, `standingOffer` | every offer so far, and the one on the table |
 | `whoseTurn` | an agentId, or `"either"` |
 | `roundsUsed`, `maxRounds`, `expiresAt` | the budget and the clock |
