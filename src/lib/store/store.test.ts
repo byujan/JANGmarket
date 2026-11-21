@@ -461,6 +461,37 @@ for (const candidate of candidates) {
       expect(await store.rivalSessions("b1", "agent-seller", "item-that-does-not-exist")).toBe(0);
     });
 
+    it("does not count a session past its expiry as running, before the sweep closes it", async () => {
+      // Opened two hours ago with a one-minute life: still "open" in the store,
+      // because nothing has swept it, but no longer a live negotiation.
+      const stale = (sessionId: string, buyer: string) =>
+        createSession({
+          sessionId,
+          itemSpec: testItemSpec,
+          buyerAgentId: buyer,
+          sellerAgentId: "agent-seller",
+          mandates: [buyerMandate({ agentId: buyer }), sellerMandate()],
+          ttlSeconds: 60,
+          now: new Date(Date.now() - 2 * 3600_000),
+        });
+      const live = (sessionId: string, buyer: string) =>
+        createSession({
+          sessionId,
+          itemSpec: testItemSpec,
+          buyerAgentId: buyer,
+          sellerAgentId: "agent-seller",
+          mandates: [buyerMandate({ agentId: buyer }), sellerMandate()],
+        });
+      for (const buyer of ["gone1", "gone2", "gone3"]) await store.putSession(stale(`sess-x-${buyer}`, buyer));
+      await store.putSession(live("sess-x-here", "here"));
+      expect((await store.getSession("sess-x-gone1"))?.status).toBe("open");
+
+      // The seller is running one live negotiation, not four.
+      expect(await store.marketState("agent-seller", testItemSpec.itemId)).toEqual({ committed: 0, openSessions: 1 });
+      // The live buyer has no rivals: the other three ran out of time.
+      expect(await store.rivalSessions("here", "agent-seller", testItemSpec.itemId)).toBe(0);
+    });
+
     it("counts events by kind across all of them", async () => {
       const at = new Date().toISOString();
       for (let i = 0; i < 4; i += 1) {

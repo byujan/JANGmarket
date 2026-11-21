@@ -15,6 +15,14 @@ import type {
 } from "./types.ts";
 
 /** Process-local storage. Correct for a single-process demo, wrong for anything else. */
+/**
+ * Open and not yet past its expiry. A session stays "open" until the sweep
+ * closes it, so status alone would count negotiations that have already run
+ * out of time as live ones, and inflate the contest in both directions.
+ */
+const isLive = (session: Session, now: number) =>
+  session.status === "open" && new Date(session.expiresAt).getTime() > now;
+
 export class MemoryStore implements Store {
   private owners = new Map<string, OwnerRecord>();
   private agents = new Map<string, AgentRecord>();
@@ -158,19 +166,21 @@ export class MemoryStore implements Store {
   async marketState(agentId: string, itemId: string): Promise<MarketState> {
     let committed = 0;
     let openSessions = 0;
+    const now = Date.now();
     for (const session of this.sessions.values()) {
       const involved = session.participants.buyer === agentId || session.participants.seller === agentId;
       if (!involved || session.itemSpec.itemId !== itemId) continue;
       if (session.status === "agreed") committed += 1;
-      else if (session.status === "open") openSessions += 1;
+      else if (isLive(session, now)) openSessions += 1;
     }
     return { committed, openSessions };
   }
 
   async rivalSessions(agentId: string, counterpartyId: string, itemId: string): Promise<number> {
     let rivals = 0;
+    const now = Date.now();
     for (const session of this.sessions.values()) {
-      if (session.status !== "open" || session.itemSpec.itemId !== itemId) continue;
+      if (!isLive(session, now) || session.itemSpec.itemId !== itemId) continue;
       const { buyer, seller } = session.participants;
       if (buyer === agentId || seller === agentId) continue;
       if (buyer === counterpartyId || seller === counterpartyId) rivals += 1;

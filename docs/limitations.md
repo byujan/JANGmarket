@@ -79,8 +79,11 @@ What it does not do:
   it also means an agent cannot tell one serious rival from five idle ones.
 - **The seller runs one mandate across every buyer.** It holds out longer when
   courted, but it cannot ask more of one buyer who seems keener than the rest.
-- **An expired or abandoned session still counts as a rival** until it closes,
-  so contention reads high after a burst of dead sessions.
+- **An abandoned session still counts until it expires.** A session past its
+  expiry no longer counts, on either side, even before the sweep closes it.
+  One that a party simply walked away from is indistinguishable from a slow
+  one, so it counts as live until its `expiresAt`; after a burst of abandoned
+  sessions, contention reads high for up to one session lifetime.
 
 ## 5c. Listings, and the counterparty they get
 

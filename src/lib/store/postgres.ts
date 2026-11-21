@@ -254,25 +254,24 @@ export class PostgresStore implements Store {
   }
 
   async marketState(agentId: string, itemId: string): Promise<MarketState> {
-    const rows = await this.sql<{ status: string; n: string }[]>`
-      select status, count(*)::text as n from sessions
+    // A session stays 'open' until the sweep closes it, so one past its expiry
+    // is not counted as running.
+    const [row] = await this.sql<{ committed: string; open: string }[]>`
+      select
+        count(*) filter (where status = 'agreed')::text as committed,
+        count(*) filter (where status = 'open' and expires_at > now())::text as open
+      from sessions
       where (buyer_agent_id = ${agentId} or seller_agent_id = ${agentId})
         and item_spec->>'itemId' = ${itemId}
-      group by status
     `;
-    let committed = 0;
-    let openSessions = 0;
-    for (const row of rows) {
-      if (row.status === "agreed") committed = Number(row.n);
-      else if (row.status === "open") openSessions = Number(row.n);
-    }
-    return { committed, openSessions };
+    return { committed: Number(row?.committed ?? 0), openSessions: Number(row?.open ?? 0) };
   }
 
   async rivalSessions(agentId: string, counterpartyId: string, itemId: string): Promise<number> {
     const rows = await this.sql<{ n: string }[]>`
       select count(*)::text as n from sessions
       where status = 'open'
+        and expires_at > now()
         and item_spec->>'itemId' = ${itemId}
         and (buyer_agent_id = ${counterpartyId} or seller_agent_id = ${counterpartyId})
         and buyer_agent_id <> ${agentId} and seller_agent_id <> ${agentId}
