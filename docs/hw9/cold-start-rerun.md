@@ -57,3 +57,65 @@ before opening, and how many HTTP calls it used (run 2: 16).
 
 Checks 3–5 and 8 are run against the instance, not taken from the client's
 report.
+
+---
+
+## The run — agreement reached, all eight checks pass
+
+*Run 2026-11-21, 08:52–08:55 UTC.*
+
+**Deviation from the plan above.** The instance came up on port **3939** (the
+repository's default) rather than 8883, so the client was given
+`http://localhost:3939`. Nothing else changed: same branch, memory store, house
+bargaining by default, same mandate, same task wording apart from the port.
+
+**Client.** A fresh subagent. It read exactly two files, the interface
+document and the key file, both copied to a folder outside the repository. All
+its other actions were HTTP requests to the instance and small helper scripts
+of its own. Its tool log was checked: no access to the repository or to the
+owner's setup file.
+
+**Outcome.** Agreement `agr_1aad4ad2-e52d-4523-be6b-e3402375cbbd`: **price
+1,130 · delivery 14 days · warranty 36 months · no soundbar.** The house
+accepted the client's offer at round 16 (the client chose `maxRounds` 20
+itself). The house opened at 1,850 and came down to 1,150.
+
+| # | Check | Result | How |
+|---|---|---|---|
+| 1 | Discovered the item itself | **pass** | server log: its first call after `/api/health` was `GET /api/market` |
+| 2 | Opened a session, exchanged offers | **pass** | 8 offers of its own, all `201` |
+| 3 | JANG-signed agreement exists | **pass** | `GET /api/agreements/{id}` → 200 |
+| 4 | Terms inside both mandates | **pass** | `checkTermsAgainstMandate`: buyer mandate as lodged, and the house mandate rebuilt from the scenario's seller party: both `ok` |
+| 5 | Signature verifies against the published key | **pass** | `verifyAgreementSignature` with the key from `/api/health` |
+| 6 | Reported terms match the signed document | **pass** | compared term by term |
+| 7 | `describe_item` before opening a session | **pass** | server log: `GET /api/market/item-tv-65oled` twice, then `POST /api/sessions` |
+| 8 | No `MANDATE_VIOLATION` on its own moves | **pass** | server log: every request 200/201, no 422 |
+
+**Observed.** It planned against its limits before opening. Its report lists
+the mandate as read from `describe_item` (price at most 1,300; delivery at most
+30; the weights; reservation 0.2), and every offer it made was at or below
+1,130. It traded delivery (its lowest weight) and the soundbar for price, which
+matches its owner's weights. **24 HTTP calls** against run 2's 16. The extra
+calls are polling: it read the session after each offer.
+
+**What the document still gets wrong, from its report.** These are new findings
+for the next fix, all in `docs/agent-interface.md`:
+
+- The house can post the first offer about two seconds after opening, before
+  the client moves. §6 says "it may be you", which reads as if it will be.
+- The open-session response has no `market` field, though §4.4 lists it. A
+  later `GET` has it.
+- The session's default lifetime (15 minutes) is not stated, nor that it can be
+  far shorter than the mandate's.
+- "Canonical JSON" in §4.5 is not defined. Sorted keys, no whitespace verified.
+- How utility is scored between and beyond `worst` and `ideal` is not stated.
+- It does not say the house may accept your offer on its own, or that a last
+  offer nobody accepts ends the session with no deal.
+- The MCP example uses port 8883. The default is 3939.
+- §6 says "5 items" (there were 4) and a note says "fifty pounds" on a USD item.
+- It links `limitations.md`, which an integrator is not given.
+
+**Limits of this result.** Self-run: the client is a subagent of the session
+that made the change, on the same machine, and the same model family as the
+house. One run, one market. It shows the change is used and nothing broke. It
+does not show another team's agent would do the same.
