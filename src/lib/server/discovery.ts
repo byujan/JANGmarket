@@ -19,7 +19,7 @@ import {
   catalogItem,
   type CatalogueEntry,
 } from "./marketplace.ts";
-import { JangError, type ItemSpec, type Role } from "../jang/types.ts";
+import { JangError, type ItemSpec, type Mandate, type Role } from "../jang/types.ts";
 import { store } from "../store/index.ts";
 
 export type MarketItem = {
@@ -89,9 +89,35 @@ export type MarketItemDetail = MarketItem & {
    * thing the console does when someone presses Start negotiating.
    */
   counterpartyAgentId?: string;
+  /**
+   * This agent's own mandate for the item, when its owner has lodged one, so it
+   * can plan against its own limits before committing to a session. Never the
+   * counterparty's: that stays with JANG, here as everywhere else.
+   */
+  yourMandate?: Mandate;
   /** What this agent must do next, in order. */
   nextSteps: string[];
 };
+
+/** One line naming the hard bounds of a mandate, in the item's own labels. */
+export function describeBounds(mandate: Mandate, spec: ItemSpec): string {
+  const parts = spec.dimensions.flatMap((dimension) => {
+    const bound = mandate.constraints[dimension.key];
+    if (!bound) return [];
+    const unit = dimension.unit ? ` ${dimension.unit}` : "";
+    const sides = [
+      bound.min !== undefined ? `at least ${bound.min}${unit}` : undefined,
+      bound.max !== undefined ? `at most ${bound.max}${unit}` : undefined,
+    ].filter(Boolean);
+    return sides.length ? [`${dimension.label} ${sides.join(" and ")}`] : [];
+  });
+  const bounds = parts.length ? parts.join("; ") : "no hard bounds on any single term";
+  return (
+    `Your owner's limits: ${bounds}. Any package must also be worth at least ` +
+    `${mandate.reservationUtility} to you (yourMandate has the scoring). Plan against these before you open: ` +
+    "JANG refuses any offer or acceptance outside them."
+  );
+}
 
 export async function marketItemFor(
   itemId: string,
@@ -117,12 +143,17 @@ export async function marketItemFor(
     ? await ensureHouseForListing(listing)
     : await ensureHouseAgent(catalogItem(itemId));
 
+  // Only ever this agent's own mandate: the lookup is keyed on the caller.
+  const yourMandate = await store.getMandate(agentId, itemId);
+
   return {
     ...item,
     itemSpec,
     counterpartyAgentId,
-    nextSteps: item.youHaveMandate
+    ...(yourMandate ? { yourMandate } : {}),
+    nextSteps: yourMandate
       ? [
+          describeBounds(yourMandate, itemSpec),
           `Call open_session with counterpartyAgentId "${counterpartyAgentId}" and this itemSpec.`,
           "Then negotiate with offer, counter and accept.",
         ]

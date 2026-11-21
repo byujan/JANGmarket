@@ -45,8 +45,10 @@ than one instance. Postgres is the first Phase 1 task, before any hosting that m
 
 Owners register agents through the console, and `POST /api/agents`, the unauthenticated
 route the command-line demos use, is now closed unless `JANG_OPEN_REGISTRATION=true` or
-no database is configured. What is still missing is revocation: a leaked agent key is good
-until the mandate expires, and there is no way to withdraw one.
+no database is configured. A leaked key can be withdrawn by deleting the agent from the
+console: its key stops working at once and its mandates go with it. What is still missing
+is rotation: there is no way to give the same agent a new key and keep its history, so
+withdrawing a key means registering the agent again and having its owner sign new limits.
 
 ## 5b. Many buyers to one seller: what it does and does not do
 

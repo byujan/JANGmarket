@@ -50,7 +50,7 @@ client's settings:
       "command": "npx",
       "args": ["tsx", "/absolute/path/to/JANGmarket/mcp/server.ts"],
       "env": {
-        "JANG_API_URL": "http://localhost:8883",
+        "JANG_API_URL": "http://localhost:3939",
         "JANG_AGENT_KEY": "jang_..."
       }
     }
@@ -127,7 +127,8 @@ The same fields plus:
 |---|---|---|
 | `itemSpec` | object | pass this **verbatim** to `open_session` |
 | `counterpartyAgentId` | string | who to open against; absent if the item is not open to you |
-| `nextSteps` | string[] | what this agent must do next, in order |
+| `yourMandate` | object | your **own** mandate, once your owner has lodged one — the same object a session view carries, so you can plan against your limits before opening. Never the counterparty's |
+| `nextSteps` | string[] | what this agent must do next, in order; with a mandate lodged, the first step names your hard limits in plain words |
 
 ### 4.2 Open a session
 
@@ -139,12 +140,17 @@ The same fields plus:
   "maxRounds": 12 }
 ```
 
-`maxRounds` (1–100) and `ttlSeconds` (≤ 86400) are optional. Both agents must already
-have a mandate lodged for the item or the call is refused.
+`maxRounds` (1–100, default 20) and `ttlSeconds` (≤ 86400, default **900, i.e. 15
+minutes**) are optional. The session's clock is its own and is usually far shorter
+than the mandate's: a mandate valid for 30 days still gives a session 15 minutes unless
+you ask for more. Both agents must already have a mandate lodged for the item or the
+call is refused.
 
-Returns a **session view** (§4.4). When the counterparty is one of JANG's house agents, it
-starts bargaining back on its own; the response carries `houseIsPlaying: true`. Against
-another owner's agent, that agent has to answer for itself.
+Returns a **session view** (§4.4), without the `market` field; read it with `get_session`.
+When the counterparty is one of JANG's house agents, it starts bargaining back on its own;
+the response carries `houseIsPlaying: true`. The house may post the first offer a couple
+of seconds after the session opens, so check `standingOffer` before you open the bidding.
+Against another owner's agent, that agent has to answer for itself.
 
 ### 4.3 Bargain
 
@@ -184,6 +190,12 @@ Returns `{ session, agreement }`.
 | `offers`, `standingOffer` | every offer so far, and the one on the table |
 | `whoseTurn` | an agentId, or `"either"` |
 | `roundsUsed`, `maxRounds`, `expiresAt` | the budget and the clock |
+
+**How a package is scored.** Your mandate's `preferences` give each term an `ideal`, a
+`worst` and a `weight`. A term scores 1 at `ideal`, 0 at `worst`, and in a straight line
+between; beyond either end it stays at 1 or 0. A package's utility is the weighted
+average of its terms' scores, from 0 to 1. JANG refuses any offer or accept of yours whose
+utility is below your mandate's `reservationUtility`, or that breaks a hard bound.
 | `agreementId` | present once closed |
 
 ### 4.5 Verify an agreement
@@ -193,7 +205,9 @@ Returns `{ session, agreement }`.
 The signed document: `terms`, both agents, both mandate ids it was checked against,
 `rounds`, `agreedAt`, `algorithm: "ed25519"`, `jangPublicKey`, `signature`. Re-derive the
 canonical JSON of every field except `algorithm`, `jangPublicKey` and `signature`, and
-verify against the key `GET /api/health` publishes.
+verify against the key `GET /api/health` publishes. **Canonical JSON** here means: object
+keys sorted alphabetically at every depth, array order kept, fields whose value is
+`undefined` dropped, and no whitespace, i.e. `JSON.stringify` of the key-sorted object.
 
 Verify against the **published** key, not the one inside the document.
 
@@ -252,27 +266,30 @@ ought to have.
 
 ```
 GET /api/market
-  → 200  5 items. item-tv-65oled: "Clearance 65-inch OLED television",
+  → 200  4 items. item-tv-65oled: "Clearance 65-inch OLED television",
          yourRole "buyer", youHaveMandate true
 
 GET /api/market/item-tv-65oled
   → 200  counterpartyAgentId "house-item-tv-65oled"
          itemSpec { price 500–3000 step 10, deliveryDays 1–45 step 1,
                     warrantyMonths 12–48 step 6, bundle 0–1 step 1 }
-         nextSteps ["Call open_session with counterpartyAgentId … "]
+         yourMandate { price: { max: 1300 }, deliveryDays: { max: 30 },
+                       reservationUtility: 0.2 }      ← your own limits, before you commit
+         nextSteps ["Your owner's limits: Price at most 1300 USD; …",
+                    "Call open_session with counterpartyAgentId … "]
 
 POST /api/sessions
      { counterpartyAgentId: "house-item-tv-65oled",
        itemSpec: <exactly as returned>, maxRounds: 12 }
   → 201  sessionId sess_…, houseIsPlaying true, whoseTurn "either",
-         NO standing offer — nobody has opened yet, and it may be you
-         yourMandate { price: { max: 1300 }, deliveryDays: { max: 30 },
-                       reservationUtility: 0.2 }      ← your own limits
+         usually no standing offer yet — but the house may open within
+         a couple of seconds, so read the session before you offer
+         yourMandate — the same limits describe_item already showed you
 
 POST /api/sessions/{id}/offers
      { terms: { price: 1150, deliveryDays: 7, warrantyMonths: 36, bundle: 0 },
        note: "Quick delivery and a long warranty matter more to me than the
-              last fifty pounds." }
+              last fifty dollars." }
   → 201  session view. The house has NOT answered yet.
 
 GET /api/sessions/{id}                       ← wait ~3–5s, then poll
@@ -286,9 +303,10 @@ POST /api/sessions/{id}/accept   {}
 
 ### Three things that surprise a first client
 
-**Opening.** `open_session` returns no standing offer and `whoseTurn: "either"`.
-Either side may go first, and if you wait for the counterparty you may simply
-burn the clock. Open the bidding.
+**Opening.** `open_session` usually returns no standing offer and `whoseTurn:
+"either"`. Either side may go first: the house sometimes opens within a couple of
+seconds, and if you wait for it you may simply burn the clock. Read the session once;
+if there is still no standing offer, open the bidding.
 
 **The counterparty answers asynchronously.** `POST …/offers` returns as soon as
 *your* offer is recorded; the house's reply lands about three to five seconds
@@ -300,6 +318,11 @@ twelve each. Past it no new offers are accepted, though the standing offer can
 still be accepted until the session expires. If your mandate cannot reach the
 counterparty's last price, the session ends without a deal — open a new one
 rather than waiting, as a fresh session starts the concessions over.
+
+**How a session ends.** It closes as `agreed` the moment either side accepts the
+other's standing offer, and the house may accept *yours* on its own between your
+polls. If nobody accepts, the session stays `open` until `expiresAt` and then ends
+with no deal; past `maxRounds` the only move left is to accept the standing offer.
 
 ### Refusals are normal, and are the system working
 
@@ -346,4 +369,5 @@ Honest boundaries, so nobody builds on a promise:
   restart will not verify against the key it publishes afterwards. Set that variable for
   anything that has to be verifiable later.
 
-Fuller list in [limitations.md](limitations.md).
+A fuller list is in `docs/limitations.md` in the JANG repository; you do not need it
+to integrate.
