@@ -92,7 +92,9 @@ async function runRule(sessionId: string, side: Side): Promise<void> {
   await runRuleAgent({
     label: side.role,
     agent: new ServicePort(jang, side.agentId, sessionId),
-    options: { toughness: toughnessOf(side.posture), respectBounds: true },
+    // endgame: the last offer is chosen to clear the other side's limits, not to
+    // sit nearest their ask (docs/final/narrow-tuning.md, fourth attempt).
+    options: { toughness: toughnessOf(side.posture), respectBounds: true, endgame: true, endgameDirections: "opposed" },
     thinkMs: Number(process.env.JANG_AUTOPLAY_DELAY_MS ?? 1200),
     pollMs: 200,
   });

@@ -247,3 +247,35 @@ seeds, 20261121 and 20261122**, never run before by any arm. The baseline
    (`src/lib/server/negotiate.ts`) and `scripts/market.ts`. It changes only the
    last offer, so negotiation length is unaffected. If it fails, it stays off
    and is recorded below.
+
+### Result — passes; adopted
+
+Paired against `fix+meso+disclose`, same method as above. **Decision seeds are
+20261121 and 20261122,** run for the first time here.
+
+| Seeds | narrow close | arm-only / base-only, p | ordinary close | ordinary realised eff. diff, 95% CI | asymmetric close |
+|---|---|---|---|---|---|
+| Tuning 20261028 (sanity) | **9/12** vs 6/12 | 3 / 0 | **31/33** vs 29/33 | +0.024 [−0.028, +0.095] | **32/33** vs 25/33 |
+| **New 20261121+22 (decision)** | **20/20** vs 8/20 | **12 / 0, p=0.0005** | 61/62 vs 61/62 | −0.002 [**−0.015**, +0.011] | **61/62** vs 57/62 |
+| Used 20261101+02 (comparison only) | **20/22** vs 14/22 | 6 / 0, p=0.031 | **57/58** vs 55/58 | +0.034 [−0.004, +0.085] | **57/58** vs 47/58 |
+
+Both halves of criterion 3 hold on the new seeds. Narrow closes 12 more
+markets and loses none. The ordinary CI's lower end (−0.015) is above −0.02.
+Across every seed and case, `endgame2` **never failed a market the baseline
+closed**. Over the 214 deals it closed on the tuning and new seeds:
+**0 constraint violations and 0 false agreements.** Narrow realised efficiency
+rose by +0.50 [+0.31, +0.70] on the new seeds.
+
+**One cost to state.** The last offer gives the receiving side more. On narrow
+markets the buyer's share of the surplus rose (+0.08 on the new seeds, +0.22 on
+the used ones), because the seller often makes the last offer. On ordinary
+markets the share is unchanged (−0.003). The rule trades a little of the last
+mover's share for the deal happening at all.
+
+**Adopted, per the registered rule.** `endgame: true, endgameDirections:
+"opposed"` is now on for the console's rule agent (`src/lib/server/negotiate.ts`)
+and both sides in `scripts/market.ts`. The strategy's own default is unchanged,
+so every earlier benchmark arm still reproduces. Not changed: the model-driven
+agents' prompts. Checked after adoption: `npm test` (204), `npm run demo`,
+`npm run verify` (7/7, zero violations), `npm run misuse` (5/5 refused),
+`npm run build`, and `npm run market -- --buyers=6 --supply=1` (one sale).

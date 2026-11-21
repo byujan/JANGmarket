@@ -67,13 +67,13 @@ try {
       runRuleAgent({
         label: `seller:${buyer.label}`,
         agent: new ServicePort(jang, sellerId, buyer.sessionId),
-        options: { toughness: 1.6, respectBounds: true },
+        options: { toughness: 1.6, respectBounds: true, endgame: true, endgameDirections: "opposed" },
         pollMs: 25,
       }),
       runRuleAgent({
         label: buyer.label,
         agent: new ServicePort(jang, buyer.agentId, buyer.sessionId),
-        options: { toughness: 1.5, respectBounds: true },
+        options: { toughness: 1.5, respectBounds: true, endgame: true, endgameDirections: "opposed" },
         pollMs: 25,
       }),
     ]),
