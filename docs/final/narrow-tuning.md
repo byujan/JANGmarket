@@ -104,3 +104,41 @@ is tried.
    offers), which matters for the demo and for any agent waiting on the house.
    So the result is a **recommendation to Peter**, not a change to the
    product default made here.
+
+### Result — negative
+
+Paired on identical markets against `fix+meso+disclose`, same method as above.
+
+| | narrow close | arm-only / base-only, p | ordinary close | ordinary realised eff. diff, 95% CI | mean rounds |
+|---|---|---|---|---|---|
+| Tuning 20261028 | 4/12 vs **6/12** | 0 / 2, p=0.500 | 30/33 vs 29/33 | +0.048 [−0.050, +0.135] | 22–24 |
+| **Fresh 20261101+02** | 11/22 vs **14/22** | 3 / 6, p=0.508 | 51/58 vs **55/58** | −0.039 [−0.113, +0.026] | 22–24 |
+
+Fails criterion 3 on both counts: narrow closes fewer, and the CI's lower end
+is below −0.02 on ordinary, where four deals the baseline closed were lost. Not
+recommended. Raw files: `results/final/fix+meso+disclose+option2-seed*.json`.
+
+**Why the hypothesis was wrong.** The rule strategy schedules concession on
+the *fraction* of the budget used (`elapsed = roundsUsed / (maxRounds − 1)` in
+`agents/rule-strategy.ts`). Doubling the budget stretches the same curve over
+twice as many offers: each side still reaches its floor only at its last
+offer, so the last-mover problem is untouched. Every failure in both arms is
+still the buyer at `ROUND_LIMIT` (narrow 11 vs 8, ordinary 7 vs 3). Under plain
+`fix`, `option2` did help (narrow 4 → 9 of 22), because without disclosure the
+extra offers were spent learning what the other side wanted; with disclosure
+that is already known, and the extra length only adds endgame noise. Narrow
+outcomes flip in both directions (3 and 6), which is what a knife-edge endgame
+looks like.
+
+**What this leaves.** Two negative results point the same way: the narrow
+failures are an *endgame* problem, not a search or time problem. The seller's
+last offer clears its own floor but not the buyer's, and the buyer has no
+reply left. Plausible next steps, none run here:
+
+- an endgame rule: on the last offer an agent will make, choose among packages
+  at its own floor the one most likely to clear the other side's (using the
+  disclosed order), rather than the one closest to their last ask;
+- JANG itself, which holds both mandates, telling both sides at the round limit
+  only that a package acceptable to both exists. This uses the frontier code
+  already in `src/lib/jang/frontier.ts`, but leaks one bit about each side's
+  limits, so it is a design decision, not a tuning change.
