@@ -279,3 +279,31 @@ so every earlier benchmark arm still reproduces. Not changed: the model-driven
 agents' prompts. Checked after adoption: `npm test` (204), `npm run demo`,
 `npm run verify` (7/7, zero violations), `npm run misuse` (5/5 refused),
 `npm run build`, and `npm run market -- --buyers=6 --supply=1` (one sale).
+
+## Check: does the endgame rule hold without priority disclosure?
+
+*Written and committed before any run of these arms, 2026-11-21.*
+
+**Why.** The fourth attempt was judged against `fix+meso+disclose`, where both
+owners share their priority order. We have decided disclosure stays opt-in and
+off by default (it reveals part of a mandate), so the product's usual case is
+no disclosure. The adopted rule does not read disclosed priorities: its
+directions come from the agent's own mandate and the item's `buyerPrefers`. But
+its effect was only measured with disclosure on, so the claim "narrow 8/20 →
+20/20" is not yet shown for the default.
+
+**Arms.** `fix+meso+endgame2` against `fix+meso`. No code changes.
+
+**Seeds.** Decision on **20261123 and 20261124**, never run by any arm. For
+comparison only, also 20261121+22 (used once, by the fourth attempt's decision)
+and the tuning seed 20261028.
+
+**Rule.**
+1. Holds if, on the decision seeds, narrow closes more than `fix+meso` **and**
+   ordinary realised efficiency (failure = 0) has a paired 95% CI whose lower
+   end is above −0.02. Same test as the fourth attempt.
+2. If it holds, the slide claim is restated on these numbers, for owners who do
+   not disclose.
+3. If narrow does not improve but ordinary passes, the rule stays on (it did
+   no harm), and the claim is limited to owners who disclose.
+4. If ordinary fails, the rule is turned off for the product, and recorded here.
