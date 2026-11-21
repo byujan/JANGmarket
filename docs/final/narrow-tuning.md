@@ -183,3 +183,36 @@ is tried.
    available) and in `scripts/market.ts`. It changes only the last offer, so
    negotiation length and the demo are unaffected. If it fails, it stays off and
    is recorded here like the two above.
+
+### Result — fails the rule, not adopted, but the first one to help narrow
+
+Paired against `fix+meso+disclose`, same method as above.
+
+| | narrow close | ordinary close | ordinary realised eff. diff, 95% CI | asymmetric close | asymmetric realised eff. diff |
+|---|---|---|---|---|---|
+| Tuning 20261028 | **8/12** vs 6/12 | 28/33 vs 29/33 | −0.057 [−0.122, −0.003] | **29/33** vs 25/33 | +0.097 [−0.004, +0.214] |
+| **Fresh 20261101+02** | **15/22** vs 14/22 (4 / 3) | 51/58 vs **55/58** (2 / 6) | −0.043 [**−0.122**, +0.032] | **53/58** vs 47/58 (7 / 1, p=0.070) | +0.096 [+0.009, +0.192] |
+
+Narrow closes one more, so criterion 3's first half holds. The ordinary CI's
+lower end (−0.122) is below −0.02, so the second half fails. **Not adopted;**
+`negotiate.ts` and `market.ts` are unchanged. Raw files:
+`results/final/fix+meso+disclose+endgame-seed*.json`.
+
+**Why it lost ordinary deals (diagnosis, tuning and fresh traces).** The rule
+was meant never to make a last offer worse for the other side, and it is not
+the choice step that fails. The *direction* estimate fails. Directions are
+read from the gap between the two last asks. When the other side has already
+crossed over on a term, the gap points the wrong way. Fresh seed 20261101,
+ordinary #3, buyer opening: at round 10 the buyer's own endgame offer lengthens
+delivery from 6 to 11 days, a concession to the seller. At round 11 the seller
+reads "they asked 11, I offered 6" as *the buyer wants longer delivery*, and
+"gives" it 45 days. That is outside the buyer's limit, and the session ends at
+`ROUND_LIMIT`. Without `endgame` the same market closes at round 12.
+
+**What this suggests, not run.** Infer direction from the agent's own
+preferences instead: in these markets each term is opposed (what the seller
+wants more of, the buyer wants less of), so "the opposite of my own ideal" is a
+stable prior that a concession cannot flip. The item's declared `buyerPrefers`
+would still override it. The fresh seeds 20261101–02 have now been used for
+three arms, so a fourth attempt should be confirmed on a seed none of them has
+seen.
