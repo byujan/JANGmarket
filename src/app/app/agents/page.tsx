@@ -64,7 +64,7 @@ export default async function Agents() {
             <thead>
               <tr>
                 <th>Agent</th>
-                <th>What it does</th>
+                <th>ID</th>
                 <th>Bargains</th>
                 <th>Registered</th>
                 <th />
@@ -73,11 +73,11 @@ export default async function Agents() {
             <tbody>
               {agents.map((agent) => (
                 <tr key={agent.agentId}>
-                  <td className="mono small">{agent.agentId}</td>
-                  <td className="mute">
-                    {agent.label ?? "not set"}
-                    {agent.brief ? <span className="brief">{agent.brief}</span> : null}
+                  <td>
+                    {agent.label ?? <span className="faint">unnamed</span>}
+                    {agent.brief ? <span className="brief mute">{agent.brief}</span> : null}
                   </td>
+                  <td className="mono small faint">{agent.agentId}</td>
                   <td>
                     <span className="tag">{POSTURE_COPY[agent.posture ?? DEFAULT_POSTURE].label}</span>
                   </td>

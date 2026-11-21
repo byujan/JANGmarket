@@ -13,6 +13,7 @@ import Link from "next/link";
 import type { SessionView } from "@/lib/jang/session.ts";
 import type { Agreement } from "@/lib/jang/types.ts";
 import { utility } from "@/lib/jang/utility.ts";
+import { agreedWords, standingWords, statusWords } from "@/lib/ui/words.ts";
 import { ConvergenceLadder } from "./ConvergenceLadder.tsx";
 
 type Payload = { view: SessionView; agreement?: Agreement };
@@ -62,6 +63,19 @@ export function LiveNegotiation({ sessionId, initial }: { sessionId: string; ini
             You are the <span className={view.you.role}>{view.you.role}</span>. Round {view.roundsUsed} of{" "}
             {view.maxRounds}.
           </p>
+          {view.status === "open" && connection !== "error" ? (
+            <p className="small mute" role="status" style={{ margin: "0.2rem 0 0" }}>
+              The agents are bargaining. A negotiation usually takes about a minute; this page updates by itself.
+            </p>
+          ) : null}
+          {view.status === "open" && connection === "error" ? (
+            <p className="small" role="alert" style={{ margin: "0.4rem 0 0" }}>
+              Lost the live connection. The negotiation carries on without you.{" "}
+              <button type="button" className="button button-quiet" onClick={() => window.location.reload()}>
+                Reload to follow along
+              </button>
+            </p>
+          ) : null}
         </div>
         <StatusChip status={view.status} connection={connection} />
       </div>
@@ -81,17 +95,26 @@ export function LiveNegotiation({ sessionId, initial }: { sessionId: string; ini
 
       {view.status === "open" && standingValue !== undefined ? (
         <p className="small mute" style={{ marginTop: "0.9rem" }}>
-          {packages.length > 1 ? `The best of the ${packages.length} packages on the table` : "The package on the table"} is worth{" "}
-          <span className="mono">{standingValue.toFixed(2)}</span> to you, against the{" "}
-          <span className="mono">{mandate.reservationUtility}</span> your mandate says is the least you would accept.
+          {packages.length > 1 ? `The best of the ${packages.length} packages on the table` : "The package on the table"}{" "}
+          {standingWords(standingValue, mandate.reservationUtility)}
         </p>
       ) : null}
 
       {agreement ? <AgreementPanel agreement={agreement} view={view} /> : null}
 
       {view.status === "expired" || view.status === "failed" ? (
-        <div className="notice notice-warn" style={{ marginTop: "1.25rem" }}>
-          This negotiation ended without a deal. Neither owner is bound to anything.
+        <div className="notice notice-warn" role="status" style={{ marginTop: "1.25rem" }}>
+          <p style={{ margin: 0 }}>
+            {view.status === "expired"
+              ? "This negotiation ran out of time without a deal."
+              : "This negotiation ended without a deal: the two sides found no package both would take."}{" "}
+            Neither owner is bound to anything.
+          </p>
+          <p style={{ margin: "0.6rem 0 0" }}>
+            Usually that means the limits leave too little room between the two sides. You can{" "}
+            <Link href={`/app/mandates/new?item=${encodeURIComponent(view.itemSpec.itemId)}`}>loosen your limits</Link>{" "}
+            for this item, or <Link href="/app#start">start another negotiation</Link>.
+          </p>
         </div>
       ) : null}
     </>
@@ -110,11 +133,10 @@ function StatusChip({ status, connection }: { status: SessionView["status"]; con
             : "Open";
     return <span className={`tag tag-open${connection === "live" ? " tag-pulse" : ""}`}>{text}</span>;
   }
-  return <span className={`tag tag-${status}`}>{status}</span>;
+  return <span className={`tag tag-${status}`}>{statusWords(status)}</span>;
 }
 
 function AgreementPanel({ agreement, view }: { agreement: Agreement; view: SessionView }) {
-  const value = utility(agreement.terms, view.yourMandate);
   return (
     <section className="section enter">
       <div className="panel">
@@ -124,9 +146,7 @@ function AgreementPanel({ agreement, view }: { agreement: Agreement; view: Sessi
         </div>
         <div className="panel-body">
       <div className="notice notice-good">
-        Closed in {agreement.rounds} rounds and signed by JANG. Worth{" "}
-        <span className="mono">{value.toFixed(2)}</span> to you, above your reservation of{" "}
-        <span className="mono">{view.yourMandate.reservationUtility}</span>.
+        Closed in {agreement.rounds} rounds and signed by JANG. {agreedWords(view.yourMandate.reservationUtility)}
       </div>
 
       <table className="table" style={{ marginTop: "1rem" }}>
@@ -147,12 +167,6 @@ function AgreementPanel({ agreement, view }: { agreement: Agreement; view: Sessi
               </td>
             </tr>
           ))}
-          <tr>
-            <th scope="row">Signature</th>
-            <td className="mono small" style={{ wordBreak: "break-all" }}>
-              {agreement.signature}
-            </td>
-          </tr>
         </tbody>
       </table>
 
@@ -163,10 +177,17 @@ function AgreementPanel({ agreement, view }: { agreement: Agreement; view: Sessi
       </p>
 
       <p className="small mute" style={{ marginTop: "0.75rem", marginBottom: 0 }}>
-        Signing off on it, keeping a copy and checking the signature all live there. Or check it yourself:{" "}
-        <code>GET /api/agreements/{agreement.agreementId}</code> returns the signed document, and{" "}
-        <code>/api/health</code> publishes the key it was signed with.
+        Signing off on it, keeping a copy and checking the signature all live there.
       </p>
+
+      <details className="small mute" style={{ marginTop: "0.75rem" }}>
+        <summary>For developers: the signature and how to check it</summary>
+        <p className="mono" style={{ wordBreak: "break-all" }}>{agreement.signature}</p>
+        <p style={{ marginBottom: 0 }}>
+          <code>GET /api/agreements/{agreement.agreementId}</code> returns the signed document, and{" "}
+          <code>/api/health</code> publishes the key it was signed with.
+        </p>
+      </details>
         </div>
       </div>
     </section>

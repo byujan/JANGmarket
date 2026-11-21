@@ -131,11 +131,11 @@ export default async function Listing({ params }: { params: Promise<{ itemId: st
             </p>
             {mine ? (
               youHaveLimits ? (
-                <Link className="button" href="/app">
+                <Link className="button" href="/app#start">
                   Start a negotiation
                 </Link>
               ) : (
-                <Link className="button" href="/app/mandates/new">
+                <Link className="button" href={`/app/mandates/new?item=${encodeURIComponent(itemId)}`}>
                   Set your limits for this
                 </Link>
               )

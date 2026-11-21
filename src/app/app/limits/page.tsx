@@ -1,3 +1,4 @@
+import { walkAwayWords } from "@/lib/ui/words.ts";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { LimitDefaults } from "@/components/LimitDefaults.tsx";
@@ -83,7 +84,7 @@ export default async function Limits() {
                 <tr>
                   <th>Item</th>
                   <th>Your side</th>
-                  <th>Walk away below</th>
+                  <th>Will accept</th>
                   <th>Limits</th>
                   <th />
                 </tr>
@@ -99,8 +100,8 @@ export default async function Limits() {
                       )}
                     </td>
                     <td className={row.side}>{row.side === "buyer" ? "buying" : "selling"}</td>
-                    <td className="mono small">
-                      {row.mandate ? row.mandate.reservationUtility.toFixed(2) : <span className="faint">—</span>}
+                    <td className="small">
+                      {row.mandate ? walkAwayWords(row.mandate.reservationUtility) : <span className="faint">—</span>}
                     </td>
                     <td>
                       {!row.mandate ? (

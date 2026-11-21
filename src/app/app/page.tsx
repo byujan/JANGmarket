@@ -5,6 +5,7 @@ import { LaunchNegotiation } from "@/components/LaunchNegotiation.tsx";
 import { catalogue } from "@/lib/server/marketplace.ts";
 import { currentOwner } from "@/lib/server/owner.ts";
 import { store } from "@/lib/store/index.ts";
+import { sideWords, statusWords, walkAwayWords } from "@/lib/ui/words.ts";
 
 export const dynamic = "force-dynamic";
 
@@ -47,7 +48,7 @@ export default async function Console() {
         progress={{ agents: agents.length, mandates: mandates.length, negotiations: sessions.length }}
       />
 
-      <section className="section">
+      <section className="section" id="start">
         <div className="row-between">
           <h2>Start a negotiation</h2>
           <Link className="small mute" href="/app/mandates/new">
@@ -56,9 +57,9 @@ export default async function Console() {
         </div>
         <p className="hint" style={{ marginBottom: "1rem" }}>
           Your agent takes the buyer side and JANG&apos;s house agent takes the seller side. Both bargain under signed
-          limits, and neither can see the other&apos;s. Both sides are negotiated by Claude, so the transcript is two
-          parties talking rather than a machine conceding; that takes about a minute. If Claude cannot be
-          reached the deterministic agent finishes instead, and the negotiation says so.
+          limits, and neither can see the other&apos;s. When Claude is available it negotiates both sides, reading
+          your agent&apos;s brief as well as its posture, and that takes about a minute. When it is not, a built-in
+          rule-based negotiator finishes instead, reads only the posture, and the negotiation says so.
         </p>
         <LaunchNegotiation options={launchable} />
       </section>
@@ -84,15 +85,15 @@ export default async function Console() {
             <thead>
               <tr>
                 <th>Agent</th>
-                <th>What it does</th>
-                <th>Mandates</th>
+                <th>ID</th>
+                <th>Limits signed</th>
               </tr>
             </thead>
             <tbody>
               {agents.map((agent) => (
                 <tr key={agent.agentId}>
-                  <td className="mono small">{agent.agentId}</td>
-                  <td className="mute">{agent.label ?? "not set"}</td>
+                  <td>{agent.label ?? <span className="faint">unnamed</span>}</td>
+                  <td className="mono small faint">{agent.agentId}</td>
                   <td className="mono small">
                     {mandates.filter((mandate) => mandate.agentId === agent.agentId).length}
                   </td>
@@ -144,7 +145,7 @@ export default async function Console() {
                         {hasLimits ? (
                           <span className="tag tag-agreed">set</span>
                         ) : (
-                          <Link className="small" href="/app/mandates/new">
+                          <Link className="small" href={`/app/mandates/new?item=${encodeURIComponent(item.itemId)}`}>
                             set them
                           </Link>
                         )}
@@ -179,7 +180,7 @@ export default async function Console() {
                 <th>Item</th>
                 <th>Side</th>
                 <th>Agent</th>
-                <th>Walk away below</th>
+                <th>Will accept</th>
                 <th>Expires</th>
               </tr>
             </thead>
@@ -187,9 +188,13 @@ export default async function Console() {
               {mandates.map((mandate) => (
                 <tr key={`${mandate.agentId}:${mandate.itemId}`}>
                   <td>{items.find((item) => item.itemSpec.itemId === mandate.itemId)?.title ?? mandate.itemId}</td>
-                  <td className={mandate.role}>{mandate.role}</td>
-                  <td className="mono small">{mandate.agentId}</td>
-                  <td className="mono small">{mandate.reservationUtility}</td>
+                  <td className={mandate.role}>{sideWords(mandate.role)}</td>
+                  <td className="small">
+                    {agents.find((agent) => agent.agentId === mandate.agentId)?.label ?? (
+                      <span className="mono">{mandate.agentId}</span>
+                    )}
+                  </td>
+                  <td className="small">{walkAwayWords(mandate.reservationUtility)}</td>
                   <td className="small faint">{new Date(mandate.expiresAt).toLocaleDateString()}</td>
                 </tr>
                 ))}
@@ -223,7 +228,7 @@ export default async function Console() {
                     </td>
                     <td className="num mono small">{session.rounds} rounds</td>
                     <td>
-                      <span className={`tag tag-${session.status}`}>{session.status}</span>
+                      <span className={`tag tag-${session.status}`}>{statusWords(session.status)}</span>
                     </td>
                   </tr>
                 ))}

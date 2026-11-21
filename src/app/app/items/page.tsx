@@ -198,7 +198,7 @@ function Shelf({
                     {!open ? (
                       <span className="small faint">not open to you yet</span>
                     ) : signed.has(entry.itemSpec.itemId) ? (
-                      <Link className="small" href="/app">
+                      <Link className="small" href="/app#start">
                         Limits signed · start a negotiation
                       </Link>
                     ) : stale.has(entry.itemSpec.itemId) ? (
@@ -206,7 +206,7 @@ function Shelf({
                         Your limits expired · set them again
                       </Link>
                     ) : (
-                      <Link className="small" href="/app/mandates/new">
+                      <Link className="small" href={`/app/mandates/new?item=${entry.itemSpec.itemId}`}>
                         Set your limits for this
                       </Link>
                     )}
