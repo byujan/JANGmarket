@@ -1,0 +1,5070 @@
+{
+ "hw7": true,
+ "variant": "fix+meso",
+ "seed": 20261123,
+ "maxRounds": 12,
+ "deadlineAware": false,
+ "respectBounds": true,
+ "meso": true,
+ "refine": false,
+ "endgame": false,
+ "endgameDirections": "asks",
+ "disclose": {
+  "buyer": false,
+  "seller": false
+ },
+ "toughness": {
+  "ordinary": {
+   "buyer": 1.5,
+   "seller": 1.6
+  },
+  "narrow": {
+   "buyer": 1.5,
+   "seller": 1.6
+  },
+  "asymmetric": {
+   "buyer": 1.5,
+   "seller": 4
+  },
+  "nozopa": {
+   "buyer": 1.5,
+   "seller": 1.6
+  }
+ },
+ "caseSize": {
+  "ordinary": 40,
+  "narrow": 40,
+  "asymmetric": 40,
+  "nozopa": 20
+ },
+ "commit": "9ff96d5",
+ "node": "v24.21.0",
+ "ranAt": "2026-11-21T18:26:05.897Z",
+ "elapsedSeconds": 4.3,
+ "summaries": [
+  {
+   "case": "ordinary",
+   "markets": 40,
+   "feasible": 30,
+   "feasiblePriceOnly": 16,
+   "falseAgreements": 0,
+   "violations": 0,
+   "jangOnlyWins": 7,
+   "priceOnlyOnlyWins": 1,
+   "jang": {
+    "closed": 22,
+    "closingRate": "22/30 (73%, CI 56-86)",
+    "paretoOptimal": "6/22 (27%, CI 13-48)",
+    "meanEfficiency": "0.849",
+    "meanParetoDistance": "0.018",
+    "meanBuyerShare": "0.513",
+    "meanRounds": "11.4",
+    "meanApiCalls": "38.2",
+    "meanMs": "12.4"
+   },
+   "priceOnly": {
+    "closed": 16,
+    "closingRate": "16/30 (53%, CI 36-70)",
+    "paretoOptimal": "1/16 (6%, CI 1-28)",
+    "meanEfficiency": "0.790",
+    "meanParetoDistance": "0.038",
+    "meanBuyerShare": "0.303",
+    "meanRounds": "11.4",
+    "meanApiCalls": "38.1",
+    "meanMs": "7.4"
+   },
+   "posted": {
+    "closed": 1,
+    "closingRate": "1/30 (3%, CI 1-17)",
+    "paretoOptimal": "0/1 (0%, CI 0-79)",
+    "meanEfficiency": "0.856",
+    "meanParetoDistance": "0.003",
+    "meanBuyerShare": "0.067"
+   },
+   "oracle": {
+    "closed": 4,
+    "closingRate": "4/30 (13%, CI 5-30)",
+    "paretoOptimal": "0/4 (0%, CI 0-49)",
+    "meanEfficiency": "0.834",
+    "meanParetoDistance": "0.006",
+    "meanBuyerShare": "0.120"
+   }
+  },
+  {
+   "case": "narrow",
+   "markets": 40,
+   "feasible": 15,
+   "feasiblePriceOnly": 0,
+   "falseAgreements": 0,
+   "violations": 0,
+   "jangOnlyWins": 6,
+   "priceOnlyOnlyWins": 0,
+   "jang": {
+    "closed": 6,
+    "closingRate": "6/15 (40%, CI 20-64)",
+    "paretoOptimal": "2/6 (33%, CI 10-70)",
+    "meanEfficiency": "0.757",
+    "meanParetoDistance": "0.010",
+    "meanBuyerShare": "0.693",
+    "meanRounds": "11.9",
+    "meanApiCalls": "39.9",
+    "meanMs": "12.6"
+   },
+   "priceOnly": {
+    "closed": 0,
+    "closingRate": "0/15 (0%, CI -0-20)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-",
+    "meanRounds": "12.0",
+    "meanApiCalls": "40.0",
+    "meanMs": "7.5"
+   },
+   "posted": {
+    "closed": 0,
+    "closingRate": "0/15 (0%, CI -0-20)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-"
+   },
+   "oracle": {
+    "closed": 0,
+    "closingRate": "0/15 (0%, CI -0-20)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-"
+   }
+  },
+  {
+   "case": "asymmetric",
+   "markets": 40,
+   "feasible": 30,
+   "feasiblePriceOnly": 16,
+   "falseAgreements": 0,
+   "violations": 0,
+   "jangOnlyWins": 9,
+   "priceOnlyOnlyWins": 0,
+   "jang": {
+    "closed": 25,
+    "closingRate": "25/30 (83%, CI 66-93)",
+    "paretoOptimal": "3/25 (12%, CI 4-30)",
+    "meanEfficiency": "0.777",
+    "meanParetoDistance": "0.030",
+    "meanBuyerShare": "0.452",
+    "meanRounds": "11.6",
+    "meanApiCalls": "38.6",
+    "meanMs": "12.2"
+   },
+   "priceOnly": {
+    "closed": 16,
+    "closingRate": "16/30 (53%, CI 36-70)",
+    "paretoOptimal": "1/16 (6%, CI 1-28)",
+    "meanEfficiency": "0.784",
+    "meanParetoDistance": "0.038",
+    "meanBuyerShare": "0.273",
+    "meanRounds": "11.7",
+    "meanApiCalls": "39.1",
+    "meanMs": "7.4"
+   },
+   "posted": {
+    "closed": 1,
+    "closingRate": "1/30 (3%, CI 1-17)",
+    "paretoOptimal": "0/1 (0%, CI 0-79)",
+    "meanEfficiency": "0.856",
+    "meanParetoDistance": "0.003",
+    "meanBuyerShare": "0.067"
+   },
+   "oracle": {
+    "closed": 4,
+    "closingRate": "4/30 (13%, CI 5-30)",
+    "paretoOptimal": "0/4 (0%, CI 0-49)",
+    "meanEfficiency": "0.834",
+    "meanParetoDistance": "0.006",
+    "meanBuyerShare": "0.120"
+   }
+  },
+  {
+   "case": "nozopa",
+   "markets": 20,
+   "feasible": 0,
+   "feasiblePriceOnly": 0,
+   "falseAgreements": 0,
+   "violations": 0,
+   "jangOnlyWins": 0,
+   "priceOnlyOnlyWins": 0,
+   "jang": {
+    "closed": 0,
+    "closingRate": "0/0 (-%, CI 0-0)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-",
+    "meanRounds": "12.0",
+    "meanApiCalls": "40.0",
+    "meanMs": "12.4"
+   },
+   "priceOnly": {
+    "closed": 0,
+    "closingRate": "0/0 (-%, CI 0-0)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-",
+    "meanRounds": "11.4",
+    "meanApiCalls": "38.1",
+    "meanMs": "7.3"
+   },
+   "posted": {
+    "closed": 0,
+    "closingRate": "0/0 (-%, CI 0-0)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-"
+   },
+   "oracle": {
+    "closed": 0,
+    "closingRate": "0/0 (-%, CI 0-0)",
+    "paretoOptimal": "0/0 (-%, CI 0-0)",
+    "meanEfficiency": "-",
+    "meanParetoDistance": "-",
+    "meanBuyerShare": "-"
+   }
+  }
+ ],
+ "rows": [
+  {
+   "case": "ordinary",
+   "index": 0,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 10888,
+   "jang": {
+    "agreed": true,
+    "rounds": 10,
+    "apiCalls": 34,
+    "ms": 15.15,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.42239858906525574,
+     "sellerValue": 0.6601272219249746,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.4095258109902304,
+     "efficiency": 0.992531722529142,
+     "buyerShare": 0.25004184429219906
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 7.62,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3818342151675485,
+     "sellerValue": 0.5200047559598121,
+     "paretoOptimal": false,
+     "paretoDistance": 0.1274146672806983,
+     "surplus": 0.22883897112736062,
+     "efficiency": 0.5546169059421122,
+     "buyerShare": 0.2702084127669609
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 1,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 6201,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.88,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.5305958132045089,
+     "sellerValue": 0.3358574826464735,
+     "paretoOptimal": false,
+     "paretoDistance": 0.011238187426439233,
+     "surplus": 0.2374532958509824,
+     "efficiency": 0.9275240650153036,
+     "buyerShare": 0.912161747127052
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.58,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3993558776167472,
+     "sellerValue": 0.4114848793747877,
+     "paretoOptimal": false,
+     "paretoDistance": 0.04245315629933452,
+     "surplus": 0.1818407569915349,
+     "efficiency": 0.7102941128098502,
+     "buyerShare": 0.46939904468567895
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 2,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1727,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.04,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4979066022544284,
+     "sellerValue": 0.3900781515460415,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.1749847538004699,
+     "efficiency": 0.7617293318523892,
+     "buyerShare": 0.8109655222662452
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 8.06,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 3,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.49,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.86,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 4,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 10,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 14.19,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 6.88,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 5,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 24,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.65,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.85,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 6,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 200,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.72,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.99,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 7,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 221,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.98,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.86,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 8,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 7486,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.67,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4103703703703704,
+     "sellerValue": 0.5370103147880926,
+     "paretoOptimal": false,
+     "paretoDistance": 0.016114955982576364,
+     "surplus": 0.38538068515846297,
+     "efficiency": 0.8789019639963661,
+     "buyerShare": 0.31493630855024474
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 9,
+    "apiCalls": 31,
+    "ms": 6.65,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4074074074074074,
+     "sellerValue": 0.4746940302495858,
+     "paretoOptimal": false,
+     "paretoDistance": 0.06433436913081851,
+     "surplus": 0.32010143765699317,
+     "efficiency": 0.7300256423570102,
+     "buyerShare": 0.36990589068921226
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 9,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 5840,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 12.56,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4607407407407408,
+     "sellerValue": 0.6051683153132428,
+     "paretoOptimal": false,
+     "paretoDistance": 0.007349146924428499,
+     "surplus": 0.36390905605398355,
+     "efficiency": 0.8457300393305779,
+     "buyerShare": 0.37575525661130066
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 8.04,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3994074074074074,
+     "sellerValue": 0.5361552028218695,
+     "paretoOptimal": false,
+     "paretoDistance": 0.09904149668664079,
+     "surplus": 0.23356261022927682,
+     "efficiency": 0.5428029675250959,
+     "buyerShare": 0.32285735860454573
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 10,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1137,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.92,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.35964912280701755,
+     "sellerValue": 0.37652270210409744,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.14317182491111496,
+     "efficiency": 0.8084517537031833,
+     "buyerShare": 0.7099799340416604
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.46,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 11,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 17226,
+   "jang": {
+    "agreed": true,
+    "rounds": 10,
+    "apiCalls": 34,
+    "ms": 11.12,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.5438003220611916,
+     "sellerValue": 0.5223047424882288,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0726929445599865,
+     "surplus": 0.4811050645494203,
+     "efficiency": 0.7836497196938487,
+     "buyerShare": 0.5587143887436248
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 8,
+    "apiCalls": 28,
+    "ms": 5.45,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4471819645732689,
+     "sellerValue": 0.6670549973302268,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0037837787318987523,
+     "surplus": 0.5292369619034957,
+     "efficiency": 0.8620495343064419,
+     "buyerShare": 0.3253400215169885
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.3761674718196457,
+     "sellerValue": 0.7129265569632544,
+     "paretoOptimal": false,
+     "paretoDistance": 0.003783778731898788,
+     "surplus": 0.5040940287829001,
+     "efficiency": 0.8210953770046704,
+     "buyerShare": 0.20069166870297492
+    }
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 12,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 1214,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 14.44,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 8.51,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3037037037037037,
+     "sellerValue": 0.5032279986408428,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0006459488413267696,
+     "surplus": 0.14193170234454644,
+     "efficiency": 0.9387349200695903,
+     "buyerShare": 0.24450988137561172
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 13,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1559,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.7,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.41764705882352937,
+     "sellerValue": 0.32558139534883723,
+     "paretoOptimal": false,
+     "paretoDistance": 0.013153229297373278,
+     "surplus": 0.14322845417236663,
+     "efficiency": 0.7927814235234727,
+     "buyerShare": 0.4862655205348614
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.8,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 14,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 315,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.43,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.87,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 15,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 5469,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 12.54,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.49041394335511984,
+     "sellerValue": 0.567075212644833,
+     "paretoOptimal": false,
+     "paretoDistance": 0.015813249197313965,
+     "surplus": 0.4114891559999528,
+     "efficiency": 0.9288000673130019,
+     "buyerShare": 0.40441878219298427
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.91,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.34618736383442267,
+     "sellerValue": 0.4411626816690108,
+     "paretoOptimal": false,
+     "paretoDistance": 0.20706030853419832,
+     "surplus": 0.14135004550343344,
+     "efficiency": 0.31905076929487763,
+     "buyerShare": 0.15696750401034515
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 16,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 2090,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 12.5,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4483430799220273,
+     "sellerValue": 0.506286102616378,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.31662918253840533,
+     "efficiency": 0.9123935052873613,
+     "buyerShare": 0.3232269341112098
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.96,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 17,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 6306,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.92,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.47246376811594204,
+     "sellerValue": 0.38287638287638287,
+     "paretoOptimal": false,
+     "paretoDistance": 0.033164481801375885,
+     "surplus": 0.3073401509923249,
+     "efficiency": 0.8329090599539205,
+     "buyerShare": 0.6164627937619301
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 7.77,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3355877616747182,
+     "sellerValue": 0.5396290951846507,
+     "paretoOptimal": false,
+     "paretoDistance": 0.004014619976268529,
+     "surplus": 0.32721685685936897,
+     "efficiency": 0.8867760485177208,
+     "buyerShare": 0.1607122633578727
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 18,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 7520,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.67,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.42105263157894735,
+     "sellerValue": 0.5035971223021584,
+     "paretoOptimal": false,
+     "paretoDistance": 0.04027771682152277,
+     "surplus": 0.34564975388110575,
+     "efficiency": 0.7750158974615851,
+     "buyerShare": 0.373362428672054
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 7.24,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3676413255360624,
+     "sellerValue": 0.5816679989341861,
+     "paretoOptimal": false,
+     "paretoDistance": 0.005942613957273835,
+     "surplus": 0.3703093244702485,
+     "efficiency": 0.8303075880141426,
+     "buyerShare": 0.20426524674816715
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.2939571150097466,
+     "sellerValue": 0.6320277111644018,
+     "paretoOptimal": false,
+     "paretoDistance": 0.005942613957273835,
+     "surplus": 0.34698482617414844,
+     "efficiency": 0.7780093966316278,
+     "buyerShare": 0.0056403475371696625
+    }
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 19,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1271,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.69,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4226579520697168,
+     "sellerValue": 0.4458340013895569,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.20949195345927368,
+     "efficiency": 0.9163500019877704,
+     "buyerShare": 0.45661874115042406
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.8,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 20,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 3636,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.85,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4819172113289761,
+     "sellerValue": 0.39515054622968293,
+     "paretoOptimal": false,
+     "paretoDistance": 0.04153842422990743,
+     "surplus": 0.14306775755865903,
+     "efficiency": 0.6897145636939745,
+     "buyerShare": 0.929050777038138
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 6.75,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.39128540305010895,
+     "sellerValue": 0.5097255528910206,
+     "paretoOptimal": false,
+     "paretoDistance": 0.01903784049660384,
+     "surplus": 0.16701095594112958,
+     "efficiency": 0.8051421967791795,
+     "buyerShare": 0.25318939594007434
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 21,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 9993,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 13.1,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.40289855072463765,
+     "sellerValue": 0.5630252100840337,
+     "paretoOptimal": false,
+     "paretoDistance": 0.016255015227138483,
+     "surplus": 0.43492376080867134,
+     "efficiency": 0.8521712217577238,
+     "buyerShare": 0.2917719429462534
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 9,
+    "apiCalls": 31,
+    "ms": 6.59,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4776167471819645,
+     "sellerValue": 0.5197634609399315,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0027393680288398275,
+     "surplus": 0.466380208121896,
+     "efficiency": 0.9138056541677307,
+     "buyerShare": 0.43230125050518586
+    }
+   },
+   "posted": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.30515297906602257,
+     "sellerValue": 0.6626206037970744,
+     "paretoOptimal": false,
+     "paretoDistance": 0.002739368028839764,
+     "surplus": 0.436773582863097,
+     "efficiency": 0.8557956848526423,
+     "buyerShare": 0.06674620492137297
+    }
+   },
+   "oracle": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.3457326892109501,
+     "sellerValue": 0.6290071584189232,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0027393680288397815,
+     "surplus": 0.44373984762987323,
+     "efficiency": 0.8694450893973691,
+     "buyerShare": 0.15714768367864634
+    }
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 22,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 14.11,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.18,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 23,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 7071,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.45,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4405925925925926,
+     "sellerValue": 0.47143391587836037,
+     "paretoOptimal": false,
+     "paretoDistance": 0.010167412672796715,
+     "surplus": 0.26202650847095293,
+     "efficiency": 0.8557099188304155,
+     "buyerShare": 0.4106172051844892
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 7.01,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.43940740740740736,
+     "sellerValue": 0.48190903746459296,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0031211283376628126,
+     "surplus": 0.2713164448720003,
+     "efficiency": 0.8860484169086021,
+     "buyerShare": 0.3921893030022838
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 24,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.84,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.65,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 25,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 16,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.37,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.71,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 26,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 2062,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.32,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.40141093474426814,
+     "sellerValue": 0.329020497087724,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0012508355979204417,
+     "surplus": 0.15143143183199215,
+     "efficiency": 0.7915577721425713,
+     "buyerShare": 0.9668464002024754
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 6.56,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.2945326278659612,
+     "sellerValue": 0.4609399315281669,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0037525067937613423,
+     "surplus": 0.1764725593941281,
+     "efficiency": 0.9224519920890188,
+     "buyerShare": 0.22401572234054978
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 27,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.69,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.66,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 28,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.37,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.58,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 29,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1411,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.7,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4934640522875817,
+     "sellerValue": 0.42535664054651395,
+     "paretoOptimal": false,
+     "paretoDistance": 0.007189136607801711,
+     "surplus": 0.16382069283409567,
+     "efficiency": 0.9126687585866997,
+     "buyerShare": 0.7048197043368286
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.74,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 30,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 2368,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.66,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.5029239766081871,
+     "sellerValue": 0.5193201859868526,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.2642441625950397,
+     "efficiency": 0.9717599386241055,
+     "buyerShare": 0.47275964540278603
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.03,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 31,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 8202,
+   "jang": {
+    "agreed": true,
+    "rounds": 10,
+    "apiCalls": 34,
+    "ms": 10.9,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.42854030501089324,
+     "sellerValue": 0.5713800300956265,
+     "paretoOptimal": false,
+     "paretoDistance": 0.040612558389046635,
+     "surplus": 0.3219203351065198,
+     "efficiency": 0.8419179909168542,
+     "buyerShare": 0.3061015234663177
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 9,
+    "apiCalls": 31,
+    "ms": 4.67,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4226579520697168,
+     "sellerValue": 0.6159409737391389,
+     "paretoOptimal": false,
+     "paretoDistance": 0.011285448161457195,
+     "surplus": 0.3605989258088557,
+     "efficiency": 0.9430740777630947,
+     "buyerShare": 0.2569557074022799
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 32,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 503,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 14.56,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.72,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 33,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 5708,
+   "jang": {
+    "agreed": true,
+    "rounds": 10,
+    "apiCalls": 34,
+    "ms": 10.29,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4132045088566828,
+     "sellerValue": 0.5124546697580405,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0184072866950806,
+     "surplus": 0.3226591786147234,
+     "efficiency": 0.8322159362513625,
+     "buyerShare": 0.3012606344378986
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 9,
+    "apiCalls": 31,
+    "ms": 6.34,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4428341384863124,
+     "sellerValue": 0.5103739373402295,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.35020807582654195,
+     "efficiency": 0.9032711945714801,
+     "buyerShare": 0.36216794312057315
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 34,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.75,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.67,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 35,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.41,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.74,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 36,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.56,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.61,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 37,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.44,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 8.18,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 38,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.33,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.7,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "ordinary",
+   "index": 39,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 14307,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.2,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.40350877192982454,
+     "sellerValue": 0.5688073394495413,
+     "paretoOptimal": false,
+     "paretoDistance": 0.047463413418927,
+     "surplus": 0.33731611137936585,
+     "efficiency": 0.7728603553472383,
+     "buyerShare": 0.3098244299759751
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 9,
+    "apiCalls": 31,
+    "ms": 6.54,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4571150097465887,
+     "sellerValue": 0.5687587981165964,
+     "paretoOptimal": false,
+     "paretoDistance": 0.011493670723119001,
+     "surplus": 0.39087380786318504,
+     "efficiency": 0.8955720164262178,
+     "buyerShare": 0.4045167687519565
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.34307992202729043,
+     "sellerValue": 0.6709868452987721,
+     "paretoOptimal": false,
+     "paretoDistance": 0.01149367072311897,
+     "surplus": 0.3790667673260625,
+     "efficiency": 0.8685196663092765,
+     "buyerShare": 0.1162853772126485
+    }
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 0,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 256,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.95,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4655679603048024,
+     "sellerValue": 0.30545151893466505,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0009167474328542624,
+     "surplus": 0.15201947923946746,
+     "efficiency": 0.894867870610686,
+     "buyerShare": 0.6681246430584616
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.61,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 1,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.44,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.78,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 2,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 9,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.58,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.78,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 3,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 29,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.12,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.99,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 4,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 41,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 14.46,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.61,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 5,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.54,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.69,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 6,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.35,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.73,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 7,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.38,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.9,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 8,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.34,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.69,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 9,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.34,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.61,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 10,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.06,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.43,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 11,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.1,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.71,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 12,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.27,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.74,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 13,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.79,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.66,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 14,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.99,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.6,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 15,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 18,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.53,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.66,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 16,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 172,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.18,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3985890652557319,
+     "sellerValue": 0.3134083450539147,
+     "paretoOptimal": false,
+     "paretoDistance": 0.04320541248269286,
+     "surplus": 0.09099741030964659,
+     "efficiency": 0.5884673849755151,
+     "buyerShare": 0.9295766216630965
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 6.49,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 17,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.89,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.55,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 18,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 43,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.06,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.65,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 19,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.58,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.63,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 20,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.61,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 6.52,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 21,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 244,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.12,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.42105263157894735,
+     "sellerValue": 0.34109149277688605,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.23614412435583337,
+     "efficiency": 0.9183569676496464,
+     "buyerShare": 0.6269587777498731
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.43,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 22,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.69,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.54,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 23,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.66,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.72,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 24,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 5,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.32,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.38269005847953214,
+     "sellerValue": 0.2536475869809203,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0033715483310817547,
+     "surplus": 0.004337645460452455,
+     "efficiency": 0.4474557149787942,
+     "buyerShare": 0.3896257762283417
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 6.44,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 25,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.48,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.7,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 26,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 26,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.37,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.82,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 27,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 65,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 14.94,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3202729044834308,
+     "sellerValue": 0.36350395339159386,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.05577685787502468,
+     "efficiency": 0.8899218759828409,
+     "buyerShare": 0.6144645967728005
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.58,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 28,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 4,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.29,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.65,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 29,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.63,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.72,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 30,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 13,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.83,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.61,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 31,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 41,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.53,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.7,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 32,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.45,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.42,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 33,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 182,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.96,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.37037037037037035,
+     "sellerValue": 0.27056938983544493,
+     "paretoOptimal": false,
+     "paretoDistance": 0.015417891924526177,
+     "surplus": 0.12593976020581527,
+     "efficiency": 0.8025458694194076,
+     "buyerShare": 0.9319564383683079
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.69,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 34,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.63,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.48,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 35,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.84,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 6.64,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 36,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.23,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.65,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 37,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.33,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.66,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 38,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.27,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.63,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "narrow",
+   "index": 39,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.23,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.67,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 0,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 10888,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 12.58,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.45326278659611996,
+     "sellerValue": 0.574311872064681,
+     "paretoOptimal": false,
+     "paretoDistance": 0.03857370142667621,
+     "surplus": 0.354574658660801,
+     "efficiency": 0.8593514432578291,
+     "buyerShare": 0.3758384400606699
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 6.64,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3818342151675485,
+     "sellerValue": 0.5200047559598121,
+     "paretoOptimal": false,
+     "paretoDistance": 0.1274146672806983,
+     "surplus": 0.22883897112736062,
+     "efficiency": 0.5546169059421122,
+     "buyerShare": 0.2702084127669609
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 1,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 6201,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.66,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4138486312399356,
+     "sellerValue": 0.4197854473083832,
+     "paretoOptimal": false,
+     "paretoDistance": 0.026946569684090198,
+     "surplus": 0.20463407854831878,
+     "efficiency": 0.7993278496960156,
+     "buyerShare": 0.48793745376266373
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.86,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3993558776167472,
+     "sellerValue": 0.4114848793747877,
+     "paretoOptimal": false,
+     "paretoDistance": 0.04245315629933452,
+     "surplus": 0.1818407569915349,
+     "efficiency": 0.7102941128098502,
+     "buyerShare": 0.46939904468567895
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 2,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1727,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.4,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.377938808373591,
+     "sellerValue": 0.5222562011552838,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.18719500952887486,
+     "efficiency": 0.8148820193622409,
+     "buyerShare": 0.11719761348769803
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.49,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 3,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.12,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 8.33,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 4,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 10,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.02,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 6.51,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 5,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 24,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.49,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.73,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 6,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 200,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.75,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3072592592592593,
+     "sellerValue": 0.40880796763149707,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0012821339998319698,
+     "surplus": 0.04506722689075632,
+     "efficiency": 0.7431752043974316,
+     "buyerShare": 0.6936139943784917
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 8.1,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 7,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 221,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.23,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.5,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 8,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 7486,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 13.41,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4148148148148148,
+     "sellerValue": 0.5107156218267329,
+     "paretoOptimal": false,
+     "paretoDistance": 0.03267464631859055,
+     "surplus": 0.3635304366415477,
+     "efficiency": 0.8290701299815685,
+     "buyerShare": 0.34609155694677673
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 6.49,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4074074074074074,
+     "sellerValue": 0.4746940302495858,
+     "paretoOptimal": false,
+     "paretoDistance": 0.06433436913081851,
+     "surplus": 0.32010143765699317,
+     "efficiency": 0.7300256423570102,
+     "buyerShare": 0.36990589068921226
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 9,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 5840,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.2,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4186666666666667,
+     "sellerValue": 0.5831608005521048,
+     "paretoOptimal": false,
+     "paretoDistance": 0.050130367512842444,
+     "surplus": 0.2998274672187715,
+     "efficiency": 0.6968034772009172,
+     "buyerShare": 0.3157371389112672
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 7.4,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3994074074074074,
+     "sellerValue": 0.5361552028218695,
+     "paretoOptimal": false,
+     "paretoDistance": 0.09904149668664079,
+     "surplus": 0.23356261022927682,
+     "efficiency": 0.5428029675250959,
+     "buyerShare": 0.32285735860454573
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 10,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1137,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.87,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.35964912280701755,
+     "sellerValue": 0.37652270210409744,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.14317182491111496,
+     "efficiency": 0.8084517537031833,
+     "buyerShare": 0.7099799340416604
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 6.48,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 11,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 17226,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 12.64,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3988727858293076,
+     "sellerValue": 0.6566428814135237,
+     "paretoOptimal": false,
+     "paretoDistance": 0.038593096326212106,
+     "surplus": 0.4705156672428312,
+     "efficiency": 0.7664011416960111,
+     "buyerShare": 0.26327026803419346
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 7.2,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3457326892109501,
+     "sellerValue": 0.7325857968059803,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0037837787318987025,
+     "surplus": 0.4933184860169304,
+     "efficiency": 0.8035435953039108,
+     "buyerShare": 0.14338138791847857
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.3761674718196457,
+     "sellerValue": 0.7129265569632544,
+     "paretoOptimal": false,
+     "paretoDistance": 0.003783778731898788,
+     "surplus": 0.5040940287829001,
+     "efficiency": 0.8210953770046704,
+     "buyerShare": 0.20069166870297492
+    }
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 12,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 1214,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.5,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3399355877616747,
+     "sellerValue": 0.4558273870200476,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0006459488413267737,
+     "surplus": 0.13076297478172227,
+     "efficiency": 0.8648650629286171,
+     "buyerShare": 0.5424745642264931
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.73,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3037037037037037,
+     "sellerValue": 0.5032279986408428,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0006459488413267696,
+     "surplus": 0.14193170234454644,
+     "efficiency": 0.9387349200695903,
+     "buyerShare": 0.24450988137561172
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 13,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1559,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.44,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4230936819172113,
+     "sellerValue": 0.28624748779787546,
+     "paretoOptimal": false,
+     "paretoDistance": 0.041533887067553746,
+     "surplus": 0.10934116971508678,
+     "efficiency": 0.60521248153757,
+     "buyerShare": 0.6867832319050999
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.69,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 14,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 315,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.65,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.66,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 15,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 5469,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.51,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4335511982570806,
+     "sellerValue": 0.5414573705712946,
+     "paretoOptimal": false,
+     "paretoDistance": 0.07612403362019445,
+     "surplus": 0.3290085688283752,
+     "efficiency": 0.742627542958591,
+     "buyerShare": 0.3329736931995444
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 8.51,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.34618736383442267,
+     "sellerValue": 0.4411626816690108,
+     "paretoOptimal": false,
+     "paretoDistance": 0.20706030853419832,
+     "surplus": 0.14135004550343344,
+     "efficiency": 0.31905076929487763,
+     "buyerShare": 0.15696750401034515
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 16,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 2090,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.16,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.47758284600389866,
+     "sellerValue": 0.42881413523615364,
+     "paretoOptimal": false,
+     "paretoDistance": 0.05092536340351699,
+     "surplus": 0.26839698124005235,
+     "efficiency": 0.7734083780873688,
+     "buyerShare": 0.49025456767791264
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.68,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 17,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 6306,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 13.06,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.39355877616747176,
+     "sellerValue": 0.4621880177435733,
+     "paretoOptimal": false,
+     "paretoDistance": 0.03316448180137597,
+     "surplus": 0.3077467939110451,
+     "efficiency": 0.8340110850882044,
+     "buyerShare": 0.35925240605245445
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 6.58,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3355877616747182,
+     "sellerValue": 0.5396290951846507,
+     "paretoOptimal": false,
+     "paretoDistance": 0.004014619976268529,
+     "surplus": 0.32721685685936897,
+     "efficiency": 0.8867760485177208,
+     "buyerShare": 0.1607122633578727
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 18,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 7520,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.97,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4105263157894737,
+     "sellerValue": 0.5611510791366907,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.39267739492616444,
+     "efficiency": 0.8804612768399667,
+     "buyerShare": 0.30184145387783357
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 7.86,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3676413255360624,
+     "sellerValue": 0.5816679989341861,
+     "paretoOptimal": false,
+     "paretoDistance": 0.005942613957273835,
+     "surplus": 0.3703093244702485,
+     "efficiency": 0.8303075880141426,
+     "buyerShare": 0.20426524674816715
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.2939571150097466,
+     "sellerValue": 0.6320277111644018,
+     "paretoOptimal": false,
+     "paretoDistance": 0.005942613957273835,
+     "surplus": 0.34698482617414844,
+     "efficiency": 0.7780093966316278,
+     "buyerShare": 0.0056403475371696625
+    }
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 19,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1271,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.88,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3962962962962963,
+     "sellerValue": 0.3572764683875795,
+     "paretoOptimal": false,
+     "paretoDistance": 0.08951538290537533,
+     "surplus": 0.09457276468387577,
+     "efficiency": 0.41367580794890046,
+     "buyerShare": 0.7327299410980528
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 5.77,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 20,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 3636,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 12.81,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4361655773420479,
+     "sellerValue": 0.4614974686917133,
+     "paretoOptimal": false,
+     "paretoDistance": 0.023782024748114253,
+     "surplus": 0.16366304603376125,
+     "efficiency": 0.7890022763634944,
+     "buyerShare": 0.5325916842832498
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 6.66,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.39128540305010895,
+     "sellerValue": 0.5097255528910206,
+     "paretoOptimal": false,
+     "paretoDistance": 0.01903784049660384,
+     "surplus": 0.16701095594112958,
+     "efficiency": 0.8051421967791795,
+     "buyerShare": 0.25318939594007434
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 21,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 9993,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.48,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4096618357487923,
+     "sellerValue": 0.562091503267974,
+     "paretoOptimal": false,
+     "paretoDistance": 0.013316191977100633,
+     "surplus": 0.4407533390167662,
+     "efficiency": 0.8635934507357119,
+     "buyerShare": 0.3032576816025159
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 7.81,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3355877616747182,
+     "sellerValue": 0.637410519763461,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0027393680288397815,
+     "surplus": 0.44199828143817915,
+     "efficiency": 0.8660327382611874,
+     "buyerShare": 0.13481446461925334
+    }
+   },
+   "posted": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.30515297906602257,
+     "sellerValue": 0.6626206037970744,
+     "paretoOptimal": false,
+     "paretoDistance": 0.002739368028839764,
+     "surplus": 0.436773582863097,
+     "efficiency": 0.8557956848526423,
+     "buyerShare": 0.06674620492137297
+    }
+   },
+   "oracle": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.3457326892109501,
+     "sellerValue": 0.6290071584189232,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0027393680288397815,
+     "surplus": 0.44373984762987323,
+     "efficiency": 0.8694450893973691,
+     "buyerShare": 0.15714768367864634
+    }
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 22,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.89,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.22,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 23,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 7071,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 13.66,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.514962962962963,
+     "sellerValue": 0.4201806424028646,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0012482639713274743,
+     "surplus": 0.28514360536582756,
+     "efficiency": 0.9312043000017804,
+     "buyerShare": 0.6381449891871568
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 8.28,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.43940740740740736,
+     "sellerValue": 0.48190903746459296,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0031211283376628126,
+     "surplus": 0.2713164448720003,
+     "efficiency": 0.8860484169086021,
+     "buyerShare": 0.3921893030022838
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 24,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.77,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.66,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 25,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 16,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.58,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.75,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 26,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 2062,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.12,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.3280423280423281,
+     "sellerValue": 0.4066293183940243,
+     "paretoOptimal": false,
+     "paretoDistance": 0.007775538146068907,
+     "surplus": 0.15567164643635234,
+     "efficiency": 0.8137220928851601,
+     "buyerShare": 0.46920765415166366
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.41,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.2945326278659612,
+     "sellerValue": 0.4609399315281669,
+     "paretoOptimal": false,
+     "paretoDistance": 0.0037525067937613423,
+     "surplus": 0.1764725593941281,
+     "efficiency": 0.9224519920890188,
+     "buyerShare": 0.22401572234054978
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 27,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.36,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.72,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 28,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.29,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.58,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 29,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 1411,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 10.07,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.47167755991285404,
+     "sellerValue": 0.4236822717835376,
+     "paretoOptimal": false,
+     "paretoDistance": 0.02318521102210853,
+     "surplus": 0.14035983169639166,
+     "efficiency": 0.7819649101320506,
+     "buyerShare": 0.6674100330604933
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.34,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 30,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 2368,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.72,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.46315789473684216,
+     "sellerValue": 0.4227994227994228,
+     "paretoOptimal": false,
+     "paretoDistance": 0.09709551484045395,
+     "surplus": 0.12795731753626494,
+     "efficiency": 0.4705640185743885,
+     "buyerShare": 0.6655179740909087
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.84,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 31,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 8202,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.66,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.47058823529411764,
+     "sellerValue": 0.54521625163827,
+     "paretoOptimal": false,
+     "paretoDistance": 0.022459785559063326,
+     "surplus": 0.3378044869323877,
+     "efficiency": 0.8834598002847773,
+     "buyerShare": 0.4161822614341315
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 7.78,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4226579520697168,
+     "sellerValue": 0.6159409737391389,
+     "paretoOptimal": false,
+     "paretoDistance": 0.011285448161457195,
+     "surplus": 0.3605989258088557,
+     "efficiency": 0.9430740777630947,
+     "buyerShare": 0.2569557074022799
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 32,
+   "feasible": true,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 503,
+   "jang": {
+    "agreed": true,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.89,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.32310405643738976,
+     "sellerValue": 0.4114848793747877,
+     "paretoOptimal": false,
+     "paretoDistance": 0.004281676989082268,
+     "surplus": 0.11258893581217749,
+     "efficiency": 0.8990869240169763,
+     "buyerShare": 0.1519159614930814
+    }
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.71,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 33,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 5708,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.47,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4138486312399356,
+     "sellerValue": 0.5205398014386778,
+     "paretoOptimal": false,
+     "paretoDistance": 0.011601616871485879,
+     "surplus": 0.33138843267861345,
+     "efficiency": 0.8547307903917145,
+     "buyerShare": 0.29526869857533916
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 7.62,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4428341384863124,
+     "sellerValue": 0.5103739373402295,
+     "paretoOptimal": true,
+     "paretoDistance": 0,
+     "surplus": 0.35020807582654195,
+     "efficiency": 0.9032711945714801,
+     "buyerShare": 0.36216794312057315
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 34,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.64,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 6.44,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 35,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.64,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 6.65,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 36,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 6.62,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 37,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.98,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.73,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 38,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.94,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.74,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "asymmetric",
+   "index": 39,
+   "feasible": true,
+   "feasiblePriceOnly": true,
+   "feasibleCount": 14307,
+   "jang": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 11.04,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.42105263157894735,
+     "sellerValue": 0.5229357798165138,
+     "paretoOptimal": false,
+     "paretoDistance": 0.06961078128993899,
+     "surplus": 0.3089884113954612,
+     "efficiency": 0.7079557879780624,
+     "buyerShare": 0.39500714938702786
+    }
+   },
+   "priceOnly": {
+    "agreed": true,
+    "rounds": 11,
+    "apiCalls": 37,
+    "ms": 6.65,
+    "violations": 0,
+    "q": {
+     "buyerValue": 0.4571150097465887,
+     "sellerValue": 0.5687587981165964,
+     "paretoOptimal": false,
+     "paretoDistance": 0.011493670723119001,
+     "surplus": 0.39087380786318504,
+     "efficiency": 0.8955720164262178,
+     "buyerShare": 0.4045167687519565
+    }
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": true,
+    "q": {
+     "buyerValue": 0.34307992202729043,
+     "sellerValue": 0.6709868452987721,
+     "paretoOptimal": false,
+     "paretoDistance": 0.01149367072311897,
+     "surplus": 0.3790667673260625,
+     "efficiency": 0.8685196663092765,
+     "buyerShare": 0.1162853772126485
+    }
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 0,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 14.27,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.76,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 1,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.69,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 2,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.87,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.68,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 3,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 14.26,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.66,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 4,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.67,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 5,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.51,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.63,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 6,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.78,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.66,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 7,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.79,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.77,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 8,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.62,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.56,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 9,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.72,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.69,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 10,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.98,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.59,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 11,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.64,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.57,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 12,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.63,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.59,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 13,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.4,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.62,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 14,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.75,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.67,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 15,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.67,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.61,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 16,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 13.21,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 1,
+    "apiCalls": 3,
+    "ms": 0.17,
+    "violations": 0,
+    "stoppedBecause": "buyer: no package inside my mandate is reachable"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 17,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.69,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.43,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 18,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 11.18,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.49,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  },
+  {
+   "case": "nozopa",
+   "index": 19,
+   "feasible": false,
+   "feasiblePriceOnly": false,
+   "feasibleCount": 0,
+   "jang": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 12.21,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "priceOnly": {
+    "agreed": false,
+    "rounds": 12,
+    "apiCalls": 40,
+    "ms": 7.62,
+    "violations": 0,
+    "stoppedBecause": "buyer: ROUND_LIMIT"
+   },
+   "posted": {
+    "agreed": false
+   },
+   "oracle": {
+    "agreed": false
+   }
+  }
+ ]
+}

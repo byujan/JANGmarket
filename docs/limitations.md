@@ -16,6 +16,13 @@ check the claim without holding the constraint. Neither is in this prototype.
 
 ## 2. Negotiation misses deals that were available
 
+*Update, 2026-11-21:* the rule agent now chooses its last offer to clear the
+other side's limits rather than to sit nearest their ask. On two seeds not used
+before, narrow markets (a $0–50 zone of agreement) went from 8 of 20 closed to
+20 of 20, with ordinary markets unchanged. The method and all four attempts,
+three of them negative, are in [final/narrow-tuning.md](final/narrow-tuning.md).
+The paragraph below describes the earlier state.
+
 Across 40 randomised markets, a mutually acceptable package existed in 25 and the agents
 found one in 20. The other five ran out of rounds while still converging. The schedule is
 tuned for a readable demo, not for closing rate; a longer round budget or a less stubborn

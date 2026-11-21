@@ -47,7 +47,96 @@ export type RuleOptions = {
    * counterparty pick. Off by default.
    */
   meso?: boolean;
+  /**
+   * Look closely near the counterparty's ask. The plain grid splits our own
+   * range into `grid` points, which on a wide range is coarser than a narrow
+   * zone of agreement: a seller whose range is 1,200 to 3,000 considers prices
+   * about 225 apart, and steps straight over a zone 30 wide. With this on, the
+   * ask itself (pulled inside our own bounds) and a few points just behind it
+   * are candidates too. Off by default.
+   */
+  refine?: boolean;
+  /**
+   * On an agent's last offer of the session, choose the package most likely to
+   * be accepted rather than the one nearest the counterparty's last ask.
+   *
+   * Nearness is symmetric: it marks a package down for being *better* for the
+   * counterparty than what they asked, so on the last move an agent would not
+   * shorten a delivery it could easily shorten to make up for a higher price.
+   * With this on, the last offer is scored by how much it gives the
+   * counterparty, term by term in the direction they want, weighted by their
+   * disclosed priorities when there are any. Our own floor and hard bounds are
+   * unchanged. Off by default.
+   */
+  endgame?: boolean;
+  /**
+   * How endgame reads which way the counterparty wants each term.
+   * - "asks" (the first version): from the gap between their last ask and
+   *   ours. A concession across the asks flips it.
+   * - "opposed": the opposite of our own preference on that term, which no
+   *   concession can flip. Right whenever the two sides want opposite things
+   *   on every term, as buyers and sellers do on price, delivery and the like.
+   * Either way, an item's declared buyer preference wins where there is one.
+   */
+  endgameDirections?: "asks" | "opposed";
 };
+
+/** Which way the counterparty wants each term to move, +1 up, -1 down, 0 unknown. */
+type Directions = Record<string, number>;
+
+/**
+ * Read from the gap between their last ask and ours: they asked for more of
+ * whatever they want more of. Where the two asks agree, the item's declared
+ * buyer preference decides, if it has one.
+ */
+function counterpartyDirections(view: SessionView, theirAsk: Terms, source: "asks" | "opposed" = "asks"): Directions {
+  const mine = [...view.offers].reverse().find((offer) => offer.fromAgentId === view.you.agentId);
+  const theyAreBuyer = view.you.role === "seller";
+  const directions: Directions = {};
+  for (const dimension of view.itemSpec.dimensions) {
+    if (source === "opposed") {
+      if (dimension.buyerPrefers) {
+        const buyerWantsUp = dimension.buyerPrefers === "high" ? 1 : -1;
+        directions[dimension.key] = theyAreBuyer ? buyerWantsUp : -buyerWantsUp;
+        continue;
+      }
+      const own = view.yourMandate.preferences[dimension.key];
+      directions[dimension.key] = own ? -Math.sign(own.ideal - own.worst) : 0;
+      continue;
+    }
+    const gap = mine ? (theirAsk[dimension.key] ?? 0) - (mine.terms[dimension.key] ?? 0) : 0;
+    if (gap !== 0) {
+      directions[dimension.key] = Math.sign(gap);
+    } else if (dimension.buyerPrefers) {
+      const buyerWantsUp = dimension.buyerPrefers === "high" ? 1 : -1;
+      directions[dimension.key] = theyAreBuyer ? buyerWantsUp : -buyerWantsUp;
+    } else {
+      directions[dimension.key] = 0;
+    }
+  }
+  return directions;
+}
+
+/** How much a package gives the counterparty relative to their own ask, signed. */
+function gainForThem(
+  terms: Terms,
+  theirAsk: Terms,
+  dimensions: Dimension[],
+  directions: Directions,
+  weights?: Record<string, number>,
+): number {
+  let total = 0;
+  for (const dimension of dimensions) {
+    const span = dimension.max - dimension.min || 1;
+    const moved = ((terms[dimension.key] ?? 0) - (theirAsk[dimension.key] ?? 0)) / span;
+    const weight = weights ? (weights[dimension.key] ?? 0) : 1 / dimensions.length;
+    total += weight * (directions[dimension.key] ?? 0) * moved;
+  }
+  return total;
+}
+
+/** How far behind the counterparty's ask, toward our own ideal, refine looks. */
+const REFINE_STEPS = [1 / 32, 1 / 16, 1 / 8, 1 / 4];
 
 /** MESO alternatives must be worth no more than this above the main package to us. */
 const MESO_BAND = 0.03;
@@ -75,7 +164,13 @@ export function competitivePressure(view: SessionView): number {
 }
 
 /** Candidate values for one dimension, inside both the item's range and the mandate's bounds. */
-export function candidates(dimension: Dimension, mandate: Mandate, grid: number, anchor?: number): number[] {
+export function candidates(
+  dimension: Dimension,
+  mandate: Mandate,
+  grid: number,
+  anchor?: number,
+  refine = false,
+): number[] {
   const constraint = mandate.constraints[dimension.key] ?? {};
   const boundLow = Math.max(dimension.min, constraint.min ?? dimension.min);
   const boundHigh = Math.min(dimension.max, constraint.max ?? dimension.max);
@@ -101,6 +196,14 @@ export function candidates(dimension: Dimension, mandate: Mandate, grid: number,
   // Always consider standing exactly where the counterparty stood: that is the
   // package most likely to be acceptable to them at equal cost to us.
   if (anchor !== undefined && anchor >= low && anchor <= high) values.add(snap(anchor));
+  // Refine: the nearest we may go to their ask, and a few steps back from it
+  // toward what we want, so a small concession is available as a small move.
+  if (refine && anchor !== undefined) {
+    const near = snap(anchor);
+    values.add(near);
+    const ideal = preference ? snap(preference.ideal) : near;
+    for (const fraction of REFINE_STEPS) values.add(snap(near + (ideal - near) * fraction));
+  }
   return [...values].sort((a, b) => a - b);
 }
 
@@ -198,7 +301,11 @@ export function decide(view: SessionView, options: RuleOptions = {}): Decision {
     return { action: "accept", ...pick, reason: `their package is worth ${onTheTable.toFixed(3)} to me, at or above my target ${target.toFixed(3)}` };
   }
 
-  const counters = bestCounters(view, target, grid, theirs?.terms, options.meso ? 3 : 1);
+  // Endgame: this is our last offer of the session (offers alternate, so the
+  // last two slots are one each), and after it they can only take it or leave.
+  const lastMove = view.roundsUsed >= view.maxRounds - 2;
+  const directions = options.endgame && lastMove && theirs ? counterpartyDirections(view, theirs.terms, options.endgameDirections) : undefined;
+  const counters = bestCounters(view, target, grid, theirs?.terms, options.meso ? 3 : 1, options.refine, directions);
   const counter = counters[0];
   if (!counter) {
     if (theirs && onTheTable >= floor) {
@@ -248,8 +355,25 @@ function mesoNote(view: SessionView, theirAsk: Terms | undefined, count: number)
  * worth about the same to us, each as far as possible from those already
  * chosen. Searched over a coarse grid per dimension.
  */
-function bestCounters(view: SessionView, target: number, grid: number, theirAsk: Terms | undefined, count: number): Terms[] {
-  const primary = bestCounter(view, target, grid, theirAsk, count > 1, weightsFromOrder(view.counterpartyPriorities, view.itemSpec.dimensions));
+function bestCounters(
+  view: SessionView,
+  target: number,
+  grid: number,
+  theirAsk: Terms | undefined,
+  count: number,
+  refine = false,
+  directions?: Directions,
+): Terms[] {
+  const primary = bestCounter(
+    view,
+    target,
+    grid,
+    theirAsk,
+    count > 1,
+    weightsFromOrder(view.counterpartyPriorities, view.itemSpec.dimensions),
+    refine,
+    directions,
+  );
   if (!primary) return [];
   if (count <= 1) return [primary.terms];
 
@@ -279,17 +403,20 @@ function bestCounter(
   theirAsk: Terms | undefined,
   collect = false,
   weights?: Record<string, number>,
+  refine = false,
+  directions?: Directions,
 ): { terms: Terms; score: number; pool: { terms: Terms; score: number }[] } | undefined {
   const mandate = view.yourMandate;
   const dimensions = view.itemSpec.dimensions;
   const axes = dimensions.map((dimension) => ({
     dimension,
-    values: candidates(dimension, mandate, grid, theirAsk?.[dimension.key]),
+    values: candidates(dimension, mandate, grid, theirAsk?.[dimension.key], refine),
   }));
   if (axes.some((axis) => axis.values.length === 0)) return undefined;
 
   let best: { terms: Terms; distance: number; score: number } | undefined;
   const pool: { terms: Terms; score: number }[] = [];
+  const all: { terms: Terms; score: number }[] = [];
   const current: Terms = {};
 
   const walk = (index: number): void => {
@@ -297,6 +424,7 @@ function bestCounter(
       const score = utility(current, mandate);
       if (score < target) return;
       if (collect) pool.push({ terms: { ...current }, score });
+      if (directions) all.push({ terms: { ...current }, score });
       const distance = distanceToTheirAsk(current, theirAsk, dimensions, weights);
       if (!best || distance < best.distance - 1e-9 || (Math.abs(distance - best.distance) < 1e-9 && score > best.score)) {
         best = { terms: { ...current }, distance, score };
@@ -311,8 +439,32 @@ function bestCounter(
     delete current[axis.dimension.key];
   };
   walk(0);
+  if (!best) return undefined;
 
-  return best ? { terms: best.terms, score: best.score, pool } : undefined;
+  // Endgame: from the nearest package, move only where the move is good for
+  // them on every term at once. A package worse for them on any term than the
+  // nearest one is never chosen, so a last offer that would have cleared their
+  // limits still does; among the rest, the one that gives them most wins.
+  if (directions && theirAsk) {
+    const nearest = best.terms;
+    const noWorseForThem = (terms: Terms) =>
+      dimensions.every((dimension) => {
+        const direction = directions[dimension.key] ?? 0;
+        const delta = (terms[dimension.key] ?? 0) - (nearest[dimension.key] ?? 0);
+        return direction === 0 ? Math.abs(delta) < 1e-9 : direction * delta >= -1e-9;
+      });
+    let chosen = { terms: nearest, gain: gainForThem(nearest, theirAsk, dimensions, directions, weights), score: best.score };
+    for (const candidate of all) {
+      if (!noWorseForThem(candidate.terms)) continue;
+      const gain = gainForThem(candidate.terms, theirAsk, dimensions, directions, weights);
+      if (gain > chosen.gain + 1e-9 || (Math.abs(gain - chosen.gain) < 1e-9 && candidate.score > chosen.score)) {
+        chosen = { terms: candidate.terms, gain, score: candidate.score };
+      }
+    }
+    return { terms: chosen.terms, score: chosen.score, pool };
+  }
+
+  return { terms: best.terms, score: best.score, pool };
 }
 
 /**
