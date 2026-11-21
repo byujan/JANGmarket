@@ -75,3 +75,32 @@ last offer. That points at the round budget and who moves last, not the search.
 HW7 already showed doubling the rounds (`option2`) lifted narrow from 4/22 to
 9/22 under `fix`; `fix+meso+disclose+option2` has not been run. That would be
 the next experiment, registered the same way before it is run.
+
+---
+
+## Second attempt: a longer round budget
+
+*Written and committed before any run of this arm, 2026-11-21.*
+
+**Hypothesis.** Every narrow failure, in both arms above, stops at
+`ROUND_LIMIT`: the schedule brings each side to its floor only at the last
+offer, and the side that moves last has no reply left. More rounds give the
+same schedule room to finish. HW7 already showed `option2` (24 rounds instead
+of 12, same concession curve) lifted narrow from 4/22 to 9/22 under `fix`, but
+it has never been run with MESO and disclosure, which are the best arm now.
+
+**Arm.** `fix+meso+disclose+option2` against `fix+meso+disclose`. Nothing else
+is tried.
+
+**Rule.**
+1. Tuning seed 20261028 first, as a sanity check only. It does not select
+   anything, since there is one arm.
+2. Fresh seeds 20261101 and 20261102, **once**.
+3. "Helps narrow" requires narrow to close more on the fresh seeds, with no
+   market the baseline closed lost, and ordinary realised efficiency
+   (failure = 0) not lower: paired difference with a 95% CI whose lower end is
+   above −0.02.
+4. Even if it helps, this changes how long a negotiation takes (up to 24
+   offers), which matters for the demo and for any agent waiting on the house.
+   So the result is a **recommendation to Peter**, not a change to the
+   product default made here.
